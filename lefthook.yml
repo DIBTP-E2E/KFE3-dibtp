@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  commands:
+    debug:
+      run: echo "Running pre-commit hooks"
+    eslint:
+      glob: '**/*.{js,ts,jsx,tsx}'
+      run: pnpm exec eslint {staged_files} --fix && echo "ESLint ran on {staged_files}"
+      stage_fixed: true
+    prettier:
+      glob: '**/*.{js,ts,jsx,tsx,json,yaml,md,css}'
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+commit-msg:
+  commands:
+    lint-commit-msg:
+      run: pnpm exec commitlint --edit {1}
