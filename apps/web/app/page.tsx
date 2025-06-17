@@ -1,5 +1,9 @@
 const Page = () => {
-  return <main className='flex flex-col items-center justify-between min-h-screen p-24'>Index page</main>;
-}
+  return (
+    <main>
+      <h1>Index page</h1>
+    </main>
+  );
+};
 
 export default Page;
