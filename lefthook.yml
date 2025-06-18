@@ -1,0 +1,30 @@
+pre-commit:
+  parallel: true
+  commands:
+    debug:
+      run: echo "Running pre-commit hooks"
+
+    eslint-web:
+      glob: 'apps/web/**/*.{js,ts,jsx,tsx}'
+      run: pnpm --filter=web exec eslint {staged_files} --fix && echo "ESLint ran on {staged_files}"
+      stage_fixed: true
+
+    eslint-docs:
+      glob: 'apps/docs/**/*.{js,ts,jsx,tsx}'
+      run: pnpm --filter=docs exec eslint {staged_files} --fix && echo "ESLint ran on {staged_files}"
+      stage_fixed: true
+
+    eslint-ui:
+      glob: 'packages/ui/**/*.{js,ts,jsx,tsx}'
+      run: pnpm --filter=ui exec eslint {staged_files} --fix && echo "ESLint ran on {staged_files}"
+      stage_fixed: true
+
+    prettier:
+      glob: '**/*.{js,ts,jsx,tsx,json,yaml,md,css}'
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    lint-commit-msg:
+      run: pnpm exec commitlint --edit {1}
