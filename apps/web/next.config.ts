@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    optimizePackageImports: ['@repo/ui'],
+  },
+  optimizeFonts: true, // 폰트 최적화
 };
 
 export default nextConfig;
