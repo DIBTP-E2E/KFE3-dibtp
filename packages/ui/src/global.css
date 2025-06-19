@@ -1,8 +1,5 @@
 @import 'tailwindcss';
 
-/* 구글 폰트 임포트 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
-
 @layer base {
   /* CSS 사용자 정의 속성 (CSS Variables) */
   :root {
@@ -36,9 +33,6 @@
     /* Disabled States */
     --color-disabled-bg: #f1eefe;
     --color-disabled-text: #656565;
-
-    /* Font Family */
-    --font-family-primary: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   }
 
   /* 기본 HTML 요소 스타일링 */
