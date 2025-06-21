@@ -11,7 +11,7 @@ const LoginPage = () => {
     <main className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-[375px] px-4">
         <LoginTitle />
-        <div className="space-y-4 py-12">
+        <div className="space-y-4 pt-4 pb-12">
           <EmailInput />
           <PasswordInput />
         </div>
