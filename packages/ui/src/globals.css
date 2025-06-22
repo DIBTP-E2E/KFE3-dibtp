@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+@import './design-system/tailwindcss-styles/design-tokens/index.css';
+@import './design-system/tailwindcss-styles/semantic-styles/colors-styles.css';
+@import './design-system/tailwindcss-styles/semantic-styles/typography-styles.css';
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border-base, currentColor);
+  }
+}
+
+body {
+  color: var(--color-text-base);
+  background: var(--color-bg-light);
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-base);
+  font-weight: var(--font-weight-normal);
+}
