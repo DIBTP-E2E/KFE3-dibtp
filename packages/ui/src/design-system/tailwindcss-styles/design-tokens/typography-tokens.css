@@ -5,11 +5,15 @@
   --font-size-tiny: 8px;
   --font-size-extra-small: 10px;
   --font-size-small: 12px;
+
   --font-size-medium: 14px;
-  --font-size-large: 16px;
-  --font-size-extra-large: 18px;
   --font-size-headline-h6: 14px;
+
+  --font-size-large: 16px;
   --font-size-headline-h5: 16px;
+
+  --font-size-extra-large: 18px;
+
   --font-size-headline-h4: 20px;
   --font-size-headline-h3: 24px;
   --font-size-headline-h2: 32px;
@@ -17,8 +21,9 @@
 
   /* Line Heights */
   --line-height-tight: 100%;
-  --line-height-normal: normal;
+  --line-height-base: 20px;
   --line-height-relaxed: 22px;
+
   --line-height-h1: 48px;
   --line-height-h2: 38px;
   --line-height-h3: 24px;
