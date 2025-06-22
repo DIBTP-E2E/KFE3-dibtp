@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+:root {
+  /* Text Colors */
+  --color-text-base: var(--color-neutral-100); /* 헤더 타이틀 폰트 색상 기준 */
+  --color-text-inverse: var(--color-neutral-10); /* 배경색 사용 시 흰색 폰트 */
+  --color-text-info: var(--color-neutral-60); /* 정보성 텍스트 색상 기준 */
+
+  /* input placeholder 폰트 색상 기준 */
+  --color-text-primary: var(--color-primary-600);
+  --color-text-secondary: var(--color-secondary-600);
+  --color-text-success: var(--color-success-600);
+  --color-text-danger: var(--color-danger-900);
+  --color-text-disabled: var(--color-neutral-40);
+  --color-text-error: var(--color-red-600);
+
+  /* Background Colors */
+  --color-bg-primary: var(--color-primary-500);
+  --color-bg-secondary: var(--color-secondary-500);
+  --color-bg-success: var(--color-success-500);
+  --color-bg-danger: var(--color-danger-900);
+  --color-bg-neutral: var(--color-neutral-40);
+  --color-bg-disabled: var(--color-neutral-60);
+  --color-bg-light: var(--color-neutral-10);
+  --color-bg-error: var(--color-error-50);
+
+  /* Border Colors */
+  --color-border-base: var(--color-neutral-40); /* 기본 테두리 색상 */
+  --color-border-primary: var(--color-primary-400);
+  --color-border-secondary: var(--color-secondary-500);
+  --color-border-success: var(--color-success-500);
+  --color-border-danger: var(--color-danger-900);
+  --color-border-form: var(--color-neutral-40);
+  --color-border-errer: var(--color-border-error);
+}
+
+@theme {
+  /* Text Colors: text-* 유틸 클래스 (text-base, text-primary) */
+  --color-text-base: var(--color-text-base);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-text-info: var(--color-text-info);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-success: var(--color-text-success);
+  --color-text-danger: var(--color-text-danger);
+  --color-text-disabled: var(--color-text-disabled);
+  --color-text-error: var(--color-text-error);
+
+  /* Background Colors: bg-* 유틸 클래스 (bg-neutral, bg-primary) */
+  --color-bg-neutral: var(--color-bg-neutral);
+
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-bg-success: var(--color-bg-success);
+  --color-bg-danger: var(--color-bg-danger);
+  --color-bg-disabled: var(--color-bg-disabled);
+  --color-bg-error: var(--color-bg-error);
+
+  /* Border Colors : border-* 유틸 클래스 (border-base, border-primary) */
+  --color-border-base: var(--color-border-base);
+
+  --color-border-primary: var(--color-border-primary);
+  --color-border-secondary: var(--color-border-secondary);
+  --color-border-success: var(--color-border-success);
+  --color-border-danger: var(--color-border-danger);
+  --color-border-form: var(--color-border-form);
+  --color-border-error: var(--color-border-error);
+}

@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+/** 
+  * Spacing
+  * 
+  * The spacing scale is based on a 4px grid. 
+  * The scale is used for margin, padding, and gap utilities.
+  * 
+  * @see https://tailwindcss.com/docs/customizing-spacing
+  * 
+  * Theme variable namespaces
+  * --spacing-* : padding, margin, gap, max-height, max-width, height, width
+  * --padding-* : padding
+  * --margin-* : margin
+  * --gap-* : gap
+  * @see https://tailwindcss.com/docs/theme#referencing-theme-values
+  */
+
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 28px;
+  --space-2xl: 32px;
+  --space-3xl: 36px;
+  --space-4xl: 40px;
+  --space-5xl: 48px;
+  --space-6xl: 60px;
+  --space-7xl: 80px;
+}
+
+@theme {
+  --padding-xs: var(--space-xs);
+  --padding-sm: var(--space-sm);
+  --padding-md: var(--space-md);
+  --padding-lg: var(--space-lg);
+  --padding-xl: var(--space-xl);
+  --padding-2xl: var(--space-2xl);
+  --padding-3xl: var(--space-3xl);
+  --padding-4xl: var(--space-4xl);
+  --padding-5xl: var(--space-5xl);
+  --padding-6xl: var(--space-6xl);
+  --padding-7xl: var(--space-7xl);
+
+  --margin-xs: var(--space-xs);
+  --margin-sm: var(--space-sm);
+  --margin-md: var(--space-md);
+  --margin-lg: var(--space-lg);
+  --margin-xl: var(--space-xl);
+  --margin-2xl: var(--space-2xl);
+  --margin-3xl: var(--space-3xl);
+  --margin-4xl: var(--space-4xl);
+  --margin-5xl: var(--space-5xl);
+  --margin-6xl: var(--space-6xl);
+  --margin-7xl: var(--space-7xl);
+
+  --gap-xs: var(--space-xs);
+  --gap-sm: var(--space-sm);
+  --gap-md: var(--space-md);
+  --gap-lg: var(--space-lg);
+  --gap-xl: var(--space-xl);
+  --gap-2xl: var(--space-2xl);
+  --gap-3xl: var(--space-3xl);
+  --gap-4xl: var(--space-4xl);
+  --gap-5xl: var(--space-5xl);
+  --gap-6xl: var(--space-6xl);
+  --gap-7xl: var(--space-7xl);
+}
