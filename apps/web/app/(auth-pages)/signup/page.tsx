@@ -8,6 +8,7 @@ import {
   SignupButton,
   LoginInfo,
 } from '../../../components/signup';
+import { setServerSession } from '../../../services/login/setServerSession';
 import { createUserAccount } from '../../../services/signup/createUserAccount';
 
 const SignupPage = () => {
@@ -19,8 +20,8 @@ const SignupPage = () => {
     const password = formData.get('password') as string;
 
     await createUserAccount({ email, password, nickname });
-
-    redirect('/login');
+    await setServerSession(email, password);
+    redirect('/');
   }
 
   return (
