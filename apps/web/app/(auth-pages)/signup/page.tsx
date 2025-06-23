@@ -1,5 +1,8 @@
 import { redirect } from 'next/navigation';
 
+import { setServerSession } from '@/services/login/setServerSession';
+import { createUserAccount } from '@/services/signup/createUserAccount';
+
 import {
   SignupTitle,
   NameInput,
@@ -8,8 +11,6 @@ import {
   SignupButton,
   LoginInfo,
 } from '@/components/signup';
-import { setServerSession } from '@/services/login/setServerSession';
-import { createUserAccount } from '@/services/signup/createUserAccount';
 
 const SignupPage = () => {
   async function handleSignup(formData: FormData) {

@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 
-import { LoginTitle, EmailInput, PasswordInput, LoginButton, SignupInfo } from '@/components/login';
 import { setServerSession } from '@/services/login/setServerSession';
+
+import { LoginTitle, EmailInput, PasswordInput, LoginButton, SignupInfo } from '@/components/login';
 
 const LoginPage = () => {
   async function handleLogin(formData: FormData) {
