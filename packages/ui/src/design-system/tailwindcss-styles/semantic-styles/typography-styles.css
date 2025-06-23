@@ -1,4 +1,8 @@
-@import '../design-tokens/typography-tokens.css';
+/**
+ * typography 토큰을 tailwindcss의 클래스로 사용하기 위한 설정
+ * 
+ * typography token: @import '../design-tokens/typography-tokens.css';
+ */
 
 @utility font-style-headline-h1 {
   font-size: var(--font-size-headline-h1);
