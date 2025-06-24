@@ -15,6 +15,10 @@ export async function signupAction(formData: FormData) {
     await setServerSession(email, password);
     redirect('/');
   } catch (err) {
-    redirect('/signup?error=signup_failed');
+    let errorCode = 'signup_failed';
+    if (err instanceof Error) {
+      errorCode = err.message;
+    }
+    redirect(`/signup?error=${errorCode}`);
   }
 }

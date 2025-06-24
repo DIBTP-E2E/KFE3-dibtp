@@ -15,19 +15,22 @@ export async function createUserAccount({ email, password, nickname }: CreateUse
     .eq('nickname', nickname)
     .maybeSingle();
 
-  if (selectError) throw selectError;
-  if (existingUser) throw new Error('이미 사용 중인 닉네임입니다.');
+  if (selectError) throw new Error('db_error');
+  if (existingUser) throw new Error('duplicate_nickname');
 
-  // NOTE: 회원가입(Authentification)
+  // NOTE: 회원가입(Auth)
   const { data: signupData, error: signupError } = await supabase.auth.signUp({
     email,
     password,
   });
 
-  if (signupError) throw signupError;
+  if (signupError?.message === 'User already registered') {
+    throw new Error('duplicate_email');
+  }
+  if (signupError) throw new Error('auth_error');
 
   const user = signupData.user;
-  if (!user) throw new Error('회원가입 실패: 사용자 정보 없음');
+  if (!user) throw new Error('user_not_returned');
 
   // NOTE: users 테이블에 삽입
   const { error: insertError } = await supabaseServer.from('users').insert([
@@ -38,7 +41,7 @@ export async function createUserAccount({ email, password, nickname }: CreateUse
     },
   ]);
 
-  if (insertError) throw insertError;
+  if (insertError) throw new Error('insert_error');
 
   return { user };
 }
