@@ -9,6 +9,8 @@ const config: StorybookConfig = {
   stories: [
     '../../../packages/ui/src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
     '../../../packages/ui/src/**/*.mdx',
+    '../../../apps/web/components/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '../../../apps/web/app/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
   addons: [
     getAbsolutePath('@storybook/addon-onboarding'),
