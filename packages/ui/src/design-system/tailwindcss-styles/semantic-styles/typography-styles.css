@@ -1,0 +1,77 @@
+/**
+ * typography 토큰을 tailwindcss의 클래스로 사용하기 위한 설정
+ * 
+ * typography token: @import '../design-tokens/typography-tokens.css';
+ */
+
+@utility font-style-headline-h1 {
+  font-size: var(--font-size-headline-h1);
+  line-height: var(--line-height-h1);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-headline-h2 {
+  font-size: var(--font-size-headline-h2);
+  line-height: var(--line-height-h2);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-headline-h3 {
+  font-size: var(--font-size-headline-h3);
+  line-height: var(--line-height-h3);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-headline-h4 {
+  font-size: var(--font-size-headline-h4);
+  line-height: var(--line-height-h4);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-headline-h5 {
+  font-size: var(--font-size-h5);
+  line-height: var(--line-height-h5);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-headline-h6 {
+  font-size: var(--font-size-h6);
+  line-height: var(--line-height-base);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-extra-large {
+  font-size: var(--font-size-extra-large);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-large {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-medium {
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-base);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-extra-small {
+  font-size: var(--font-size-extra-small);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+}
+
+@utility font-style-tiny {
+  font-size: var(--font-size-tiny);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+}

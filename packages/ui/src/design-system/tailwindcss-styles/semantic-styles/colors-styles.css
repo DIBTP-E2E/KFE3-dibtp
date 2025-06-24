@@ -1,0 +1,43 @@
+/**
+ * semactic color 토큰을 tailwindcss의 유틸 클래스로 사용하기 위한 설정
+ * 
+ * semactic token: @import '../design-tokens/color-tokens/semantic-colors.css';
+ * scale token: @import '../design-tokens/color-tokens/scale-colors.css';
+ * primitive token: @import '../design-tokens/color-tokens/primitive-colors.css';
+ */
+
+@theme {
+  /* Text Colors: text-* 유틸 클래스 (text-text-base, text-text-inverse) */
+  --color-text-base: var(--color-text-base);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-text-info: var(--color-text-info);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-success: var(--color-text-success);
+  --color-text-danger: var(--color-text-danger);
+  --color-text-disabled: var(--color-text-disabled);
+  --color-text-error: var(--color-text-error);
+
+  /* Background Colors: bg-* 유틸 클래스 (bg-bg-neutral, bg-bg-light) */
+  --color-bg-light: var(--color-bg-light);
+  --color-bg-neutral: var(--color-bg-neutral);
+
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-bg-success: var(--color-bg-success);
+  --color-bg-danger: var(--color-bg-danger);
+  --color-bg-disabled: var(--color-bg-disabled);
+  --color-bg-error: var(--color-bg-error);
+
+  /* Border Colors : border-* 유틸 클래스 (border-border-base, border-border-form) */
+  --color-border-base: var(--color-border-base);
+  --color-border-form: var(--color-border-form);
+
+  --color-border-primary: var(--color-border-primary);
+  --color-border-secondary: var(--color-border-secondary);
+  --color-border-success: var(--color-border-success);
+  --color-border-danger: var(--color-border-danger);
+  --color-border-disabled: var(--color-border-disabled);
+  --color-border-error: var(--color-border-error);
+}

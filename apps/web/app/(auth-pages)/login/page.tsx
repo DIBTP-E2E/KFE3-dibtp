@@ -1,12 +1,9 @@
-import {
-  LoginTitle,
-  EmailInput,
-  PasswordInput,
-  LoginButton,
-  SignupInfo,
-} from '../../../components/login';
+import { redirect } from 'next/navigation';
 import { FormErrorMessage } from '../../../components/shared';
 import { loginAction } from '../../../server-actions/login/loginAction';
+import { setServerSession } from '@/services/login/setServerSession';
+
+import { LoginTitle, EmailInput, PasswordInput, LoginButton, SignupInfo } from '@/components/login';
 
 const LoginPage = () => {
   return (

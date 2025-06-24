@@ -1,0 +1,34 @@
+@theme {
+  /* Font Sizes */
+  --font-size-tiny: 8px;
+  --font-size-extra-small: 10px;
+  --font-size-small: 12px;
+
+  --font-size-medium: 14px;
+  --font-size-headline-h6: 14px;
+
+  --font-size-large: 16px;
+  --font-size-headline-h5: 16px;
+
+  --font-size-extra-large: 18px;
+
+  --font-size-headline-h4: 20px;
+  --font-size-headline-h3: 24px;
+  --font-size-headline-h2: 32px;
+  --font-size-headline-h1: 40px;
+
+  /* Line Heights */
+  --line-height-tight: 100%;
+  --line-height-base: 20px;
+  --line-height-relaxed: 22px;
+
+  --line-height-h1: 48px;
+  --line-height-h2: 38px;
+  --line-height-h3: 24px;
+  --line-height-h4: 20px;
+  --line-height-h5: 20px;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+}

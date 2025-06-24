@@ -125,33 +125,66 @@ export const nextJsConfig = [
               position: 'before',
             },
             {
-              pattern: '@/pages/**',
+              pattern: 'next',
+              group: 'external',
+              position: 'before',
+            },
+            // 1. 기본값과 설정 (가장 안정적, 다른 모든 것이 의존)
+            {
+              pattern: '@/constants/**',
               group: 'internal',
               position: 'before',
             },
+            // 2. 타입 정의 (컴파일 타임에만 존재, 런타임 의존성 없음)
             {
-              pattern: '@/widgets/**',
+              pattern: '@/types/**',
               group: 'internal',
               position: 'before',
             },
+            // 3. 유틸리티와 라이브러리 (순수 함수, 재사용성 높음)
             {
-              pattern: '@/features/**',
+              pattern: '@/lib/**',
               group: 'internal',
               position: 'before',
             },
+            // 4. 서버 액션 (비즈니스 로직, API 호출)
             {
-              pattern: '@/entities/**',
+              pattern: '@/server-actions/**',
               group: 'internal',
               position: 'before',
             },
+            // 5. 서비스 (외부 API, 데이터 처리)
             {
-              pattern: '@/shared/**',
+              pattern: '@/services/**',
+              group: 'internal',
+              position: 'before',
+            },
+            // 6. 컴포넌트 (UI 렌더링, 위의 모든 것들을 조합)
+            {
+              pattern: '@/components/**',
+              group: 'internal',
+              position: 'before',
+            },
+            // 7. 스타일 (렌더링에 영향, 컴포넌트와 밀접)
+            {
+              pattern: '@/styles/**',
+              group: 'internal',
+              position: 'after',
+            },
+            // 8. 정적 자산들 (맨 마지막, 사이드 이펙트 가능성)
+            {
+              pattern: '@/public/**',
+              group: 'internal',
+              position: 'after',
+            },
+            {
+              pattern: '@/assets/**',
               group: 'internal',
               position: 'after',
             },
           ],
           pathGroupsExcludedImportTypes: ['react'],
-          'newlines-between': 'always',
+          'newlines-between': 'always-and-inside-groups',
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],

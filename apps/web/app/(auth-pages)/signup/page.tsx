@@ -1,4 +1,8 @@
+import { redirect } from 'next/navigation';
+import { setServerSession } from '@/services/login/setServerSession';
+import { createUserAccount } from '@/services/signup/createUserAccount';
 import { FormErrorMessage } from '../../../components/shared';
+
 import {
   SignupTitle,
   NameInput,
@@ -6,8 +10,7 @@ import {
   PasswordInput,
   SignupButton,
   LoginInfo,
-} from '../../../components/signup';
-import { signupAction } from '../../../server-actions/signup/signupAction';
+} from '@/components/signup';
 
 const SignupPage = () => {
   return (
