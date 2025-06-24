@@ -28,7 +28,7 @@ const FormErrorMessage = ({ type }: Props) => {
     errorMessages[type][error as keyof (typeof errorMessages)[typeof type]] ||
     errorMessages[type].default;
 
-  return <p className="text-sm text-red-500 mt-2">{message}</p>;
+  return <p className="w-full text-center text-sm text-red-500 mt-2">{message}</p>;
 };
 
 export default FormErrorMessage;
