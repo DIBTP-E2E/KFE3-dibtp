@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import 'globals.css';
 
 @layer base {
   /* CSS 사용자 정의 속성 (CSS Variables) */
