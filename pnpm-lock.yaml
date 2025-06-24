@@ -190,6 +190,9 @@ importers:
         specifier: ^3.25.67
         version: 3.25.67
     devDependencies:
+      '@chromatic-com/storybook':
+        specifier: ^4
+        version: 4.0.0(storybook@9.0.8)
       '@next/eslint-plugin-next':
         specifier: ^15.3.0
         version: 15.3.3
@@ -202,6 +205,15 @@ importers:
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
+      '@storybook/addon-docs':
+        specifier: ^9.0.6
+        version: 9.0.8(@types/react@19.1.7)(storybook@9.0.8)
+      '@storybook/addon-onboarding':
+        specifier: ^9.0.6
+        version: 9.0.8(storybook@9.0.8)
+      '@storybook/nextjs':
+        specifier: ^9.0.6
+        version: 9.0.8(esbuild@0.25.5)(next@15.3.3)(react-dom@19.1.0)(react@19.1.0)(storybook@9.0.8)(typescript@5.8.2)(webpack@5.99.9)
       '@tailwindcss/postcss':
         specifier: ^4.1.5
         version: 4.1.8
@@ -223,9 +235,15 @@ importers:
       eslint:
         specifier: ^9.28.0
         version: 9.28.0
+      eslint-plugin-storybook:
+        specifier: ^9.0.6
+        version: 9.0.6(eslint@9.28.0)(storybook@9.0.8)(typescript@5.8.2)
       postcss:
         specifier: ^8.5.3
         version: 8.5.4
+      storybook:
+        specifier: ^9.0.6
+        version: 9.0.8(@testing-library/dom@10.4.0)(prettier@3.5.3)
       tailwindcss:
         specifier: ^4.1.5
         version: 4.1.8
