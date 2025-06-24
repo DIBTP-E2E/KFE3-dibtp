@@ -1,3 +1,4 @@
+import { FormErrorMessage } from '../../../components/shared';
 import {
   SignupTitle,
   NameInput,
@@ -19,6 +20,7 @@ const SignupPage = () => {
             <EmailInput />
             <PasswordInput />
           </div>
+          <FormErrorMessage type="signup" />
           <SignupButton />
         </form>
         <LoginInfo />

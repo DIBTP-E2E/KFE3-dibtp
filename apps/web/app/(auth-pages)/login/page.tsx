@@ -5,6 +5,7 @@ import {
   LoginButton,
   SignupInfo,
 } from '../../../components/login';
+import { FormErrorMessage } from '../../../components/shared';
 import { loginAction } from '../../../server-actions/login/loginAction';
 
 const LoginPage = () => {
@@ -17,6 +18,7 @@ const LoginPage = () => {
             <EmailInput />
             <PasswordInput />
           </div>
+          <FormErrorMessage type="login" />
           <LoginButton />
         </form>
         <SignupInfo />
