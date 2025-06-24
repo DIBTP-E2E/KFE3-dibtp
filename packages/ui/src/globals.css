@@ -1,7 +1,5 @@
 @import 'tailwindcss';
-@import './design-system/tailwindcss-styles/design-tokens/index.css';
-@import './design-system/tailwindcss-styles/semantic-styles/colors-styles.css';
-@import './design-system/tailwindcss-styles/semantic-styles/typography-styles.css';
+@import '@repo/tailwind-config';
 
 @layer base {
   *,

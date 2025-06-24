@@ -1,3 +1,8 @@
+@import 'tailwindcss';
+@import './design-tokens/index.css';
+@import './semantic-styles/colors-styles.css';
+@import './semantic-styles/typography-styles.css';
+
 @theme {
   --font-sans: var(--font-noto-sans), system-ui, sans-serif;
 }
