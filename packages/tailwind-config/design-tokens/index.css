@@ -1,5 +1,3 @@
-@import './color-tokens/primitive-colors.css';
-@import './color-tokens/scale-colors.css';
 @import './color-tokens/semantic-colors.css';
 @import './spacing-tokens.css';
 @import './typography-tokens.css';

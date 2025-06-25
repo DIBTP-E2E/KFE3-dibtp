@@ -1,3 +1,5 @@
+@import './scale-colors.css';
+
 :root {
   /* Text Colors */
   --color-text-base: var(--color-neutral-100); /* body 폰트 색상 기준 */
