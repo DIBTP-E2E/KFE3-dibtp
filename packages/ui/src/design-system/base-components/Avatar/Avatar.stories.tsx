@@ -81,19 +81,19 @@ export const Sizes: Story = {
     <div className="flex items-center gap-4">
       <div className="text-center">
         <Avatar alt="Small" name="Small" size="sm" />
-        <p className="mt-2 text-sm text-[var(--color-neutral-60)]">sm (24px)</p>
+        <p className="mt-2 text-sm text-text-base">sm (24px)</p>
       </div>
       <div className="text-center">
         <Avatar alt="Medium" name="Medium" size="md" />
-        <p className="mt-2 text-sm text-[var(--color-neutral-60)]">md (32px)</p>
+        <p className="mt-2 text-sm text-text-base">md (32px)</p>
       </div>
       <div className="text-center">
         <Avatar alt="Large" name="Large" size="lg" />
-        <p className="mt-2 text-sm text-[var(--color-neutral-60)]">lg (44px)</p>
+        <p className="mt-2 text-sm text-text-base">lg (44px)</p>
       </div>
       <div className="text-center">
         <Avatar alt="Extra Large" name="Extra Large" size="xl" />
-        <p className="mt-2 text-sm text-[var(--color-neutral-60)]">xl (48px)</p>
+        <p className="mt-2 text-sm text-text-base">xl (48px)</p>
       </div>
     </div>
   ),
