@@ -1,3 +1,7 @@
+/**
+ * TODO: 사용하지 않는 레거시 디자인 시스템의 스토리. 수정 예정
+ */
+
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { typography, typographyUtils } from './typography';
 

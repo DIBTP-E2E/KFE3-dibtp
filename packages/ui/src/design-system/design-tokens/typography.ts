@@ -1,6 +1,5 @@
 /**
- * Design System Typography Tokens
- * global.css의 폰트 관련 CSS 변수와 연동되는 타이포그래피 토큰 정의
+ * TODO: 사용하지 않는 레거시 디자인 시스템. 수정 예정
  */
 
 // 폰트 토큰 (global.css의 폰트 관련)
