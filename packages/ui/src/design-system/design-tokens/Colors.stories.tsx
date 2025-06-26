@@ -158,6 +158,53 @@ const ColorList = ({title, datas}: ColorListProps) => (
     })}
   </Section>
 );
+export const SemanticColorsTokens: Story = {
+  render: () => (
+    <StoryPage>
+      <PageTitle>🎨 Design Tokens - Semantic Colors </PageTitle>
+
+      <ColorList
+        title='Use Text'
+        datas={[
+        { name: 'Text Base', value: semanticColorCSSValue.text.base },
+        { name: 'Text Primary', value: semanticColorCSSValue.text.primary },
+        { name: 'Text Secondary', value: semanticColorCSSValue.text.secondary },
+        { name: 'Text Disabled', value: semanticColorCSSValue.text.disabled },
+        { name: 'Text Info', value: semanticColorCSSValue.text.info },
+        { name: 'Text Success', value: semanticColorCSSValue.text.success },
+        { name: 'Text Danger', value: semanticColorCSSValue.text.danger },
+        { name: 'Text Error', value: semanticColorCSSValue.text.error },
+      ]} />
+
+      <ColorList
+        title='Use Background'
+        datas={[
+        { name: 'Background Base', value: semanticColorCSSValue.background.base },
+        { name: 'Background Primary', value: semanticColorCSSValue.background.primary },
+        { name: 'Background Secondary', value: semanticColorCSSValue.background.secondary },
+        { name: 'Background Disabled', value: semanticColorCSSValue.background.disabled },
+        { name: 'Background Success', value: semanticColorCSSValue.background.success },
+        { name: 'Background Danger', value: semanticColorCSSValue.background.danger },
+        { name: 'Background Error', value: semanticColorCSSValue.background.error },
+      ]} />
+
+      <ColorList
+        title='Use Border'
+        datas={[
+        { name: 'Border Base', value: semanticColorCSSValue.border.base },
+        { name: 'Border Primary', value: semanticColorCSSValue.border.primary },
+        { name: 'Border Secondary', value: semanticColorCSSValue.border.secondary },
+        { name: 'Border Disabled', value: semanticColorCSSValue.border.disabled },
+        { name: 'Border Form', value: semanticColorCSSValue.border.form },
+        { name: 'Border Success', value: semanticColorCSSValue.border.success },
+        { name: 'Border Danger', value: semanticColorCSSValue.border.danger },
+        { name: 'Border Error', value: semanticColorCSSValue.border.error },
+      ]} />
+
+      <HowToUseClass />
+    </StoryPage>
+  ),
+};
 
 export const ScaleColorsTokens: Story = {
   render: () => (
