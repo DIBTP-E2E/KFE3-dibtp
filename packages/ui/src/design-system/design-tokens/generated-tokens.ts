@@ -1,68 +1,37 @@
 // 이 파일은 자동 생성됩니다. 수정하지 마세요.
 // generate-tokens.ts 스크립트에 의해 생성됨
 
-export const primitiveColors = {
-  orange: {
-      50: '#fdf4e9',
-      100: '#fadcba',
-      200: '#f7cb98',
-      300: '#f4b369',
-      400: '#f1a54c',
-      500: '#ee8e1f',
-      600: '#d9811c',
-      700: '#a96516',
-      800: '#834e11',
-      900: '#643c0d'
+export const semanticColors = {
+  text: {
+      base: 'var(--color-neutral-100)',
+      inverse: 'var(--color-neutral-10)',
+      info: 'var(--color-neutral-60)',
+      primary: 'var(--color-primary-600)',
+      secondary: 'var(--color-secondary-600)',
+      success: 'var(--color-success-600)',
+      danger: 'var(--color-danger-900)',
+      disabled: 'var(--color-neutral-40)',
+      error: 'var(--color-red-600)'
   },
-  green: {
-      50: '#f0f8f5',
-      100: '#cfe9df',
-      200: '#b8ded0',
-      300: '#97cfbb',
-      400: '#83c5ad',
-      500: '#64b799',
-      600: '#5ba78b',
-      700: '#47826d',
-      800: '#376554',
-      900: '#2a4d40'
+  bg: {
+      light: 'var(--color-neutral-10)',
+      neutral: 'var(--color-neutral-40)',
+      primary: 'var(--color-primary-500)',
+      secondary: 'var(--color-secondary-500)',
+      success: 'var(--color-success-500)',
+      danger: 'var(--color-danger-900)',
+      disabled: 'var(--color-neutral-60)',
+      error: 'var(--color-error-50)'
   },
-  pink: {
-      50: '#feecf4',
-      100: '#fac3de',
-      200: '#f8a7ce',
-      300: '#f57eb7',
-      400: '#f365a9',
-      500: '#f03f94',
-      600: '#da3987',
-      700: '#aa2d69',
-      800: '#842351',
-      900: '#651a3e'
-  },
-  blue: {
-      50: '#f1eefe',
-      100: '#d3c9fd',
-      200: '#beaffc',
-      300: '#a18afa',
-      400: '#8e74f9',
-      500: '#7251f8',
-      600: '#684ae2',
-      700: '#513ab0',
-      800: '#3f2d88',
-      900: '#302268'
-  },
-  base: {
-      10: '#ffffff',
-      20: '#f4f4f7',
-      30: '#e8e8e8',
-      40: '#d2d2d2',
-      60: '#8f8f8f',
-      70: '#656565',
-      80: '#444444',
-      100: '#1f1f1f'
-  },
-  red: {
-      50: '#feecf4',
-      600: '#da3987'
+  border: {
+      base: 'var(--color-neutral-40)',
+      form: 'var(--color-neutral-40)',
+      primary: 'var(--color-primary-400)',
+      secondary: 'var(--color-secondary-500)',
+      success: 'var(--color-success-500)',
+      danger: 'var(--color-danger-900)',
+      disabled: 'var(--color-neutral-60)',
+      error: 'var(--color-error-600)'
   }
 };
 
@@ -116,14 +85,14 @@ export const scaleColors = {
       900: 'var(--color-pink-900)'
   },
   neutral: {
-      10: 'var(--color-base-10)',
-      20: 'var(--color-base-20)',
-      30: 'var(--color-base-30)',
-      40: 'var(--color-base-40)',
-      60: 'var(--color-base-60)',
-      70: 'var(--color-base-70)',
-      80: 'var(--color-base-80)',
-      100: 'var(--color-base-100)'
+      10: 'var(--color-gray-10)',
+      20: 'var(--color-gray-20)',
+      30: 'var(--color-gray-30)',
+      40: 'var(--color-gray-40)',
+      60: 'var(--color-gray-60)',
+      70: 'var(--color-gray-70)',
+      80: 'var(--color-gray-80)',
+      100: 'var(--color-gray-100)'
   },
   error: {
       50: 'var(--color-red-50)',
@@ -131,41 +100,107 @@ export const scaleColors = {
   }
 };
 
-export const semanticColors = {
-  text: {
-      base: 'var(--color-neutral-100)',
-      inverse: 'var(--color-neutral-10)',
-      info: 'var(--color-neutral-60)',
-      primary: 'var(--color-primary-600)',
-      secondary: 'var(--color-secondary-600)',
-      success: 'var(--color-success-600)',
-      danger: 'var(--color-danger-900)',
-      disabled: 'var(--color-neutral-40)',
-      error: 'var(--color-red-600)'
+export const primitiveColors = {
+  orange: {
+      50: '#fdf4e9',
+      100: '#fadcba',
+      200: '#f7cb98',
+      300: '#f4b369',
+      400: '#f1a54c',
+      500: '#ee8e1f',
+      600: '#d9811c',
+      700: '#a96516',
+      800: '#834e11',
+      900: '#643c0d'
   },
-  bg: {
-      light: 'var(--color-neutral-10)',
-      neutral: 'var(--color-neutral-40)',
-      primary: 'var(--color-primary-500)',
-      secondary: 'var(--color-secondary-500)',
-      success: 'var(--color-success-500)',
-      danger: 'var(--color-danger-900)',
-      disabled: 'var(--color-neutral-60)',
-      error: 'var(--color-error-50)'
+  green: {
+      50: '#f0f8f5',
+      100: '#cfe9df',
+      200: '#b8ded0',
+      300: '#97cfbb',
+      400: '#83c5ad',
+      500: '#64b799',
+      600: '#5ba78b',
+      700: '#47826d',
+      800: '#376554',
+      900: '#2a4d40'
   },
-  border: {
-      base: 'var(--color-neutral-40)',
-      form: 'var(--color-neutral-40)',
-      primary: 'var(--color-primary-400)',
-      secondary: 'var(--color-secondary-500)',
-      success: 'var(--color-success-500)',
-      danger: 'var(--color-danger-900)',
-      disabled: 'var(--color-neutral-60)',
-      errer: 'var(--color-border-error)'
+  pink: {
+      50: '#feecf4',
+      100: '#fac3de',
+      200: '#f8a7ce',
+      300: '#f57eb7',
+      400: '#f365a9',
+      500: '#f03f94',
+      600: '#da3987',
+      700: '#aa2d69',
+      800: '#842351',
+      900: '#651a3e'
+  },
+  blue: {
+      50: '#f1eefe',
+      100: '#d3c9fd',
+      200: '#beaffc',
+      300: '#a18afa',
+      400: '#8e74f9',
+      500: '#7251f8',
+      600: '#684ae2',
+      700: '#513ab0',
+      800: '#3f2d88',
+      900: '#302268'
+  },
+  gray: {
+      10: '#ffffff',
+      20: '#f4f4f7',
+      30: '#e8e8e8',
+      40: '#d2d2d2',
+      60: '#8f8f8f',
+      70: '#656565',
+      80: '#444444',
+      100: '#1f1f1f'
+  },
+  red: {
+      50: '#feecf4',
+      600: '#da3987'
   }
 };
 
-// 스토리북용 색상 데이터 구조
+// Semantic color의 CSS 값
+export const semanticColorCSSValue = {
+  text: {
+    base: 'var(--color-text-base)',
+    inverse: 'var(--color-text-inverse)',
+    info: 'var(--color-text-info)',
+    primary: 'var(--color-text-primary)',
+    secondary: 'var(--color-text-secondary)',
+    success: 'var(--color-text-success)',
+    danger: 'var(--color-text-danger)',
+    disabled: 'var(--color-text-disabled)',
+    error: 'var(--color-text-error)'
+  },
+  background: {
+    light: 'var(--color-bg-light)',
+    neutral: 'var(--color-bg-neutral)',
+    primary: 'var(--color-bg-primary)',
+    secondary: 'var(--color-bg-secondary)',
+    success: 'var(--color-bg-success)',
+    danger: 'var(--color-bg-danger)',
+    disabled: 'var(--color-bg-disabled)',
+    error: 'var(--color-bg-error)'
+  },
+  border: {
+    base: 'var(--color-border-base)',
+    form: 'var(--color-border-form)',
+    primary: 'var(--color-border-primary)',
+    secondary: 'var(--color-border-secondary)',
+    success: 'var(--color-border-success)',
+    danger: 'var(--color-border-danger)',
+    disabled: 'var(--color-border-disabled)',
+    error: 'var(--color-border-error)'
+  }
+};
+
+// 스토리북용 색상 데이터 구조 (Scale color 기준)
 export const colorTokens = {
   primary: {
     50: 'var(--color-primary-50)',
@@ -231,8 +266,8 @@ export const colorTokens = {
   }
 };
 
-// 실제 헥스 값들
-export const actualColorValues: { [key: string]: string } = {
+// Scale color의 CSS 값: Primitive colors
+export const scaleColorCSSValues: { [key: string]: string } = {
   'var(--color-primary-50)': 'var(--color-orange-50)',
   'var(--color-primary-100)': 'var(--color-orange-100)',
   'var(--color-primary-200)': 'var(--color-orange-200)',
@@ -273,14 +308,14 @@ export const actualColorValues: { [key: string]: string } = {
   'var(--color-danger-700)': 'var(--color-pink-700)',
   'var(--color-danger-800)': 'var(--color-pink-800)',
   'var(--color-danger-900)': 'var(--color-pink-900)',
-  'var(--color-neutral-10)': 'var(--color-base-10)',
-  'var(--color-neutral-20)': 'var(--color-base-20)',
-  'var(--color-neutral-30)': 'var(--color-base-30)',
-  'var(--color-neutral-40)': 'var(--color-base-40)',
-  'var(--color-neutral-60)': 'var(--color-base-60)',
-  'var(--color-neutral-70)': 'var(--color-base-70)',
-  'var(--color-neutral-80)': 'var(--color-base-80)',
-  'var(--color-neutral-100)': 'var(--color-base-100)',
+  'var(--color-neutral-10)': 'var(--color-gray-10)',
+  'var(--color-neutral-20)': 'var(--color-gray-20)',
+  'var(--color-neutral-30)': 'var(--color-gray-30)',
+  'var(--color-neutral-40)': 'var(--color-gray-40)',
+  'var(--color-neutral-60)': 'var(--color-gray-60)',
+  'var(--color-neutral-70)': 'var(--color-gray-70)',
+  'var(--color-neutral-80)': 'var(--color-gray-80)',
+  'var(--color-neutral-100)': 'var(--color-gray-100)',
   'var(--color-error-50)': 'var(--color-red-50)',
   'var(--color-error-600)': 'var(--color-red-600)',
   'var(--color-text-base)': 'var(--color-neutral-100)',
@@ -307,40 +342,5 @@ export const actualColorValues: { [key: string]: string } = {
   'var(--color-border-success)': 'var(--color-success-500)',
   'var(--color-border-danger)': 'var(--color-danger-900)',
   'var(--color-border-disabled)': 'var(--color-neutral-60)',
-  'var(--color-border-errer)': 'var(--color-border-error)'
-};
-
-// 시멘틱 컬러 유틸리티
-export const semanticColorUtils = {
-  text: {
-    base: 'var(--color-text-base)',
-    inverse: 'var(--color-text-inverse)',
-    info: 'var(--color-text-info)',
-    primary: 'var(--color-text-primary)',
-    secondary: 'var(--color-text-secondary)',
-    success: 'var(--color-text-success)',
-    danger: 'var(--color-text-danger)',
-    disabled: 'var(--color-text-disabled)',
-    error: 'var(--color-text-error)'
-  },
-  background: {
-    light: 'var(--color-bg-light)',
-    neutral: 'var(--color-bg-neutral)',
-    primary: 'var(--color-bg-primary)',
-    secondary: 'var(--color-bg-secondary)',
-    success: 'var(--color-bg-success)',
-    danger: 'var(--color-bg-danger)',
-    disabled: 'var(--color-bg-disabled)',
-    error: 'var(--color-bg-error)'
-  },
-  border: {
-    base: 'var(--color-border-base)',
-    form: 'var(--color-border-form)',
-    primary: 'var(--color-border-primary)',
-    secondary: 'var(--color-border-secondary)',
-    success: 'var(--color-border-success)',
-    danger: 'var(--color-border-danger)',
-    disabled: 'var(--color-border-disabled)',
-    errer: 'var(--color-border-errer)'
-  }
+  'var(--color-border-error)': 'var(--color-error-600)'
 };

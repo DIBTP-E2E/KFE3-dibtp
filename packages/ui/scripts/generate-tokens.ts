@@ -61,8 +61,8 @@ function structureTokens(variables: Variables): TokenStructure {
   };
 
   Object.entries(variables).forEach(([name, value]) => {
-    // Primitive colors (orange, green, pink, blue, base, red)
-    if (name.match(/^color-(orange|green|pink|blue|base|red)-/)) {
+    // Primitive colors (orange, green, pink, blue, gray, red)
+    if (name.match(/^color-(orange|green|pink|blue|gray|red)-/)) {
       const match = name.match(/^color-([^-]+)-(.+)$/);
       if (match) {
         const [, colorName, shade] = match;
@@ -118,19 +118,38 @@ function generateTypeScriptCode(tokens: TokenStructure): string {
   return `// 이 파일은 자동 생성됩니다. 수정하지 마세요.
 // generate-tokens.ts 스크립트에 의해 생성됨
 
-export const primitiveColors = {
-${generateObjectCode(tokens.primitive, 0)}
+export const semanticColors = {
+${generateObjectCode(tokens.semantic, 0)}
 };
 
 export const scaleColors = {
 ${generateObjectCode(tokens.scale, 0)}
 };
 
-export const semanticColors = {
-${generateObjectCode(tokens.semantic, 0)}
+export const primitiveColors = {
+${generateObjectCode(tokens.primitive, 0)}
 };
 
-// 스토리북용 색상 데이터 구조
+// Semantic color의 CSS 값
+export const semanticColorCSSValue = {
+  text: {
+${Object.entries(tokens.semantic.text || {})
+  .map(([key]) => `    ${key}: 'var(--color-text-${key})'`)
+  .join(',\n')}
+  },
+  background: {
+${Object.entries(tokens.semantic.bg || {})
+  .map(([key]) => `    ${key}: 'var(--color-bg-${key})'`)
+  .join(',\n')}
+  },
+  border: {
+${Object.entries(tokens.semantic.border || {})
+  .map(([key]) => `    ${key}: 'var(--color-border-${key})'`)
+  .join(',\n')}
+  }
+};
+
+// 스토리북용 색상 데이터 구조 (Scale color 기준)
 export const colorTokens = {
   primary: {
 ${Object.entries(tokens.scale.primary || {})
@@ -164,8 +183,8 @@ ${Object.entries(tokens.scale.error || {})
   }
 };
 
-// 실제 헥스 값들
-export const actualColorValues: { [key: string]: string } = {
+// Scale color의 CSS 값: Primitive colors
+export const scaleColorCSSValues: { [key: string]: string } = {
 ${Object.entries(tokens.scale)
   .flatMap(([groupName, colors]) =>
     Object.entries(colors).map(
@@ -174,31 +193,12 @@ ${Object.entries(tokens.scale)
   )
   .concat(
     Object.entries(tokens.semantic).flatMap(([type, colors]) =>
-      Object.entries(colors).map(
-        ([purpose, value]) => `  'var(--color-${type}-${purpose})': '${value}'`
-      )
+      Object.entries(colors)
+        .filter(([purpose, value]) => !value.includes(`--color-${type}-${purpose}`)) // 순환 참조 제거
+        .map(([purpose, value]) => `  'var(--color-${type}-${purpose})': '${value}'`)
     )
   )
   .join(',\n')}
-};
-
-// 시멘틱 컬러 유틸리티
-export const semanticColorUtils = {
-  text: {
-${Object.entries(tokens.semantic.text || {})
-  .map(([key]) => `    ${key}: 'var(--color-text-${key})'`)
-  .join(',\n')}
-  },
-  background: {
-${Object.entries(tokens.semantic.bg || {})
-  .map(([key]) => `    ${key}: 'var(--color-bg-${key})'`)
-  .join(',\n')}
-  },
-  border: {
-${Object.entries(tokens.semantic.border || {})
-  .map(([key]) => `    ${key}: 'var(--color-border-${key})'`)
-  .join(',\n')}
-  }
 };
 `;
 }

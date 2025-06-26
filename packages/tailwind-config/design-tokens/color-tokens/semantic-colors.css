@@ -33,5 +33,5 @@
   --color-border-success: var(--color-success-500);
   --color-border-danger: var(--color-danger-900);
   --color-border-disabled: var(--color-neutral-60);
-  --color-border-errer: var(--color-border-error);
+  --color-border-error: var(--color-error-600);
 }

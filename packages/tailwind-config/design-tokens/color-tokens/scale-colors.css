@@ -50,14 +50,14 @@
   --color-danger-900: var(--color-pink-900);
 
   /** Neutral Colors */
-  --color-neutral-10: var(--color-base-10);
-  --color-neutral-20: var(--color-base-20);
-  --color-neutral-30: var(--color-base-30);
-  --color-neutral-40: var(--color-base-40);
-  --color-neutral-60: var(--color-base-60);
-  --color-neutral-70: var(--color-base-70);
-  --color-neutral-80: var(--color-base-80);
-  --color-neutral-100: var(--color-base-100);
+  --color-neutral-10: var(--color-gray-10);
+  --color-neutral-20: var(--color-gray-20);
+  --color-neutral-30: var(--color-gray-30);
+  --color-neutral-40: var(--color-gray-40);
+  --color-neutral-60: var(--color-gray-60);
+  --color-neutral-70: var(--color-gray-70);
+  --color-neutral-80: var(--color-gray-80);
+  --color-neutral-100: var(--color-gray-100);
 
   /** Error Colors **/
   --color-error-50: var(--color-red-50);
