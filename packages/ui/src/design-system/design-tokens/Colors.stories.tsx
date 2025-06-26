@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-// 같은 폴더에 있으니 ./ 사용
-import { colors, colorUtils } from './colors';
+import { cn } from "../../utils/cn";
+import { colorTokens, actualColorValues, semanticColorUtils } from './generated-tokens';
 
 const meta: Meta = {
   title: 'Design System/Design Tokens/Colors',
@@ -18,50 +18,93 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-// 실제 헥스 값 매핑
-const actualColorValues = {
-  'var(--color-primary-900)': '#302749',
-  'var(--color-primary-800)': '#372d84',
-  'var(--color-primary-700)': '#4534b0',
-  'var(--color-primary-600)': '#444ae2',
-  'var(--color-primary-500)': '#7251f8',
-  'var(--color-primary-400)': '#8e74f9',
-  'var(--color-primary-300)': '#a18afa',
-  'var(--color-primary-200)': '#beaffc',
-  'var(--color-primary-100)': '#d3c9fd',
-  'var(--color-primary-50)': '#eeeeff',
-  'var(--color-neutral-100)': '#1f1f1f',
-  'var(--color-neutral-80)': '#444444',
-  'var(--color-neutral-70)': '#656565',
-  'var(--color-neutral-60)': '#8f8f8f',
-  'var(--color-neutral-40)': '#8f8f8f',
-  'var(--color-neutral-30)': '#8f8f8f',
-  'var(--color-neutral-20)': '#e8e8e8',
-  'var(--color-neutral-10)': '#f4f4f7',
-  'var(--color-neutral-0)': '#ffffff',
-  'var(--color-red-500)': '#ef4444',
-  'var(--color-yellow-500)': '#eab308',
-  'var(--color-disabled-bg)': '#f1eefe',
-  'var(--color-disabled-text)': '#656565',
-};
-
+// 생성된 토큰에서 실제 색상 값을 가져오는 함수
 const getActualColorValue = (cssVar: string): string => {
   return actualColorValues[cssVar as keyof typeof actualColorValues] || cssVar;
 };
 
-// 색상 팔레트 컴포넌트
-const ColorPalette = ({ title, colorSet }: { title: string; colorSet: Record<string, string> }) => (
-  <div style={{ marginBottom: '2rem' }}>
-    <h3
+const StoryPage = ({children, className} : {children: React.ReactNode; className?: string}) => (
+  <main className={cn('flex flex-col gap-5xl w-full p-lg max-w-[1000px] mx-auto ', className)}>
+    {children}
+  </main>
+);
+
+const PageTitle = ({children} : {children: React.ReactNode}) => (
+  <h1 className='font-style-headline-h1'>
+    {children}
+  </h1>
+);
+
+const Section = ({children, className} : {children: React.ReactNode; className?: string}) => (
+  <section className={cn('w-full flex flex-col gap-lg', className)}>
+    {children}
+  </section>
+);
+
+const SectionTitle = ({children} : {children: React.ReactNode}) => (
+  <h2 className='font-style-headline-h2'>
+    {children}
+  </h2>
+);
+
+const HowToUse = ({title, datas}: {title: string; datas: { name: string; code: string; }[]}) => (
+   <section
+    style={{
+      marginTop: '2rem',
+      padding: '1rem',
+      backgroundColor: '#f4f4f7',
+      borderRadius: '8px',
+      border: '1px solid #e8e8e8',
+    }}
+  >
+    <h4
       style={{
-        fontSize: '1.125rem',
-        fontWeight: 600,
-        marginBottom: '1rem',
+        fontWeight: 500,
+        marginBottom: '0.5rem',
         color: '#1f1f1f',
       }}
     >
       {title}
-    </h3>
+    </h4>
+    <div style={{ fontSize: '0.875rem', color: '#656565' }}>
+      <ul>
+        {
+          datas.map((item, index) => <li key={`use-${index}`}>
+            <div style={{ marginBottom: '0.5rem' }}>
+              {item.name}{' : '}<code
+                style={{
+                  backgroundColor: '#ffffff',
+                  padding: '0.25rem 0.5rem',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                }}
+              >
+                {item.code}
+              </code>
+            </div>
+          </li>)
+        }
+      </ul>
+    </div>
+  </section>
+);
+
+const HowToUseClass = () => (<HowToUse
+  title='💡 토큰 기준 유틸클래스 생성 규칙'
+  datas={[
+      {name: '배경색 토큰', code: '--color-bg-*'},
+      {name: '배경색 유틸클래스', code: 'bg-bg-*'},
+      {name: 'text 색상 토큰', code: '--color-text-*'},
+      {name: 'text 색상 유틸클래스', code: 'text-text-*'},
+      {name: 'border 색상 토큰', code: '--color-border-*'},
+      {name: 'border 색상 유틸클래스', code: 'border-border-*'},
+]} />);
+
+const ColorPalette = ({ title, colorSet }: { title: string; colorSet: Record<string, string> }) => (
+  <Section>
+    <SectionTitle>
+      {title}
+    </SectionTitle>
     <div
       style={{
         display: 'grid',
@@ -72,7 +115,7 @@ const ColorPalette = ({ title, colorSet }: { title: string; colorSet: Record<str
       {Object.entries(colorSet).map(([key, value]) => {
         const actualValue = getActualColorValue(value);
         return (
-          <div key={key} style={{ textAlign: 'center' }}>
+          <article key={key} style={{ textAlign: 'center' }}>
             <div
               style={{
                 width: '100%',
@@ -114,152 +157,257 @@ const ColorPalette = ({ title, colorSet }: { title: string; colorSet: Record<str
                 {actualValue}
               </div>
             </div>
-          </div>
+          </article>
         );
       })}
     </div>
-  </div>
+  </Section>
 );
 
-export const AllColorTokens: Story = {
+interface ColorListProps {
+  title?: string;
+  datas: {
+    name: string;
+    value: string;
+  }[];
+}
+
+const ColorList = ({title, datas}: ColorListProps) => (
+  <Section className='flex flex-col gap-lg w-full'>
+    <SectionTitle>{title ?? 'Use Building'}</SectionTitle>
+    {datas.map(({ name, value }) => (
+      <div key={name} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div
+          style={{
+            width: '48px',
+            height: '48px',
+            borderRadius: '4px',
+            border: '1px solid #e8e8e8',
+            backgroundColor: getActualColorValue(value),
+          }}
+        />
+        <div>
+          <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>{name}</div>
+          <div
+            style={{
+              fontSize: '0.875rem',
+              color: '#656565',
+              fontFamily: 'monospace',
+            }}
+          >
+            {value}
+          </div>
+        </div>
+      </div>
+    ))}
+  </Section>
+);
+
+export const SemanticColorsTokens: Story = {
   render: () => (
-    <div style={{ padding: '1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1
-        style={{
-          fontSize: '2rem',
-          fontWeight: 700,
-          marginBottom: '1.5rem',
-          color: '#1f1f1f',
-        }}
-      >
-        🎨 Design Tokens - Colors
-      </h1>
+    <StoryPage>
+      <PageTitle>🎨 Design Tokens - Semantic Colors </PageTitle>
 
-      <ColorPalette title="Primary Colors (브랜딩 컬러)" colorSet={colors.primary} />
-      <ColorPalette title="Neutral Colors (회색조)" colorSet={colors.neutral} />
-      <ColorPalette title="Status Colors (상태)" colorSet={colors.status} />
-      <ColorPalette title="Disabled States (비활성)" colorSet={colors.disabled} />
+      <ColorList
+        title='Use Primary'
+        datas={[
+        { name: 'Text Primary', value: semanticColorUtils.text.primary },
+        { name: 'Background Primary', value: semanticColorUtils.background.primary },
+        { name: 'Border Primary', value: semanticColorUtils.border.primary },
+      ]} />
 
-      {/* 시멘틱 컬러 */}
-      <div style={{ marginTop: '2rem' }}>
-        <h3
-          style={{
-            fontSize: '1.125rem',
-            fontWeight: 600,
-            marginBottom: '1rem',
-            color: '#1f1f1f',
-          }}
-        >
-          Semantic Colors (의미적 색상)
-        </h3>
+      <ColorList
+        title='Use Secondary'
+        datas={[
+        { name: 'Text Secondary', value: semanticColorUtils.text.secondary },
+        { name: 'Background Secondary', value: semanticColorUtils.background.secondary },
+        { name: 'Border Secondary', value: semanticColorUtils.border.secondary },
+      ]} />
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {[
-            { name: 'Text Primary', value: colorUtils.semantic.textPrimary },
-            { name: 'Text Secondary', value: colorUtils.semantic.textSecondary },
-            { name: 'Background Primary', value: colorUtils.semantic.backgroundPrimary },
-            { name: 'Background Secondary', value: colorUtils.semantic.backgroundSecondary },
-            { name: 'Brand Primary', value: colorUtils.semantic.brandPrimary },
-            { name: 'Success', value: colorUtils.semantic.success },
-            { name: 'Error', value: colorUtils.semantic.error },
-            { name: 'Warning', value: colorUtils.semantic.warning },
-          ].map(({ name, value }) => (
-            <div key={name} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div
-                style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '4px',
-                  border: '1px solid #e8e8e8',
-                  backgroundColor: getActualColorValue(value),
-                }}
-              />
-              <div>
-                <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>{name}</div>
-                <div
-                  style={{
-                    fontSize: '0.875rem',
-                    color: '#656565',
-                    fontFamily: 'monospace',
-                  }}
-                >
-                  {value}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <ColorList
+        title='Use Base'
+        datas={[
+        { name: 'Text Base', value: semanticColorUtils.text.base },
+        { name: 'Border Base', value: semanticColorUtils.border.base },
+        { name: 'Background Neutral', value: semanticColorUtils.background.neutral },
+      ]} />
 
-      {/* 사용법 가이드 */}
-      <div
-        style={{
-          marginTop: '2rem',
-          padding: '1rem',
-          backgroundColor: '#f4f4f7',
-          borderRadius: '8px',
-          border: '1px solid #e8e8e8',
-        }}
-      >
-        <h4
-          style={{
-            fontWeight: 500,
-            marginBottom: '0.5rem',
-            color: '#1f1f1f',
-          }}
-        >
-          💡 사용 방법
-        </h4>
-        <div style={{ fontSize: '0.875rem', color: '#656565' }}>
-          <div style={{ marginBottom: '0.5rem' }}>
-            <code
-              style={{
-                backgroundColor: '#ffffff',
-                padding: '0.25rem 0.5rem',
-                borderRadius: '4px',
-                fontFamily: 'monospace',
-              }}
-            >
-              colors.primary[500]
-            </code>{' '}
-            - CSS 변수로 반환
-          </div>
-          <div style={{ marginBottom: '0.5rem' }}>
-            <code
-              style={{
-                backgroundColor: '#ffffff',
-                padding: '0.25rem 0.5rem',
-                borderRadius: '4px',
-                fontFamily: 'monospace',
-              }}
-            >
-              colorUtils.getPrimary(&apos;500&apos;)
-            </code>{' '}
-            - 유틸리티 함수 사용
-          </div>
-          <div>
-            <code
-              style={{
-                backgroundColor: '#ffffff',
-                padding: '0.25rem 0.5rem',
-                borderRadius: '4px',
-                fontFamily: 'monospace',
-              }}
-            >
-              colorUtils.semantic.textPrimary
-            </code>{' '}
-            - 의미적 색상 사용
-          </div>
-        </div>
-      </div>
-    </div>
+      <ColorList
+        title='Use Form'
+        datas={[
+        { name: 'Border Form', value: semanticColorUtils.border.form },
+      ]} />
+
+      <ColorList
+        title='Use Info'
+        datas={[
+        { name: 'Text Info', value: semanticColorUtils.text.info },
+      ]} />
+
+      <ColorList
+        title='Use Disabled'
+        datas={[
+        { name: 'Text Disabled', value: semanticColorUtils.text.disabled },
+        { name: 'Background Disabled', value: semanticColorUtils.background.disabled },
+        { name: 'Border Disabled', value: semanticColorUtils.border.disabled },
+      ]} />
+
+      <ColorList
+        title='Use Success'
+        datas={[
+        { name: 'Text Success', value: semanticColorUtils.text.success },
+        { name: 'Background Success', value: semanticColorUtils.background.success },
+        { name: 'Border Success', value: semanticColorUtils.border.success },
+      ]} />
+
+      <ColorList
+        title='Use Danger'
+        datas={[
+        { name: 'Text Danger', value: semanticColorUtils.text.danger },
+        { name: 'Background Danger', value: semanticColorUtils.background.danger },
+        { name: 'Border Danger', value: semanticColorUtils.border.danger },
+      ]} />
+
+      <ColorList
+        title='Use Error'
+        datas={[
+        { name: 'Text Error', value: semanticColorUtils.text.error },
+        { name: 'Background Error', value: semanticColorUtils.background.error },
+        { name: 'Border Error', value: semanticColorUtils.border.errer },
+      ]} />
+
+      <HowToUseClass />
+    </StoryPage>
   ),
 };
 
-export const PrimaryOnly: Story = {
+export const PrimaryColorsTokens: Story = {
   render: () => (
-    <div style={{ padding: '1.5rem' }}>
-      <ColorPalette title="Primary Colors" colorSet={colors.primary} />
-    </div>
+    <StoryPage>
+      <PageTitle>🎨 Design Tokens - Primary Colors (브랜딩 컬러)</PageTitle>
+
+      <ColorList
+        datas={[
+        { name: 'Text Primary', value: semanticColorUtils.text.primary },
+        { name: 'Background Primary', value: semanticColorUtils.background.primary },
+        { name: 'Border Primary', value: semanticColorUtils.border.primary },
+      ]} />
+
+      <ColorPalette title="Primary Colors Palette" colorSet={colorTokens.primary} />
+
+      <HowToUseClass />
+    </StoryPage>
+  ),
+};
+
+export const SecondaryColorsTokens: Story = {
+  render: () => (
+    <StoryPage>
+      <PageTitle>🎨 Design Tokens - Secondary Colors (보조 컬러)</PageTitle>
+
+      <ColorList
+        datas={[
+        { name: 'Text Secondary', value: semanticColorUtils.text.secondary },
+        { name: 'Background Secondary', value: semanticColorUtils.background.secondary },
+        { name: 'Border Secondary', value: semanticColorUtils.border.secondary },
+      ]} />
+
+      <ColorPalette title="Secondary Colors (보조 컬러)" colorSet={colorTokens.secondary} />
+
+      <HowToUseClass />
+    </StoryPage>
+  ),
+};
+
+export const NeutralColorsTokens: Story = {
+  render: () => (
+    <StoryPage>
+      <PageTitle>🎨 Design Tokens - Neutral Colors (회색조)</PageTitle>
+
+      <ColorList
+        title='Use Base, Form'
+        datas={[
+        { name: 'Text Base', value: semanticColorUtils.text.base },
+        { name: 'Border Base', value: semanticColorUtils.border.base },
+        { name: 'Border Form', value: semanticColorUtils.border.form },
+        { name: 'Background Neutral', value: semanticColorUtils.background.neutral },
+      ]} />
+
+      <ColorList
+        title='Use Info'
+        datas={[
+        { name: 'Text Info', value: semanticColorUtils.text.info },
+      ]} />
+
+      <ColorList
+        title='Use Disabled'
+        datas={[
+        { name: 'Text Disabled', value: semanticColorUtils.text.disabled },
+        { name: 'Background Disabled', value: semanticColorUtils.background.disabled },
+        { name: 'Border Disabled', value: semanticColorUtils.border.disabled },
+      ]} />
+
+      <ColorPalette title="Neutral Colors (회색조)" colorSet={colorTokens.neutral} />
+
+      <HowToUseClass />
+    </StoryPage>
+  ),
+};
+
+export const SuccessColorsTokens: Story = {
+  render: () => (
+    <StoryPage>
+      <PageTitle>🎨 Design Tokens - Success Colors (성공 상태)</PageTitle>
+
+      <ColorList
+        datas={[
+        { name: 'Text Success', value: semanticColorUtils.text.success },
+        { name: 'Background Success', value: semanticColorUtils.background.success },
+        { name: 'Border Success', value: semanticColorUtils.border.success },
+      ]} />
+
+      <ColorPalette title="Success Colors (성공 상태)" colorSet={colorTokens.success} />
+
+      <HowToUseClass />
+    </StoryPage>
+  ),
+};
+
+export const DangerColorsTokens: Story = {
+  render: () => (
+    <StoryPage>
+      <PageTitle>🎨 Design Tokens - Danger Colors (위험, 경고 상태)</PageTitle>
+
+      <ColorList
+        datas={[
+        { name: 'Text Danger', value: semanticColorUtils.text.danger },
+        { name: 'Background Danger', value: semanticColorUtils.background.danger },
+        { name: 'Border Danger', value: semanticColorUtils.border.danger },
+      ]} />
+
+      <ColorPalette title="Danger Colors (위험, 경고 상태)" colorSet={colorTokens.danger} />
+      <ColorPalette title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
+
+      <HowToUseClass />
+    </StoryPage>
+  ),
+};
+
+export const ErrorColorsTokens: Story = {
+  render: () => (
+    <StoryPage>
+      <PageTitle>🎨 Design Tokens - Error Colors (에러 상태)</PageTitle>
+
+      <ColorList
+        datas={[
+        { name: 'Text Error', value: semanticColorUtils.text.error },
+        { name: 'Background Error', value: semanticColorUtils.background.error },
+        { name: 'Border Error', value: semanticColorUtils.border.errer },
+      ]} />
+
+      <ColorPalette title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
+
+      <HowToUseClass />
+    </StoryPage>
   ),
 };
