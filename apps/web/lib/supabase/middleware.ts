@@ -63,7 +63,7 @@ export async function updateSession(request: NextRequest) {
     const { data: userData } = await supabase
       .from('users')
       .select('region, detail_address')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .single();
 
     const hasLocation = !!userData?.region?.trim() && !!userData?.detail_address?.trim();
