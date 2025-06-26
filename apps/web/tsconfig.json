@@ -9,7 +9,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-    }
+    },
+    "types": [
+      "kakao.maps.d.ts"
+    ]
   },
   "include": [
     "**/*.ts",
