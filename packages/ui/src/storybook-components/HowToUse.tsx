@@ -7,7 +7,7 @@ interface HowToUseProps {
 
 const HowToUse = ({title, datas}: HowToUseProps) => (
    <Section
-    className='bg-bg-neutral p-md rounded-md'
+    className='bg-bg-base p-md rounded-md'
   >
     <h3 className="font-style-headline-h3">
       {title}

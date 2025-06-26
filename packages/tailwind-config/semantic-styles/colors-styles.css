@@ -21,7 +21,7 @@
 
   /* Background Colors: bg-* 유틸 클래스 (bg-bg-neutral, bg-bg-light) */
   --color-bg-light: var(--color-bg-light);
-  --color-bg-neutral: var(--color-bg-neutral);
+  --color-bg-base: var(--color-bg-base);
 
   --color-bg-primary: var(--color-bg-primary);
   --color-bg-secondary: var(--color-bg-secondary);

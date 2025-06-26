@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { cn } from "../../utils/cn";
+
+import {
+  createColorTokenInfo,
+  extractColorTypeFromTitle,
+  getSemanticUtilityClass,
+  getHexValue,
+} from '../../utils/storybook';
 import { colorTokens, scaleColorCSSValues, semanticColorCSSValue } from './generated-tokens';
-import { createColorTokenInfo, extractColorTypeFromTitle, getSemanticUtilityClass, getHexValue } from '../../utils/storybook';
+import { StoryPage, PageTitle, Section, SectionTitle, HowToUse } from "../../storybook-components";
 
 const meta: Meta = {
   title: 'Design System/Design Tokens/Colors',
@@ -23,72 +29,6 @@ type Story = StoryObj;
 const getScaleColorValue = (cssVar: string): string => {
   return scaleColorCSSValues[cssVar as keyof typeof scaleColorCSSValues] || cssVar;
 };
-
-const StoryPage = ({children, className} : {children: React.ReactNode; className?: string}) => (
-  <main className={cn('flex flex-col gap-5xl w-full p-lg max-w-[1000px] mx-auto ', className)}>
-    {children}
-  </main>
-);
-
-const PageTitle = ({children} : {children: React.ReactNode}) => (
-  <h1 className='font-style-headline-h1'>
-    {children}
-  </h1>
-);
-
-const Section = ({children, className} : {children: React.ReactNode; className?: string}) => (
-  <section className={cn('w-full flex flex-col gap-lg', className)}>
-    {children}
-  </section>
-);
-
-const SectionTitle = ({children} : {children: React.ReactNode}) => (
-  <h2 className='font-style-headline-h2'>
-    {children}
-  </h2>
-);
-
-const HowToUse = ({title, datas}: {title: string; datas: { name: string; code: string; }[]}) => (
-   <section
-    style={{
-      marginTop: '2rem',
-      padding: '1rem',
-      backgroundColor: '#f4f4f7',
-      borderRadius: '8px',
-      border: '1px solid #e8e8e8',
-    }}
-  >
-    <h4
-      style={{
-        fontWeight: 500,
-        marginBottom: '0.5rem',
-        color: '#1f1f1f',
-      }}
-    >
-      {title}
-    </h4>
-    <div style={{ fontSize: '0.875rem', color: '#656565' }}>
-      <ul>
-        {
-          datas.map((item, index) => <li key={`use-${index}`}>
-            <div style={{ marginBottom: '0.5rem' }}>
-              {item.name}{' : '}<code
-                style={{
-                  backgroundColor: '#ffffff',
-                  padding: '0.25rem 0.5rem',
-                  borderRadius: '4px',
-                  fontFamily: 'monospace',
-                }}
-              >
-                {item.code}
-              </code>
-            </div>
-          </li>)
-        }
-      </ul>
-    </div>
-  </section>
-);
 
 const HowToUseClass = () => (<HowToUse
   title='💡 토큰 기준 유틸클래스 생성 규칙'
@@ -219,10 +159,10 @@ const ColorList = ({title, datas}: ColorListProps) => (
   </Section>
 );
 
-export const SemanticColorsTokens: Story = {
+export const ScaleColorsTokens: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Semantic Colors </PageTitle>
+      <PageTitle>🎨 Design Tokens - Scale Colors </PageTitle>
 
       <ColorList
         title='Use Primary'
@@ -245,7 +185,7 @@ export const SemanticColorsTokens: Story = {
         datas={[
         { name: 'Text Base', value: semanticColorCSSValue.text.base },
         { name: 'Border Base', value: semanticColorCSSValue.border.base },
-        { name: 'Background Neutral', value: semanticColorCSSValue.background.neutral },
+        { name: 'Background Base', value: semanticColorCSSValue.background.base },
       ]} />
 
       <ColorList
@@ -341,12 +281,18 @@ export const NeutralColorsTokens: Story = {
       <PageTitle>🎨 Design Tokens - Neutral Colors (회색조)</PageTitle>
 
       <ColorList
-        title='Use Base, Form'
+        title='Use Base'
         datas={[
         { name: 'Text Base', value: semanticColorCSSValue.text.base },
         { name: 'Border Base', value: semanticColorCSSValue.border.base },
         { name: 'Border Form', value: semanticColorCSSValue.border.form },
-        { name: 'Background Neutral', value: semanticColorCSSValue.background.neutral },
+        { name: 'Background Base', value: semanticColorCSSValue.background.base },
+      ]} />
+
+      <ColorList
+        title='Use Form'
+        datas={[
+        { name: 'Border Form', value: semanticColorCSSValue.border.form },
       ]} />
 
       <ColorList

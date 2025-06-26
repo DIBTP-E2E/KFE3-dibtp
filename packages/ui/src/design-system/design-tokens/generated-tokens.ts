@@ -15,7 +15,7 @@ export const semanticColors = {
   },
   bg: {
       light: 'var(--color-neutral-10)',
-      neutral: 'var(--color-neutral-40)',
+      base: 'var(--color-neutral-20)',
       primary: 'var(--color-primary-500)',
       secondary: 'var(--color-secondary-500)',
       success: 'var(--color-success-500)',
@@ -180,7 +180,7 @@ export const semanticColorCSSValue = {
   },
   background: {
     light: 'var(--color-bg-light)',
-    neutral: 'var(--color-bg-neutral)',
+    base: 'var(--color-bg-base)',
     primary: 'var(--color-bg-primary)',
     secondary: 'var(--color-bg-secondary)',
     success: 'var(--color-bg-success)',
@@ -328,7 +328,7 @@ export const scaleColorCSSValues: { [key: string]: string } = {
   'var(--color-text-disabled)': 'var(--color-neutral-40)',
   'var(--color-text-error)': 'var(--color-red-600)',
   'var(--color-bg-light)': 'var(--color-neutral-10)',
-  'var(--color-bg-neutral)': 'var(--color-neutral-40)',
+  'var(--color-bg-base)': 'var(--color-neutral-20)',
   'var(--color-bg-primary)': 'var(--color-primary-500)',
   'var(--color-bg-secondary)': 'var(--color-secondary-500)',
   'var(--color-bg-success)': 'var(--color-success-500)',
