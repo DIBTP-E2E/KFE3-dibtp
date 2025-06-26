@@ -108,7 +108,7 @@ export const PrimaryColorsTokens: Story = {
         { name: 'Border Primary', value: semanticColorCSSValue.border.primary },
       ]} />
 
-      <ColorPalette title="Primary Colors Palette" colorSet={colorTokens.primary} />
+      <ColorPalette type="scale" title="Primary Colors Palette" colorSet={colorTokens.primary} />
     </StoryPage>
   ),
 };
@@ -125,7 +125,7 @@ export const SecondaryColorsTokens: Story = {
         { name: 'Border Secondary', value: semanticColorCSSValue.border.secondary },
       ]} />
 
-      <ColorPalette title="Secondary Colors (보조 컬러)" colorSet={colorTokens.secondary} />
+      <ColorPalette type="scale" title="Secondary Colors (보조 컬러)" colorSet={colorTokens.secondary} />
     </StoryPage>
   ),
 };
@@ -164,7 +164,7 @@ export const NeutralColorsTokens: Story = {
         { name: 'Border Disabled', value: semanticColorCSSValue.border.disabled },
       ]} />
 
-      <ColorPalette title="Neutral Colors (회색조)" colorSet={colorTokens.neutral} />
+      <ColorPalette type="scale" title="Neutral Colors (회색조)" colorSet={colorTokens.neutral} />
     </StoryPage>
   ),
 };
@@ -181,7 +181,7 @@ export const SuccessColorsTokens: Story = {
         { name: 'Border Success', value: semanticColorCSSValue.border.success },
       ]} />
 
-      <ColorPalette title="Success Colors (성공 상태)" colorSet={colorTokens.success} />
+      <ColorPalette type="scale" title="Success Colors (성공 상태)" colorSet={colorTokens.success} />
     </StoryPage>
   ),
 };
@@ -198,8 +198,8 @@ export const DangerColorsTokens: Story = {
         { name: 'Border Danger', value: semanticColorCSSValue.border.danger },
       ]} />
 
-      <ColorPalette title="Danger Colors (위험, 경고 상태)" colorSet={colorTokens.danger} />
-      <ColorPalette title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
+      <ColorPalette type="scale" title="Danger Colors (위험, 경고 상태)" colorSet={colorTokens.danger} />
+      <ColorPalette type="scale" title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
     </StoryPage>
   ),
 };
@@ -216,7 +216,7 @@ export const ErrorColorsTokens: Story = {
         { name: 'Border Error', value: semanticColorCSSValue.border.error },
       ]} />
 
-      <ColorPalette title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
+      <ColorPalette type="scale" title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
     </StoryPage>
   ),
 };

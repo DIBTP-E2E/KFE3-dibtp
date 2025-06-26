@@ -11,6 +11,28 @@
   --color-orange-800: #834e11;
   --color-orange-900: #643c0d;
 
+  /** Blue Colors */
+  --color-blue-50: #f1eefe;
+  --color-blue-100: #d3c9fd;
+  --color-blue-200: #beaffc;
+  --color-blue-300: #a18afa;
+  --color-blue-400: #8e74f9;
+  --color-blue-500: #7251f8;
+  --color-blue-600: #684ae2;
+  --color-blue-700: #513ab0;
+  --color-blue-800: #3f2d88;
+  --color-blue-900: #302268;
+
+  /** Gray Colors */
+  --color-gray-10: #ffffff;
+  --color-gray-20: #f4f4f7;
+  --color-gray-30: #e8e8e8;
+  --color-gray-40: #d2d2d2;
+  --color-gray-60: #8f8f8f;
+  --color-gray-70: #656565;
+  --color-gray-80: #444444;
+  --color-gray-100: #1f1f1f;
+
   /** Green Colors */
   --color-green-50: #f0f8f5;
   --color-green-100: #cfe9df;
@@ -34,28 +56,6 @@
   --color-pink-700: #aa2d69;
   --color-pink-800: #842351;
   --color-pink-900: #651a3e;
-
-  /** Blue Colors */
-  --color-blue-50: #f1eefe;
-  --color-blue-100: #d3c9fd;
-  --color-blue-200: #beaffc;
-  --color-blue-300: #a18afa;
-  --color-blue-400: #8e74f9;
-  --color-blue-500: #7251f8;
-  --color-blue-600: #684ae2;
-  --color-blue-700: #513ab0;
-  --color-blue-800: #3f2d88;
-  --color-blue-900: #302268;
-
-  /** Gray Colors */
-  --color-gray-10: #ffffff;
-  --color-gray-20: #f4f4f7;
-  --color-gray-30: #e8e8e8;
-  --color-gray-40: #d2d2d2;
-  --color-gray-60: #8f8f8f;
-  --color-gray-70: #656565;
-  --color-gray-80: #444444;
-  --color-gray-100: #1f1f1f;
 
   /** Red Colors **/
   --color-red-50: #feecf4;

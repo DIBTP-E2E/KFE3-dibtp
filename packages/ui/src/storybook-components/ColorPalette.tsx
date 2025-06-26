@@ -7,7 +7,13 @@ import {
 import Section from "./Section";
 import SectionTitle from "./SectionTitle";
 
-const ColorPalette = ({ title, colorSet }: { title: string; colorSet: Record<string, string> }) => (
+interface ColorPaletteProps {
+  type: 'primitive' | 'scale';
+  title: string;
+  colorSet: Record<string, string>
+}
+
+const ColorPalette = ({ type, title, colorSet }: ColorPaletteProps) => (
   <Section>
     <SectionTitle>
       {title}
@@ -59,9 +65,9 @@ const ColorPalette = ({ title, colorSet }: { title: string; colorSet: Record<str
                   gap: '0.125rem'
                 }}
               >
-                <li aria-label='Scale 변수'>{tokenInfo.cssVariable}</li>
+                {type !== 'primitive' && <li aria-label='Scale 변수'>{tokenInfo.cssVariable}</li>}
                 <li aria-label='Primitive 변수'>{tokenInfo.primitiveValue}</li>
-                {tokenInfo.hexValue && <li aria-label='Hex 변수'> {tokenInfo.hexValue}</li>}
+                <li aria-label='Hex 변수'> {tokenInfo.hexValue}</li>
               </ul>
             </div>
           </article>
