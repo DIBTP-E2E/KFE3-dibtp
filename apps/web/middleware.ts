@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { NextRequest, NextResponse } from 'next/server';
+import { createSupabaseMiddlewareClient } from './lib/supabase';
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
+
+  const { supabase, response } = await createSupabaseMiddlewareClient(req);
 
   const {
     data: { session },
@@ -46,7 +45,7 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  return res;
+  return response;
 }
 
 export const config = {
