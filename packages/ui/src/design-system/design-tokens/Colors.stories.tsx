@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { cn } from "../../utils/cn";
-import { colorTokens, actualColorValues, semanticColorUtils } from './generated-tokens';
+import { colorTokens, scaleColorCSSValues, semanticColorCSSValue } from './generated-tokens';
+import { createColorTokenInfo, extractColorTypeFromTitle, getSemanticUtilityClass, getHexValue } from '../../utils/storybook';
 
 const meta: Meta = {
   title: 'Design System/Design Tokens/Colors',
@@ -19,8 +20,8 @@ export default meta;
 type Story = StoryObj;
 
 // 생성된 토큰에서 실제 색상 값을 가져오는 함수
-const getActualColorValue = (cssVar: string): string => {
-  return actualColorValues[cssVar as keyof typeof actualColorValues] || cssVar;
+const getScaleColorValue = (cssVar: string): string => {
+  return scaleColorCSSValues[cssVar as keyof typeof scaleColorCSSValues] || cssVar;
 };
 
 const StoryPage = ({children, className} : {children: React.ReactNode; className?: string}) => (
@@ -108,12 +109,15 @@ const ColorPalette = ({ title, colorSet }: { title: string; colorSet: Record<str
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
         gap: '1rem',
       }}
     >
       {Object.entries(colorSet).map(([key, value]) => {
-        const actualValue = getActualColorValue(value);
+        const actualValue = getScaleColorValue(value);
+        const colorType = extractColorTypeFromTitle(title);
+        const tokenInfo = createColorTokenInfo(key, value, actualValue, colorType);
+        
         return (
           <article key={key} style={{ textAlign: 'center' }}>
             <div
@@ -135,27 +139,27 @@ const ColorPalette = ({ title, colorSet }: { title: string; colorSet: Record<str
                   marginBottom: '0.25rem',
                 }}
               >
-                {key}
+                {tokenInfo.key}
               </div>
-              <div
+              <ul
                 style={{
                   color: '#656565',
                   fontSize: '0.75rem',
                   fontFamily: 'monospace',
                   marginBottom: '0.25rem',
+                  lineHeight: '1.4',
+                  display: 'flex',
+                  flexFlow: 'column',
+                  gap: '0.125rem'
                 }}
               >
-                {value}
-              </div>
-              <div
-                style={{
-                  color: '#8f8f8f',
-                  fontSize: '0.75rem',
-                  fontFamily: 'monospace',
-                }}
-              >
-                {actualValue}
-              </div>
+                <li aria-label='Scale 변수'>{tokenInfo.cssVariable}</li>
+                <li aria-label='Primitive 변수'>{tokenInfo.primitiveValue}</li>
+                {tokenInfo.hexValue && <li aria-label='Hex 변수'> {tokenInfo.hexValue}</li>}
+                {/* <li>BG: {tokenInfo.utilityClasses.background}</li>
+                <li>Text: {tokenInfo.utilityClasses.text}</li>
+                <li>Border: {tokenInfo.utilityClasses.border}</li> */}
+              </ul>
             </div>
           </article>
         );
@@ -175,31 +179,43 @@ interface ColorListProps {
 const ColorList = ({title, datas}: ColorListProps) => (
   <Section className='flex flex-col gap-lg w-full'>
     <SectionTitle>{title ?? 'Use Building'}</SectionTitle>
-    {datas.map(({ name, value }) => (
-      <div key={name} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div
-          style={{
-            width: '48px',
-            height: '48px',
-            borderRadius: '4px',
-            border: '1px solid #e8e8e8',
-            backgroundColor: getActualColorValue(value),
-          }}
-        />
-        <div>
-          <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>{name}</div>
+    {datas.map(({ name, value }) => {
+      const hexValue = getHexValue(value);
+      const utilityClass = getSemanticUtilityClass(value);
+      
+      return (
+        <article key={name} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div
             style={{
-              fontSize: '0.875rem',
-              color: '#656565',
-              fontFamily: 'monospace',
+              width: '48px',
+              height: '48px',
+              borderRadius: '4px',
+              border: '1px solid #e8e8e8',
+              backgroundColor: hexValue || getScaleColorValue(value),
             }}
-          >
-            {value}
+          />
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>{name}</div>
+            <ul
+              style={{
+                fontSize: '0.75rem',
+                color: '#656565',
+                fontFamily: 'monospace',
+                lineHeight: '1.4',
+                display: 'flex',
+                flexFlow: 'column',
+                gap: '0.125rem',
+                margin: 0,
+                padding: 0,
+                listStyle: 'none',
+              }}
+            >
+              <li>{`.${utilityClass}`}, {value},  {hexValue}</li>
+            </ul>
           </div>
-        </div>
-      </div>
-    ))}
+        </article>
+      );
+    })}
   </Section>
 );
 
@@ -211,69 +227,69 @@ export const SemanticColorsTokens: Story = {
       <ColorList
         title='Use Primary'
         datas={[
-        { name: 'Text Primary', value: semanticColorUtils.text.primary },
-        { name: 'Background Primary', value: semanticColorUtils.background.primary },
-        { name: 'Border Primary', value: semanticColorUtils.border.primary },
+        { name: 'Text Primary', value: semanticColorCSSValue.text.primary },
+        { name: 'Background Primary', value: semanticColorCSSValue.background.primary },
+        { name: 'Border Primary', value: semanticColorCSSValue.border.primary },
       ]} />
 
       <ColorList
         title='Use Secondary'
         datas={[
-        { name: 'Text Secondary', value: semanticColorUtils.text.secondary },
-        { name: 'Background Secondary', value: semanticColorUtils.background.secondary },
-        { name: 'Border Secondary', value: semanticColorUtils.border.secondary },
+        { name: 'Text Secondary', value: semanticColorCSSValue.text.secondary },
+        { name: 'Background Secondary', value: semanticColorCSSValue.background.secondary },
+        { name: 'Border Secondary', value: semanticColorCSSValue.border.secondary },
       ]} />
 
       <ColorList
         title='Use Base'
         datas={[
-        { name: 'Text Base', value: semanticColorUtils.text.base },
-        { name: 'Border Base', value: semanticColorUtils.border.base },
-        { name: 'Background Neutral', value: semanticColorUtils.background.neutral },
+        { name: 'Text Base', value: semanticColorCSSValue.text.base },
+        { name: 'Border Base', value: semanticColorCSSValue.border.base },
+        { name: 'Background Neutral', value: semanticColorCSSValue.background.neutral },
       ]} />
 
       <ColorList
         title='Use Form'
         datas={[
-        { name: 'Border Form', value: semanticColorUtils.border.form },
+        { name: 'Border Form', value: semanticColorCSSValue.border.form },
       ]} />
 
       <ColorList
         title='Use Info'
         datas={[
-        { name: 'Text Info', value: semanticColorUtils.text.info },
+        { name: 'Text Info', value: semanticColorCSSValue.text.info },
       ]} />
 
       <ColorList
         title='Use Disabled'
         datas={[
-        { name: 'Text Disabled', value: semanticColorUtils.text.disabled },
-        { name: 'Background Disabled', value: semanticColorUtils.background.disabled },
-        { name: 'Border Disabled', value: semanticColorUtils.border.disabled },
+        { name: 'Text Disabled', value: semanticColorCSSValue.text.disabled },
+        { name: 'Background Disabled', value: semanticColorCSSValue.background.disabled },
+        { name: 'Border Disabled', value: semanticColorCSSValue.border.disabled },
       ]} />
 
       <ColorList
         title='Use Success'
         datas={[
-        { name: 'Text Success', value: semanticColorUtils.text.success },
-        { name: 'Background Success', value: semanticColorUtils.background.success },
-        { name: 'Border Success', value: semanticColorUtils.border.success },
+        { name: 'Text Success', value: semanticColorCSSValue.text.success },
+        { name: 'Background Success', value: semanticColorCSSValue.background.success },
+        { name: 'Border Success', value: semanticColorCSSValue.border.success },
       ]} />
 
       <ColorList
         title='Use Danger'
         datas={[
-        { name: 'Text Danger', value: semanticColorUtils.text.danger },
-        { name: 'Background Danger', value: semanticColorUtils.background.danger },
-        { name: 'Border Danger', value: semanticColorUtils.border.danger },
+        { name: 'Text Danger', value: semanticColorCSSValue.text.danger },
+        { name: 'Background Danger', value: semanticColorCSSValue.background.danger },
+        { name: 'Border Danger', value: semanticColorCSSValue.border.danger },
       ]} />
 
       <ColorList
         title='Use Error'
         datas={[
-        { name: 'Text Error', value: semanticColorUtils.text.error },
-        { name: 'Background Error', value: semanticColorUtils.background.error },
-        { name: 'Border Error', value: semanticColorUtils.border.errer },
+        { name: 'Text Error', value: semanticColorCSSValue.text.error },
+        { name: 'Background Error', value: semanticColorCSSValue.background.error },
+        { name: 'Border Error', value: semanticColorCSSValue.border.error },
       ]} />
 
       <HowToUseClass />
@@ -288,9 +304,9 @@ export const PrimaryColorsTokens: Story = {
 
       <ColorList
         datas={[
-        { name: 'Text Primary', value: semanticColorUtils.text.primary },
-        { name: 'Background Primary', value: semanticColorUtils.background.primary },
-        { name: 'Border Primary', value: semanticColorUtils.border.primary },
+        { name: 'Text Primary', value: semanticColorCSSValue.text.primary },
+        { name: 'Background Primary', value: semanticColorCSSValue.background.primary },
+        { name: 'Border Primary', value: semanticColorCSSValue.border.primary },
       ]} />
 
       <ColorPalette title="Primary Colors Palette" colorSet={colorTokens.primary} />
@@ -307,9 +323,9 @@ export const SecondaryColorsTokens: Story = {
 
       <ColorList
         datas={[
-        { name: 'Text Secondary', value: semanticColorUtils.text.secondary },
-        { name: 'Background Secondary', value: semanticColorUtils.background.secondary },
-        { name: 'Border Secondary', value: semanticColorUtils.border.secondary },
+        { name: 'Text Secondary', value: semanticColorCSSValue.text.secondary },
+        { name: 'Background Secondary', value: semanticColorCSSValue.background.secondary },
+        { name: 'Border Secondary', value: semanticColorCSSValue.border.secondary },
       ]} />
 
       <ColorPalette title="Secondary Colors (보조 컬러)" colorSet={colorTokens.secondary} />
@@ -327,24 +343,24 @@ export const NeutralColorsTokens: Story = {
       <ColorList
         title='Use Base, Form'
         datas={[
-        { name: 'Text Base', value: semanticColorUtils.text.base },
-        { name: 'Border Base', value: semanticColorUtils.border.base },
-        { name: 'Border Form', value: semanticColorUtils.border.form },
-        { name: 'Background Neutral', value: semanticColorUtils.background.neutral },
+        { name: 'Text Base', value: semanticColorCSSValue.text.base },
+        { name: 'Border Base', value: semanticColorCSSValue.border.base },
+        { name: 'Border Form', value: semanticColorCSSValue.border.form },
+        { name: 'Background Neutral', value: semanticColorCSSValue.background.neutral },
       ]} />
 
       <ColorList
         title='Use Info'
         datas={[
-        { name: 'Text Info', value: semanticColorUtils.text.info },
+        { name: 'Text Info', value: semanticColorCSSValue.text.info },
       ]} />
 
       <ColorList
         title='Use Disabled'
         datas={[
-        { name: 'Text Disabled', value: semanticColorUtils.text.disabled },
-        { name: 'Background Disabled', value: semanticColorUtils.background.disabled },
-        { name: 'Border Disabled', value: semanticColorUtils.border.disabled },
+        { name: 'Text Disabled', value: semanticColorCSSValue.text.disabled },
+        { name: 'Background Disabled', value: semanticColorCSSValue.background.disabled },
+        { name: 'Border Disabled', value: semanticColorCSSValue.border.disabled },
       ]} />
 
       <ColorPalette title="Neutral Colors (회색조)" colorSet={colorTokens.neutral} />
@@ -361,9 +377,9 @@ export const SuccessColorsTokens: Story = {
 
       <ColorList
         datas={[
-        { name: 'Text Success', value: semanticColorUtils.text.success },
-        { name: 'Background Success', value: semanticColorUtils.background.success },
-        { name: 'Border Success', value: semanticColorUtils.border.success },
+        { name: 'Text Success', value: semanticColorCSSValue.text.success },
+        { name: 'Background Success', value: semanticColorCSSValue.background.success },
+        { name: 'Border Success', value: semanticColorCSSValue.border.success },
       ]} />
 
       <ColorPalette title="Success Colors (성공 상태)" colorSet={colorTokens.success} />
@@ -380,9 +396,9 @@ export const DangerColorsTokens: Story = {
 
       <ColorList
         datas={[
-        { name: 'Text Danger', value: semanticColorUtils.text.danger },
-        { name: 'Background Danger', value: semanticColorUtils.background.danger },
-        { name: 'Border Danger', value: semanticColorUtils.border.danger },
+        { name: 'Text Danger', value: semanticColorCSSValue.text.danger },
+        { name: 'Background Danger', value: semanticColorCSSValue.background.danger },
+        { name: 'Border Danger', value: semanticColorCSSValue.border.danger },
       ]} />
 
       <ColorPalette title="Danger Colors (위험, 경고 상태)" colorSet={colorTokens.danger} />
@@ -400,9 +416,9 @@ export const ErrorColorsTokens: Story = {
 
       <ColorList
         datas={[
-        { name: 'Text Error', value: semanticColorUtils.text.error },
-        { name: 'Background Error', value: semanticColorUtils.background.error },
-        { name: 'Border Error', value: semanticColorUtils.border.errer },
+        { name: 'Text Error', value: semanticColorCSSValue.text.error },
+        { name: 'Background Error', value: semanticColorCSSValue.background.error },
+        { name: 'Border Error', value: semanticColorCSSValue.border.error },
       ]} />
 
       <ColorPalette title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
