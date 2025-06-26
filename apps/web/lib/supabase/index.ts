@@ -1,4 +1,4 @@
 // lib
 export { supabaseClient } from './client';
 export { supabaseServerClient } from './server';
-export { createSupabaseMiddlewareClient } from './middleware';
+export { updateSession } from './middleware';
