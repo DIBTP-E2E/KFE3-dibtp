@@ -1,8 +1,8 @@
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { supabaseServerClient } from '@/lib/supabase';
 
 export async function setServerSession(email: string, password: string) {
-  const supabase = createServerActionClient({ cookies });
+  const supabase = await supabaseServerClient();
+
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) throw error;
