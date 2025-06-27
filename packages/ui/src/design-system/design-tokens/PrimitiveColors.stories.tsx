@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { colorTokens } from './generated-tokens';
-import { StoryPage, PageTitle, ColorPalette } from "../../storybook-components";
+import { StoryPage, PageTitle, ColorPalette } from '../../storybook-components';
 
 const meta: Meta = {
   title: 'Design System/Design Tokens/Colors/Primitive Colors',
@@ -19,60 +19,60 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const OrangeColorsTokens: Story = {
+export const OrangeColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Orange Colors</PageTitle>
+      <PageTitle>🎨 Primitive Colors - Orange</PageTitle>
 
       <ColorPalette type="primitive" title="Orange Colors Palette" colorSet={colorTokens.primary} />
     </StoryPage>
   ),
 };
 
-export const BlueColorsTokens: Story = {
+export const BlueColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Blue Colors</PageTitle>
+      <PageTitle>🎨 Primitive Colors - Blue</PageTitle>
 
       <ColorPalette type="primitive" title="Blue Colors Palette" colorSet={colorTokens.secondary} />
     </StoryPage>
   ),
 };
 
-export const GrayColorsTokens: Story = {
+export const GrayColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Gray Colors</PageTitle>
+      <PageTitle>🎨 Primitive Colors - Gray</PageTitle>
 
       <ColorPalette type="primitive" title="Gray Colors Palette" colorSet={colorTokens.neutral} />
     </StoryPage>
   ),
 };
 
-export const GreenColorsTokens: Story = {
+export const GreenColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Green Colors</PageTitle>
+      <PageTitle>🎨 Primitive Colors - Green</PageTitle>
 
       <ColorPalette type="primitive" title="Green Colors Palette" colorSet={colorTokens.success} />
     </StoryPage>
   ),
 };
 
-export const PinkColorsTokens: Story = {
+export const PinkColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Pink Colors</PageTitle>
+      <PageTitle>🎨 Primitive Colors - Pink</PageTitle>
 
       <ColorPalette type="primitive" title="Pink Colors Palette" colorSet={colorTokens.danger} />
     </StoryPage>
   ),
 };
 
-export const RedColorsTokens: Story = {
+export const RedColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Red Colors</PageTitle>
+      <PageTitle>🎨 Primitive Colors - Red</PageTitle>
 
       <ColorPalette type="primitive" title="Red Colors Palette" colorSet={colorTokens.error} />
     </StoryPage>

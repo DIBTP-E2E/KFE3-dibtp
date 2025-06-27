@@ -19,91 +19,10 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const SemanticColorsTokens: Story = {
+export const PrimaryColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Semantic Colors </PageTitle>
-
-      <ColorList
-        title="Use Primary (for Branding)"
-        datas={[
-          { name: 'Text Primary', value: utilityColorCSSValue.text.primary },
-          { name: 'Background Primary', value: utilityColorCSSValue.background.primary },
-          { name: 'Border Primary', value: utilityColorCSSValue.border.primary },
-        ]}
-      />
-
-      <ColorList
-        title="Use Secondary"
-        datas={[
-          { name: 'Text Secondary', value: utilityColorCSSValue.text.secondary },
-          { name: 'Background Secondary', value: utilityColorCSSValue.background.secondary },
-          { name: 'Border Secondary', value: utilityColorCSSValue.border.secondary },
-        ]}
-      />
-
-      <ColorList
-        title="Use Base"
-        datas={[
-          { name: 'Text Base', value: utilityColorCSSValue.text.base },
-          { name: 'Border Base', value: utilityColorCSSValue.border.base },
-          { name: 'Background Base', value: utilityColorCSSValue.background.base },
-        ]}
-      />
-
-      <ColorList
-        title="Use Form"
-        datas={[{ name: 'Border Form', value: utilityColorCSSValue.border.form }]}
-      />
-
-      <ColorList
-        title="Use Info"
-        datas={[{ name: 'Text Info', value: utilityColorCSSValue.text.info }]}
-      />
-
-      <ColorList
-        title="Use Disabled"
-        datas={[
-          { name: 'Text Disabled', value: utilityColorCSSValue.text.disabled },
-          { name: 'Background Disabled', value: utilityColorCSSValue.background.disabled },
-          { name: 'Border Disabled', value: utilityColorCSSValue.border.disabled },
-        ]}
-      />
-
-      <ColorList
-        title="Use Success"
-        datas={[
-          { name: 'Text Success', value: utilityColorCSSValue.text.success },
-          { name: 'Background Success', value: utilityColorCSSValue.background.success },
-          { name: 'Border Success', value: utilityColorCSSValue.border.success },
-        ]}
-      />
-
-      <ColorList
-        title="Use Danger"
-        datas={[
-          { name: 'Text Danger', value: utilityColorCSSValue.text.danger },
-          { name: 'Background Danger', value: utilityColorCSSValue.background.danger },
-          { name: 'Border Danger', value: utilityColorCSSValue.border.danger },
-        ]}
-      />
-
-      <ColorList
-        title="Use Error"
-        datas={[
-          { name: 'Text Error', value: utilityColorCSSValue.text.error },
-          { name: 'Background Error', value: utilityColorCSSValue.background.error },
-          { name: 'Border Error', value: utilityColorCSSValue.border.error },
-        ]}
-      />
-    </StoryPage>
-  ),
-};
-
-export const PrimaryColorsTokens: Story = {
-  render: () => (
-    <StoryPage>
-      <PageTitle>🎨 Design Tokens - Primary Colors (브랜딩 컬러)</PageTitle>
+      <PageTitle>🎨 Semantic Colors - Primary (브랜딩 컬러)</PageTitle>
 
       <ColorList
         datas={[
@@ -118,10 +37,10 @@ export const PrimaryColorsTokens: Story = {
   ),
 };
 
-export const SecondaryColorsTokens: Story = {
+export const SecondaryColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Secondary Colors (보조 컬러)</PageTitle>
+      <PageTitle>🎨 Semantic Colors - Secondary (보조 컬러)</PageTitle>
 
       <ColorList
         datas={[
@@ -140,10 +59,10 @@ export const SecondaryColorsTokens: Story = {
   ),
 };
 
-export const NeutralColorsTokens: Story = {
+export const NeutralColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Neutral Colors (회색조)</PageTitle>
+      <PageTitle>🎨 Semantic Colors - Neutral (회색조)</PageTitle>
 
       <ColorList
         title="Use Base"
@@ -183,10 +102,10 @@ export const NeutralColorsTokens: Story = {
   ),
 };
 
-export const SuccessColorsTokens: Story = {
+export const SuccessColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Success Colors (성공 상태)</PageTitle>
+      <PageTitle>🎨 Semantic Colors - Success (성공 상태)</PageTitle>
 
       <ColorList
         datas={[
@@ -205,10 +124,10 @@ export const SuccessColorsTokens: Story = {
   ),
 };
 
-export const DangerColorsTokens: Story = {
+export const DangerColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Danger Colors (위험, 경고 상태)</PageTitle>
+      <PageTitle>🎨 Semantic Colors - Danger (위험, 경고 상태)</PageTitle>
 
       <ColorList
         datas={[
@@ -228,10 +147,10 @@ export const DangerColorsTokens: Story = {
   ),
 };
 
-export const ErrorColorsTokens: Story = {
+export const ErrorColors: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Error Colors (에러 상태)</PageTitle>
+      <PageTitle>🎨 Semantic Colors - Error (에러 상태)</PageTitle>
 
       <ColorList
         datas={[
@@ -242,6 +161,87 @@ export const ErrorColorsTokens: Story = {
       />
 
       <ColorPalette type="semantic" title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
+    </StoryPage>
+  ),
+};
+
+export const SemanticColorsGroupedByUtility: Story = {
+  render: () => (
+    <StoryPage>
+      <PageTitle>🎨 Semantic Colors Grouped by Utility</PageTitle>
+
+      <ColorList
+        title="Primary (for Branding)"
+        datas={[
+          { name: 'Text Primary', value: utilityColorCSSValue.text.primary },
+          { name: 'Background Primary', value: utilityColorCSSValue.background.primary },
+          { name: 'Border Primary', value: utilityColorCSSValue.border.primary },
+        ]}
+      />
+
+      <ColorList
+        title="Secondary"
+        datas={[
+          { name: 'Text Secondary', value: utilityColorCSSValue.text.secondary },
+          { name: 'Background Secondary', value: utilityColorCSSValue.background.secondary },
+          { name: 'Border Secondary', value: utilityColorCSSValue.border.secondary },
+        ]}
+      />
+
+      <ColorList
+        title="Base"
+        datas={[
+          { name: 'Text Base', value: utilityColorCSSValue.text.base },
+          { name: 'Border Base', value: utilityColorCSSValue.border.base },
+          { name: 'Background Base', value: utilityColorCSSValue.background.base },
+        ]}
+      />
+
+      <ColorList
+        title="Form"
+        datas={[{ name: 'Border Form', value: utilityColorCSSValue.border.form }]}
+      />
+
+      <ColorList
+        title="Info"
+        datas={[{ name: 'Text Info', value: utilityColorCSSValue.text.info }]}
+      />
+
+      <ColorList
+        title="Disabled"
+        datas={[
+          { name: 'Text Disabled', value: utilityColorCSSValue.text.disabled },
+          { name: 'Background Disabled', value: utilityColorCSSValue.background.disabled },
+          { name: 'Border Disabled', value: utilityColorCSSValue.border.disabled },
+        ]}
+      />
+
+      <ColorList
+        title="Success"
+        datas={[
+          { name: 'Text Success', value: utilityColorCSSValue.text.success },
+          { name: 'Background Success', value: utilityColorCSSValue.background.success },
+          { name: 'Border Success', value: utilityColorCSSValue.border.success },
+        ]}
+      />
+
+      <ColorList
+        title="Danger"
+        datas={[
+          { name: 'Text Danger', value: utilityColorCSSValue.text.danger },
+          { name: 'Background Danger', value: utilityColorCSSValue.background.danger },
+          { name: 'Border Danger', value: utilityColorCSSValue.border.danger },
+        ]}
+      />
+
+      <ColorList
+        title="Error"
+        datas={[
+          { name: 'Text Error', value: utilityColorCSSValue.text.error },
+          { name: 'Background Error', value: utilityColorCSSValue.background.error },
+          { name: 'Border Error', value: utilityColorCSSValue.border.error },
+        ]}
+      />
     </StoryPage>
   ),
 };

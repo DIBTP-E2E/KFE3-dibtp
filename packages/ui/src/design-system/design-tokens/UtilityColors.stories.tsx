@@ -19,10 +19,10 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const UtilityColorsAllTokens: Story = {
+export const UtilityColorsAll: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Utility Colors </PageTitle>
+      <PageTitle>🎨 Utility Colors </PageTitle>
 
       <ColorList
         title="Use Text"
@@ -70,10 +70,10 @@ export const UtilityColorsAllTokens: Story = {
   ),
 };
 
-export const UtilityColorsTextTokens: Story = {
+export const UtilityColorsText: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Utility Colors (Text) </PageTitle>
+      <PageTitle>🎨 Utility Colors</PageTitle>
 
       <ColorList
         title="Use Text"
@@ -94,10 +94,10 @@ export const UtilityColorsTextTokens: Story = {
   ),
 };
 
-export const UtilityColorsBackgroundTokens: Story = {
+export const UtilityColorsBackground: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Utility Colors (Background) </PageTitle>
+      <PageTitle>🎨 Utility Colors</PageTitle>
 
       <ColorList
         title="Use Background"
@@ -117,10 +117,10 @@ export const UtilityColorsBackgroundTokens: Story = {
   ),
 };
 
-export const UtilityColorsBorderTokens: Story = {
+export const UtilityColorsBorder: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Utility Colors (Border) </PageTitle>
+      <PageTitle>🎨 Utility Colors</PageTitle>
 
       <ColorList
         title="Use Border"
