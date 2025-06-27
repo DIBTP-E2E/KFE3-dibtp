@@ -1,6 +1,6 @@
 import Section from './Section';
 import SectionTitle from './SectionTitle';
-import { getUtilityClass, getHexValue, getScaleColorValue } from '../utils/storybook';
+import { getUtilityClass, getHexValue, getSemanticColorValue } from '../utils/storybook';
 
 interface ColorListProps {
   title?: string;
@@ -25,7 +25,7 @@ const ColorList = ({ title, datas }: ColorListProps) => (
               height: '48px',
               borderRadius: '4px',
               border: '1px solid #e8e8e8',
-              backgroundColor: hexValue || getScaleColorValue(value),
+              backgroundColor: hexValue || getSemanticColorValue(value),
             }}
           />
           <div style={{ flex: 1 }}>

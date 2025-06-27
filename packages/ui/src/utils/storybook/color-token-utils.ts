@@ -1,6 +1,6 @@
 import {
   primitiveColors,
-  scaleColorCSSValues,
+  semanticColorCSSValues,
 } from '../../design-system/design-tokens/generated-tokens';
 
 // 색상 타입별 매핑
@@ -52,8 +52,8 @@ export const createColorTokenInfo = (
 };
 
 // 생성된 토큰에서 실제 색상 값을 가져오는 함수
-export const getScaleColorValue = (cssVar: string): string => {
-  return scaleColorCSSValues[cssVar as keyof typeof scaleColorCSSValues] || cssVar;
+export const getSemanticColorValue = (cssVar: string): string => {
+  return semanticColorCSSValues[cssVar as keyof typeof semanticColorCSSValues] || cssVar;
 };
 
 // 스토리북 타이틀에서 색상 타입을 추출하는 함수
@@ -102,8 +102,8 @@ export const getHexValue = (cssVariable: string): string | null => {
     const directHex = getPrimitiveValue(current);
     if (directHex?.startsWith('#')) return directHex;
 
-    // scaleColorCSSValues에서 다음 변수 찾기
-    const nextVar = scaleColorCSSValues[current];
+    // semanticColorCSSValues에서 다음 변수 찾기
+    const nextVar = semanticColorCSSValues[current];
     if (!nextVar) return null;
 
     return resolveChain(nextVar, new Set([...visited, current]));

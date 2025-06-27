@@ -35,7 +35,7 @@ export const utilityColors = {
   },
 };
 
-export const scaleColors = {
+export const semanticColors = {
   primary: {
     50: 'var(--color-orange-50)',
     100: 'var(--color-orange-100)',
@@ -200,7 +200,7 @@ export const utilityColorCSSValue = {
   },
 };
 
-// 스토리북용 색상 데이터 구조 (Scale color 기준)
+// 스토리북용 색상 데이터 구조 (Semantic color 기준)
 export const colorTokens = {
   primary: {
     50: 'var(--color-primary-50)',
@@ -266,8 +266,8 @@ export const colorTokens = {
   },
 };
 
-// Scale color의 CSS 값: Primitive colors
-export const scaleColorCSSValues: { [key: string]: string } = {
+// Semantic color의 CSS 값: Primitive colors
+export const semanticColorCSSValues: { [key: string]: string } = {
   'var(--color-primary-50)': 'var(--color-orange-50)',
   'var(--color-primary-100)': 'var(--color-orange-100)',
   'var(--color-primary-200)': 'var(--color-orange-200)',

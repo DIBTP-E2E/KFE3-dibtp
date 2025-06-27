@@ -4,11 +4,11 @@ import { colorTokens, utilityColorCSSValue } from './generated-tokens';
 import { StoryPage, PageTitle, ColorList, ColorPalette } from '../../storybook-components';
 
 const meta: Meta = {
-  title: 'Design System/Design Tokens/Colors/Scale Colors',
+  title: 'Design System/Design Tokens/Colors/Semantic Colors',
   parameters: {
     docs: {
       description: {
-        component: '디자인 시스템에서 사용하는 Scale Color의 토큰들을 확인할 수 있습니다.',
+        component: '디자인 시스템에서 사용하는 Semantic Color의 토큰들을 확인할 수 있습니다.',
       },
     },
     layout: 'fullscreen',
@@ -19,10 +19,10 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const ScaleColorsTokens: Story = {
+export const SemanticColorsTokens: Story = {
   render: () => (
     <StoryPage>
-      <PageTitle>🎨 Design Tokens - Scale Colors (준 Semantic) </PageTitle>
+      <PageTitle>🎨 Design Tokens - Semantic Colors </PageTitle>
 
       <ColorList
         title="Use Primary (for Branding)"
@@ -113,7 +113,7 @@ export const PrimaryColorsTokens: Story = {
         ]}
       />
 
-      <ColorPalette type="scale" title="Primary Colors Palette" colorSet={colorTokens.primary} />
+      <ColorPalette type="semantic" title="Primary Colors Palette" colorSet={colorTokens.primary} />
     </StoryPage>
   ),
 };
@@ -132,7 +132,7 @@ export const SecondaryColorsTokens: Story = {
       />
 
       <ColorPalette
-        type="scale"
+        type="semantic"
         title="Secondary Colors (보조 컬러)"
         colorSet={colorTokens.secondary}
       />
@@ -174,7 +174,11 @@ export const NeutralColorsTokens: Story = {
         ]}
       />
 
-      <ColorPalette type="scale" title="Neutral Colors (회색조)" colorSet={colorTokens.neutral} />
+      <ColorPalette
+        type="semantic"
+        title="Neutral Colors (회색조)"
+        colorSet={colorTokens.neutral}
+      />
     </StoryPage>
   ),
 };
@@ -193,7 +197,7 @@ export const SuccessColorsTokens: Story = {
       />
 
       <ColorPalette
-        type="scale"
+        type="semantic"
         title="Success Colors (성공 상태)"
         colorSet={colorTokens.success}
       />
@@ -215,11 +219,11 @@ export const DangerColorsTokens: Story = {
       />
 
       <ColorPalette
-        type="scale"
+        type="semantic"
         title="Danger Colors (위험, 경고 상태)"
         colorSet={colorTokens.danger}
       />
-      <ColorPalette type="scale" title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
+      <ColorPalette type="semantic" title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
     </StoryPage>
   ),
 };
@@ -237,7 +241,7 @@ export const ErrorColorsTokens: Story = {
         ]}
       />
 
-      <ColorPalette type="scale" title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
+      <ColorPalette type="semantic" title="Error Colors (에러 상태)" colorSet={colorTokens.error} />
     </StoryPage>
   ),
 };

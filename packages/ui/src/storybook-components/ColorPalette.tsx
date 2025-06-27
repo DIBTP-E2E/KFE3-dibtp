@@ -1,23 +1,21 @@
 import {
-    createColorTokenInfo, 
-    extractColorTypeFromTitle,
-    getScaleColorValue,
+  createColorTokenInfo,
+  extractColorTypeFromTitle,
+  getSemanticColorValue,
 } from '../utils/storybook';
 
-import Section from "./Section";
-import SectionTitle from "./SectionTitle";
+import Section from './Section';
+import SectionTitle from './SectionTitle';
 
 interface ColorPaletteProps {
-  type: 'primitive' | 'scale';
+  type: 'primitive' | 'semantic';
   title: string;
-  colorSet: Record<string, string>
+  colorSet: Record<string, string>;
 }
 
 const ColorPalette = ({ type, title, colorSet }: ColorPaletteProps) => (
   <Section>
-    <SectionTitle>
-      {title}
-    </SectionTitle>
+    <SectionTitle>{title}</SectionTitle>
     <div
       style={{
         display: 'grid',
@@ -26,10 +24,10 @@ const ColorPalette = ({ type, title, colorSet }: ColorPaletteProps) => (
       }}
     >
       {Object.entries(colorSet).map(([key, value]) => {
-        const actualValue = getScaleColorValue(value);
+        const actualValue = getSemanticColorValue(value);
         const colorType = extractColorTypeFromTitle(title);
         const tokenInfo = createColorTokenInfo(key, value, actualValue, colorType);
-        
+
         return (
           <article key={key} style={{ textAlign: 'center' }}>
             <div
@@ -62,12 +60,14 @@ const ColorPalette = ({ type, title, colorSet }: ColorPaletteProps) => (
                   lineHeight: '1.4',
                   display: 'flex',
                   flexFlow: 'column',
-                  gap: '0.125rem'
+                  gap: '0.125rem',
                 }}
               >
-                {type !== 'primitive' && <li aria-label='Scale 변수'>{tokenInfo.cssVariable}</li>}
-                <li aria-label='Primitive 변수'>{tokenInfo.primitiveValue}</li>
-                <li aria-label='Hex 변수'> {tokenInfo.hexValue}</li>
+                {type !== 'primitive' && (
+                  <li aria-label="Semantic 변수">{tokenInfo.cssVariable}</li>
+                )}
+                <li aria-label="Primitive 변수">{tokenInfo.primitiveValue}</li>
+                <li aria-label="Hex 변수"> {tokenInfo.hexValue}</li>
               </ul>
             </div>
           </article>
