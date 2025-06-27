@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { colorTokens, utilityColorCSSValue } from './generated-tokens';
-import { StoryPage, PageTitle, ColorList, ColorPalette } from '../../storybook-components';
+import { StoryPage, PageTitle, ColorList, ColorPalette } from '../../../storybook-components';
 
 const meta: Meta = {
   title: 'Design System/Design Tokens/Colors/Semantic Colors',
