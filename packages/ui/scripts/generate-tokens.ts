@@ -20,7 +20,7 @@ interface ColorGroup {
 interface TokenStructure {
   primitive: { [colorName: string]: ColorGroup };
   scale: { [colorName: string]: ColorGroup };
-  semantic: { [type: string]: ColorGroup };
+  utility: { [type: string]: ColorGroup };
 }
 
 // CSS 변수를 파싱하는 함수
@@ -57,7 +57,7 @@ function structureTokens(variables: Variables): TokenStructure {
   const tokens: TokenStructure = {
     primitive: {},
     scale: {},
-    semantic: {},
+    utility: {},
   };
 
   Object.entries(variables).forEach(([name, value]) => {
@@ -83,14 +83,14 @@ function structureTokens(variables: Variables): TokenStructure {
         }
       }
     }
-    // Semantic colors (text-, bg-, border-)
+    // Utility colors (text-, bg-, border-)
     else if (name.match(/^color-(text|bg|border)-/)) {
       const match = name.match(/^color-([^-]+)-(.+)$/);
       if (match) {
         const [, type, purpose] = match;
         if (type && purpose) {
-          if (!tokens.semantic[type]) tokens.semantic[type] = {};
-          tokens.semantic[type][purpose] = value;
+          if (!tokens.utility[type]) tokens.utility[type] = {};
+          tokens.utility[type][purpose] = value;
         }
       }
     }
@@ -118,8 +118,8 @@ function generateTypeScriptCode(tokens: TokenStructure): string {
   return `// 이 파일은 자동 생성됩니다. 수정하지 마세요.
 // generate-tokens.ts 스크립트에 의해 생성됨
 
-export const semanticColors = {
-${generateObjectCode(tokens.semantic, 0)}
+export const utilityColors = {
+${generateObjectCode(tokens.utility, 0)}
 };
 
 export const scaleColors = {
@@ -130,20 +130,20 @@ export const primitiveColors = {
 ${generateObjectCode(tokens.primitive, 0)}
 };
 
-// Semantic color의 CSS 값
-export const semanticColorCSSValue = {
+// Utility color의 CSS 값
+export const utilityColorCSSValue = {
   text: {
-${Object.entries(tokens.semantic.text || {})
+${Object.entries(tokens.utility.text || {})
   .map(([key]) => `    ${key}: 'var(--color-text-${key})'`)
   .join(',\n')}
   },
   background: {
-${Object.entries(tokens.semantic.bg || {})
+${Object.entries(tokens.utility.bg || {})
   .map(([key]) => `    ${key}: 'var(--color-bg-${key})'`)
   .join(',\n')}
   },
   border: {
-${Object.entries(tokens.semantic.border || {})
+${Object.entries(tokens.utility.border || {})
   .map(([key]) => `    ${key}: 'var(--color-border-${key})'`)
   .join(',\n')}
   }
@@ -192,7 +192,7 @@ ${Object.entries(tokens.scale)
     )
   )
   .concat(
-    Object.entries(tokens.semantic).flatMap(([type, colors]) =>
+    Object.entries(tokens.utility).flatMap(([type, colors]) =>
       Object.entries(colors)
         .filter(([purpose, value]) => !value.includes(`--color-${type}-${purpose}`)) // 순환 참조 제거
         .map(([purpose, value]) => `  'var(--color-${type}-${purpose})': '${value}'`)
@@ -217,22 +217,22 @@ async function generateTokens(): Promise<void> {
       TAILWIND_CONFIG_PATH,
       'design-tokens/color-tokens/scale-colors.css'
     );
-    const semanticColorsPath = path.join(
+    const utilityColorsPath = path.join(
       TAILWIND_CONFIG_PATH,
-      'design-tokens/color-tokens/semantic-colors.css'
+      'design-tokens/color-tokens/utility-colors.css'
     );
 
     const primitiveCSS = fs.readFileSync(primitiveColorsPath, 'utf8');
     const scaleCSS = fs.readFileSync(scaleColorsPath, 'utf8');
-    const semanticCSS = fs.readFileSync(semanticColorsPath, 'utf8');
+    const utilityCSS = fs.readFileSync(utilityColorsPath, 'utf8');
 
     // CSS 변수 파싱
     const primitiveVars = parseCSSVariables(primitiveCSS);
     const scaleVars = parseCSSVariables(scaleCSS);
-    const semanticVars = parseCSSVariables(semanticCSS);
+    const utilityVars = parseCSSVariables(utilityCSS);
 
     // 모든 변수 병합
-    const allVariables = { ...primitiveVars, ...scaleVars, ...semanticVars };
+    const allVariables = { ...primitiveVars, ...scaleVars, ...utilityVars };
 
     // 토큰 구조화
     const tokens = structureTokens(allVariables);
