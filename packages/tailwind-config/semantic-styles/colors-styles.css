@@ -1,9 +1,7 @@
 /**
- * semactic color 토큰을 tailwindcss의 유틸 클래스로 사용하기 위한 설정
+ * utility color 토큰을 tailwindcss의 유틸 클래스로 사용하기 위한 설정
  * 
- * semactic token: @import '../design-tokens/color-tokens/semantic-colors.css';
- * scale token: @import '../design-tokens/color-tokens/scale-colors.css';
- * primitive token: @import '../design-tokens/color-tokens/primitive-colors.css';
+ * color token layer: utility > semantic > primitive
  */
 
 @theme {
