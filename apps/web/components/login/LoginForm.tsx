@@ -12,12 +12,12 @@ import EmailInput from './EmailInput';
 import LoginButton from './LoginButton';
 import PasswordInput from './PasswordInput';
 
-export default function LoginForm() {
+const LoginForm = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
 
@@ -33,7 +33,7 @@ export default function LoginForm() {
         setError(err?.message || '로그인에 실패했습니다.');
       }
     });
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -45,4 +45,6 @@ export default function LoginForm() {
       <LoginButton pending={isPending} />
     </form>
   );
-}
+};
+
+export default LoginForm;

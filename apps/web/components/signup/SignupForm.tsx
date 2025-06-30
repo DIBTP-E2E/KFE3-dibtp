@@ -13,8 +13,7 @@ import NameInput from './NameInput';
 import PasswordInput from './PasswordInput';
 import SignupButton from './SignupButton';
 
-
-export default function SignupForm() {
+const SignupForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -47,4 +46,6 @@ export default function SignupForm() {
       <SignupButton pending={isPending} />
     </form>
   );
-}
+};
+
+export default SignupForm;
