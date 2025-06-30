@@ -1,115 +1,56 @@
-import { useState, useId } from 'react';
-import { MdEmail, MdLock, MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { forwardRef } from 'react';
+import { cn } from '../../../utils/cn';
 
-export interface InputProps {
-  label?: string;
-  type?: 'text' | 'email' | 'password';
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: string;
-  leftIcon?: 'email' | 'password';
-  disabled?: boolean;
-  required?: boolean;
+export interface InputProps extends Omit<React.ComponentProps<'input'>, 'size'> {
+  variant?: 'default' | 'error' | 'success';
+  size?: 'sm' | 'md' | 'lg';
 }
 
-export const Input = ({
-  label,
-  type = 'text',
-  placeholder,
-  value,
-  onChange,
-  error,
-  leftIcon,
-  disabled = false,
-  required = false,
-  ...props
-}: InputProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const inputId = useId();
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, variant = 'default', size = 'md', ...props }, ref) => {
+    return (
+      <input
+        ref={ref}
+        className={cn(
+          // 기본 스타일
+          'w-full border rounded-full',
 
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
+          // 크기별 스타일
+          {
+            'px-sm py-xs font-style-small': size === 'sm',
+            'px-md py-sm font-style-medium': size === 'md',
+            'px-lg py-md font-style-large': size === 'lg',
+          },
 
-  const inputType = type === 'password' && showPassword ? 'text' : type;
+          'placeholder-text-disabled disabled:cursor-not-allowed',
+          'transition-all focus:outline-none focus:ring-1',
 
-  const renderLeftIcon = () => {
-    if (leftIcon === 'email') {
-      return <MdEmail className="w-5 h-5 text-[var(--color-neutral-60)]" />;
-    }
-    if (leftIcon === 'password') {
-      return <MdLock className="w-5 h-5 text-[var(--color-neutral-60)]" />;
-    }
-    return null;
-  };
+          // variant별 스타일
+          {
+            // 기본 상태
+            'border-border-form text-text-base bg-bg-light': variant === 'default',
+            'focus:ring-border-primary focus:border-border-primary': variant === 'default',
 
-  return (
-    <div className="w-full">
-      {/* 라벨 */}
-      {label && (
-        <label
-          htmlFor={inputId}
-          className="block text-sm font-medium text-[var(--color-neutral-70)] mb-2"
-        >
-          {label}
-          {required && <span className="text-[var(--color-red-500)] ml-1">*</span>}
-        </label>
-      )}
+            // 에러 상태
+            'border-border-error text-text-error bg-bg-light': variant === 'error',
+            'focus:ring-border-error focus:border-border-error': variant === 'error',
 
-      {/* 입력 필드 컨테이너 */}
-      <div className="relative">
-        <div
-          className={`
-            flex items-center border rounded-lg px-3 py-2
-            ${error ? 'text-[var(--color-red-500)]' : 'text-[var(--color-neutral-30)]'}
-            ${disabled ? 'bg-[var(--color-neutral-20)]' : 'bg-[var(--color-neutral-0)]'}
-            focus-within:ring-1
-            ${error ? 'focus-within:ring-[var(--color-red-500)]' : 'focus-within:ring-[var(--color-primary-800)]'}
-            ${error ? 'focus-within:text-[var(--color-red-500)]' : 'focus-within:text-[var(--color-primary-800)]'}
-          `}
-        >
-          {/* 왼쪽 아이콘 */}
-          {leftIcon && <div className="mr-3">{renderLeftIcon()}</div>}
+            // 성공 상태
+            'border-border-success text-text-success bg-bg-light': variant === 'success',
+            'focus:ring-border-success focus:border-border-success': variant === 'success',
+          },
 
-          {/* 입력 필드 */}
-          <input
-            id={inputId}
-            type={inputType}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-            required={required}
-            className="flex-1 bg-transparent border-0 outline-none placeholder-[var(--color-neutral-80)] disabled:cursor-not-allowed"
-            {...props}
-          />
+          // 비활성 상태
+          {
+            'bg-bg-disabled border-border-disabled': props.disabled,
+          },
 
-          {/* 비밀번호 보기/숨기기 버튼 */}
-          {type === 'password' && (
-            <button
-              type="button"
-              onClick={handleTogglePassword}
-              className="ml-3 text-[var(--color-neutral-60)] hover:text-[var(--color-neutral-80)]"
-              disabled={disabled}
-              aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
-            >
-              {showPassword ? (
-                <MdVisibilityOff className="w-5 h-5" />
-              ) : (
-                <MdVisibility className="w-5 h-5" />
-              )}
-            </button>
-          )}
-        </div>
-
-        {/* 에러 메시지 */}
-        {error && (
-          <p role="alert" className="mt-1 text-sm text-[var(--color-red-500)]">
-            {error}
-          </p>
+          className
         )}
-      </div>
-    </div>
-  );
-};
+        {...props}
+      />
+    );
+  }
+);
+
+Input.displayName = 'Input';
