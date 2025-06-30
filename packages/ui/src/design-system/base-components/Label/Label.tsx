@@ -1,13 +1,13 @@
-import { cn } from '../../../../utils/cn';
+import { cn } from '../../../utils/cn';
 
-export interface InputLabelProps {
+export interface LabelProps {
   htmlFor: string;
   children: React.ReactNode;
   required?: boolean;
   className?: string;
 }
 
-export const InputLabel = ({ htmlFor, children, required = false, className }: InputLabelProps) => {
+export const Label = ({ htmlFor, children, required = false, className }: LabelProps) => {
   return (
     <label
       htmlFor={htmlFor}

@@ -1,7 +1,7 @@
 import { forwardRef, useId } from 'react';
 import { Input, type InputProps } from './Input';
-import { InputLabel } from './components/InputLabel';
-import { InputMessage } from './components/InputMessage';
+import { Label } from '../Label';
+import { FormMessage } from '../FormMessage';
 
 export interface LabeledInputProps extends InputProps {
   label?: string;
@@ -26,9 +26,9 @@ export const LabeledInput = forwardRef<HTMLInputElement, LabeledInputProps>(
     return (
       <div className="w-full">
         {label && (
-          <InputLabel htmlFor={inputId} required={required}>
+          <Label htmlFor={inputId} required={required}>
             {label}
-          </InputLabel>
+          </Label>
         )}
 
         <div className="relative">
@@ -45,15 +45,15 @@ export const LabeledInput = forwardRef<HTMLInputElement, LabeledInputProps>(
           />
 
           {error && (
-            <InputMessage id={errorId} type="error">
+            <FormMessage id={errorId} type="error">
               {error}
-            </InputMessage>
+            </FormMessage>
           )}
 
           {helperText && !error && (
-            <InputMessage id={helperTextId} type="helper">
+            <FormMessage id={helperTextId} type="helper">
               {helperText}
-            </InputMessage>
+            </FormMessage>
           )}
         </div>
       </div>
