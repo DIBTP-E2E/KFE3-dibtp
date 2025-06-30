@@ -6,9 +6,7 @@ export { LabeledInput, type LabeledInputProps } from './LabeledInput';
 export { PasswordInput, type PasswordInputProps } from './PasswordInput';
 
 // 조합을 위한 하위 컴포넌트들
-export { InputLabel, type InputLabelProps } from './components/InputLabel';
 export { PasswordToggle, type PasswordToggleProps } from './components/PasswordToggle';
-export { InputMessage, type InputMessageProps } from './components/InputMessage';
 
 // 훅
 export { useInputState, type UseInputStateProps } from './hooks/useInputState';
