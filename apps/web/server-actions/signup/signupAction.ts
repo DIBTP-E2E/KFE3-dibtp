@@ -1,11 +1,9 @@
 'use server';
 
-import { redirect } from 'next/navigation';
+import { setServerSession } from '@/services/login/setServerSession';
+import { createUserAccount } from '@/services/signup/createUserAccount';
 
-import { setServerSession } from '../../services/login/setServerSession';
-import { createUserAccount } from '../../services/signup/createUserAccount';
-
-export async function signupAction(formData: FormData) {
+export async function signupAction(formData: FormData): Promise<{ success: true } | never> {
   const nickname = formData.get('nickname') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
@@ -13,12 +11,9 @@ export async function signupAction(formData: FormData) {
   try {
     await createUserAccount({ email, password, nickname });
     await setServerSession(email, password);
-    redirect('/');
+    return { success: true };
   } catch (err) {
-    let errorCode = 'signup_failed';
-    if (err instanceof Error) {
-      errorCode = err.message;
-    }
-    redirect(`/signup?error=${errorCode}`);
+    const message = err instanceof Error ? err.message : '회원가입에 실패했습니다.';
+    throw new Error(message);
   }
 }
