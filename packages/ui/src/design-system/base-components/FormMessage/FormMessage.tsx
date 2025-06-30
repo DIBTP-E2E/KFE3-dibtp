@@ -1,12 +1,12 @@
 import { MdCheckCircle, MdInfo } from 'react-icons/md';
 
-export interface InputMessageProps {
+export interface FormMessageProps {
   id?: string;
   type: 'error' | 'success' | 'helper';
   children: React.ReactNode;
 }
 
-export const InputMessage = ({ id, type, children }: InputMessageProps) => {
+export const FormMessage = ({ id, type, children }: FormMessageProps) => {
   if (type === 'error') {
     return (
       <p id={id} role="alert" className="mt-xs font-style-small text-text-error">
