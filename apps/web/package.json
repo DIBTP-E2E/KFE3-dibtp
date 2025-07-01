@@ -12,7 +12,7 @@
     "storybook:dev": "storybook dev -p 6008",
     "storybook:build": "storybook build",
     "postinstall": "prisma generate",
-    "prismaPull": "dotenv -e .env.local prisma db pull"
+    "prisma-pull": "dotenv -e .env.local prisma db pull"
   },
   "dependencies": {
     "@apps/docs": "workspace:*",
