@@ -9,7 +9,14 @@
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
-    "./*": "./dist/*.js"
+    "./design-system/base-components/*": {
+      "types": "./dist/design-system/base-components/*/index.d.ts",
+      "import": "./dist/design-system/base-components/*/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js"
+    }
   },
   "license": "MIT",
   "scripts": {
