@@ -1,4 +1,4 @@
-import { LabeledInput } from '@repo/ui/components/Input';
+import { LabeledInput } from '@repo/ui/components';
 
 const ProductsPage = () => {
   return (

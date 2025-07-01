@@ -13,6 +13,10 @@
       "types": "./dist/design-system/base-components/*/index.d.ts",
       "import": "./dist/design-system/base-components/*/index.js"
     },
+    "./components": {
+      "types": "./dist/design-system/base-components/*/index.d.ts",
+      "import": "./dist/design-system/base-components/*/index.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "import": "./dist/*.js"
