@@ -3,7 +3,11 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "./src",
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["src", "**/*.cjs", "postcss.config.mjs", "postcss.config.js"],
   "exclude": ["dist", "build", "node_modules"]
