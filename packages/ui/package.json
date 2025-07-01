@@ -9,7 +9,7 @@
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
-    "./design-system/base-components/*": {
+    "./components/*": {
       "types": "./dist/design-system/base-components/*/index.d.ts",
       "import": "./dist/design-system/base-components/*/index.js"
     },
