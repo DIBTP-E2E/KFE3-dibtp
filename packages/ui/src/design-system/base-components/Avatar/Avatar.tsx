@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { forwardRef } from 'react';
-import { cn } from '../../../utils/cn'; // 클래스명 유틸리티 함수
+import Image from 'next/image';
+import { cn } from '@/utils/cn';
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   src?: string; // 프로필 이미지 URL

@@ -2,7 +2,7 @@ import { forwardRef, useId } from 'react';
 import { Input, type InputProps } from './Input';
 import { PasswordToggle } from './components/PasswordToggle';
 import { useInputState } from './hooks/useInputState';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/utils/cn';
 
 export interface PasswordInputProps extends Omit<InputProps, 'type'> {
   error?: boolean;
