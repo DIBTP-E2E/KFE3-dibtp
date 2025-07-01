@@ -4,7 +4,7 @@ CREATE TABLE "bids" (
     "bid_price" BIGINT NOT NULL,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "bid_id" BIGSERIAL NOT NULL,
-    "bidder_user_id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "bidder_user_id" UUID NOT NULL,
 
     CONSTRAINT "bids_pkey" PRIMARY KEY ("bid_id")
 );
@@ -38,7 +38,6 @@ CREATE TABLE "product_images" (
     "image_id" BIGSERIAL NOT NULL,
     "product_id" BIGINT NOT NULL,
     "image_url" TEXT NOT NULL,
-    "image_type" VARCHAR NOT NULL,
     "image_order" SMALLINT NOT NULL DEFAULT 0,
     "created_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
