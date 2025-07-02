@@ -11,8 +11,8 @@
     "check-types": "tsc --noEmit",
     "storybook:dev": "storybook dev -p 6008",
     "storybook:build": "storybook build",
-    "postinstall": "prisma generate",
-    "prisma-pull": "dotenv -e .env.local prisma db pull"
+    "postinstall": "prisma generate --schema=./lib/prisma/schema.prisma",
+    "prisma-pull": "npx dotenv-cli -e .env.local -- npx prisma db pull --schema=./lib/prisma/schema.prisma"
   },
   "dependencies": {
     "@apps/docs": "workspace:*",
@@ -41,6 +41,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
     "autoprefixer": "^10.4.20",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^9.28.0",
     "eslint-plugin-storybook": "^9.0.6",
     "kakao.maps.d.ts": "^0.1.40",
