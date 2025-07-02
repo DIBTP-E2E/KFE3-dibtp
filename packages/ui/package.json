@@ -14,8 +14,8 @@
       "import": "./dist/design-system/base-components/*/index.js"
     },
     "./components": {
-      "types": "./dist/design-system/base-components/*/index.d.ts",
-      "import": "./dist/design-system/base-components/*/index.js"
+      "types": "./dist/design-system/base-components/index.d.ts",
+      "import": "./dist/design-system/base-components/index.js"
     },
     "./*": {
       "types": "./dist/*.d.ts",
@@ -25,7 +25,7 @@
   "license": "MIT",
   "scripts": {
     "build:styles": "tailwindcss -i ./src/globals.css -o ./dist/index.css",
-    "build:components": "tsc",
+    "build:components": "tsc && tsc-alias",
     "check-types": "tsc --noEmit",
     "dev:styles": "tailwindcss -i ./src/globals.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
@@ -63,6 +63,7 @@
     "postcss": "^8.5.3",
     "storybook": "^9.0.6",
     "tailwindcss": "^4.1.5",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.19.2",
     "typescript": "5.8.2"
   }
