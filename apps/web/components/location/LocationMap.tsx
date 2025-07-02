@@ -41,7 +41,7 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
 
   if (error) {
     return (
-      <div className="w-full h-80 bg-bg-neutral rounded-lg flex items-center justify-center">
+      <div className="w-full h-80 bg-bg-base rounded-lg flex items-center justify-center">
         <p className="text-text-danger">{error}</p>
       </div>
     );
@@ -49,9 +49,9 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
 
   return (
     <div className="relative">
-      <div ref={mapRef} className="w-full h-80 bg-bg-neutral rounded-lg" />
+      <div ref={mapRef} className="w-full h-80 bg-bg-base rounded-lg" />
       {!isLoaded && (
-        <div className="absolute inset-0 bg-bg-neutral rounded-lg flex items-center justify-center">
+        <div className="absolute inset-0 bg-bg-base rounded-lg flex items-center justify-center">
           <p>지도를 로딩 중...</p>
         </div>
       )}

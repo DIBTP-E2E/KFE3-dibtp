@@ -17,7 +17,7 @@ const LocationMapContainer = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-sm bg-bg-neutral p-sm rounded-lg mb-7xl">
+      <div className="flex flex-col gap-sm bg-bg-base p-sm rounded-lg mb-7xl">
         <LocationMap onLocationSelect={handleLocationSelect} />
         {selectedLocation && <LocationDisplay location={selectedLocation} />}
       </div>

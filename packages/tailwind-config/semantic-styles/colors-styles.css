@@ -17,7 +17,7 @@
   --color-text-disabled: var(--color-text-disabled);
   --color-text-error: var(--color-text-error);
 
-  /* Background Colors: bg-* 유틸 클래스 (bg-bg-neutral, bg-bg-light) */
+  /* Background Colors: bg-* 유틸 클래스 (bg-bg-base, bg-bg-light) */
   --color-bg-light: var(--color-bg-light);
   --color-bg-base: var(--color-bg-base);
 

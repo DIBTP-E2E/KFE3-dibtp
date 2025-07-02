@@ -6,7 +6,7 @@ interface LocationDisplayProps {
   location: Location;
 }
 
-export const LocationDisplay = ({ location }: LocationDisplayProps) => {
+const LocationDisplay = ({ location }: LocationDisplayProps) => {
   return (
     <div className="flex items-start">
       {/* <MapPin className="h-5 w-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" /> */}
