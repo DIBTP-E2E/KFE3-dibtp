@@ -87,7 +87,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           className={`
             w-full border rounded-lg
             placeholder-text-disabled disabled:cursor-not-allowed
-            transition-all duration-[--transition-duration-fast]
+            transition-all
             focus:outline-none focus:ring-1
             ${getSizeStyles()}
             ${getVariantStyles()}

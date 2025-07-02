@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
 
 export interface LabelProps {
-  htmlFor: string;
+  htmlFor?: string;
   children: React.ReactNode;
   required?: boolean;
   className?: string;
