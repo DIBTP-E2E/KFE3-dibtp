@@ -1,6 +1,7 @@
 'use server';
 
-import { updateUserLocation } from '@/services';
+import { updateUserLocation } from '@/services/location';
+
 import type { Location } from '@/types';
 import { getAuthenticatedUser, handleError, validateLocationData } from '@/utils';
 
