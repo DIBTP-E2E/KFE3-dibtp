@@ -51,7 +51,7 @@ const ProductImageCarousel = ({ images }: ProductImageCarouselProps) => {
 
   return (
     <div
-      className="relative w-full overflow-hidden aspect-square"
+      className="relative w-full overflow-hidden aspect-[4/3]"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
