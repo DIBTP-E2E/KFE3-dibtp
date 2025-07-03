@@ -1,11 +1,12 @@
+import type { ElementType } from 'react';
 import { cn } from '@/utils/cn';
 
-export interface ButtonOwnProps {
+export interface ButtonOwnProps<T extends ElementType = 'button'> {
   children: React.ReactNode;
 
   // div, span은 react-router-dom의 <Link>와 함께 사용할 때 <a> 태그 중복 방지를 위해 사용.
   // Next.js의 <Link>는 자식이 <a> 태그일 경우 a 요소 중복이 자동 제거됨. <a> 태그 사용 권장. 불 필요한 div, span 사용 방지.
-  as?: 'button' | 'a' | 'div' | 'span';
+  as?: T;
 
   // 스타일 정의
   color?: 'primary' | 'secondary' | 'danger';
@@ -17,16 +18,10 @@ export interface ButtonOwnProps {
   isFullWidth?: boolean;
 }
 
-type HTMLButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
-type HTMLAnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement>;
-type HTMLDivProps = React.HTMLAttributes<HTMLDivElement>;
-type HTMLSpanProps = React.HTMLAttributes<HTMLSpanElement>;
+type ButtonProps<T extends ElementType = 'button'> = ButtonOwnProps<T> &
+  Omit<React.ComponentPropsWithoutRef<T>, keyof ButtonOwnProps<T>>;
 
-export type ButtonProps =
-  | (ButtonOwnProps & { as?: 'button' } & HTMLButtonProps)
-  | (ButtonOwnProps & { as: 'a' } & HTMLAnchorProps)
-  | (ButtonOwnProps & { as: 'div' } & HTMLDivProps)
-  | (ButtonOwnProps & { as: 'span' } & HTMLSpanProps);
+export type { ButtonProps };
 
 const DEFAULT_CLASSES = 'flex items-center justify-center gap-x-sm';
 const SIZE_CLASSES = {
@@ -56,8 +51,8 @@ const COLOR_CLASSES = {
   },
 };
 
-const Button = ({
-  as = 'button',
+const Button = <T extends ElementType = 'button'>({
+  as = 'button' as T,
   children,
   color = 'primary',
   variant = 'fulled',
@@ -67,7 +62,9 @@ const Button = ({
   isDisabled = false,
   isFullWidth = true,
   ...restprops
-}: ButtonProps) => {
+}: ButtonProps<T>) => {
+  const Component = (as || 'button') as ElementType;
+
   const commonClasses = cn(
     DEFAULT_CLASSES,
     SIZE_CLASSES[size],
@@ -78,45 +75,15 @@ const Button = ({
     isDisabled && 'bg-bg-disabled text-text-disabled border-border-disabled'
   );
 
-  if (as === 'button') {
-    const { ...buttonProps } = restprops as HTMLButtonProps;
-
-    return (
-      <button className={commonClasses} disabled={isDisabled} {...buttonProps}>
-        {children}
-      </button>
-    );
-  }
-
-  if (as === 'a') {
-    const { ...anchorProps } = restprops as HTMLAnchorProps;
-
-    return (
-      <a className={commonClasses} {...anchorProps}>
-        {children}
-      </a>
-    );
-  }
-
-  if (as === 'div') {
-    const { ...divProps } = restprops as HTMLDivProps;
-
-    return (
-      <div className={commonClasses} {...divProps}>
-        {children}
-      </div>
-    );
-  }
-
-  if (as === 'span') {
-    const { ...spanProps } = restprops as HTMLSpanProps;
-
-    return (
-      <span className={commonClasses} {...spanProps}>
-        {children}
-      </span>
-    );
-  }
+  return (
+    <Component
+      className={commonClasses}
+      disabled={as === 'button' ? isDisabled : undefined}
+      {...restprops}
+    >
+      {children}
+    </Component>
+  );
 };
 
 Button.displayName = 'Button';

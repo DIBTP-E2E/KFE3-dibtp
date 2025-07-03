@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import Button, { type ButtonProps } from './Button';
 
-const meta: Meta<ButtonProps> = {
+const meta: Meta<ButtonProps<'button'>> = {
   title: 'Design System/Base Components/Button',
   component: Button,
   parameters: {
@@ -70,10 +70,6 @@ const meta: Meta<ButtonProps> = {
       control: 'boolean',
       description: '버튼이 전체 너비를 차지할지 설정하세요.',
     },
-    href: {
-      control: 'text',
-      description: 'as="a"일 때 링크 URL을 설정하세요.',
-    },
     rounded: {
       control: { type: 'select' },
       options: ['none', 'sm', 'md', 'lg', 'full'],
@@ -106,7 +102,7 @@ const meta: Meta<ButtonProps> = {
 
 export default meta;
 
-type Story = StoryObj<ButtonProps>;
+type Story = StoryObj<ButtonProps<'button'>>;
 
 export const PrimaryFilled: Story = {
   args: {
@@ -190,7 +186,10 @@ export const NotFullWidth: Story = {
   },
 };
 
-export const AsAnchor: Story = {
+// Anchor 타입을 위한 별도 스토리 타입 정의
+type AnchorStory = StoryObj<ButtonProps<'a'>>;
+
+export const AsAnchor: AnchorStory = {
   args: {
     children: 'Anchor Button',
     color: 'primary',
@@ -198,6 +197,13 @@ export const AsAnchor: Story = {
     size: 'md',
     as: 'a',
     href: '#',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'as="a"로 사용하여 링크 기능을 제공하는 버튼입니다. href 속성을 사용할 수 있습니다.',
+      },
+    },
   },
 };
 
