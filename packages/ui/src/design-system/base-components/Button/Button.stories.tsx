@@ -50,11 +50,11 @@ const meta: Meta<ButtonProps<'button'>> = {
     },
     size: {
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg'],
+      options: ['sm', 'md', 'lg', 'xl'],
       description: '버튼의 크기를 선택하세요.',
       table: {
-        type: { summary: 'sm | md | lg' },
-        defaultValue: { summary: 'lg' },
+        type: { summary: 'sm | md | lg | xl' },
+        defaultValue: { summary: 'xl' },
       },
     },
     as: {
@@ -72,10 +72,10 @@ const meta: Meta<ButtonProps<'button'>> = {
     },
     rounded: {
       control: { type: 'select' },
-      options: ['none', 'sm', 'md', 'lg', 'full'],
+      options: ['none', 'sm', 'md', 'lg', 'xl', 'full'],
       description: '버튼의 모서리 둥글기를 선택하세요.',
       table: {
-        type: { summary: 'none | sm | md | lg | full' },
+        type: { summary: 'none | sm | md | lg | xl | full' },
         defaultValue: { summary: 'full' },
       },
     },
@@ -92,7 +92,7 @@ const meta: Meta<ButtonProps<'button'>> = {
     children: '버튼',
     color: 'primary',
     variant: 'fulled',
-    size: 'md',
+    size: 'xl',
     as: 'button',
     rounded: 'full',
     isDisabled: false,
@@ -109,7 +109,7 @@ export const PrimaryFilled: Story = {
     children: 'Primary Filled',
     color: 'primary',
     variant: 'fulled',
-    size: 'md',
+    size: 'xl',
     as: 'button',
   },
 };
@@ -119,7 +119,7 @@ export const SecondaryFilled: Story = {
     children: 'Secondary Filled',
     color: 'secondary',
     variant: 'fulled',
-    size: 'md',
+    size: 'xl',
     as: 'button',
   },
 };
@@ -129,7 +129,7 @@ export const DangerFilled: Story = {
     children: 'Danger Filled',
     color: 'danger',
     variant: 'fulled',
-    size: 'md',
+    size: 'xl',
     as: 'button',
   },
 };
@@ -139,7 +139,7 @@ export const PrimaryOutlined: Story = {
     children: 'Primary Outlined',
     color: 'primary',
     variant: 'outlined',
-    size: 'md',
+    size: 'xl',
     as: 'button',
   },
 };
@@ -149,7 +149,7 @@ export const SecondaryOutlined: Story = {
     children: 'Secondary Outlined',
     color: 'secondary',
     variant: 'outlined',
-    size: 'md',
+    size: 'xl',
     as: 'button',
   },
 };
@@ -159,7 +159,7 @@ export const DangerOutlined: Story = {
     children: 'Danger Outlined',
     color: 'danger',
     variant: 'outlined',
-    size: 'md',
+    size: 'xl',
     as: 'button',
   },
 };
@@ -169,7 +169,7 @@ export const Disabled: Story = {
     children: 'Disabled Button',
     color: 'primary',
     variant: 'fulled',
-    size: 'md',
+    size: 'xl',
     as: 'button',
     isDisabled: true,
   },
@@ -180,7 +180,7 @@ export const NotFullWidth: Story = {
     children: 'Not Full Width',
     color: 'primary',
     variant: 'fulled',
-    size: 'md',
+    size: 'xl',
     as: 'button',
     isFullWidth: false,
   },
@@ -194,7 +194,7 @@ export const AsAnchor: AnchorStory = {
     children: 'Anchor Button',
     color: 'primary',
     variant: 'fulled',
-    size: 'md',
+    size: 'xl',
     as: 'a',
     href: '#',
   },
@@ -247,14 +247,17 @@ export const AllSizes: Story = {
   render: () => (
     <div className="flex w-full flex-col gap-4">
       <div className="flex items-center gap-2">
-        <Button color="primary" variant="fulled" size="sm">
+        <Button color="primary" variant="fulled" size="sm" isFullWidth={false}>
           Small
         </Button>
-        <Button color="primary" variant="fulled" size="md">
+        <Button color="primary" variant="fulled" size="md" isFullWidth={false}>
           Medium
         </Button>
-        <Button color="primary" variant="fulled" size="lg">
+        <Button color="primary" variant="fulled" size="lg" isFullWidth={false}>
           Large
+        </Button>
+        <Button color="primary" variant="fulled" size="xl" isFullWidth={false}>
+          Extra Large
         </Button>
       </div>
     </div>
@@ -262,7 +265,7 @@ export const AllSizes: Story = {
   parameters: {
     docs: {
       description: {
-        story: '버튼의 모든 크기를 비교해볼 수 있습니다.',
+        story: '버튼의 모든 크기를 비교해볼 수 있습니다 (sm < md < lg < xl).',
       },
     },
   },
@@ -284,6 +287,9 @@ export const RoundedComparison: Story = {
         <Button color="primary" variant="fulled" size="md" rounded="lg" isFullWidth={false}>
           Large
         </Button>
+        <Button color="primary" variant="fulled" size="md" rounded="xl" isFullWidth={false}>
+          Extra Large
+        </Button>
         <Button color="primary" variant="fulled" size="md" rounded="full" isFullWidth={false}>
           Full
         </Button>
@@ -301,8 +307,45 @@ export const RoundedComparison: Story = {
         <Button color="primary" variant="outlined" size="md" rounded="lg" isFullWidth={false}>
           Large
         </Button>
+        <Button color="primary" variant="outlined" size="md" rounded="xl" isFullWidth={false}>
+          Extra Large
+        </Button>
         <Button color="primary" variant="outlined" size="md" rounded="full" isFullWidth={false}>
           Full
+        </Button>
+      </div>
+      <div className="flex flex-wrap flex-col gap-2 items-start">
+        <Button color="primary" variant="fulled" size="sm" rounded="sm" isFullWidth={false}>
+          Small Size Small Rounded
+        </Button>
+        <Button color="primary" variant="fulled" size="md" rounded="md" isFullWidth={false}>
+          Medium Size Medium Rounded
+        </Button>
+        <Button color="primary" variant="fulled" size="lg" rounded="lg" isFullWidth={false}>
+          Large Size Large Rounded
+        </Button>
+        <Button color="primary" variant="fulled" size="xl" rounded="xl" isFullWidth={false}>
+          Extra Large Size Extra Large Rounded
+        </Button>
+        <Button color="primary" variant="fulled" size="xl" rounded="full" isFullWidth={false}>
+          Extra Large Size Full Rounded
+        </Button>
+      </div>
+      <div className="flex flex-wrap flex-col gap-2 items-start">
+        <Button color="primary" variant="outlined" size="sm" rounded="sm" isFullWidth={false}>
+          Small Size Small Rounded
+        </Button>
+        <Button color="primary" variant="outlined" size="md" rounded="md" isFullWidth={false}>
+          Medium Size Medium Rounded
+        </Button>
+        <Button color="primary" variant="outlined" size="lg" rounded="lg" isFullWidth={false}>
+          Large Size Large Rounded
+        </Button>
+        <Button color="primary" variant="outlined" size="xl" rounded="xl" isFullWidth={false}>
+          Extra Large Size Extra Large Rounded
+        </Button>
+        <Button color="primary" variant="outlined" size="xl" rounded="full" isFullWidth={false}>
+          Extra Large Size Full Rounded
         </Button>
       </div>
     </div>
@@ -311,7 +354,7 @@ export const RoundedComparison: Story = {
     docs: {
       description: {
         story:
-          '버튼의 다양한 모서리 둥글기 옵션을 비교해볼 수 있습니다. (none < sm < md < lg < full)',
+          '버튼의 다양한 모서리 둥글기 옵션을 비교해볼 수 있습니다. (none < sm < md < lg < xl < full)',
       },
     },
   },

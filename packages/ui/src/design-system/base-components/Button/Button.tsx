@@ -11,8 +11,8 @@ export interface ButtonOwnProps<T extends ElementType = 'button'> {
   // 스타일 정의
   color?: 'primary' | 'secondary' | 'danger';
   variant?: 'fulled' | 'outlined';
-  size?: 'sm' | 'md' | 'lg';
-  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   className?: string;
   isDisabled?: boolean;
   isFullWidth?: boolean;
@@ -26,14 +26,16 @@ export type { ButtonProps };
 const DEFAULT_CLASSES = 'flex items-center justify-center gap-x-sm';
 const SIZE_CLASSES = {
   sm: 'font-style-small px-sm h-[32px]',
-  md: 'font-style-medium px-md h-[40px]',
+  md: 'font-style-medium px-md h-[44px]',
   lg: 'font-style-large px-lg h-[48px]',
+  xl: 'font-style-extra-large px-lg h-[60px]',
 };
 const ROUNDED_CLASSES = {
   none: 'rounded-none',
   sm: 'rounded-sm',
   md: 'rounded-lg',
-  lg: 'rounded-xl',
+  lg: 'rounded-lg',
+  xl: 'rounded-xl',
   full: 'rounded-full',
 };
 const COLOR_CLASSES = {
@@ -56,7 +58,7 @@ const Button = <T extends ElementType = 'button'>({
   children,
   color = 'primary',
   variant = 'fulled',
-  size = 'lg',
+  size = 'xl',
   rounded = 'full',
   className,
   isDisabled = false,
@@ -67,8 +69,8 @@ const Button = <T extends ElementType = 'button'>({
 
   const commonClasses = cn(
     DEFAULT_CLASSES,
-    SIZE_CLASSES[size],
     COLOR_CLASSES[color][variant],
+    SIZE_CLASSES[size],
     ROUNDED_CLASSES[rounded],
     className,
     isFullWidth && 'w-full',
