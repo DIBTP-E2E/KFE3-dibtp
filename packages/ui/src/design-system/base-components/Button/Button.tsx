@@ -8,14 +8,10 @@ export interface ButtonOwnProps {
   as?: 'button' | 'a' | 'div' | 'span';
 
   // 스타일 정의
-  variant:
-    | 'primaryFulled'
-    | 'secondaryFulled'
-    | 'dangerFulled'
-    | 'primaryOutlined'
-    | 'secondaryOutlined'
-    | 'dangerOutlined';
-  size: 'sm' | 'md' | 'lg';
+  color?: 'primary' | 'secondary' | 'danger';
+  variant?: 'fulled' | 'outlined';
+  size?: 'sm' | 'md' | 'lg';
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
   className?: string;
   isDisabled?: boolean;
   isFullWidth?: boolean;
@@ -32,26 +28,41 @@ export type ButtonProps =
   | (ButtonOwnProps & { as: 'div' } & HTMLDivProps)
   | (ButtonOwnProps & { as: 'span' } & HTMLSpanProps);
 
-const DEFAULT_CLASSES = 'rounded-lg flex items-center justify-center gap-x-sm';
+const DEFAULT_CLASSES = 'flex items-center justify-center gap-x-sm';
 const SIZE_CLASSES = {
   sm: 'font-style-small px-sm h-[32px]',
   md: 'font-style-medium px-md h-[40px]',
   lg: 'font-style-large px-lg h-[48px]',
 };
-const VARIANT_CLASSES = {
-  primaryFulled: 'bg-bg-primary text-text-inverse',
-  secondaryFulled: 'bg-bg-secondary text-text-inverse',
-  dangerFulled: 'bg-bg-danger text-text-inverse',
-  primaryOutlined: 'bg-white border border-border-primary text-text-primary',
-  secondaryOutlined: 'bg-white border border-border-secondary text-text-secondary',
-  dangerOutlined: 'bg-white border border-border-danger text-text-danger',
+const ROUNDED_CLASSES = {
+  none: 'rounded-none',
+  sm: 'rounded-sm',
+  md: 'rounded-lg',
+  lg: 'rounded-xl',
+  full: 'rounded-full',
+};
+const COLOR_CLASSES = {
+  primary: {
+    fulled: 'bg-bg-primary text-text-inverse',
+    outlined: 'bg-white border border-border-primary text-text-primary',
+  },
+  secondary: {
+    fulled: 'bg-bg-secondary text-text-inverse',
+    outlined: 'bg-white border border-border-secondary text-text-secondary',
+  },
+  danger: {
+    fulled: 'bg-bg-danger text-text-inverse',
+    outlined: 'bg-white border border-border-danger text-text-danger',
+  },
 };
 
 const Button = ({
   as = 'button',
   children,
-  variant,
-  size,
+  color = 'primary',
+  variant = 'fulled',
+  size = 'lg',
+  rounded = 'full',
   className,
   isDisabled = false,
   isFullWidth = true,
@@ -60,10 +71,11 @@ const Button = ({
   const commonClasses = cn(
     DEFAULT_CLASSES,
     SIZE_CLASSES[size],
-    VARIANT_CLASSES[variant],
+    COLOR_CLASSES[color][variant],
+    ROUNDED_CLASSES[rounded],
     className,
     isFullWidth && 'w-full',
-    isDisabled && 'bg-bg-disabled text-text-disabled'
+    isDisabled && 'bg-bg-disabled text-text-disabled border-border-disabled'
   );
 
   if (as === 'button') {

@@ -30,22 +30,32 @@ const meta: Meta<ButtonProps> = {
   tags: ['autodocs'],
   excludeStories: /.*Data$/,
   argTypes: {
+    color: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'danger'],
+      description: '버튼의 색상을 선택하세요.',
+      table: {
+        type: { summary: 'primary | secondary | danger' },
+        defaultValue: { summary: 'primary' },
+      },
+    },
     variant: {
       control: { type: 'select' },
-      options: [
-        'primaryFulled',
-        'secondaryFulled',
-        'dangerFulled',
-        'primaryOutlined',
-        'secondaryOutlined',
-        'dangerOutlined',
-      ],
+      options: ['fulled', 'outlined'],
       description: '버튼의 스타일 변형을 선택하세요.',
+      table: {
+        type: { summary: 'fulled | outlined' },
+        defaultValue: { summary: 'fulled' },
+      },
     },
     size: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
       description: '버튼의 크기를 선택하세요.',
+      table: {
+        type: { summary: 'sm | md | lg' },
+        defaultValue: { summary: 'lg' },
+      },
     },
     as: {
       control: { type: 'select' },
@@ -64,6 +74,15 @@ const meta: Meta<ButtonProps> = {
       control: 'text',
       description: 'as="a"일 때 링크 URL을 설정하세요.',
     },
+    rounded: {
+      control: { type: 'select' },
+      options: ['none', 'sm', 'md', 'lg', 'full'],
+      description: '버튼의 모서리 둥글기를 선택하세요.',
+      table: {
+        type: { summary: 'none | sm | md | lg | full' },
+        defaultValue: { summary: 'full' },
+      },
+    },
     className: {
       control: 'text',
       description: '추가 CSS 클래스를 입력하세요.',
@@ -75,9 +94,11 @@ const meta: Meta<ButtonProps> = {
   },
   args: {
     children: '버튼',
-    variant: 'primaryFulled',
+    color: 'primary',
+    variant: 'fulled',
     size: 'md',
     as: 'button',
+    rounded: 'full',
     isDisabled: false,
     isFullWidth: true,
   },
@@ -90,7 +111,8 @@ type Story = StoryObj<ButtonProps>;
 export const PrimaryFilled: Story = {
   args: {
     children: 'Primary Filled',
-    variant: 'primaryFulled',
+    color: 'primary',
+    variant: 'fulled',
     size: 'md',
     as: 'button',
   },
@@ -99,7 +121,8 @@ export const PrimaryFilled: Story = {
 export const SecondaryFilled: Story = {
   args: {
     children: 'Secondary Filled',
-    variant: 'secondaryFulled',
+    color: 'secondary',
+    variant: 'fulled',
     size: 'md',
     as: 'button',
   },
@@ -108,7 +131,8 @@ export const SecondaryFilled: Story = {
 export const DangerFilled: Story = {
   args: {
     children: 'Danger Filled',
-    variant: 'dangerFulled',
+    color: 'danger',
+    variant: 'fulled',
     size: 'md',
     as: 'button',
   },
@@ -117,7 +141,8 @@ export const DangerFilled: Story = {
 export const PrimaryOutlined: Story = {
   args: {
     children: 'Primary Outlined',
-    variant: 'primaryOutlined',
+    color: 'primary',
+    variant: 'outlined',
     size: 'md',
     as: 'button',
   },
@@ -126,7 +151,8 @@ export const PrimaryOutlined: Story = {
 export const SecondaryOutlined: Story = {
   args: {
     children: 'Secondary Outlined',
-    variant: 'secondaryOutlined',
+    color: 'secondary',
+    variant: 'outlined',
     size: 'md',
     as: 'button',
   },
@@ -135,7 +161,8 @@ export const SecondaryOutlined: Story = {
 export const DangerOutlined: Story = {
   args: {
     children: 'Danger Outlined',
-    variant: 'dangerOutlined',
+    color: 'danger',
+    variant: 'outlined',
     size: 'md',
     as: 'button',
   },
@@ -144,7 +171,8 @@ export const DangerOutlined: Story = {
 export const Disabled: Story = {
   args: {
     children: 'Disabled Button',
-    variant: 'primaryFulled',
+    color: 'primary',
+    variant: 'fulled',
     size: 'md',
     as: 'button',
     isDisabled: true,
@@ -154,7 +182,8 @@ export const Disabled: Story = {
 export const NotFullWidth: Story = {
   args: {
     children: 'Not Full Width',
-    variant: 'primaryFulled',
+    color: 'primary',
+    variant: 'fulled',
     size: 'md',
     as: 'button',
     isFullWidth: false,
@@ -164,7 +193,8 @@ export const NotFullWidth: Story = {
 export const AsAnchor: Story = {
   args: {
     children: 'Anchor Button',
-    variant: 'primaryFulled',
+    color: 'primary',
+    variant: 'fulled',
     size: 'md',
     as: 'a',
     href: '#',
@@ -175,24 +205,24 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex w-full flex-col gap-4">
       <div className="flex flex-wrap gap-2">
-        <Button variant="primaryFulled" size="md">
+        <Button color="primary" variant="fulled" size="md">
           Primary Filled
         </Button>
-        <Button variant="secondaryFulled" size="md">
+        <Button color="secondary" variant="fulled" size="md">
           Secondary Filled
         </Button>
-        <Button variant="dangerFulled" size="md">
+        <Button color="danger" variant="fulled" size="md">
           Danger Filled
         </Button>
       </div>
       <div className="flex flex-wrap gap-2">
-        <Button variant="primaryOutlined" size="md">
+        <Button color="primary" variant="outlined" size="md">
           Primary Outlined
         </Button>
-        <Button variant="secondaryOutlined" size="md">
+        <Button color="secondary" variant="outlined" size="md">
           Secondary Outlined
         </Button>
-        <Button variant="dangerOutlined" size="md">
+        <Button color="danger" variant="outlined" size="md">
           Danger Outlined
         </Button>
       </div>
@@ -211,13 +241,13 @@ export const AllSizes: Story = {
   render: () => (
     <div className="flex w-full flex-col gap-4">
       <div className="flex items-center gap-2">
-        <Button variant="primaryFulled" size="sm">
+        <Button color="primary" variant="fulled" size="sm">
           Small
         </Button>
-        <Button variant="primaryFulled" size="md">
+        <Button color="primary" variant="fulled" size="md">
           Medium
         </Button>
-        <Button variant="primaryFulled" size="lg">
+        <Button color="primary" variant="fulled" size="lg">
           Large
         </Button>
       </div>
@@ -232,24 +262,73 @@ export const AllSizes: Story = {
   },
 };
 
+export const RoundedComparison: Story = {
+  render: () => (
+    <div className="flex w-full flex-col gap-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <Button color="primary" variant="fulled" size="md" rounded="none" isFullWidth={false}>
+          None
+        </Button>
+        <Button color="primary" variant="fulled" size="md" rounded="sm" isFullWidth={false}>
+          Small
+        </Button>
+        <Button color="primary" variant="fulled" size="md" rounded="md" isFullWidth={false}>
+          Medium
+        </Button>
+        <Button color="primary" variant="fulled" size="md" rounded="lg" isFullWidth={false}>
+          Large
+        </Button>
+        <Button color="primary" variant="fulled" size="md" rounded="full" isFullWidth={false}>
+          Full
+        </Button>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button color="primary" variant="outlined" size="md" rounded="none" isFullWidth={false}>
+          None
+        </Button>
+        <Button color="primary" variant="outlined" size="md" rounded="sm" isFullWidth={false}>
+          Small
+        </Button>
+        <Button color="primary" variant="outlined" size="md" rounded="md" isFullWidth={false}>
+          Medium
+        </Button>
+        <Button color="primary" variant="outlined" size="md" rounded="lg" isFullWidth={false}>
+          Large
+        </Button>
+        <Button color="primary" variant="outlined" size="md" rounded="full" isFullWidth={false}>
+          Full
+        </Button>
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '버튼의 다양한 모서리 둥글기 옵션을 비교해볼 수 있습니다. (none < sm < md < lg < full)',
+      },
+    },
+  },
+};
+
 export const States: Story = {
   render: () => (
     <div className="flex w-full flex-col gap-4">
       <div className="flex flex-wrap gap-2">
-        <Button variant="primaryFulled" size="md">
+        <Button color="primary" variant="fulled" size="md">
           Normal
         </Button>
-        <Button variant="primaryFulled" size="md" isDisabled>
+        <Button color="primary" variant="fulled" size="md" isDisabled>
           Disabled
         </Button>
       </div>
       <div className="flex flex-wrap gap-2">
-        <Button variant="primaryFulled" size="md" isFullWidth>
+        <Button color="primary" variant="fulled" size="md" isFullWidth>
           Full Width
         </Button>
       </div>
       <div className="flex flex-wrap gap-2">
-        <Button variant="primaryFulled" size="md" isFullWidth={false}>
+        <Button color="primary" variant="fulled" size="md" isFullWidth={false}>
           Not Full Width
         </Button>
       </div>
