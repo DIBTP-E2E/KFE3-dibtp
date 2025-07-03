@@ -1,0 +1,1 @@
+export { registerProduct } from './createProduct';
