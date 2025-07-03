@@ -16,7 +16,6 @@ const meta: Meta<ButtonProps> = {
 - ✅ 3가지 크기 지원 (sm, md, lg)
 - ✅ 다양한 HTML 요소로 렌더링 가능 (button, a, div, span)
 - ✅ 전체 너비 및 비활성화 상태 지원
-- ✅ TailwindCSS 동적 클래스 최적화 적용
 
 ## as prop 사용 가이드
 - **button**: 기본값, 일반적인 버튼 용도
