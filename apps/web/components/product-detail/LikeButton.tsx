@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Icon } from '@repo/ui/components/Icons';
 
-export const LikeButton = () => {
+const LikeButton = () => {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleClick = () => {
@@ -24,3 +24,5 @@ export const LikeButton = () => {
     </button>
   );
 };
+
+export default LikeButton;

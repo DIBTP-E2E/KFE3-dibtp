@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-import { BackButton } from './BackButton';
-import { LikeButton } from './LikeButton';
+import BackButton from './BackButton';
+import LikeButton from './LikeButton';
 
-export const ProductDetailHeader = () => {
+const ProductDetailHeader = () => {
   const [isBgVisible, setIsBgVisible] = useState(false);
 
   useEffect(() => {
@@ -39,3 +39,5 @@ export const ProductDetailHeader = () => {
     </header>
   );
 };
+
+export default ProductDetailHeader;

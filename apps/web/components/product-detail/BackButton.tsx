@@ -3,7 +3,7 @@
 import { Icon } from '@repo/ui/components/Icons';
 import { useRouter } from 'next/navigation';
 
-export const BackButton = () => {
+const BackButton = () => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -19,3 +19,5 @@ export const BackButton = () => {
     </button>
   );
 };
+
+export default BackButton;
