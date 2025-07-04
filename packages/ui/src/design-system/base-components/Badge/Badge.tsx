@@ -31,9 +31,9 @@ const COLOR_CLASSES = {
   },
 };
 const SIZE_CLASSES = {
-  sm: 'font-style-medium h-[24px] px-sm',
-  md: 'font-style-large h-[30px] px-md',
-  lg: 'font-style-extra-large h-[36px] px-lg',
+  sm: 'font-style-small h-[24px] px-sm',
+  md: 'font-style-medium h-[30px] px-md',
+  lg: 'font-style-large h-[36px] px-lg',
 };
 
 const Badge = ({
