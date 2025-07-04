@@ -60,7 +60,7 @@ export const useProductForm = () => {
       // TODO: 토스트 메시지 또는 모달로 개선 필요
       alert('상품이 성공적으로 등록되었습니다!');
       resetForm();
-      router.push('/products');
+      router.push('/');
     } catch (error) {
       if (error instanceof z.ZodError) {
         // Handle Zod validation errors

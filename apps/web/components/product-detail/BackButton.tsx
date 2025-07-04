@@ -7,7 +7,7 @@ const BackButton = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/products');
+    router.push('/');
   };
 
   return (
