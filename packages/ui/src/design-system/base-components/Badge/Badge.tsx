@@ -31,9 +31,9 @@ const COLOR_CLASSES = {
   },
 };
 const SIZE_CLASSES = {
-  sm: 'font-style-medium h-[24px]',
-  md: 'font-style-large h-[30px]',
-  lg: 'font-style-extra-large h-[36px]',
+  sm: 'font-style-medium h-[24px] px-sm',
+  md: 'font-style-large h-[30px] px-md',
+  lg: 'font-style-extra-large h-[36px] px-lg',
 };
 
 const Badge = ({
@@ -47,10 +47,11 @@ const Badge = ({
   return (
     <span
       className={cn(
-        'gap-xs inline-flex items-center justify-center shrink-0 overflow-hidden px-3 py-1 rounded-full',
+        'gap-xs inline-flex items-center justify-center shrink-0 overflow-hidden rounded-full',
         COLOR_CLASSES[color][variant],
         SIZE_CLASSES[size],
-        className
+        className,
+        'leading-none'
       )}
       {...props}
     >
