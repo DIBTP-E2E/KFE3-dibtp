@@ -1,1 +1,2 @@
-export type { Location, Address } from './location';
+export type * from './location';
+export type * from './image';
