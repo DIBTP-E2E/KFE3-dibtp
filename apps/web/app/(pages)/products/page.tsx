@@ -1,11 +1,7 @@
-import { LabeledInput } from '@repo/ui/components';
+import { ProductList } from '@/components/products';
 
 const ProductsPage = () => {
-  return (
-    <main>
-      <LabeledInput label="Default" placeholder="Enter text" />
-    </main>
-  );
+  return <ProductList />;
 };
 
 export default ProductsPage;
