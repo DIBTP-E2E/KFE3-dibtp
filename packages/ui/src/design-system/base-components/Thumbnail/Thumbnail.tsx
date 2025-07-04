@@ -26,7 +26,7 @@ const Thumbnail = ({
         `rounded-${rounded}`,
         aspectRatio === 'square' && 'h-0 pb-[100%]', // 1:1 비율
         aspectRatio === 'auto' && 'h-auto', // 자유 비율
-        width ? width : 'w-full',
+        width ? `w-[${width}]` : 'w-full',
         className
       )}
     >
