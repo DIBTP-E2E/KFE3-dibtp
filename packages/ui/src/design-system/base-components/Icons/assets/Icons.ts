@@ -1,9 +1,10 @@
 import { FaAngleDown, FaAngleLeft, FaAngleRight, FaAngleUp } from 'react-icons/fa6';
-import { GoBellFill, GoBell, GoHeartFill, GoHeart } from 'react-icons/go';
-import { BsClockFill, BsClock } from 'react-icons/bs';
+import { GoBellFill, GoBell, GoHeartFill, GoHeart, GoHome, GoHomeFill } from 'react-icons/go';
+import { BsClockFill, BsClock, BsChat, BsChatFill } from 'react-icons/bs';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { MdRefresh, MdOutlinePhotoCamera } from 'react-icons/md';
-import { PiMagnifyingGlassBold } from 'react-icons/pi';
+import { PiMagnifyingGlassBold, PiExport, PiExportFill } from 'react-icons/pi';
+import { HiOutlineShoppingBag, HiShoppingBag } from 'react-icons/hi';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -25,6 +26,17 @@ export const ICONS = {
   Photo: MdOutlinePhotoCamera,
 
   MagnifyingGlass: PiMagnifyingGlassBold,
+
+  Home: GoHome,
+  HomeFill: GoHomeFill,
+  Chat: BsChat,
+  ChatFill: BsChatFill,
+
+  ShoppingBag: HiOutlineShoppingBag,
+  ShoppingBagFill: HiShoppingBag,
+
+  Export: PiExport,
+  ExportFill: PiExportFill,
 };
 
 export type IconName = keyof typeof ICONS;
