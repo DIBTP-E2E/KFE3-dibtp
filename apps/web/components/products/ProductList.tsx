@@ -18,11 +18,15 @@ const ProductList = async () => {
       {products.map((product) => (
         <li key={product.product_id}>
           <ProductCard
+            productId={product.product_id}
             imgUrl={product.image_url}
-            name={product.title}
-            price={product.current_price}
+            title={product.title}
+            currentPrice={product.current_price}
+            status={product.status}
+            viewCount={product.view_count}
             region={product.region}
             createdAt={product.created_at}
+            bidderUserId={product.bidder_user_id}
           />
         </li>
       ))}
