@@ -2,7 +2,7 @@ import { FaAngleDown, FaAngleLeft, FaAngleRight, FaAngleUp } from 'react-icons/f
 import { GoBellFill, GoBell, GoHeartFill, GoHeart } from 'react-icons/go';
 import { BsClockFill, BsClock } from 'react-icons/bs';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { MdRefresh } from 'react-icons/md';
+import { MdRefresh, MdOutlinePhotoCamera } from 'react-icons/md';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 
 export const ICONS = {
@@ -22,6 +22,7 @@ export const ICONS = {
   Hamburger: RxHamburgerMenu,
 
   Refresh: MdRefresh,
+  Photo: MdOutlinePhotoCamera,
 
   MagnifyingGlass: PiMagnifyingGlassBold,
 };
