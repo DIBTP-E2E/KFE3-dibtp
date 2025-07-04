@@ -30,10 +30,11 @@ const ProductDetailPage = () => {
           decreaseUnit={mockProduct.decrease_unit}
           startPrice={mockProduct.start_price}
           minPrice={mockProduct.min_price}
+          createdAt={mockProduct.created_at}
         />
         <ProductDescription description={mockProduct.description} />
       </div>
-      <ProductFooter currentPrice={mockProduct.current_price} />
+      <ProductFooter currentPrice={mockProduct.current_price} minPrice={mockProduct.min_price} createdAt={mockProduct.created_at} />
     </div>
   );
 };
