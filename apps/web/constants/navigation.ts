@@ -5,6 +5,7 @@ export interface NavigationItem {
   activeIcon: string;
 }
 
+// 추후 메뉴별 정보에 접근 가능하도록 객체로 바꿀 예정
 export const BOTTOM_NAVIGATION_ITEMS: NavigationItem[] = [
   {
     href: '/',
