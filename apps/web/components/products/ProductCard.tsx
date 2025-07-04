@@ -16,7 +16,7 @@ const ProductCard = ({ imgUrl, name, price, region, createdAt }: ProductCardProp
       className="bg-white flex items-center gap-md p-sm rounded-[20px]"
       aria-label={`${name}, 경매 중, 현재가 ${price}, 지역 ${region}`}
     >
-      <ProductThumb imgUrl={imgUrl} name={name} />
+      <ProductThumb imgUrl={imgUrl} name={name} width="w-[80px]" />
 
       <section className="flex flex-col gap-sm">
         <h3 className="font-normal text-base line-clamp-2">{name}</h3>

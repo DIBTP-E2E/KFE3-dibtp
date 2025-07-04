@@ -7,12 +7,19 @@ import noImage from '@/assets/images/no-image.png';
 interface ProductThumbProps {
   imgUrl: string;
   name: string;
+  width?: string;
+  className?: string;
 }
 
-const ProductThumb = ({ imgUrl, name }: ProductThumbProps) => {
+const ProductThumb = ({ imgUrl, name, width, className }: ProductThumbProps) => {
   return (
     <section className="relative">
-      <Thumbnail imgUrl={imgUrl ? imgUrl : noImage.src} alt={name} width="100px" />
+      <Thumbnail
+        imgUrl={imgUrl ? imgUrl : noImage.src}
+        alt={name}
+        width={width}
+        className={className}
+      />
 
       <ProductBadge
         variant="live"
