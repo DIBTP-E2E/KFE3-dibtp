@@ -28,6 +28,4 @@ const ProductBadge = ({ variant }: ProductBadgeProps) => {
   );
 };
 
-ProductBadge.displayName = 'ProductBadge';
-
 export default ProductBadge;

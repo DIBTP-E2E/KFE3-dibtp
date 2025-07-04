@@ -59,6 +59,4 @@ const Badge = ({
   );
 };
 
-Badge.displayName = 'Badge';
-
 export default Badge;
