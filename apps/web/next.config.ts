@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@repo/ui'],
   },
-  optimizeFonts: true, // 폰트 최적화
   images: {
     remotePatterns: [
       {
