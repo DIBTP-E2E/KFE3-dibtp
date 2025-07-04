@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { z } from 'zod';
 
 import { productSchema } from '@/lib/validations';
@@ -20,6 +22,7 @@ const initialFormData: ProductFormData = {
 };
 
 export const useProductForm = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState<ProductFormData>(initialFormData);
   const [images, setImages] = useState<File[]>([]);
   const [errors, setErrors] = useState<ProductFormErrors>({});
@@ -34,7 +37,7 @@ export const useProductForm = () => {
 
       // Clear error when user starts typing
       if (errors[field]) {
-        setErrors((prev) => ({ ...prev, [field]: '' }));
+        setErrors((prev: ProductFormErrors) => ({ ...prev, [field]: '' }));
       }
     };
 
@@ -57,6 +60,7 @@ export const useProductForm = () => {
       // TODO: 토스트 메시지 또는 모달로 개선 필요
       alert('상품이 성공적으로 등록되었습니다!');
       resetForm();
+      router.push('/products');
     } catch (error) {
       if (error instanceof z.ZodError) {
         // Handle Zod validation errors
