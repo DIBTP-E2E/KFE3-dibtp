@@ -1,8 +1,8 @@
-import type { ProductsAPIResponse } from '@/types/products';
-
 import { prisma } from '@/lib/prisma';
 
-export async function fetchProductsWithPrisma(): Promise<ProductsAPIResponse[]> {
+import type { ProductsAPIResponse } from '@/types';
+
+const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse[]> => {
   try {
     const products = await prisma.products.findMany({
       select: {
@@ -53,4 +53,6 @@ export async function fetchProductsWithPrisma(): Promise<ProductsAPIResponse[]> 
     }
     throw new Error('Failed to fetch products with Prisma');
   }
-}
+};
+
+export { fetchProductsWithPrisma };
