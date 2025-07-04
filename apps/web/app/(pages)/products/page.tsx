@@ -1,11 +1,7 @@
-import { LabeledInput } from '@repo/ui/components';
+import { redirect } from 'next/navigation';
 
-const ProductsPage = () => {
-  return (
-    <main>
-      <LabeledInput label="Default" placeholder="Enter text" />
-    </main>
-  );
+const ProductPage = () => {
+  redirect('/');
 };
 
-export default ProductsPage;
+export default ProductPage;
