@@ -48,7 +48,7 @@ const ProductRegisterForm = () => {
       <LocationInfoField errors={errors} onInputChange={handleInputChange} />
 
       {/* 등록 버튼 */}
-      <Button type="submit" variant="primaryFulled" size="lg" disabled={isSubmitting}>
+      <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? '등록 중...' : '상품 등록'}
       </Button>
     </form>
