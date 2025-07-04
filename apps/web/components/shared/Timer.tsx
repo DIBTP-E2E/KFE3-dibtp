@@ -16,10 +16,10 @@ const TOTAL_DURATION_SECONDS = 1800;
  * startTime을 기준으로 현재 30분 주기 내의 남은 시간을 계산하여 '분분:초초' 형식으로 보여줍니다.
  * currentPrice와 minPrice가 같아지면 타이머가 비활성화되고 '00:00'에 가운데 줄이 그어집니다.
  *
- * @param {string} startTime - 타이머의 시작 시간 (ISO 8601 형식 문자열). 이 시간을 기준으로 30분 주기의 남은 시간을 계산합니다.
- * @param {number} currentPrice - 현재 가격. minPrice와 같아지면 타이머가 비활성화됩니다.
- * @param {number} minPrice - 최소 가격. currentPrice와 같아지면 타이머가 비활성화됩니다.
- * @param {string} className - 타이머 컴포넌트에 적용될 CSS 클래스.
+ * @param { string } startTime - 타이머의 시작 시간 (ISO 8601 형식 문자열). 이 시간을 기준으로 30분 주기의 남은 시간을 계산합니다.
+ * @param { number } currentPrice - 현재 가격. minPrice와 같아지면 타이머가 비활성화됩니다.
+ * @param { number } minPrice - 최소 가격. currentPrice와 같아지면 타이머가 비활성화됩니다.
+ * @param { string } className - 타이머 컴포넌트에 적용될 CSS 클래스.
  *
  * @example
  * <Timer
@@ -29,7 +29,7 @@ const TOTAL_DURATION_SECONDS = 1800;
  *   className="text-lg font-bold"
  * />
  */
-const Timer: React.FC<TimerProps> = ({ startTime, currentPrice, minPrice, className }) => {
+const Timer = ({ startTime, currentPrice, minPrice, className }: TimerProps) => {
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
   const animationFrameRef = useRef<number | null>(null);
 
