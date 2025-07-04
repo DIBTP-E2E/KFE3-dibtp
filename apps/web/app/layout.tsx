@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+
 import { Noto_Sans_KR } from 'next/font/google';
 
 import QueryProvider from '../providers/QueryProvider';
@@ -22,7 +23,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="ko" className={notoSansKR.variable}>
       <body className="font-sans antialiased">
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <div className="flex min-h-screen justify-center">
+            <div className="w-full max-w-[375px] bg-bg-light">{children}</div>
+          </div>
+        </QueryProvider>
       </body>
     </html>
   );

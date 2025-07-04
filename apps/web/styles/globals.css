@@ -1,3 +1,11 @@
 @import 'tailwindcss';
 @import '@repo/tailwind-config';
 @import '@repo/ui/styles.css';
+
+html {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-bg-base);
+}

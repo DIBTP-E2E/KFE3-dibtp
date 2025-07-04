@@ -4,4 +4,4 @@ const ProductsPage = () => {
   return <ProductList />;
 };
 
-export default ProductsPage;
+export default ProductPage;
