@@ -1,4 +1,3 @@
-
 interface SellerNicknameProps {
   nickname: string;
 }

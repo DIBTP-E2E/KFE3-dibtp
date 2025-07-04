@@ -1,4 +1,3 @@
-
 interface SellerAvatarProps {
   avatarUrl?: string;
 }

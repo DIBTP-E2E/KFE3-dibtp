@@ -1,4 +1,3 @@
-
 import BidButton from './BidButton';
 
 interface ProductFooterProps {

@@ -1,4 +1,3 @@
-
 import SellerAvatar from './SellerAvatar';
 import SellerNickname from './SellerNickname';
 import ChatButton from './ChatButton';
