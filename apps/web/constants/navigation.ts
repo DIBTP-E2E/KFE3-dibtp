@@ -14,12 +14,6 @@ export const BOTTOM_NAVIGATION_ITEMS: NavigationItem[] = [
     activeIcon: 'HomeFill',
   },
   {
-    href: '/products',
-    label: '상품',
-    icon: 'ShoppingBag',
-    activeIcon: 'ShoppingBagFill',
-  },
-  {
     href: '/products/register',
     label: '출품',
     icon: 'Export',
