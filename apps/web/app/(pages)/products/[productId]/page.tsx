@@ -23,7 +23,7 @@ const ProductDetailPage = async ({ params }: { params: { productId: string } }) 
   const images = product.product_images.map((image) => image.image_url);
 
   return (
-    <section className="mx-auto w-full md:max-w-[375px] pb-20">
+    <section className="mx-auto w-full md:max-w-container pb-20">
       {/* 푸터 높이만큼 하단 패딩 추가 */}
       <ProductDetailHeader />
       <ProductImageCarousel images={images} />

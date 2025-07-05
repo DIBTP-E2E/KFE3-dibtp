@@ -26,7 +26,7 @@ const ProductDetailHeader = () => {
 
   return (
     <header
-      className={`fixed top-0 z-10 md:max-w-[375px] w-full transition-colors duration-300 ${
+      className={`fixed top-0 z-10 md:max-w-container w-full transition-colors duration-300 ${
         isBgVisible ? 'bg-white shadow-md' : 'bg-transparent'
       }`}
     >

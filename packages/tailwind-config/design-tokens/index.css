@@ -27,7 +27,10 @@
   /* Breakpoints */
   /* 모바일 기준: 375px */
   --breakpoint-sm: 376px;
-  --breakpoint-md: 768px;
+  --breakpoint-md: 752px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
+
+  /* width */
+  --max-width-container: 375px;
 }
