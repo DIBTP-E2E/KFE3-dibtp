@@ -1,44 +1,43 @@
 import { Badge } from '@repo/ui/components';
 
-import type { ProductBadgeStatus } from '@/types';
 interface ProductBadgeProps {
-  status: ProductBadgeStatus;
+  variant: 'ready' | 'live' | 'success' | 'end' | 'cancel';
   className?: string;
 }
 
-const MAP = {
-  READY: {
-    color: 'primary',
-    variant: 'inverted',
-    label: '경매 전',
-  },
-  ACTIVE: {
-    color: 'primary',
-    variant: 'fulled',
-    label: '경매 중',
-  },
-  SOLD: {
-    // 낙찰 상태는 SOLD 에서 SUCCESS 로 변경 예정
-    color: 'success',
-    variant: 'fulled',
-    label: '낙찰',
-  },
-  EXPIRED: {
-    color: 'disabled',
-    variant: 'fulled',
-    label: '경매 종료',
-  },
-  CANCEL: {
-    color: 'disabled',
-    variant: 'fulled',
-    label: '취소',
-  },
+const COLOR_MAP = {
+  ready: 'primary',
+  live: 'primary',
+  success: 'success',
+  end: 'disabled',
+  cancel: 'disabled',
 } as const;
 
-const ProductBadge = ({ status, className }: ProductBadgeProps) => {
+const VARIANT_MAP = {
+  ready: 'inverted',
+  live: 'fulled',
+  success: 'fulled',
+  end: 'fulled',
+  cancel: 'fulled',
+} as const;
+
+const STATE_MAP = {
+  ready: '경매 전',
+  live: '경매 중',
+  success: '낙찰',
+  end: '경매 종료',
+  cancel: '취소',
+} as const;
+
+const ProductBadge = ({ variant, className }: ProductBadgeProps) => {
   return (
-    <Badge color={MAP[status].color} size="sm" variant={MAP[status].variant} className={className}>
-      {MAP[status].label}
+    <Badge
+      color={COLOR_MAP[variant]}
+      size="sm"
+      variant={VARIANT_MAP[variant]}
+      className={className}
+    >
+      {STATE_MAP[variant]}
     </Badge>
   );
 };

@@ -3,22 +3,19 @@ export interface ProductCreationResponse {
   product_id: string;
 }
 
-export type ProductStatusSchema = 'READY' | 'ACTIVE' | 'SOLD' | 'EXPIRED' | 'CANCEL';
-export type ProductBadgeStatus = ProductStatusSchema; // 입찰 기능 완료시 Exclude<ProductStatus, 'SOLD'> | 'SUCCESS' 로 수정
-
-export interface ProductCardSchema {
+export interface ProductsAPIResponse {
   product_id: number;
   title: string;
   image_url: string;
   current_price: number;
-  status: ProductBadgeStatus;
+  status: ProductStatus;
   view_count: number;
   created_at: string;
   region: string;
   bidder_user_id: string;
 }
 
-export type ProductsAPIResponse = ProductCardSchema[];
+type ProductStatus = 'READY' | 'ACTIVE' | 'SOLD' | 'EXPIRED' | 'CANCEL';
 
 export interface ProductAPIResponse {
   product_id: number;
@@ -29,7 +26,7 @@ export interface ProductAPIResponse {
   current_price: number;
   min_price: number;
   decrease_unit: number;
-  status: ProductStatusSchema;
+  status: ProductStatus;
   region: string;
   detail_address: string;
   view_count: number;

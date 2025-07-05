@@ -1,8 +1,8 @@
 import { prisma } from '@/lib/prisma';
 
-import type { ProductsAPIResponse, ProductStatusSchema } from '@/types';
+import type { ProductsAPIResponse } from '@/types';
 
-const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse> => {
+const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse[]> => {
   try {
     const products = await prisma.products.findMany({
       select: {
@@ -40,7 +40,7 @@ const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse> => {
       image_url:
         product.product_images?.length > 0 ? (product.product_images[0]?.image_url ?? '') : '',
       current_price: product.current_price.toNumber(),
-      status: product.status as ProductStatusSchema,
+      status: product.status as ProductsAPIResponse['status'],
       view_count: product.view_count,
       created_at: product.created_at.toISOString(),
       region: product.region,
