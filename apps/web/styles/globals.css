@@ -3,7 +3,7 @@
 @import '@repo/ui/styles.css';
 
 html {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 body {
