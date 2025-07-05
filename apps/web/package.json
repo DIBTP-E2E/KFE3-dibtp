@@ -5,13 +5,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001 --turbopack",
-    "build": "prisma generate --schema=./lib/prisma/schema.prisma && prisma db push --schema=./lib/prisma/schema.prisma && next build",
+    "build": "dotenv-cli -e .env.production -- prisma generate --schema=./lib/prisma/schema.prisma && dotenv-cli -e .env.production -- prisma db push --schema=./lib/prisma/schema.prisma && next build",
     "start": "next start",
     "lint": "next lint --max-warnings 0",
     "check-types": "tsc --noEmit",
     "storybook:dev": "storybook dev -p 6008",
     "storybook:build": "storybook build",
-    "postinstall": "",
+    "postinstall": "prisma generate --schema=./lib/prisma/schema.prisma",
     "prisma-pull": "npx dotenv-cli -e .env.local -- npx prisma db pull --schema=./lib/prisma/schema.prisma"
   },
   "dependencies": {
