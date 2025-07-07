@@ -1,6 +1,6 @@
 import { fetchProductsWithPrisma } from '@/services/products';
 
-import { default as ProductCard } from './ProductCard';
+import ProductCard from './ProductCard';
 
 const ProductList = async () => {
   const products = await fetchProductsWithPrisma();
