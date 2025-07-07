@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001 --turbopack",
-    "build": "npx dotenv-cli -e .env.production -- prisma generate --schema=./lib/prisma/schema.prisma && npx dotenv-cli -e .env.production -- prisma db push --schema=./lib/prisma/schema.prisma && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint --max-warnings 0",
     "check-types": "tsc --noEmit",
@@ -24,8 +24,7 @@
     "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "zod": "^3.25.67",
-    "dotenv-cli": "^8.0.0"
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4",
@@ -50,6 +49,7 @@
     "storybook": "^9.0.6",
     "tailwindcss": "^4.1.5",
     "ts-node": "^10.9.2",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "dotenv-cli": "^8.0.0"
   }
 }
