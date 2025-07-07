@@ -1,6 +1,6 @@
 import { LocationHeader, LocationMapContainer } from '@/components/location';
 
-const LocationPage = async () => {
+const LocationPage = () => {
   return (
     <article className="w-full">
       <LocationHeader />
