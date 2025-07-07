@@ -1,8 +1,8 @@
 import { Badge } from '@repo/ui/components';
 
-import type { ProductBadgeStatus } from '@/types';
+import type { ProductStatus } from '@/types';
 interface ProductBadgeProps {
-  status: ProductBadgeStatus;
+  status: ProductStatus;
   className?: string;
 }
 
