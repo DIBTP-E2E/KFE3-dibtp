@@ -1,10 +1,30 @@
 import { prisma } from '@/lib/prisma';
 
 import type { ProductsAPIResponse, ProductStatusSchema } from '@/types';
+import { getAuthenticatedUser } from '@/utils/auth';
 
 const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse> => {
   try {
+    // 로그인한 사용자 정보 가져오기
+    const authResult = await getAuthenticatedUser();
+    if (!authResult.success || !authResult.userId) {
+      throw new Error('User not authenticated');
+    }
+
+    // 사용자의 region 정보 가져오기
+    const user = await prisma.users.findUnique({
+      where: { user_id: authResult.userId },
+      select: { region: true },
+    });
+
+    if (!user?.region) {
+      throw new Error('User region not found');
+    }
+
     const products = await prisma.products.findMany({
+      where: {
+        region: user.region, // 사용자의 region과 일치하는 상품만 필터링
+      },
       select: {
         product_id: true,
         title: true,
