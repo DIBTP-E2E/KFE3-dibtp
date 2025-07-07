@@ -12,8 +12,9 @@ import {
   UserInfoLayout,
 } from '@/components/product-detail';
 
-const ProductDetailPage = async ({ params }: { params: { productId: string } }) => {
-  const productId = parseInt(params.productId);
+const ProductDetailPage = async ({ params }: { params: Promise<{ productId: string }> }) => {
+  const { productId: productIdParam } = await params;
+  const productId = parseInt(productIdParam);
   const product = await fetchProductDetailWithPrisma(productId);
 
   if (!product) {
