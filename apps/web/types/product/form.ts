@@ -1,19 +1,30 @@
-import z from 'zod';
+import type { Product, ProductStatus } from './domain';
 
-import type { productSchema, productWithImagesSchema } from '@/lib/validations/product';
-
-export type ProductFormData = z.infer<typeof productSchema>; // 상품 스키마
-export type ProductWithImagesFormData = z.infer<typeof productWithImagesSchema>; // 상품 스키마 + 이미지
+// 폼 데이터 타입 (상품 등록/수정 시 사용) - Product에서 불필요한 필드 제외 + 타입 변경
+export interface ProductFormData
+  extends Omit<
+    Product,
+    | 'product_id'
+    | 'current_price'
+    | 'view_count'
+    | 'created_at'
+    | 'updated_at'
+    | 'seller_user_id'
+    | 'product_images'
+    | 'start_price'
+    | 'min_price'
+    | 'decrease_unit'
+    | 'status'
+  > {
+  // 폼에서는 가격을 문자열로 입력받고, status는 선택적
+  start_price: string;
+  min_price: string;
+  decrease_unit: string;
+  status?: ProductStatus;
+}
 
 // form 필드명
-export type ProductFieldName =
-  | 'title'
-  | 'description'
-  | 'start_price'
-  | 'min_price'
-  | 'decrease_unit'
-  | 'region'
-  | 'detail_address';
+export type ProductFieldName = keyof ProductFormData;
 
 // form 유효성 검사 및 에러 타입
 export type ProductFormErrors = Partial<Record<ProductFieldName, string>>;
