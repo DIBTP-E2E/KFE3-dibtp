@@ -1,0 +1,317 @@
+#!/usr/bin/env node
+
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+/**
+ * 릴리즈 노트 생성 스크립트
+ * 커밋 메시지 기반으로 체계적인 릴리즈 노트를 생성합니다.
+ */
+class ReleaseNotesGenerator {
+  constructor() {
+    this.commitTypes = {
+      feat: { title: 'Features' },
+      fix: { title: 'Bug Fixes' },
+      docs: { title: 'Documentation' },
+      settings: { title: 'Settings' },
+      refactor: { title: 'Refactoring' },
+      test: { title: 'Tests' },
+      chore: { title: 'Chores' },
+      design: { title: 'Design' },
+      comment: { title: 'Comments' },
+      rename: { title: 'Rename' },
+      remove: { title: 'Remove' },
+    };
+  }
+
+  /**
+   * Git 명령어 실행
+   */
+  execGit(command) {
+    try {
+      return execSync(command, { encoding: 'utf8' }).trim();
+    } catch (error) {
+      console.error(`Git command failed: ${command}`);
+      console.error(error.message);
+      return '';
+    }
+  }
+
+  /**
+   * 마지막 릴리즈 태그 가져오기
+   */
+  getLastTag() {
+    const lastTag = this.execGit('git describe --tags --abbrev=0 2>/dev/null || echo ""');
+    return lastTag || null;
+  }
+
+  /**
+   * 새로운 버전 계산
+   */
+  calculateNewVersion(lastTag, commits) {
+    if (!lastTag) {
+      return 'v1.0.0';
+    }
+
+    const versionMatch = lastTag.match(/^v?(\d+)\.(\d+)\.(\d+)/);
+    if (!versionMatch) {
+      return 'v1.0.0';
+    }
+
+    let [, major, minor, patch] = versionMatch.map(Number);
+
+    // 강제 버전 타입이 설정된 경우
+    const forceVersionType = process.env.FORCE_VERSION_TYPE;
+    if (forceVersionType && forceVersionType !== 'auto') {
+      switch (forceVersionType) {
+        case 'major':
+          major++;
+          minor = 0;
+          patch = 0;
+          break;
+        case 'minor':
+          minor++;
+          patch = 0;
+          break;
+        case 'patch':
+          patch++;
+          break;
+      }
+      return `v${major}.${minor}.${patch}`;
+    }
+
+    // 자동 버전 계산
+    // Breaking changes 확인
+    if (
+      commits.some(
+        (commit) => commit.message.includes('BREAKING CHANGE') || commit.message.includes('!:')
+      )
+    ) {
+      major++;
+      minor = 0;
+      patch = 0;
+    }
+    // Features 확인
+    else if (commits.some((commit) => commit.type === 'feat')) {
+      minor++;
+      patch = 0;
+    }
+    // Bug fixes 또는 기타 변경사항
+    else {
+      patch++;
+    }
+
+    return `v${major}.${minor}.${patch}`;
+  }
+
+  /**
+   * 커밋 메시지 파싱
+   */
+  parseCommit(commitLine) {
+    const match = commitLine.match(/^([a-f0-9]+)\s+(.+)$/);
+    if (!match) return null;
+
+    const [, hash, message] = match;
+
+    // Conventional Commits 형식 파싱
+    const conventionalMatch = message.match(
+      /^(feat|fix|docs|settings|refactor|test|chore|design|comment|rename|remove)(\(.+\))?(!?):\s*(.+)$/
+    );
+
+    if (conventionalMatch) {
+      const [, type, scope, breaking, description] = conventionalMatch;
+      return {
+        hash,
+        type,
+        scope: scope ? scope.slice(1, -1) : null,
+        breaking: breaking === '!',
+        description,
+        message,
+      };
+    }
+
+    return {
+      hash,
+      type: 'other',
+      scope: null,
+      breaking: false,
+      description: message,
+      message,
+    };
+  }
+
+  /**
+   * 커밋 범위에서 커밋 목록 가져오기
+   */
+  getCommits(range) {
+    const commitLines = this.execGit(`git log ${range} --oneline --no-merges`)
+      .split('\n')
+      .filter((line) => line.trim());
+
+    return commitLines.map((line) => this.parseCommit(line)).filter((commit) => commit !== null);
+  }
+
+  /**
+   * 기여자 목록 가져오기
+   */
+  getContributors(range) {
+    const contributors = this.execGit(`git log ${range} --format='%an <%ae>' | sort -u`)
+      .split('\n')
+      .filter((line) => line.trim());
+    return contributors;
+  }
+
+  /**
+   * 릴리즈 노트 생성
+   */
+  generateReleaseNotes(newVersion, commits, contributors, lastTag) {
+    const now = new Date();
+    const releaseDate = now.toISOString().split('T')[0];
+
+    let notes = `# Release ${newVersion}
+
+## Release Date
+${releaseDate}
+
+## Changes
+`;
+
+    // 타입별로 커밋 분류
+    const commitsByType = {};
+    commits.forEach((commit) => {
+      if (!commitsByType[commit.type]) {
+        commitsByType[commit.type] = [];
+      }
+      commitsByType[commit.type].push(commit);
+    });
+
+    // Breaking Changes 먼저 표시
+    const breakingChanges = commits.filter((commit) => commit.breaking);
+    if (breakingChanges.length > 0) {
+      notes += `\n### BREAKING CHANGES\n`;
+      breakingChanges.forEach((commit) => {
+        notes += `- ${commit.description} (${commit.hash})\n`;
+      });
+    }
+
+    // 각 타입별 커밋 표시
+    Object.entries(this.commitTypes).forEach(([type, config]) => {
+      if (commitsByType[type] && commitsByType[type].length > 0) {
+        notes += `\n### ${config.title}\n`;
+        commitsByType[type].forEach((commit) => {
+          const scopeText = commit.scope ? `**${commit.scope}**: ` : '';
+          notes += `- ${scopeText}${commit.description} (${commit.hash})\n`;
+        });
+      }
+    });
+
+    // 기타 변경사항
+    if (commitsByType.other && commitsByType.other.length > 0) {
+      notes += `\n### Other Changes\n`;
+      commitsByType.other.forEach((commit) => {
+        notes += `- ${commit.description} (${commit.hash})\n`;
+      });
+    }
+
+    // 기여자 정보
+    if (contributors.length > 0) {
+      notes += `\n## Contributors\n`;
+      contributors.forEach((contributor) => {
+        notes += `- ${contributor}\n`;
+      });
+    }
+
+    // 전체 변경사항 링크
+    const repoUrl = this.getRepositoryUrl();
+    if (repoUrl && lastTag) {
+      notes += `\n---\n**Full Changelog**: ${repoUrl}/compare/${lastTag}...${newVersion}\n`;
+    }
+
+    return notes;
+  }
+
+  /**
+   * 저장소 URL 가져오기
+   */
+  getRepositoryUrl() {
+    try {
+      const remoteUrl = this.execGit('git config --get remote.origin.url');
+      if (remoteUrl.includes('github.com')) {
+        return remoteUrl.replace(/^git@github\.com:/, 'https://github.com/').replace(/\.git$/, '');
+      }
+    } catch (error) {
+      console.warn('Could not determine repository URL');
+    }
+    return null;
+  }
+
+  /**
+   * 메인 실행 함수
+   */
+  async run() {
+    console.log('🚀 Generating release notes...');
+
+    const lastTag = this.getLastTag();
+    const range = lastTag ? `${lastTag}..HEAD` : 'HEAD';
+
+    console.log(`📋 Analyzing commits from ${range}`);
+    if (lastTag) {
+      console.log(`📌 Last tag: ${lastTag}`);
+    } else {
+      console.log('📌 No previous tags found - creating first release');
+    }
+
+    const commits = this.getCommits(range);
+    if (commits.length === 0) {
+      console.log('ℹ️  No commits found for release');
+      process.exit(0);
+    }
+
+    const newVersion = this.calculateNewVersion(lastTag, commits);
+    const contributors = this.getContributors(range);
+
+    console.log(`📦 New version: ${newVersion}`);
+    console.log(`📝 Found ${commits.length} commits`);
+    console.log(`👥 Found ${contributors.length} contributors`);
+
+    // 버전 타입 강제 설정 확인
+    const forceVersionType = process.env.FORCE_VERSION_TYPE;
+    if (forceVersionType && forceVersionType !== 'auto') {
+      console.log(`🔧 Forced version type: ${forceVersionType}`);
+    }
+
+    const releaseNotes = this.generateReleaseNotes(newVersion, commits, contributors, lastTag);
+
+    // 릴리즈 노트 파일 저장
+    const outputPath = path.join(__dirname, '..', 'release_notes.md');
+    fs.writeFileSync(outputPath, releaseNotes);
+
+    console.log(`✅ Release notes generated: ${outputPath}`);
+    console.log(`🔖 Version: ${newVersion}`);
+
+    // GitHub Actions 출력 변수 설정
+    if (process.env.GITHUB_OUTPUT) {
+      try {
+        fs.appendFileSync(process.env.GITHUB_OUTPUT, `NEW_VERSION=${newVersion}\n`);
+        fs.appendFileSync(process.env.GITHUB_OUTPUT, `RELEASE_NOTES<<EOF\n${releaseNotes}\nEOF\n`);
+        console.log('📤 GitHub Actions output variables set');
+      } catch (error) {
+        console.error('❌ Failed to set GitHub Actions output variables:', error.message);
+      }
+    }
+
+    return { newVersion, releaseNotes };
+  }
+}
+
+// 스크립트 실행
+if (require.main === module) {
+  const generator = new ReleaseNotesGenerator();
+  generator.run().catch((error) => {
+    console.error('❌ Error generating release notes:', error);
+    process.exit(1);
+  });
+}
+
+module.exports = ReleaseNotesGenerator;
