@@ -4,7 +4,7 @@ import { Icon } from '@repo/ui/components';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { BOTTOM_NAVIGATION_ITEMS } from '@/constants/navigation';
+import { BOTTOM_NAVIGATION_ITEMS } from '@/constants';
 
 const BottomNavigation = () => {
   const pathname = usePathname();
