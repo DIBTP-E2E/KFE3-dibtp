@@ -1,3 +1,4 @@
+import { PRODUCT_STATUS_VALUES, PRODUCT_STATUS } from '@/constants';
 import type { ProductStatus, ProductImage, ProductCard, ProductDetail } from '@/types';
 
 // Prisma 결과 타입 정의
@@ -44,7 +45,7 @@ interface PrismaProductDetail {
 
 // 타입 가드 함수
 export const isValidProductStatus = (status: string): status is ProductStatus => {
-  return ['READY', 'ACTIVE', 'SOLD', 'EXPIRED', 'CANCEL'].includes(status);
+  return PRODUCT_STATUS_VALUES.includes(status as ProductStatus);
 };
 
 // 공통 변환 함수들
@@ -54,7 +55,7 @@ export const mapProductCardToAPIResponse = (product: PrismaProductCard): Product
     title: product.title,
     image_url: product.product_images?.length ? (product.product_images[0]?.image_url ?? '') : '',
     current_price: product.current_price.toNumber(),
-    status: isValidProductStatus(product.status) ? product.status : 'READY',
+    status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.READY,
     view_count: product.view_count,
     created_at: product.created_at.toISOString(),
     region: product.region,
@@ -71,7 +72,7 @@ export const mapProductDetailToAPIResponse = (product: PrismaProductDetail): Pro
     current_price: product.current_price.toNumber(),
     min_price: product.min_price.toNumber(),
     decrease_unit: product.decrease_unit.toNumber(),
-    status: isValidProductStatus(product.status) ? product.status : 'READY',
+    status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.READY,
     region: product.region,
     detail_address: product.detail_address,
     view_count: product.view_count,

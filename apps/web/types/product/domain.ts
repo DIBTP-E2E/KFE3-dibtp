@@ -1,5 +1,6 @@
-// 상품 상태 (schema의 enum 값들)
-export type ProductStatus = 'READY' | 'ACTIVE' | 'SOLD' | 'EXPIRED' | 'CANCEL';
+import { PRODUCT_STATUS } from '@/constants';
+
+export type ProductStatus = (typeof PRODUCT_STATUS)[keyof typeof PRODUCT_STATUS];
 
 // 상품 이미지 도메인 타입 (product_images 테이블)
 export interface ProductImage {
