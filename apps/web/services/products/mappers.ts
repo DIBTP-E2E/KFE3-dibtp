@@ -54,7 +54,9 @@ export const isValidProductStatus = (status: string): status is ProductStatus =>
 };
 
 // Prisma 결과를 API 응답 형태로 변환하는 함수들
-export const toProductCardResponse = (product: PrismaProductCard): ProductCardAPIResponse => {
+export const convertToProductCardResponse = (
+  product: PrismaProductCard
+): ProductCardAPIResponse => {
   return {
     product_id: parseInt(product.product_id.toString()),
     title: product.title,
@@ -68,7 +70,9 @@ export const toProductCardResponse = (product: PrismaProductCard): ProductCardAP
   };
 };
 
-export const toProductDetailResponse = (product: PrismaProductDetail): ProductDetailAPIResponse => {
+export const convertToProductDetailResponse = (
+  product: PrismaProductDetail
+): ProductDetailAPIResponse => {
   return {
     product_id: parseInt(product.product_id.toString()),
     title: product.title,

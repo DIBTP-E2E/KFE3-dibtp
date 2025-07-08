@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma';
 
 import { ProductDetailAPIResponse } from '@/types';
 
-import { toProductDetailResponse } from './mappers';
+import { convertToProductDetailResponse } from './mappers';
 
 const fetchProductDetailWithPrisma = async (
   productId: number
@@ -46,7 +46,7 @@ const fetchProductDetailWithPrisma = async (
       return null;
     }
 
-    return toProductDetailResponse(product);
+    return convertToProductDetailResponse(product);
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console

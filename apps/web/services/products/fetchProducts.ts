@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma';
 
 import { ProductsAPIResponse } from '@/types';
 
-import { toProductCardResponse } from './mappers';
+import { convertToProductCardResponse } from './mappers';
 
 const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse> => {
   try {
@@ -35,7 +35,7 @@ const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse> => {
       },
     });
 
-    return products.map(toProductCardResponse);
+    return products.map(convertToProductCardResponse);
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
