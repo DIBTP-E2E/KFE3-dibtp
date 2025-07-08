@@ -1,26 +1,11 @@
-import type { Product, ProductStatus } from './domain';
+import type { Product } from './domain';
 
-// 폼 데이터 타입 (상품 등록/수정 시 사용) - Product에서 불필요한 필드 제외 + 타입 변경
+// 폼 데이터 타입 (상품 등록/수정 시 사용) - Product에서 필요한 필드만 선택 + 타입 변경
 export interface ProductFormData
-  extends Omit<
-    Product,
-    | 'product_id'
-    | 'current_price'
-    | 'view_count'
-    | 'created_at'
-    | 'updated_at'
-    | 'seller_user_id'
-    | 'product_images'
-    | 'start_price'
-    | 'min_price'
-    | 'decrease_unit'
-    | 'status'
-  > {
-  // 폼에서는 가격을 문자열로 입력받고, status는 선택적
+  extends Pick<Product, 'title' | 'description' | 'region' | 'detail_address'> {
   start_price: string;
   min_price: string;
   decrease_unit: string;
-  status?: ProductStatus;
 }
 
 // form 필드명
