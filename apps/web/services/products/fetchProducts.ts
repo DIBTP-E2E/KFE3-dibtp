@@ -1,10 +1,10 @@
 import { prisma } from '@/lib/prisma';
 
-import type { ProductCard } from '@/types';
+import { ProductsAPIResponse } from '@/types';
 
-import { mapProductCardToAPIResponse } from './mappers';
+import { toProductCardResponse } from './mappers';
 
-const fetchProductsWithPrisma = async (): Promise<ProductCard[]> => {
+const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse> => {
   try {
     const products = await prisma.products.findMany({
       select: {
@@ -35,7 +35,7 @@ const fetchProductsWithPrisma = async (): Promise<ProductCard[]> => {
       },
     });
 
-    return products.map(mapProductCardToAPIResponse);
+    return products.map(toProductCardResponse);
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console

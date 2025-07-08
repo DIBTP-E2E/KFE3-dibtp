@@ -1,10 +1,12 @@
 import { prisma } from '@/lib/prisma';
 
-import type { ProductDetail } from '@/types';
+import { ProductDetailAPIResponse } from '@/types';
 
-import { mapProductDetailToAPIResponse } from './mappers';
+import { toProductDetailResponse } from './mappers';
 
-const fetchProductDetailWithPrisma = async (productId: number): Promise<ProductDetail | null> => {
+const fetchProductDetailWithPrisma = async (
+  productId: number
+): Promise<ProductDetailAPIResponse | null> => {
   try {
     const product = await prisma.products.findUnique({
       where: {
@@ -44,7 +46,7 @@ const fetchProductDetailWithPrisma = async (productId: number): Promise<ProductD
       return null;
     }
 
-    return mapProductDetailToAPIResponse(product);
+    return toProductDetailResponse(product);
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console

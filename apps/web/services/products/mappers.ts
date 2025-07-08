@@ -1,5 +1,10 @@
 import { PRODUCT_STATUS_VALUES, PRODUCT_STATUS } from '@/constants';
-import type { ProductStatus, ProductImage, ProductCard, ProductDetail } from '@/types';
+import type {
+  ProductStatus,
+  ProductImage,
+  ProductCardAPIResponse,
+  ProductDetailAPIResponse,
+} from '@/types';
 
 // Prisma 결과 타입 정의
 interface PrismaProductCard {
@@ -48,8 +53,8 @@ export const isValidProductStatus = (status: string): status is ProductStatus =>
   return PRODUCT_STATUS_VALUES.includes(status as ProductStatus);
 };
 
-// 공통 변환 함수들
-export const mapProductCardToAPIResponse = (product: PrismaProductCard): ProductCard => {
+// Prisma 결과를 API 응답 형태로 변환하는 함수들
+export const toProductCardResponse = (product: PrismaProductCard): ProductCardAPIResponse => {
   return {
     product_id: parseInt(product.product_id.toString()),
     title: product.title,
@@ -63,7 +68,7 @@ export const mapProductCardToAPIResponse = (product: PrismaProductCard): Product
   };
 };
 
-export const mapProductDetailToAPIResponse = (product: PrismaProductDetail): ProductDetail => {
+export const toProductDetailResponse = (product: PrismaProductDetail): ProductDetailAPIResponse => {
   return {
     product_id: parseInt(product.product_id.toString()),
     title: product.title,
