@@ -1,0 +1,89 @@
+name: Chromatic Deployment
+
+on:
+  # PR이 생성되거나 업데이트될 때 
+  pull_request:
+    branches: [main, develop]
+
+  # main 브랜치에 push될 때
+  push:
+    branches: [main]
+
+jobs:
+  # 변경사항 감지
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      ui-changed: ${{ steps.changes.outputs.ui }}
+      web-changed: ${{ steps.changes.outputs.web }}
+      docs-changed: ${{ steps.changes.outputs.docs }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            ui:
+              - 'packages/ui/**'
+            web:
+              - 'apps/web/components/**'
+            docs:
+              - 'apps/docs/**'
+
+  # 통합 스토리북 배포 (모든 컴포넌트 변경시)
+  chromatic-storybook:
+    runs-on: ubuntu-latest
+    name: Deploy Storybook to Chromatic
+    needs: detect-changes
+    if: needs.detect-changes.outputs.ui == 'true' || needs.detect-changes.outputs.web == 'true' || needs.detect-changes.outputs.docs == 'true' || github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build UI package
+        run: pnpm --filter ui build
+
+      - name: Publish Storybook to Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: build-storybook
+          workingDir: apps/docs
+          onlyChanged: true
+          autoAcceptChanges: ${{ github.ref == 'refs/heads/main' }}
+          exitOnceUploaded: true
+          zip: true
