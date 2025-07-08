@@ -114,7 +114,7 @@ class ReleaseNotesGenerator {
 
     const [, hash, message] = match;
 
-    // Conventional Commits 형식 파싱
+    // Conventional Commits 형식 파싱 (콜론 형식)
     const conventionalMatch = message.match(
       /^(feat|fix|docs|settings|refactor|test|chore|design|comment|rename|remove)(\(.+\))?(!?):\s*(.+)$/
     );
@@ -126,6 +126,23 @@ class ReleaseNotesGenerator {
         type,
         scope: scope ? scope.slice(1, -1) : null,
         breaking: breaking === '!',
+        description,
+        message,
+      };
+    }
+
+    // 대괄호 형식 파싱 [feat], [fix] 등
+    const bracketMatch = message.match(
+      /^\[(feat|fix|docs|settings|refactor|test|chore|design|comment|rename|remove)\]\s*(.+)$/
+    );
+
+    if (bracketMatch) {
+      const [, type, description] = bracketMatch;
+      return {
+        hash,
+        type,
+        scope: null,
+        breaking: false,
         description,
         message,
       };
@@ -253,13 +270,13 @@ ${releaseDate}
     console.log('🚀 Generating release notes...');
 
     const lastTag = this.getLastTag();
-    const range = lastTag ? `${lastTag}..HEAD` : 'HEAD';
+    const range = lastTag ? `${lastTag}..HEAD` : '8dc9491c..HEAD';
 
     console.log(`📋 Analyzing commits from ${range}`);
     if (lastTag) {
       console.log(`📌 Last tag: ${lastTag}`);
     } else {
-      console.log('📌 No previous tags found - creating first release');
+      console.log('📌 Starting from commit 8dc9491c - initial environment setup');
     }
 
     const commits = this.getCommits(range);
