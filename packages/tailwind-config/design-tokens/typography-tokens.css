@@ -29,6 +29,7 @@
   --line-height-h5: 20px;
 
   /* Font Weights */
-  --font-weight-normal: 400;
-  --font-weight-bold: 700;
+  --font-weight-light: 300; /* .font-light */
+  --font-weight-normal: 400; /* .font-normal */
+  --font-weight-semibold: 600; /* .font-semibold */
 }

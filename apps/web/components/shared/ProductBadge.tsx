@@ -1,34 +1,35 @@
 import { Badge } from '@repo/ui/components';
 
-import type { ProductBadgeStatus } from '@/types';
+import { PRODUCT_STATUS } from '@/constants';
+import type { ProductStatus } from '@/types';
 interface ProductBadgeProps {
-  status: ProductBadgeStatus;
+  status: ProductStatus;
   className?: string;
 }
 
 const MAP = {
-  READY: {
+  [PRODUCT_STATUS.READY]: {
     color: 'primary',
     variant: 'inverted',
     label: '경매 전',
   },
-  ACTIVE: {
+  [PRODUCT_STATUS.ACTIVE]: {
     color: 'primary',
     variant: 'fulled',
     label: '경매 중',
   },
-  SOLD: {
+  [PRODUCT_STATUS.SOLD]: {
     // 낙찰 상태는 SOLD 에서 SUCCESS 로 변경 예정
     color: 'success',
     variant: 'fulled',
     label: '낙찰',
   },
-  EXPIRED: {
+  [PRODUCT_STATUS.EXPIRED]: {
     color: 'disabled',
     variant: 'fulled',
     label: '경매 종료',
   },
-  CANCEL: {
+  [PRODUCT_STATUS.CANCEL]: {
     color: 'disabled',
     variant: 'fulled',
     label: '취소',

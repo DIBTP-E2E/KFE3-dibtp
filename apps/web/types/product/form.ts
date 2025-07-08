@@ -1,19 +1,15 @@
-import z from 'zod';
+import type { Product } from './domain';
 
-import type { productSchema, productWithImagesSchema } from '@/lib/validations/product';
-
-export type ProductFormData = z.infer<typeof productSchema>; // 상품 스키마
-export type ProductWithImagesFormData = z.infer<typeof productWithImagesSchema>; // 상품 스키마 + 이미지
+// 폼 데이터 타입 (상품 등록/수정 시 사용) - Product에서 필요한 필드만 선택 + 타입 변경
+export interface ProductFormData
+  extends Pick<Product, 'title' | 'description' | 'region' | 'detail_address'> {
+  start_price: string;
+  min_price: string;
+  decrease_unit: string;
+}
 
 // form 필드명
-export type ProductFieldName =
-  | 'title'
-  | 'description'
-  | 'start_price'
-  | 'min_price'
-  | 'decrease_unit'
-  | 'region'
-  | 'detail_address';
+export type ProductFieldName = keyof ProductFormData;
 
 // form 유효성 검사 및 에러 타입
 export type ProductFormErrors = Partial<Record<ProductFieldName, string>>;

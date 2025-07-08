@@ -1,23 +1,36 @@
 import type { Metadata } from 'next';
 
-import { Noto_Sans_KR } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import QueryProvider from '../providers/QueryProvider';
 
 import '../styles/globals.css';
 
-const notoSansKR = Noto_Sans_KR({
-  variable: '--font-noto-sans',
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  display: 'swap',
-  fallback: ['system-ui', 'arial'],
-});
-
 export const metadata: Metadata = {
   title: '지역 기반 중고 물품 경매 플랫폼',
   description: '독특하고 재미있는 경매 시스템을 통해 중고 물품을 거래할 수 있는 플랫폼입니다.',
 };
+
+const notoSansKR = localFont({
+  src: [
+    {
+      path: '../public/fonts/NotoSansKR-Light.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/NotoSansKR-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/NotoSansKR-SemiBold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-noto-sans',
+});
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (

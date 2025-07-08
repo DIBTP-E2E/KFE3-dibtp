@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import type { ProductBadgeStatus } from '@/types';
+import type { ProductStatus } from '@/types';
 import { formatRelativeTime } from '@/utils';
 
 import ProductThumb from './ProductThumb';
@@ -10,7 +10,7 @@ interface ProductCardProps {
   title: string;
   imgUrl: string;
   currentPrice: number;
-  status: ProductBadgeStatus;
+  status: ProductStatus;
   viewCount?: number;
   createdAt: string;
   region: string;

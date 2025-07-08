@@ -1,4 +1,4 @@
-export interface NavigationItem {
+interface NavigationItem {
   href: string;
   label: string;
   icon: string;

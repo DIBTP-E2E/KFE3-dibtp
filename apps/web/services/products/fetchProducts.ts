@@ -1,7 +1,9 @@
 import { prisma } from '@/lib/prisma';
 
-import type { ProductsAPIResponse, ProductStatusSchema } from '@/types';
+import { ProductsAPIResponse } from '@/types';
 import { getAuthenticatedUser } from '@/utils/auth';
+
+import { convertToProductCardResponse } from './mappers';
 
 const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse> => {
   try {
@@ -53,19 +55,7 @@ const fetchProductsWithPrisma = async (): Promise<ProductsAPIResponse> => {
       },
     });
 
-    // ProductsAPIResponse 형식으로 변환
-    return products.map((product) => ({
-      product_id: parseInt(product.product_id.toString()),
-      title: product.title,
-      image_url:
-        product.product_images?.length > 0 ? (product.product_images[0]?.image_url ?? '') : '',
-      current_price: product.current_price.toNumber(),
-      status: product.status as ProductStatusSchema,
-      view_count: product.view_count,
-      created_at: product.created_at.toISOString(),
-      region: product.region,
-      bidder_user_id: product.bids?.bidder_user_id || '',
-    }));
+    return products.map(convertToProductCardResponse);
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
