@@ -1,7 +1,7 @@
 name: Chromatic Deployment
 
 on:
-  # PR이 생성되거나 업데이트될 때 
+  # PR이 생성되거나 업데이트될 때
   pull_request:
     branches: [main, develop]
 
@@ -41,7 +41,7 @@ jobs:
     name: Deploy Storybook to Chromatic
     needs: detect-changes
     if: needs.detect-changes.outputs.ui == 'true' || needs.detect-changes.outputs.web == 'true' || needs.detect-changes.outputs.docs == 'true' || github.ref == 'refs/heads/main'
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -74,8 +74,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build UI package
-        run: pnpm --filter ui build
+      - name: Build UI package and web app
+        run: |
+          pnpm --filter ui build:styles
+          pnpm --filter ui build:components
+          pnpm --filter web build
 
       - name: Publish Storybook to Chromatic
         uses: chromaui/action@latest
