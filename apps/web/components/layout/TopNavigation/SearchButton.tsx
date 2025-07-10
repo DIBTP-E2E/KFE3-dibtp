@@ -1,14 +1,7 @@
-import { Icon } from '@repo/ui/components';
+import { IconButton } from '@/components/shared';
 
 const SearchButton = () => {
-  return (
-    <button
-      className="flex items-center justify-center w-12 h-12 text-text-base"
-      aria-label="검색하기"
-    >
-      <Icon name="Search" size="md" />
-    </button>
-  );
+  return <IconButton iconName="Search" ariaLabel="검색하기" />;
 };
 
 export default SearchButton;

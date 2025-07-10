@@ -40,5 +40,3 @@ export const ICONS = {
 
   Search: HiSearch,
 };
-
-export type IconName = keyof typeof ICONS;
