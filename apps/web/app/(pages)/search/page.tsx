@@ -5,11 +5,13 @@ import { ProductListWithSuspense } from '@/components/products';
 
 import { searchProductsWithPrisma } from '@/services';
 
+interface SearchResultPageParams {
+  searchParams: Promise<{ keyword: string }>;
+}
+
 export async function generateMetadata({
   searchParams,
-}: {
-  searchParams: Promise<{ keyword: string }>;
-}): Promise<Metadata> {
+}: SearchResultPageParams): Promise<Metadata> {
   const { keyword } = await searchParams;
 
   return {
@@ -27,11 +29,7 @@ export async function generateMetadata({
   };
 }
 
-const SearchResultPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ keyword: string }>;
-}) => {
+const SearchResultPage = async ({ searchParams }: SearchResultPageParams) => {
   const { keyword } = await searchParams;
   const products = await searchProductsWithPrisma({ keyword });
 
