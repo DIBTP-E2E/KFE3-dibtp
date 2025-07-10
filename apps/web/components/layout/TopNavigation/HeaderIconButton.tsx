@@ -10,7 +10,7 @@ const HeaderIconButton = ({ iconName, ariaLabel, ...restProps }: HeaderIconButto
       ariaLabel={ariaLabel}
       iconSize="sm"
       buttonSize="sm"
-      variant="bg"
+      variant="fulled"
       color="light"
       {...restProps}
     />

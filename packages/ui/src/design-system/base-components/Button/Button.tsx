@@ -9,9 +9,9 @@ export interface ButtonOwnProps<T extends ElementType = 'button'> {
   as?: T;
 
   // 스타일 정의
-  color?: 'primary' | 'secondary' | 'danger';
+  color?: 'light' | 'darkMode' | 'primary' | 'secondary' | 'danger';
   variant?: 'fulled' | 'outlined';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   className?: string;
   isDisabled?: boolean;
@@ -24,10 +24,11 @@ type ButtonProps<T extends ElementType = 'button'> = ButtonOwnProps<T> &
 export type { ButtonProps };
 
 const SIZES = {
-  sm: 'font-style-small px-sm h-[32px]',
+  xs: 'px-sm h-[32px]',
+  sm: 'font-style-small px-md h-[40px]',
   md: 'font-style-medium px-md h-[44px]',
   lg: 'font-style-large px-lg h-[48px]',
-  xl: 'font-style-extra-large px-lg h-[60px]',
+  xl: 'font-style-extra-large px-lg h-[56px]',
 } as const;
 
 const ROUNDEDS = {
@@ -40,6 +41,14 @@ const ROUNDEDS = {
 } as const;
 
 const COLORS = {
+  light: {
+    fulled: 'bg-bg-base text-text-base',
+    outlined: 'border border-border-base text-text-base',
+  },
+  darkMode: {
+    fulled: 'bg-bg-dark text-text-inverse',
+    outlined: 'border border-border-inverse text-text-inverse',
+  },
   primary: {
     fulled: 'bg-bg-primary text-text-inverse',
     outlined: 'bg-white border border-border-primary text-text-primary',
@@ -90,7 +99,5 @@ const Button = <T extends ElementType = 'button'>({
     </Component>
   );
 };
-
-Button.displayName = 'Button';
 
 export default Button;
