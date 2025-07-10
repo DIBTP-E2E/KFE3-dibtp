@@ -1,10 +1,12 @@
-import { fetchProductsWithPrisma } from '@/services/products';
+import type { ProductsAPIResponse } from '@/types';
 
 import ProductCard from './ProductCard';
 
-const ProductList = async () => {
-  const products = await fetchProductsWithPrisma();
+interface ProductListProps {
+  products: ProductsAPIResponse;
+}
 
+const ProductList = ({ products }: ProductListProps) => {
   if (!products || products.length === 0) {
     return (
       <div className="flex items-center justify-center p-8">

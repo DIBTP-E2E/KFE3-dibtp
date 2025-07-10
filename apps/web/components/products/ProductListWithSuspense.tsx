@@ -1,12 +1,18 @@
 import { Suspense } from 'react';
 
+import type { ProductsAPIResponse } from '@/types';
+
 import ProductList from './ProductList';
 import ProductListSkeleton from './ProductListSkeleton';
 
-const ProductListWithSuspense = () => {
+interface ProductListWithSuspenseProps {
+  products: ProductsAPIResponse;
+}
+
+const ProductListWithSuspense = ({ products }: ProductListWithSuspenseProps) => {
   return (
     <Suspense fallback={<ProductListSkeleton />}>
-      <ProductList />
+      <ProductList products={products} />
     </Suspense>
   );
 };
