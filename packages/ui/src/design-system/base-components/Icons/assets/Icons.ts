@@ -4,7 +4,7 @@ import { BsClockFill, BsClock, BsChat, BsChatFill } from 'react-icons/bs';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { MdRefresh, MdOutlinePhotoCamera } from 'react-icons/md';
 import { PiMagnifyingGlassBold, PiExport, PiExportFill } from 'react-icons/pi';
-import { HiOutlineShoppingBag, HiShoppingBag } from 'react-icons/hi';
+import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -37,6 +37,8 @@ export const ICONS = {
 
   Export: PiExport,
   ExportFill: PiExportFill,
+
+  Search: HiSearch,
 };
 
 export type IconName = keyof typeof ICONS;
