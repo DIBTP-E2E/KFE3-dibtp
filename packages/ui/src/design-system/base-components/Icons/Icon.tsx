@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
 import { ICONS } from './assets/Icons';
 
-type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 type IconColor =
   | 'default'
   | 'inverse'
