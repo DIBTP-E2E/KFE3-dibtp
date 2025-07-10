@@ -75,7 +75,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build UI package and web app
-        run: npx turbo build --filter=ui --filter=web
+        run: npx turbo build --filter=@repo/ui --filter=web
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
