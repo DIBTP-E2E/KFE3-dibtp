@@ -1,7 +1,7 @@
-import { IconButton } from '@/components/shared';
+import HeaderIconButton from './HeaderIconButton';
 
 const SearchButton = () => {
-  return <IconButton iconName="Search" ariaLabel="검색하기" />;
+  return <HeaderIconButton iconName="Search" ariaLabel="검색하기" />;
 };
 
 export default SearchButton;

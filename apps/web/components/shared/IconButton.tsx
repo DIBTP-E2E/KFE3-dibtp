@@ -10,8 +10,8 @@ interface IconButtonOwnProps<T extends ElementType = 'button'> {
   as?: T;
   iconName: IconName;
   ariaLabel: string;
-  color?: 'dark' | 'light' | 'primary';
-  variant?: 'border' | 'bg';
+  color: 'dark' | 'light' | 'primary';
+  variant: 'border' | 'bg';
   className?: string;
 }
 
@@ -48,8 +48,7 @@ const IconButton = <T extends ElementType = 'button'>({
     <Component
       className={cn(
         'inline-flex items-center justify-center w-[40px] h-[40px] rounded-full',
-        // STYLE[variant][color],
-        STYLE.bg.light,
+        STYLE[variant][color],
         className
       )}
       aria-label={ariaLabel}

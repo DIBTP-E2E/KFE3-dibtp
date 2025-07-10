@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import { IconButton } from '@/components/shared';
+import HeaderIconButton from './HeaderIconButton';
 
 const BackButton = () => {
   const router = useRouter();
@@ -11,7 +11,7 @@ const BackButton = () => {
     router.back();
   };
 
-  return <IconButton onClick={handleBack} iconName="ArrowLeft" ariaLabel="뒤로 가기" />;
+  return <HeaderIconButton onClick={handleBack} iconName="ArrowLeft" ariaLabel="뒤로 가기" />;
 };
 
 export default BackButton;
