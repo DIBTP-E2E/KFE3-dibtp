@@ -1,33 +1,41 @@
-'use client';
+import { cn } from '@repo/ui/utils/cn';
 
-import { Icon } from '@repo/ui/components';
-import { useRouter } from 'next/navigation';
-
+import AlarmButton from './AlarmButton';
+import BackButton from './BackButton';
+import RegionLabel from './RegionLabel';
+import SearchButton from './SearchButton';
 interface TopNavigationProps {
   title: string;
-  showBackButton?: boolean;
+  showTitle: boolean;
+  region?: string;
+  showRegion?: boolean;
+  showBackButton: boolean;
+  showSearchButton: boolean;
+  showAlarmButton: boolean;
 }
 
-const TopNavigation = ({ title, showBackButton = false }: TopNavigationProps) => {
-  const router = useRouter();
-
-  const handleBack = () => {
-    router.back();
-  };
-
+const TopNavigation = ({
+  title,
+  showTitle = true,
+  region,
+  showRegion = false,
+  showBackButton,
+  showSearchButton,
+  showAlarmButton,
+}: TopNavigationProps) => {
   return (
     <header className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full md:max-w-container z-50 flex items-center justify-center h-14 bg-bg-light border-b border-border-base">
-      {showBackButton && (
-        // TODO: 추후 뒤로가기 버튼 컴포넌트로 분리 예정
-        <button
-          onClick={handleBack}
-          className="absolute left-2 flex items-center justify-center w-12 h-12 text-text-base"
-          aria-label="뒤로가기"
-        >
-          <Icon name="ArrowLeft" size="md" />
-        </button>
-      )}
-      <h1 className="font-style-headline-h5">{title}</h1>
+      <h1 className={cn('font-style-headline-h5', !showTitle && 'sr-only')}>{title}</h1>
+
+      <div className="flex absolute left-2">
+        {showBackButton && <BackButton />}
+        {showRegion && region && <RegionLabel region={region} />}
+      </div>
+
+      <div className="flex absolute right-2">
+        {showSearchButton && <SearchButton />}
+        {showAlarmButton && <AlarmButton />}
+      </div>
     </header>
   );
 };
