@@ -29,11 +29,15 @@ const IconButton = <T extends ElementType = 'button'>({
 
   return (
     <Component
-      className={cn('inline-flex items-center justify-center w-12 h-12 text-text-base', className)}
+      className={cn(
+        'inline-flex items-center justify-center w-[40px] h-[40px] text-text-base',
+        'border border-border-base rounded-full',
+        className
+      )}
       aria-label={ariaLabel}
       {...restprops}
     >
-      <Icon name={iconName} size="md" />
+      <Icon name={iconName} size="sm" />
     </Component>
   );
 };
