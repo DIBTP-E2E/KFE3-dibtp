@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
@@ -89,8 +89,14 @@ jobs:
       - name: Create and push tag
         if: steps.check-release.outputs.need_release == 'true'
         run: |
-          git tag ${{ steps.release-notes.outputs.NEW_VERSION }}
-          git push origin ${{ steps.release-notes.outputs.NEW_VERSION }}
+          # Check if tag already exists
+          if git rev-parse ${{ steps.release-notes.outputs.NEW_VERSION }} >/dev/null 2>&1; then
+            echo "Tag ${{ steps.release-notes.outputs.NEW_VERSION }} already exists, skipping tag creation"
+          else
+            git tag ${{ steps.release-notes.outputs.NEW_VERSION }}
+            git push origin ${{ steps.release-notes.outputs.NEW_VERSION }}
+            echo "Created and pushed tag ${{ steps.release-notes.outputs.NEW_VERSION }}"
+          fi
           git push origin main
 
       - name: Create GitHub Release
@@ -102,7 +108,8 @@ jobs:
           body: ${{ steps.release-notes.outputs.RELEASE_NOTES }}
           draft: false
           prerelease: false
-          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Upload release notes as artifact
         if: steps.check-release.outputs.need_release == 'true'
