@@ -21,7 +21,7 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
 }
 
 export const COLORS = {
-  default: 'text-text-base',
+  default: 'text-text-inherit',
   inverse: 'text-text-inverse',
   info: 'text-text-info',
   primary: 'text-text-primary',
