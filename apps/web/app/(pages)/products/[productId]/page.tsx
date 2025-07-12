@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+
 import { notFound } from 'next/navigation';
 
 import { fetchProductDetailWithPrisma } from '@/services/products';
@@ -11,6 +13,45 @@ import {
   ProductFooter,
   UserInfoLayout,
 } from '@/components/product-detail';
+
+// 메타데이터 생성 함수
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
+}): Promise<Metadata> {
+  const { productId: productIdParam } = await params;
+  const productId = parseInt(productIdParam);
+  const product = await fetchProductDetailWithPrisma(productId);
+
+  if (!product) {
+    return {
+      title: '상품을 찾을 수 없습니다',
+      description: '요청하신 상품을 찾을 수 없습니다.',
+    };
+  }
+
+  const title = `${product.title} - DDIP`;
+  const description =
+    product.description ||
+    '띱! 먼저 가져가는 사람이 임자! 하향식 경매 시스템을 통해 중고 물품을 거래할 수 있는 플랫폼입니다.';
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
+}
 
 const ProductDetailPage = async ({ params }: { params: Promise<{ productId: string }> }) => {
   const { productId: productIdParam } = await params;
