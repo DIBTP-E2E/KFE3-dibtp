@@ -47,15 +47,51 @@ class ReleaseNotesGenerator {
   }
 
   /**
+   * package.json에서 현재 버전 읽기
+   */
+  getCurrentPackageVersion() {
+    try {
+      const packageJsonPath = path.join(__dirname, '..', 'package.json');
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+      return packageJson.version;
+    } catch (error) {
+      console.warn('Could not read package.json version, defaulting to 0.0.0');
+      return '0.0.0';
+    }
+  }
+
+  /**
+   * 태그가 현재 브랜치에서 접근 가능한지 확인 (orphaned tag 감지)
+   */
+  isTagReachable(tag) {
+    try {
+      this.execGit(`git merge-base --is-ancestor ${tag} HEAD`);
+      return true;
+    } catch (error) {
+      return false; // orphaned tag 또는 접근 불가능한 태그
+    }
+  }
+
+  /**
    * 새로운 버전 계산
    */
   calculateNewVersion(lastTag, commits) {
-    if (!lastTag) {
-      return 'v1.0.0';
+    let baseVersion;
+    let isFromTag = false;
+
+    // 태그가 없거나 orphaned tag인 경우 package.json 기준으로 계산
+    if (!lastTag || !this.isTagReachable(lastTag)) {
+      console.log('📦 Using package.json version as base (no reachable tag found)');
+      baseVersion = this.getCurrentPackageVersion();
+    } else {
+      console.log(`🏷️  Using tag ${lastTag} as base version`);
+      baseVersion = lastTag.replace(/^v/, '');
+      isFromTag = true;
     }
 
-    const versionMatch = lastTag.match(/^v?(\d+)\.(\d+)\.(\d+)/);
+    const versionMatch = baseVersion.match(/^(\d+)\.(\d+)\.(\d+)/);
     if (!versionMatch) {
+      console.warn('Invalid version format, defaulting to 1.0.0');
       return 'v1.0.0';
     }
 
