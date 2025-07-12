@@ -14,12 +14,12 @@ import {
   UserInfoLayout,
 } from '@/components/product-detail';
 
-// 메타데이터 생성 함수
-export async function generateMetadata({
-  params,
-}: {
+interface ProductDetailPageParams {
   params: Promise<{ productId: string }>;
-}): Promise<Metadata> {
+}
+
+// 메타데이터 생성 함수
+export async function generateMetadata({ params }: ProductDetailPageParams): Promise<Metadata> {
   const { productId: productIdParam } = await params;
   const productId = parseInt(productIdParam);
   const product = await fetchProductDetailWithPrisma(productId);
@@ -53,7 +53,7 @@ export async function generateMetadata({
   };
 }
 
-const ProductDetailPage = async ({ params }: { params: Promise<{ productId: string }> }) => {
+const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   const { productId: productIdParam } = await params;
   const productId = parseInt(productIdParam);
   const product = await fetchProductDetailWithPrisma(productId);
