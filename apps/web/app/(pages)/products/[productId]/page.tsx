@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 import { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
@@ -18,11 +20,13 @@ interface ProductDetailPageParams {
   params: Promise<{ productId: string }>;
 }
 
+const getCachedProductDetail = cache(fetchProductDetailWithPrisma);
+
 // 메타데이터 생성 함수
 export async function generateMetadata({ params }: ProductDetailPageParams): Promise<Metadata> {
   const { productId: productIdParam } = await params;
   const productId = parseInt(productIdParam);
-  const product = await fetchProductDetailWithPrisma(productId);
+  const product = await getCachedProductDetail(productId);
 
   if (!product) {
     return {
@@ -56,7 +60,7 @@ export async function generateMetadata({ params }: ProductDetailPageParams): Pro
 const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   const { productId: productIdParam } = await params;
   const productId = parseInt(productIdParam);
-  const product = await fetchProductDetailWithPrisma(productId);
+  const product = await getCachedProductDetail(productId);
 
   if (!product) {
     return notFound();
