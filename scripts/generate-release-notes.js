@@ -11,17 +11,17 @@ const path = require('path');
 class ReleaseNotesGenerator {
   constructor() {
     this.commitTypes = {
-      feat: { title: 'Features' },
-      fix: { title: 'Bug Fixes' },
-      docs: { title: 'Documentation' },
-      settings: { title: 'Settings' },
-      refactor: { title: 'Refactoring' },
-      test: { title: 'Tests' },
-      chore: { title: 'Chores' },
-      design: { title: 'Design' },
-      comment: { title: 'Comments' },
-      rename: { title: 'Rename' },
-      remove: { title: 'Remove' },
+      feat: { title: 'Features', changelogType: 'Added' },
+      fix: { title: 'Bug Fixes', changelogType: 'Fixed' },
+      docs: { title: 'Documentation', changelogType: 'Changed' },
+      settings: { title: 'Settings', changelogType: 'Changed' },
+      refactor: { title: 'Refactoring', changelogType: 'Changed' },
+      test: { title: 'Tests', changelogType: 'Changed' },
+      chore: { title: 'Chores', changelogType: 'Changed' },
+      design: { title: 'Design', changelogType: 'Changed' },
+      comment: { title: 'Comments', changelogType: 'Changed' },
+      rename: { title: 'Rename', changelogType: 'Changed' },
+      remove: { title: 'Remove', changelogType: 'Removed' },
     };
   }
 
@@ -216,6 +216,87 @@ class ReleaseNotesGenerator {
   }
 
   /**
+   * CHANGELOG.md 업데이트
+   */
+  updateChangelog(newVersion, commits) {
+    const changelogPath = path.join(__dirname, '..', 'CHANGELOG.md');
+    const now = new Date();
+    const releaseDate = now.toISOString().split('T')[0];
+
+    let changelogContent = '';
+    if (fs.existsSync(changelogPath)) {
+      changelogContent = fs.readFileSync(changelogPath, 'utf8');
+    }
+
+    // 타입별로 커밋 분류 (Keep a Changelog 형식)
+    const changelogTypes = {
+      Added: [],
+      Changed: [],
+      Fixed: [],
+      Removed: [],
+      Security: [],
+    };
+
+    commits.forEach((commit) => {
+      const typeConfig = this.commitTypes[commit.type];
+      const changelogType = typeConfig ? typeConfig.changelogType : 'Changed';
+
+      if (changelogTypes[changelogType]) {
+        const scopeText = commit.scope ? `**${commit.scope}**: ` : '';
+        changelogTypes[changelogType].push(`- ${scopeText}${commit.description}`);
+      }
+    });
+
+    // Breaking changes는 별도로 처리
+    const breakingChanges = commits.filter((commit) => commit.breaking);
+    if (breakingChanges.length > 0) {
+      breakingChanges.forEach((commit) => {
+        const scopeText = commit.scope ? `**${commit.scope}**: ` : '';
+        changelogTypes.Changed.push(`- **BREAKING**: ${scopeText}${commit.description}`);
+      });
+    }
+
+    // 새로운 릴리즈 섹션 생성
+    let newReleaseSection = `\n## [${newVersion.replace('v', '')}] - ${releaseDate}`;
+
+    Object.entries(changelogTypes).forEach(([type, items]) => {
+      if (items.length > 0) {
+        newReleaseSection += `\n\n### ${type}\n${items.join('\n')}`;
+      }
+    });
+
+    // CHANGELOG.md 업데이트
+    const unreleasedMatch = changelogContent.match(/(## \[Unreleased\][\s\S]*?)(?=\n## |$)/);
+
+    if (unreleasedMatch) {
+      // Unreleased 섹션 다음에 새로운 릴리즈 추가
+      const beforeUnreleased = changelogContent.substring(
+        0,
+        unreleasedMatch.index + unreleasedMatch[0].length
+      );
+      const afterUnreleased = changelogContent.substring(
+        unreleasedMatch.index + unreleasedMatch[0].length
+      );
+
+      const updatedContent = beforeUnreleased + newReleaseSection + afterUnreleased;
+      fs.writeFileSync(changelogPath, updatedContent);
+    } else {
+      // Unreleased 섹션이 없으면 첫 번째 ## 다음에 추가
+      const firstSectionMatch = changelogContent.match(/(\n## )/);
+      if (firstSectionMatch) {
+        const insertIndex = firstSectionMatch.index;
+        const updatedContent =
+          changelogContent.substring(0, insertIndex) +
+          newReleaseSection +
+          changelogContent.substring(insertIndex);
+        fs.writeFileSync(changelogPath, updatedContent);
+      }
+    }
+
+    console.log(`✅ CHANGELOG.md updated with version ${newVersion}`);
+  }
+
+  /**
    * 릴리즈 노트 생성
    */
   generateReleaseNotes(newVersion, commits, contributors, lastTag) {
@@ -335,6 +416,9 @@ ${releaseDate}
     }
 
     const releaseNotes = this.generateReleaseNotes(newVersion, commits, contributors, lastTag);
+
+    // CHANGELOG.md 업데이트
+    this.updateChangelog(newVersion, commits);
 
     // 릴리즈 노트 파일 저장
     const outputPath = path.join(__dirname, '..', 'release_notes.md');
