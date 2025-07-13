@@ -5,6 +5,10 @@ import { prisma } from '@/lib/prisma';
 import { getAuthenticatedUser } from '@/utils';
 
 export async function POST(request: NextRequest) {
+  let productId: any;
+  let bidPrice: any;
+  let product: any;
+
   try {
     const authResult = await getAuthenticatedUser();
     if (!authResult.success || !authResult.userId) {
@@ -12,10 +16,32 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { productId, bidPrice } = body;
+    ({ productId, bidPrice } = body);
 
     if (!productId || !bidPrice) {
-      return NextResponse.json({ error: '상품 ID와 입찰 가격을 모두 입력해주세요' }, { status: 400 });
+      return NextResponse.json({ error: '상품 ID 또는 현재 상품 가격 정보가 누락되었습니다' }, { status: 400 });
+    }
+
+    product = await prisma.products.findUnique({
+      where: {
+        product_id: productId,
+      },
+    });
+
+    if (!product) {
+      return NextResponse.json({ error: '상품을 찾을 수 없습니다' }, { status: 404 });
+    }
+
+    if (product.status !== 'ACTIVE') {
+      return NextResponse.json({ error: '경매가 진행 중인 상품이 아닙니다' }, { status: 400 });
+    }
+
+    if (product.seller_user_id === authResult.userId) {
+      return NextResponse.json({ error: '자신의 상품에는 입찰할 수 없습니다' }, { status: 400 });
+    }
+
+    if (product.current_price.toFixed(2) !== bidPrice.toFixed(2)) {
+      return NextResponse.json({ error: '입찰 가격이 현재 가격과 일치하지 않습니다' }, { status: 400 });
     }
 
     const result = await prisma.$transaction(async (tx) => {
@@ -43,14 +69,21 @@ export async function POST(request: NextRequest) {
       return { newBid, updatedProduct };
     });
 
-    return NextResponse.json(
+    const jsonResponse = JSON.stringify(
       {
         message: '입찰이 성공적으로 완료되었습니다',
         bid: result.newBid,
         product: result.updatedProduct,
       },
-      { status: 201 }
+      (key, value) => (typeof value === 'bigint' ? value.toString() : value)
     );
+
+    return new NextResponse(jsonResponse, {
+      status: 201,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   } catch (error) {
     console.error('입찰 처리 오류:', error);
 
