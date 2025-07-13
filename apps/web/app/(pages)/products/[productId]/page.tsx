@@ -45,6 +45,7 @@ const ProductDetailPage = async ({ params }: { params: Promise<{ productId: stri
         <ProductDescription description={product.description} />
       </div>
       <ProductFooter
+        productId={product.product_id}
         currentPrice={product.current_price}
         minPrice={product.min_price}
         createdAt={product.created_at}

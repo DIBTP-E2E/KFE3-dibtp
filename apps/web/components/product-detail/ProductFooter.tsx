@@ -3,12 +3,13 @@ import { Timer } from '../shared';
 import BidButton from './BidButton';
 
 interface ProductFooterProps {
+  productId: number;
   currentPrice: number;
   minPrice: number;
   createdAt: string;
 }
 
-const ProductFooter = ({ currentPrice, minPrice, createdAt }: ProductFooterProps) => {
+const ProductFooter = ({ productId, currentPrice, minPrice, createdAt }: ProductFooterProps) => {
   return (
     <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full md:max-w-container bg-white p-4 border-t border-gray-200 flex justify-between items-center">
       <div className="flex flex-col">
@@ -23,7 +24,7 @@ const ProductFooter = ({ currentPrice, minPrice, createdAt }: ProductFooterProps
           />
         </div>
       </div>
-      <BidButton />
+      <BidButton productId={productId} currentPrice={currentPrice} />
     </div>
   );
 };
