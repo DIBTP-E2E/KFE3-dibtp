@@ -54,7 +54,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   // 로그인된 사용자의 위치 정보 확인
-  const protectedPaths = ['/', '/products', '/chat'];
+  const protectedPaths = ['/', '/products', '/chat', '/mypage'];
   const isProtectedPage = protectedPaths.some(
     (path) => pathname === path || pathname.startsWith(`${path}/`)
   );
