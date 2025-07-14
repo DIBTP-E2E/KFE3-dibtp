@@ -16,6 +16,7 @@ export const ICONS = {
 
   BellFill: GoBellFill,
   Bell: GoBell,
+
   HeartFill: GoHeartFill,
   Heart: GoHeart,
 
