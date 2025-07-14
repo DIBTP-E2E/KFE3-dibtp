@@ -1,10 +1,10 @@
 import { cn } from '@repo/ui/utils/cn';
 
-import AlarmButton from './AlarmButton';
-import BackButton from './BackButton';
-import RegionLabel from './RegionLabel';
-import SearchButton from './SearchButton';
-interface TopNavigationProps {
+import { AlarmButton, BackButton, RegionLabel, SearchButton } from '../header-icon';
+
+import HeaderContainer from './HeaderContainer';
+
+export interface TopNavigationProps {
   title: string;
   showTitle: boolean;
   region?: string;
@@ -24,14 +24,7 @@ const TopNavigation = ({
   showAlarmButton,
 }: TopNavigationProps) => {
   return (
-    <header
-      className={cn(
-        'flex items-center justify-center',
-        'z-50 fixed top-0 left-1/2 transform -translate-x-1/2',
-        'px-container py-sm w-full md:max-w-container',
-        'h-[56px] bg-bg-light border-b border-border-base'
-      )}
-    >
+    <HeaderContainer>
       <h1 className={cn('font-style-headline-h5', !showTitle && 'sr-only')}>{title}</h1>
 
       <div className="flex gap-sm absolute left-[var(--space-container)]">
@@ -43,7 +36,7 @@ const TopNavigation = ({
         {showSearchButton && <SearchButton />}
         {showAlarmButton && <AlarmButton />}
       </div>
-    </header>
+    </HeaderContainer>
   );
 };
 
