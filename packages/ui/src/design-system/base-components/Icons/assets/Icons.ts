@@ -5,6 +5,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { MdRefresh, MdOutlinePhotoCamera } from 'react-icons/md';
 import { PiMagnifyingGlassBold, PiExport, PiExportFill } from 'react-icons/pi';
 import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
+import { HiXMark } from 'react-icons/hi2';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -39,4 +40,6 @@ export const ICONS = {
   ExportFill: PiExportFill,
 
   Search: HiSearch,
+
+  Cancel: HiXMark,
 };
