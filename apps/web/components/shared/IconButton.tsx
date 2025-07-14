@@ -10,10 +10,11 @@ interface IconButtonOwnProps<T extends ElementType = 'button'> {
   as?: T;
 
   // 스타일 정의
-  color: 'darkMode' | 'light' | 'primary' | 'secondary' | 'danger';
+  color: 'darkMode' | 'lightMode' | 'primary' | 'secondary' | 'danger';
   variant: 'fulled' | 'outlined';
   buttonSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
+  isTransparnt?: boolean;
 
   // 아이콘 정의
   iconName: IconName;
@@ -35,7 +36,7 @@ const SIZES = {
 } as const;
 
 const COLORS = {
-  light: {
+  lightMode: {
     fulled: 'bg-bg-base text-text-base',
     outlined: 'border border-border-base text-text-base',
   },
@@ -66,12 +67,13 @@ const IconButton = <T extends ElementType = 'button'>({
   variant,
   buttonSize,
   className,
+  isTransparnt = false,
   ...restprops
 }: IconButtonProps<T>) => {
   const Component = (as || 'button') as ElementType;
 
   const sizeClass = SIZES[buttonSize];
-  const colorClass = COLORS[color][variant];
+  const colorClass = !isTransparnt ? COLORS[color][variant] : 'bg-transparent';
 
   return (
     <Component

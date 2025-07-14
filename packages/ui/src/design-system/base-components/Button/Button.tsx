@@ -9,11 +9,12 @@ export interface ButtonOwnProps<T extends ElementType = 'button'> {
   as?: T;
 
   // 스타일 정의
-  color?: 'light' | 'darkMode' | 'primary' | 'secondary' | 'danger';
+  color?: 'lightMode' | 'darkMode' | 'primary' | 'secondary' | 'danger';
   variant?: 'fulled' | 'outlined';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   className?: string;
+  isTransparnt?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
 }
@@ -41,7 +42,7 @@ const ROUNDEDS = {
 } as const;
 
 const COLORS = {
-  light: {
+  lightMode: {
     fulled: 'bg-bg-base text-text-base',
     outlined: 'border border-border-base text-text-base',
   },
@@ -71,6 +72,7 @@ const Button = <T extends ElementType = 'button'>({
   size = 'xl',
   rounded = 'full',
   className,
+  isTransparnt = false,
   isDisabled = false,
   isFullWidth = true,
   ...restprops
@@ -78,7 +80,7 @@ const Button = <T extends ElementType = 'button'>({
   const Component = (as || 'button') as ElementType;
 
   const sizeClass = SIZES[size];
-  const colorClass = COLORS[color][variant];
+  const colorClass = !isTransparnt ? COLORS[color][variant] : 'bg-transparent';
   const roundedClass = ROUNDEDS[rounded];
 
   return (

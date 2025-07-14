@@ -5,7 +5,7 @@ interface RegionLabelProps {
 
 const RegionLabel = ({ region }: RegionLabelProps) => {
   return (
-    <Button size="sm" color="light">
+    <Button size="sm" color="lightMode" isFullWidth={false}>
       {region}
     </Button>
   );

@@ -11,7 +11,7 @@ const HeaderIconButton = ({ iconName, ariaLabel, ...restProps }: HeaderIconButto
       iconSize="sm"
       buttonSize="sm"
       variant="fulled"
-      color="light"
+      color="lightMode"
       {...restProps}
     />
   );
