@@ -49,10 +49,6 @@ const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
       `}
     >
       <section className="min-h-screen bg-bg-light">
-        <h2 id="search-title" className="sr-only">
-          검색
-        </h2>
-
         <SearchHeader region="강남구 역삼동" onClose={onClose} />
 
         <section className="mt-14 mb-16 p-container">

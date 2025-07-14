@@ -11,17 +11,22 @@ import HeaderContainer from './HeaderContainer';
 
 interface SearchHeaderProps {
   region: string;
+  resultKeyword?: string;
   onClose?: () => void;
 }
 
-const SearchHeader = ({ region, onClose }: SearchHeaderProps) => {
+const SearchHeader = ({ region, resultKeyword, onClose }: SearchHeaderProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const clearSearch = () => setSearchTerm('');
 
   return (
     <HeaderContainer className="pr-0">
-      <h2 className={cn('font-style-headline-h5', 'sr-only')}>검색하기</h2>
+      {resultKeyword ? (
+        <h1 className={cn('font-style-headline-h5', 'sr-only')}>{resultKeyword} 검색 결과</h1>
+      ) : (
+        <h2 className={cn('font-style-headline-h5', 'sr-only')}>검색하기</h2>
+      )}
 
       <BackButton onClick={onClose} />
 
