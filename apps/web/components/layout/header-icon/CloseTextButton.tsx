@@ -1,8 +1,12 @@
 import { Button } from '@repo/ui/components';
 
-const CloseTextButton = () => {
+interface CloseTextButtonProps {
+  onClick?: () => void;
+}
+
+const CloseTextButton = ({ onClick }: CloseTextButtonProps) => {
   return (
-    <Button size="sm" isTransparnt isFullWidth={false}>
+    <Button onClick={onClick} size="sm" isTransparnt isFullWidth={false}>
       닫기
     </Button>
   );

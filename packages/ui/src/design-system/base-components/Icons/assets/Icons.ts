@@ -6,6 +6,7 @@ import { MdRefresh, MdOutlinePhotoCamera } from 'react-icons/md';
 import { PiMagnifyingGlassBold, PiExport, PiExportFill } from 'react-icons/pi';
 import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
 import { HiXMark } from 'react-icons/hi2';
+import { CiClock1 } from 'react-icons/ci';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -20,6 +21,7 @@ export const ICONS = {
 
   ClockFill: BsClockFill,
   Clock: BsClock,
+  ClockThin: CiClock1,
 
   Hamburger: RxHamburgerMenu,
 

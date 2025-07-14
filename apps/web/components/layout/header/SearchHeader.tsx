@@ -11,9 +11,10 @@ import HeaderContainer from './HeaderContainer';
 
 interface SearchHeaderProps {
   region: string;
+  onClose?: () => void;
 }
 
-const SearchHeader = ({ region }: SearchHeaderProps) => {
+const SearchHeader = ({ region, onClose }: SearchHeaderProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const clearSearch = () => setSearchTerm('');
@@ -22,7 +23,7 @@ const SearchHeader = ({ region }: SearchHeaderProps) => {
     <HeaderContainer className="pr-0">
       <h2 className={cn('font-style-headline-h5', 'sr-only')}>검색하기</h2>
 
-      <BackButton />
+      <BackButton onClick={onClose} />
 
       <div className="ml-md flex-1 relative flex items-center h-full bg-bg-base rounded-lg px-md">
         <input
@@ -37,7 +38,7 @@ const SearchHeader = ({ region }: SearchHeaderProps) => {
         {searchTerm && <Icon name="Cancel" onClick={clearSearch} className="px-xs" />}
       </div>
 
-      <CloseTextButton />
+      <CloseTextButton onClick={onClose} />
     </HeaderContainer>
   );
 };
