@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const TAILWIND_CONFIG_PATH = path.join(__dirname, '../../tailwind-config');
 const OUTPUT_PATH = path.join(
   __dirname,
-  '../src/design-system/design-tokens-stories/colors/generated-tokens.ts'
+  '../src/design-system/design-token-stories/colors/generated-tokens.ts'
 );
 
 interface Variables {

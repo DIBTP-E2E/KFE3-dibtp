@@ -4,7 +4,7 @@
   /** Text Colors **/
   --color-text-base: var(--color-neutral-100); /* body 폰트 색상 기준 */
   --color-text-inverse: var(--color-neutral-10); /* 배경색 사용 시 흰색 폰트 */
-  --color-text-info: var(--color-neutral-60); /* 정보성 텍스트 색상 기준 */
+  --color-text-info: var(--color-neutral-50); /* 정보성 텍스트 색상 기준 */
 
   --color-text-primary: var(--color-primary-600);
   --color-text-secondary: var(--color-secondary-600);
