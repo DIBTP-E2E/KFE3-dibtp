@@ -2,10 +2,6 @@
 @import '@repo/tailwind-config';
 @import '@repo/ui/styles.css';
 
-html {
-  overflow-x: hidden;
-}
-
 body {
   background: var(--color-bg-base);
 }

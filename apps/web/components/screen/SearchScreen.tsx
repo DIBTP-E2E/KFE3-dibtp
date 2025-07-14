@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { Icon } from '@repo/ui/components';
+import { cn } from '@repo/ui/utils/cn';
 
 import { SearchHeader } from '@/components/layout';
 
@@ -49,16 +50,16 @@ const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
       role="dialog"
       aria-modal="true"
       aria-labelledby="search-title"
-      className={`
-        fixed inset-0 z-50 
-        transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-      `}
+      className={cn(
+        'fixed inset-0 z-50',
+        'transform transition-transform duration-300 ease-in-out',
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      )}
     >
       <section className="min-h-screen bg-bg-light">
         <SearchHeader region="강남구 역삼동" onClose={onClose} />
 
-        <section className="mt-14 mb-16 p-container">
+        <section className="flex-1 overflow-y-auto px-container py-container">
           <div className="flex items-center justify-between mb-container">
             <h3 className="font-style-large">최근 검색</h3>
             <button

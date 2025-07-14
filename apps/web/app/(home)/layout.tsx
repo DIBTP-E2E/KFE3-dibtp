@@ -20,9 +20,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         showAlarmButton
       />
 
-      <PageContainer className="flex-1 py-lg" hasTopNavigation={true} hasBottomNavigation={true}>
-        {children}
-      </PageContainer>
+      <PageContainer className="py-lg">{children}</PageContainer>
 
       <BottomNavigation />
     </div>

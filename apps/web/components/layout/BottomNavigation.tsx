@@ -10,7 +10,7 @@ const BottomNavigation = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full md:max-w-container bg-bg-light border-t border-border-base">
+    <nav className="bg-bg-light border-t border-border-base">
       <div className="flex">
         {BOTTOM_NAVIGATION_ITEMS.map((item) => {
           const isActive = pathname === item.href;

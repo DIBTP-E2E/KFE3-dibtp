@@ -24,7 +24,7 @@ const TopNavigation = ({
   showAlarmButton,
 }: TopNavigationProps) => {
   return (
-    <HeaderContainer>
+    <HeaderContainer className="relative">
       <h1 className={cn('font-style-headline-h5', !showTitle && 'sr-only')}>{title}</h1>
 
       <div className="flex gap-sm absolute left-[var(--space-container)]">
