@@ -10,8 +10,8 @@ const HeaderContainer = ({ children, className }: HeaderContainerProps) => {
     <header
       className={cn(
         'flex items-center justify-center',
-        'z-50 fixed top-0 left-1/2 transform -translate-x-1/2',
-        'px-container py-sm w-full md:max-w-container',
+        'z-50',
+        'px-container py-sm',
         'h-[56px] bg-bg-light border-b border-border-base',
         className
       )}
