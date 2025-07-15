@@ -26,9 +26,17 @@
   --space-5xl: 48px;
   --space-6xl: 60px;
   --space-7xl: 80px;
+
+  --space-container: var(--space-md);
 }
 
 @theme {
+  /** container **/
+  --padding-container: var(--space-container);
+  --margin-container: var(--space-container);
+  --gap-container: var(--space-container);
+
+  /** spacing **/
   --padding-xs: var(--space-xs);
   --padding-sm: var(--space-sm);
   --padding-md: var(--space-md);

@@ -20,6 +20,7 @@
   /* Background Colors: bg-* 유틸 클래스 (bg-bg-base, bg-bg-light) */
   --color-bg-light: var(--color-bg-light);
   --color-bg-base: var(--color-bg-base);
+  --color-bg-dark: var(--color-bg-dark);
 
   --color-bg-primary: var(--color-bg-primary);
   --color-bg-secondary: var(--color-bg-secondary);
@@ -31,6 +32,7 @@
   /* Border Colors : border-* 유틸 클래스 (border-border-base, border-border-form) */
   --color-border-base: var(--color-border-base);
   --color-border-form: var(--color-border-form);
+  --color-border-inverse: var(--color-border-inverse);
 
   --color-border-primary: var(--color-border-primary);
   --color-border-secondary: var(--color-border-secondary);

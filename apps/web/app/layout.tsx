@@ -38,7 +38,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className="font-sans antialiased">
         <QueryProvider>
           <div className="flex min-h-screen justify-center">
-            <div className="w-full md:max-w-container bg-bg-light">{children}</div>
+            <div className="w-full md:max-w-container transform translate-x-0 overflow-x-hidden bg-bg-light">
+              {children}
+            </div>
           </div>
         </QueryProvider>
       </body>

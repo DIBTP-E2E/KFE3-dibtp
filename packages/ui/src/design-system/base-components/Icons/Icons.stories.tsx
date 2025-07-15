@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Icon } from './Icon';
-import { ICONS, IconName } from './assets/Icons';
+import { Icon, type IconName } from './Icon';
+import { ICONS } from './assets/Icons';
 
 const ICON_NAMES = Object.keys(ICONS) as IconName[];
 

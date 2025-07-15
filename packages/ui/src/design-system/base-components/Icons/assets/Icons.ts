@@ -2,9 +2,11 @@ import { FaAngleDown, FaAngleLeft, FaAngleRight, FaAngleUp } from 'react-icons/f
 import { GoBellFill, GoBell, GoHeartFill, GoHeart, GoHome, GoHomeFill } from 'react-icons/go';
 import { BsClockFill, BsClock, BsChat, BsChatFill } from 'react-icons/bs';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
+import { HiXMark } from 'react-icons/hi2';
+import { CiClock1 } from 'react-icons/ci';
 import { MdRefresh, MdOutlinePhotoCamera, MdOutlineLocationOn } from 'react-icons/md';
 import { PiMagnifyingGlassBold, PiExport, PiExportFill, PiUser, PiUserFill } from 'react-icons/pi';
-import { HiOutlineShoppingBag, HiShoppingBag } from 'react-icons/hi';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -14,11 +16,13 @@ export const ICONS = {
 
   BellFill: GoBellFill,
   Bell: GoBell,
+
   HeartFill: GoHeartFill,
   Heart: GoHeart,
 
   ClockFill: BsClockFill,
   Clock: BsClock,
+  ClockThin: CiClock1,
 
   Hamburger: RxHamburgerMenu,
 
@@ -42,6 +46,8 @@ export const ICONS = {
   UserFill: PiUserFill,
 
   Location: MdOutlineLocationOn,
-};
 
-export type IconName = keyof typeof ICONS;
+  Search: HiSearch,
+
+  Cancel: HiXMark,
+};

@@ -30,7 +30,11 @@ const config: StorybookConfig = {
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': join(__dirname, '../../../packages/ui/src'),
+      /* 스토리북 별칭 이슈를 위한 임시 경로 매칭 : vite로 마이그레이션 하면서 수정 예정 */
+      '@/utils/cn': join(__dirname, '../../../packages/ui/src/utils/cn'),
+      '@/storybook-components': join(__dirname, '../../../packages/ui/src/storybook-components'),
+      '@/design-system': join(__dirname, '../../../packages/ui/src/design-system'),
+      '@': join(__dirname, '../../web'),
     };
 
     return config;
