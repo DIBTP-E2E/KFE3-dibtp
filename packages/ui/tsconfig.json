@@ -6,7 +6,9 @@
     "types": ["node"],
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]
+      "@ui/*": ["./*"],
+      "@ui/components": ["./design-system/base-components"],
+      "@ui/components/*": ["./design-system/base-components/*"],
     }
   },
   "include": ["src", "**/*.cjs", "postcss.config.mjs", "postcss.config.js"],

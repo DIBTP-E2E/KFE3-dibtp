@@ -30,10 +30,9 @@ const config: StorybookConfig = {
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...config.resolve.alias,
-      /* 스토리북 별칭 이슈를 위한 임시 경로 매칭 : vite로 마이그레이션 하면서 수정 예정 */
-      '@/utils/cn': join(__dirname, '../../../packages/ui/src/utils/cn'),
-      '@/storybook-components': join(__dirname, '../../../packages/ui/src/storybook-components'),
-      '@/design-system': join(__dirname, '../../../packages/ui/src/design-system'),
+      /* 스토리북 별칭 이슈 해결을 위한 경로 매칭 */
+      '@ui': join(__dirname, '../../../packages/ui/src'),
+      /* @web 의 경우 @web 내부에서 @ 별칭을 많이 사용하므로 마이그레이션 필요할 경우 적용 */
       '@': join(__dirname, '../../web'),
     };
 
