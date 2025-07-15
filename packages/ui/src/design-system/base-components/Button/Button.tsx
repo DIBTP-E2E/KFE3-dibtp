@@ -14,7 +14,6 @@ export interface ButtonOwnProps<T extends ElementType = 'button'> {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   className?: string;
-  isTransparent?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
 }
