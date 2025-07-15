@@ -12,89 +12,52 @@ export const useAppNavigation = () => {
   const router = useRouter();
 
   // 기본 네비게이션 함수
-  const navigateTo = (route: string) => {
-    router.push(route);
-  };
+  const navigateTo = (route: string) => router.push(route);
 
   // 홈 페이지로 이동
-  const goHome = () => {
-    router.push(PAGE_ROUTES.HOME);
-  };
+  const goHome = () => router.push(PAGE_ROUTES.HOME);
 
   // 인증 관련 네비게이션
-  const goToLogin = () => {
-    router.push(PAGE_ROUTES.AUTH.LOGIN);
-  };
+  const goToLogin = () => router.push(PAGE_ROUTES.AUTH.LOGIN);
 
-  const goToSignup = () => {
-    router.push(PAGE_ROUTES.AUTH.SIGNUP);
-  };
+  const goToSignup = () => router.push(PAGE_ROUTES.AUTH.SIGNUP);
 
-  const goToLocationSetup = () => {
-    router.push(PAGE_ROUTES.LOCATION);
-  };
+  const goToLocationSetup = () => router.push(PAGE_ROUTES.LOCATION);
 
   // 상품 관련 네비게이션
-  const goToProductRegister = () => {
-    router.push(PAGE_ROUTES.PRODUCTS.REGISTER);
-  };
+  const goToProductRegister = () => router.push(PAGE_ROUTES.PRODUCTS.REGISTER);
 
-  const goToProductDetail = (productId: string) => {
+  const goToProductDetail = (productId: string) =>
     router.push(PAGE_ROUTES.PRODUCTS.DETAIL(productId));
-  };
 
   // 채팅 관련 네비게이션
-  const goToChat = () => {
-    router.push(PAGE_ROUTES.CHAT.LIST);
-  };
+  const goToChat = () => router.push(PAGE_ROUTES.CHAT.LIST);
 
-  const goToChatRoom = (chatId: string) => {
-    router.push(PAGE_ROUTES.CHAT.ROOM(chatId));
-  };
+  const goToChatRoom = (chatId: string) => router.push(PAGE_ROUTES.CHAT.ROOM(chatId));
 
   // 마이페이지 관련 네비게이션
-  const goToMypage = () => {
-    router.push(PAGE_ROUTES.MYPAGE.INDEX);
-  };
+  const goToMypage = () => router.push(PAGE_ROUTES.MYPAGE.INDEX);
 
-  const goToMyProfile = () => {
-    router.push(PAGE_ROUTES.MYPAGE.PROFILE);
-  };
+  const goToMyProfile = () => router.push(PAGE_ROUTES.MYPAGE.PROFILE);
 
-  const goToMyNotifications = () => {
-    router.push(PAGE_ROUTES.MYPAGE.NOTIFICATIONS);
-  };
+  const goToMyNotifications = () => router.push(PAGE_ROUTES.MYPAGE.NOTIFICATIONS);
 
-  const goToMyAccount = () => {
-    router.push(PAGE_ROUTES.MYPAGE.ACCOUNT);
-  };
+  const goToMyAccount = () => router.push(PAGE_ROUTES.MYPAGE.ACCOUNT);
 
-  const goToMySales = () => {
-    router.push(PAGE_ROUTES.MYPAGE.SALES);
-  };
+  const goToMySales = () => router.push(PAGE_ROUTES.MYPAGE.SALES);
 
-  const goToMyPurchases = () => {
-    router.push(PAGE_ROUTES.MYPAGE.PURCHASES);
-  };
+  const goToMyPurchases = () => router.push(PAGE_ROUTES.MYPAGE.PURCHASES);
 
-  const goToMyFavorites = () => {
-    router.push(PAGE_ROUTES.MYPAGE.FAVORITES);
-  };
+  const goToMyFavorites = () => router.push(PAGE_ROUTES.MYPAGE.FAVORITES);
 
   // 뒤로 가기
-  const goBack = () => {
-    router.back();
-  };
+  const goBack = () => router.back();
 
   // 새로고침
-  const refresh = () => {
-    router.refresh();
-  };
+  const refresh = () => router.refresh();
 
   // 교체 (히스토리 스택에 추가하지 않음)
-  const replace = (route: string) => {
-    router.replace(route);
-  };
+  const replace = (route: string) => router.replace(route);
 
   return {
     // 기본 함수들
