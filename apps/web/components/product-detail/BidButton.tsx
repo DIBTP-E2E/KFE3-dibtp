@@ -7,6 +7,14 @@ interface BidButtonProps {
 
 const BidButton = ({ productId, currentPrice }: BidButtonProps) => {
   const handleBid = async () => {
+    const isConfirmed = confirm(
+      `${currentPrice.toLocaleString()}원에 입찰하시겠습니까?`
+    );
+
+    if (!isConfirmed) {
+      return;
+    }
+
     try {
       const response = await fetch('/api/bids', {
         method: 'POST',
