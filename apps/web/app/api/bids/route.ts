@@ -1,28 +1,27 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/prisma';
+import { createBid } from '@/services/bids';
+import { updateProductStatus } from '@/services/products/updateProductState';
 import { getAuthenticatedUser } from '@/utils';
 
 export async function POST(request: NextRequest) {
-  let productId: any;
-  let bidPrice: any;
-  let product: any;
-
   try {
     const authResult = await getAuthenticatedUser();
     if (!authResult.success || !authResult.userId) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
-    const body = await request.json();
-    ({ productId, bidPrice } = body);
+    const { productId, bidPrice } = await request.json();
 
     if (!productId || !bidPrice) {
-      return NextResponse.json({ error: '상품 ID 또는 현재 상품 가격 정보가 누락되었습니다' }, { status: 400 });
+      return NextResponse.json(
+        { error: '상품 ID 또는 현재 상품 가격 정보가 누락되었습니다' },
+        { status: 400 }
+      );
     }
 
-    product = await prisma.products.findUnique({
+    const product = await prisma.products.findUnique({
       where: {
         product_id: productId,
       },
@@ -41,30 +40,15 @@ export async function POST(request: NextRequest) {
     }
 
     if (product.current_price.toFixed(2) !== bidPrice.toFixed(2)) {
-      return NextResponse.json({ error: '입찰 가격이 현재 가격과 일치하지 않습니다' }, { status: 400 });
+      return NextResponse.json(
+        { error: '입찰 가격이 현재 가격과 일치하지 않습니다' },
+        { status: 400 }
+      );
     }
 
     const result = await prisma.$transaction(async (tx) => {
-      // 1. 입찰 생성
-      const newBid = await tx.bids.create({
-        data: {
-          product_id: productId,
-          bidder_user_id: authResult.userId!,
-          bid_price: bidPrice,
-          created_at: new Date(),
-        },
-      });
-
-      // 2. 상품 상태를 'SOLD'로 업데이트
-      const updatedProduct = await tx.products.update({
-        where: {
-          product_id: productId,
-        },
-        data: {
-          status: 'SOLD',
-          updated_at: new Date(),
-        },
-      });
+      const newBid = await createBid(productId, authResult.userId!, bidPrice, tx);
+      const updatedProduct = await updateProductStatus(productId, 'SOLD', tx);
 
       return { newBid, updatedProduct };
     });

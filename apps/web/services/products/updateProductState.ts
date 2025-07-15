@@ -1,4 +1,6 @@
 
+import { PrismaClient } from '@prisma/client';
+
 import { prisma } from '@/lib/prisma';
 import type { ProductStatus } from '@/types';
 
@@ -6,13 +8,19 @@ import type { ProductStatus } from '@/types';
  * 상품 상태를 업데이트하는 서비스 함수
  * @param productId - 상태를 변경할 상품의 ID
  * @param status - 새로운 상품 상태
+ * @param tx - Prisma 트랜잭션 클라이언트 (옵션)
  */
 export const updateProductStatus = async (
   productId: bigint,
-  status: ProductStatus
+  status: ProductStatus,
+  tx?: Omit<
+    PrismaClient,
+    '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+  >
 ) => {
+  const db = tx || prisma;
   try {
-    const updatedProduct = await prisma.products.update({
+    const updatedProduct = await db.products.update({
       where: {
         product_id: productId,
       },

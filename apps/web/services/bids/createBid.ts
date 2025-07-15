@@ -1,4 +1,6 @@
 
+import { PrismaClient } from '@prisma/client';
+
 import { prisma } from '@/lib/prisma';
 
 /**
@@ -6,14 +8,20 @@ import { prisma } from '@/lib/prisma';
  * @param productId - 입찰할 상품의 ID
  * @param bidderUserId - 입찰자의 ID
  * @param bidPrice - 입찰 가격
+ * @param tx - Prisma 트랜잭션 클라이언트 (옵션)
  */
 export const createBid = async (
   productId: bigint,
   bidderUserId: string,
-  bidPrice: number
+  bidPrice: number,
+  tx?: Omit<
+    PrismaClient,
+    '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+  >
 ) => {
+  const db = tx || prisma;
   try {
-    const newBid = await prisma.bids.create({
+    const newBid = await db.bids.create({
       data: {
         product_id: productId,
         bidder_user_id: bidderUserId,
