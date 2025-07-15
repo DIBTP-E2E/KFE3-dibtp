@@ -1,12 +1,12 @@
 'use server';
 
-import { setServerSession } from '@/services/login/setServerSession';
+import { setServerSession } from '@/services/login/server';
 
-export async function loginAction(formData: FormData) {
+export const loginAction = async (formData: FormData) => {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
   await setServerSession(email, password);
 
   return { success: true };
-}
+};

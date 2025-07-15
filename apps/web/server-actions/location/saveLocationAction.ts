@@ -1,9 +1,10 @@
 'use server';
 
-import { updateUserLocation } from '@/services/location';
+import { updateUserLocation } from '@/services/location/server';
 
 import type { Location } from '@/types';
-import { getAuthenticatedUser, handleError, validateLocationData } from '@/utils';
+import { validateLocationData, handleError } from '@/utils';
+import { getAuthenticatedUser } from '@/utils/auth/server';
 
 interface SaveLocationResult {
   success: boolean;

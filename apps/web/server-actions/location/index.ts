@@ -1,1 +1,1 @@
-export { saveLocationAction } from './saveLocationAction';
+export * from './saveLocationAction';
