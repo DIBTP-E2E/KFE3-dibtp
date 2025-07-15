@@ -1,2 +1,2 @@
-export { uploadImages } from './uploadImages';
-export { deleteImages, deleteImage } from './deleteImages';
+export * from './uploadImages';
+export * from './deleteImages';

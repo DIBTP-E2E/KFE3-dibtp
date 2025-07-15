@@ -1,7 +1,7 @@
+import { deleteImages, uploadImages } from '@/services/images/client';
+
 import { API_ROUTES } from '@/constants';
 import type { ProductFormData, UploadedImage, ProductCreationResponse } from '@/types';
-
-import { uploadImages, deleteImages } from '../images/client';
 
 /**
  * DB에 product 추가
@@ -32,7 +32,7 @@ const createProduct = async (
 /**
  * 이미지 storage에 업로드 후 DB에 데이터 추가 함수
  */
-const registerProduct = async (
+export const registerProduct = async (
   productData: ProductFormData,
   images: File[]
 ): Promise<ProductCreationResponse> => {
@@ -74,5 +74,3 @@ const registerProduct = async (
     throw new Error('알 수 없는 오류가 발생했습니다');
   }
 };
-
-export { registerProduct };

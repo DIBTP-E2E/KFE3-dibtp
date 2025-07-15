@@ -1,2 +1,2 @@
-export { uploadToStorage } from './uploadToStorage';
-export { deleteFromStorage } from './deleteFromStorage';
+export * from './uploadToStorage';
+export * from './deleteFromStorage';

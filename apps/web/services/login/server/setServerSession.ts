@@ -1,4 +1,4 @@
-import { supabaseServerClient } from '@/lib/supabase';
+import { supabaseServerClient } from '@/lib/supabase/server';
 
 export async function setServerSession(email: string, password: string) {
   const supabase = await supabaseServerClient();

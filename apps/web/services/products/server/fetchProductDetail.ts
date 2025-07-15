@@ -1,10 +1,9 @@
 import { prisma } from '@/lib/prisma';
 
 import { ProductDetailAPIResponse } from '@/types';
+import { convertToProductDetailResponse } from '@/utils';
 
-import { convertToProductDetailResponse } from './mappers';
-
-const fetchProductDetailWithPrisma = async (
+export const fetchProductDetailWithPrisma = async (
   productId: number
 ): Promise<ProductDetailAPIResponse | null> => {
   try {
@@ -55,5 +54,3 @@ const fetchProductDetailWithPrisma = async (
     throw new Error('Failed to fetch product detail with Prisma');
   }
 };
-
-export { fetchProductDetailWithPrisma };

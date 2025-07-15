@@ -1,4 +1,4 @@
-import { deleteImage } from '@/lib/storage';
+import { deleteImageServer } from '@/lib/storage/server';
 
 /**
  * 서버에서 직접 스토리지에서 이미지 삭제
@@ -19,7 +19,7 @@ export const deleteFromStorage = async (paths: string[], userId: string) => {
       continue;
     }
 
-    const deleteResult = await deleteImage(path);
+    const deleteResult = await deleteImageServer(path);
 
     if (deleteResult.success) {
       deleteResults.push(path);

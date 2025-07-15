@@ -1,6 +1,6 @@
 import { User } from '@supabase/supabase-js';
 
-import { supabaseServerClient } from '@/lib/supabase';
+import { supabaseServerClient } from '@/lib/supabase/server';
 
 interface CreateUserAccountProps {
   email: string;
@@ -8,11 +8,11 @@ interface CreateUserAccountProps {
   nickname: string;
 }
 
-export async function createUserAccount({
+export const createUserAccount = async ({
   email,
   password,
   nickname,
-}: CreateUserAccountProps): Promise<{ user: User }> {
+}: CreateUserAccountProps): Promise<{ user: User }> => {
   const supabase = await supabaseServerClient();
 
   // 비밀번호 길이 검사
@@ -66,4 +66,4 @@ export async function createUserAccount({
   }
 
   return { user };
-}
+};

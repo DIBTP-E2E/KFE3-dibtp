@@ -1,4 +1,4 @@
-import { supabaseServerClient } from '@/lib/supabase';
+import { supabaseServerClient } from '@/lib/supabase/server';
 
 import { createSuccessResult, handleError } from '@/utils';
 

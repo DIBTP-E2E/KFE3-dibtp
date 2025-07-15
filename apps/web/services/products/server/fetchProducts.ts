@@ -1,9 +1,8 @@
 import { prisma } from '@/lib/prisma';
 
 import { ProductsAPIResponse } from '@/types';
-import { getAuthenticatedUser } from '@/utils/auth';
-
-import { convertToProductCardResponse } from './mappers';
+import { convertToProductCardResponse } from '@/utils';
+import { getAuthenticatedUser } from '@/utils/auth/server';
 
 export interface ProductQueryFilters {
   keyword?: string;
@@ -35,7 +34,7 @@ interface OrderByConditions {
   view_count?: 'asc' | 'desc';
 }
 
-const fetchProductsWithPrisma = async (
+export const fetchProductsWithPrisma = async (
   filters: ProductQueryFilters = {}
 ): Promise<ProductsAPIResponse> => {
   try {
@@ -157,5 +156,3 @@ const fetchProductsWithPrisma = async (
     throw new Error('Failed to fetch products with filters');
   }
 };
-
-export { fetchProductsWithPrisma };

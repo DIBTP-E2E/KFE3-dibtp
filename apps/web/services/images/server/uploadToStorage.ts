@@ -1,5 +1,5 @@
-import { uploadImageServer } from '@/lib/storage/storage';
-import { validateImageFile } from '@/lib/validations/image';
+import { uploadImageServer } from '@/lib/storage/server';
+import { validateImageFile } from '@/lib/validations';
 
 import { generateImagePath } from '@/utils';
 
