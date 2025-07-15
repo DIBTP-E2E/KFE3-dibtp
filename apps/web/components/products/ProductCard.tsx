@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { PAGE_ROUTES } from '@/constants';
 import type { ProductStatus } from '@/types';
 import { formatRelativeTime } from '@/utils';
 
@@ -28,7 +29,7 @@ const ProductCard = ({
   createdAt,
 }: ProductCardProps) => {
   return (
-    <Link href={`/products/${productId}`}>
+    <Link href={PAGE_ROUTES.PRODUCTS.DETAIL(productId.toString())}>
       <article
         className="bg-white flex items-center gap-md p-sm rounded-[20px]"
         aria-label={`${title}, 경매 중, 현재가 ${currentPrice}, 지역 ${region}`}

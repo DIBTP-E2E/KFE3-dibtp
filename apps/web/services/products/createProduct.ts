@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '@/constants';
+import { API_ROUTES } from '@/constants';
 import type { ProductFormData, UploadedImage, ProductCreationResponse } from '@/types';
 
 import { uploadImages, deleteImages } from '../images/client';
@@ -10,7 +10,7 @@ const createProduct = async (
   productData: ProductFormData,
   uploadedImages: UploadedImage[] = []
 ): Promise<ProductCreationResponse> => {
-  const response = await fetch(API_ENDPOINTS.PRODUCTS, {
+  const response = await fetch(API_ROUTES.PRODUCTS, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

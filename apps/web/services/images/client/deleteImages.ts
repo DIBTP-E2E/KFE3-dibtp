@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '@/constants';
+import { API_ROUTES } from '@/constants';
 import type { UploadedImage } from '@/types';
 
 /**
@@ -27,7 +27,7 @@ export const deleteImages = async (images: UploadedImage[]): Promise<void> => {
   if (imagePaths.length === 0) return;
 
   try {
-    const response = await fetch(API_ENDPOINTS.IMAGES, {
+    const response = await fetch(API_ROUTES.IMAGES, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

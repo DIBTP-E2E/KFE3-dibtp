@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 
 import { fetchProductsWithPrisma } from '@/services/products';
 
+import { PAGE_ROUTES } from '@/constants';
+
 import { ProductCardAPIResponse } from '@/types';
 
 export const revalidate = 1800; // 30분마다 업데이트
@@ -12,37 +14,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 정적 페이지들
   const staticPages = [
     {
-      url: baseUrl,
+      url: `${baseUrl}${PAGE_ROUTES.HOME}`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 1,
     },
     {
-      url: `${baseUrl}/login`,
+      url: `${baseUrl}${PAGE_ROUTES.AUTH.LOGIN}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.5,
     },
     {
-      url: `${baseUrl}/signup`,
+      url: `${baseUrl}${PAGE_ROUTES.AUTH.SIGNUP}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.5,
     },
     {
-      url: `${baseUrl}/products/register`,
+      url: `${baseUrl}${PAGE_ROUTES.PRODUCTS.REGISTER}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/chat`,
+      url: `${baseUrl}${PAGE_ROUTES.CHAT.LIST}`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/location`,
+      url: `${baseUrl}${PAGE_ROUTES.LOCATION}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.4,
@@ -57,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const products = await fetchProductsWithPrisma();
 
     productPages = products.map((product: ProductCardAPIResponse) => ({
-      url: `${baseUrl}/products/${product.product_id}`,
+      url: `${baseUrl}${PAGE_ROUTES.PRODUCTS.DETAIL(product.product_id.toString())}`,
       lastModified: new Date(product.created_at),
       changeFrequency: 'daily' as const,
       priority: 0.8,

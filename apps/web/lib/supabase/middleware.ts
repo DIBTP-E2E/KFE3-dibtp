@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+import { PAGE_ROUTES } from '@/constants';
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -37,29 +39,34 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
-  const isAuthPage = pathname === '/login' || pathname === '/signup';
+  const isAuthPage = pathname === PAGE_ROUTES.AUTH.LOGIN || pathname === PAGE_ROUTES.AUTH.SIGNUP;
 
   // 인증되지 않은 사용자 처리
   if (!user && !isAuthPage) {
     const url = request.nextUrl.clone();
-    url.pathname = '/login';
+    url.pathname = PAGE_ROUTES.AUTH.LOGIN;
     return NextResponse.redirect(url);
   }
 
   // 인증된 사용자가 로그인/회원가입 페이지 접근 시 홈으로 리다이렉트
   if (user && isAuthPage) {
     const url = request.nextUrl.clone();
-    url.pathname = '/';
+    url.pathname = PAGE_ROUTES.HOME;
     return NextResponse.redirect(url);
   }
 
   // 로그인된 사용자의 위치 정보 확인
-  const protectedPaths = ['/', '/products', '/chat', '/mypage'];
+  const protectedPaths = [
+    PAGE_ROUTES.HOME,
+    PAGE_ROUTES.PRODUCTS.LIST,
+    PAGE_ROUTES.CHAT.LIST,
+    PAGE_ROUTES.MYPAGE.INDEX,
+  ];
   const isProtectedPage = protectedPaths.some(
     (path) => pathname === path || pathname.startsWith(`${path}/`)
   );
 
-  if (user && isProtectedPage && pathname !== '/location') {
+  if (user && isProtectedPage && pathname !== PAGE_ROUTES.LOCATION) {
     const { data: userData } = await supabase
       .from('users')
       .select('region, detail_address')
@@ -70,7 +77,7 @@ export async function updateSession(request: NextRequest) {
 
     if (!hasLocation) {
       const url = request.nextUrl.clone();
-      url.pathname = '/location';
+      url.pathname = PAGE_ROUTES.LOCATION;
       return NextResponse.redirect(url);
     }
   }

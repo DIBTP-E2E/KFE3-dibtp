@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '@/constants';
+import { API_ROUTES } from '@/constants';
 import type { ImageUploadResponse, UploadedImage } from '@/types';
 
 /**
@@ -12,7 +12,7 @@ export const uploadImages = async (images: File[]): Promise<UploadedImage[]> => 
     formData.append('images', image);
   });
 
-  const response = await fetch(API_ENDPOINTS.IMAGES, {
+  const response = await fetch(API_ROUTES.IMAGES, {
     method: 'POST',
     body: formData,
   });
