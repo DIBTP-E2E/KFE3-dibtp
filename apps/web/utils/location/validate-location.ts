@@ -6,7 +6,7 @@ interface ValidationResult {
 }
 
 // 위도, 경도 유효성 검사
-export const validateCoordinates = (lat: number, lng: number): ValidationResult => {
+const validateCoordinates = (lat: number, lng: number): ValidationResult => {
   if (lat < -90 || lat > 90) {
     return {
       isValid: false,
