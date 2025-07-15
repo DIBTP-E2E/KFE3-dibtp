@@ -2,8 +2,8 @@ import { FaAngleDown, FaAngleLeft, FaAngleRight, FaAngleUp } from 'react-icons/f
 import { GoBellFill, GoBell, GoHeartFill, GoHeart, GoHome, GoHomeFill } from 'react-icons/go';
 import { BsClockFill, BsClock, BsChat, BsChatFill } from 'react-icons/bs';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { MdRefresh, MdOutlinePhotoCamera } from 'react-icons/md';
-import { PiMagnifyingGlassBold, PiExport, PiExportFill } from 'react-icons/pi';
+import { MdRefresh, MdOutlinePhotoCamera, MdOutlineLocationOn } from 'react-icons/md';
+import { PiMagnifyingGlassBold, PiExport, PiExportFill, PiUser, PiUserFill } from 'react-icons/pi';
 import { HiOutlineShoppingBag, HiShoppingBag } from 'react-icons/hi';
 
 export const ICONS = {
@@ -37,6 +37,11 @@ export const ICONS = {
 
   Export: PiExport,
   ExportFill: PiExportFill,
+
+  User: PiUser,
+  UserFill: PiUserFill,
+
+  Location: MdOutlineLocationOn,
 };
 
 export type IconName = keyof typeof ICONS;

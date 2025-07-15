@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { uploadToStorage, deleteFromStorage } from '@/services/images/server';
 
-import { getAuthenticatedUser } from '@/utils/auth/auth-utils';
+import { getAuthenticatedUser } from '@/utils/auth';
 
 export async function POST(request: NextRequest) {
   try {
