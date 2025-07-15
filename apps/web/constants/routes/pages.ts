@@ -9,7 +9,6 @@ export const PAGE_ROUTES = {
   LOCATION: '/location',
 
   PRODUCTS: {
-    LIST: '/products',
     REGISTER: '/products/register',
     DETAIL: (productId: string) => `/products/${productId}`,
   },
