@@ -1,6 +1,4 @@
-'use server';
-
-import { supabaseServerClient } from '@/lib/supabase';
+import { supabaseServerClient } from '@/lib/supabase/server';
 
 import { STORAGE_BUCKET_NAME } from '@/constants';
 
@@ -42,7 +40,7 @@ export const uploadImageServer = async (file: File, path: string): Promise<Uploa
 };
 
 // 이미지 삭제
-export const deleteImage = async (path: string) => {
+export const deleteImageServer = async (path: string) => {
   try {
     const supabase = await supabaseServerClient();
 
