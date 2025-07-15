@@ -1,7 +1,7 @@
 import { forwardRef, useId } from 'react';
 import { Textarea, type TextareaProps } from './Textarea';
-import { Label } from '../Label/Label';
-import { FormMessage } from '../FormMessage/FormMessage';
+import { Label } from '../Label';
+import { FormMessage } from '../FormMessage';
 
 export interface LabeledTextareaProps extends TextareaProps {
   label?: string;

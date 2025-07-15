@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@ui/utils/cn';
 
 interface StoryPageProps {
   children: React.ReactNode;

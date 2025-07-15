@@ -1,7 +1,7 @@
 import {
   primitiveColors,
   semanticColorCSSValues,
-} from '@/design-system/design-token-stories/colors/generated-tokens';
+} from '@ui/design-system/design-token-stories/colors/generated-tokens';
 
 // 색상 타입별 매핑
 const COLOR_TYPE_MAPPING = {
