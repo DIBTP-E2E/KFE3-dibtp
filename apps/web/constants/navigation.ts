@@ -27,7 +27,7 @@ export const BOTTOM_NAVIGATION_ITEMS: NavigationItem[] = [
     activeIcon: 'ChatFill',
   },
   {
-    href: '/mypage',
+    href: PAGE_ROUTES.MYPAGE.INDEX,
     label: '마이페이지',
     icon: 'User',
     activeIcon: 'UserFill',

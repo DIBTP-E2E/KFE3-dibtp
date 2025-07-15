@@ -1,29 +1,31 @@
-import ProfileMenuItem, { type ProfileMenuItemProps } from './MypageMenuItem';
+import { PAGE_ROUTES } from '@/constants/routes';
+
+import MypageMenuItem, { type MypageMenuItemProps } from './MypageMenuItem';
 import MypageSectionCard from './MypageSectionCard';
 
 const TradingMenu = () => {
-  const tradingMenuItems: ProfileMenuItemProps[] = [
+  const tradingMenuItems: MypageMenuItemProps[] = [
     {
       icon: 'Export',
       title: '판매내역',
-      href: '/mypage/sales',
+      href: PAGE_ROUTES.MYPAGE.SALES,
     },
     {
       icon: 'ShoppingBag',
       title: '구매내역',
-      href: '/mypage/purchases',
+      href: PAGE_ROUTES.MYPAGE.PURCHASES,
     },
     {
       icon: 'Heart',
       title: '관심목록',
-      href: '/mypage/favorites',
+      href: PAGE_ROUTES.MYPAGE.FAVORITES,
     },
   ];
 
   return (
     <MypageSectionCard title="거래 관리">
       {tradingMenuItems.map((item, index) => (
-        <ProfileMenuItem key={index} {...item} />
+        <MypageMenuItem key={index} {...item} />
       ))}
     </MypageSectionCard>
   );

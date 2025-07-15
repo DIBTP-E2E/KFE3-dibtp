@@ -1,3 +1,5 @@
+import { PAGE_ROUTES } from '@/constants/routes';
+
 import MypageMenuItem, { type MypageMenuItemProps } from './MypageMenuItem';
 import MypageSectionCard from './MypageSectionCard';
 
@@ -6,17 +8,17 @@ const SettingsMenu = () => {
     {
       icon: 'Location',
       title: '위치 설정',
-      href: '/location',
+      href: PAGE_ROUTES.LOCATION,
     },
     {
       icon: 'Bell',
       title: '알림 설정',
-      href: '/mypage/notifications',
+      href: PAGE_ROUTES.MYPAGE.NOTIFICATIONS,
     },
     {
       icon: 'User',
       title: '계정 설정',
-      href: '/mypage/settings',
+      href: PAGE_ROUTES.MYPAGE.ACCOUNT,
     },
   ];
 

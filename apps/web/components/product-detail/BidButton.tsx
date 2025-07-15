@@ -1,5 +1,7 @@
 'use client';
 
+import { API_ROUTES } from '@/constants/routes';
+
 interface BidButtonProps {
   productId: number;
   currentPrice: number;
@@ -14,7 +16,7 @@ const BidButton = ({ productId, currentPrice }: BidButtonProps) => {
     }
 
     try {
-      const response = await fetch('/api/bids', {
+      const response = await fetch(API_ROUTES.BIDS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,13 +1,15 @@
 import { Avatar, Icon } from '@repo/ui/components';
 import Link from 'next/link';
 
+import { PAGE_ROUTES } from '@/constants/routes';
+
 interface MypageHeaderProps {
   userNickname: string;
 }
 
 const MypageHeader = ({ userNickname }: MypageHeaderProps) => {
   return (
-    <Link href="/profile" className="block">
+    <Link href={PAGE_ROUTES.MYPAGE.PROFILE} className="block">
       <div className="bg-gradient-to-br from-orange-200 via-orange-400 to-bg-primary px-md py-md rounded-lg shadow-sm">
         <div className="flex items-center gap-md">
           <Avatar
