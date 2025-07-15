@@ -1,4 +1,4 @@
-import { IconButton } from '@/components/shared';
+import { IconButton } from '@repo/ui/components';
 
 type IconButtonProps = React.ComponentProps<typeof IconButton>;
 type HeaderIconButtonProps = Omit<IconButtonProps, 'variant' | 'color' | 'iconSize' | 'buttonSize'>;

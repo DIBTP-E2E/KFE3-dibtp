@@ -8,3 +8,4 @@ export * from './Textarea';
 export * from './Icons';
 export * from './Button';
 export * from './Thumbnail';
+export * from './IconButton';

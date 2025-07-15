@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import IconButton from './IconButton';
 
 const meta: Meta<typeof IconButton> = {
-  title: 'Web App/Shared/IconButton',
+  title: 'Design System/Base Components/Icon Button',
   component: IconButton,
   parameters: {
     layout: 'padded',
@@ -116,7 +116,7 @@ const IconsTable = ({ iconName, ariaLabel }: { iconName: IconName; ariaLabel: st
             <Th>isTransparent</Th>
             <Td>
               <IconButton
-                isTransparnt
+                isTransparent
                 iconName={iconName}
                 iconSize="md"
                 color="lightMode"
@@ -131,7 +131,7 @@ const IconsTable = ({ iconName, ariaLabel }: { iconName: IconName; ariaLabel: st
             </Td>
             <Th>
               <IconButton
-                isTransparnt
+                isTransparent
                 iconName={iconName}
                 iconSize="md"
                 color="lightMode"
