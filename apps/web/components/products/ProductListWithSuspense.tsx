@@ -1,12 +1,14 @@
 import { Suspense } from 'react';
 
+import { ProductQueryFilters } from '@/services/products';
+
 import ProductList from './ProductList';
 import ProductListSkeleton from './ProductListSkeleton';
 
-const ProductListWithSuspense = () => {
+const ProductListWithSuspense = ({ keyword }: ProductQueryFilters) => {
   return (
     <Suspense fallback={<ProductListSkeleton />}>
-      <ProductList />
+      <ProductList keyword={keyword} />
     </Suspense>
   );
 };

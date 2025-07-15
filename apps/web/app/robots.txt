@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# 사이트맵 위치
+Sitemap: https://dibtp-for-deploy-web.vercel.app/sitemap.xml
+
+# 크롤링 제외 영역
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /private/
+Disallow: /mypage/
+
+# 특정 검색엔진 설정
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# 크롤링 속도 제한 (초당 요청 수)
+Crawl-delay: 1

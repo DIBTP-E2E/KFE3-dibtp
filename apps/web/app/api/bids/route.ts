@@ -1,0 +1,80 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+import { prisma } from '@/lib/prisma';
+import { createBid } from '@/services/bids';
+import { updateProductStatus } from '@/services/products/updateProductState';
+import { getAuthenticatedUser } from '@/utils';
+
+export async function POST(request: NextRequest) {
+  try {
+    const authResult = await getAuthenticatedUser();
+    if (!authResult.success || !authResult.userId) {
+      return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
+    }
+
+    const { productId, bidPrice } = await request.json();
+
+    if (!productId || !bidPrice) {
+      return NextResponse.json(
+        { error: '상품 ID 또는 현재 상품 가격 정보가 누락되었습니다' },
+        { status: 400 }
+      );
+    }
+
+    const product = await prisma.products.findUnique({
+      where: {
+        product_id: productId,
+      },
+    });
+
+    if (!product) {
+      return NextResponse.json({ error: '상품을 찾을 수 없습니다' }, { status: 404 });
+    }
+
+    if (product.status !== 'ACTIVE') {
+      return NextResponse.json({ error: '경매가 진행 중인 상품이 아닙니다' }, { status: 400 });
+    }
+
+    if (product.seller_user_id === authResult.userId) {
+      return NextResponse.json({ error: '자신의 상품에는 입찰할 수 없습니다' }, { status: 400 });
+    }
+
+    if (product.current_price.toFixed(2) !== bidPrice.toFixed(2)) {
+      return NextResponse.json(
+        { error: '입찰 가격이 현재 가격과 일치하지 않습니다' },
+        { status: 400 }
+      );
+    }
+
+    const result = await prisma.$transaction(async (tx) => {
+      const newBid = await createBid(productId, authResult.userId!, bidPrice, tx);
+      const updatedProduct = await updateProductStatus(productId, 'SOLD', tx);
+
+      return { newBid, updatedProduct };
+    });
+
+    const jsonResponse = JSON.stringify(
+      {
+        message: '입찰이 성공적으로 완료되었습니다',
+        bid: result.newBid,
+        product: result.updatedProduct,
+      },
+      (key, value) => (typeof value === 'bigint' ? value.toString() : value)
+    );
+
+    return new NextResponse(jsonResponse, {
+      status: 201,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error) {
+    console.error('입찰 처리 오류:', error);
+
+    if (error instanceof Error && error.message.includes('Prisma')) {
+      return NextResponse.json({ error: '데이터베이스 오류가 발생했습니다' }, { status: 500 });
+    }
+
+    return NextResponse.json({ error: '입찰 처리 중 오류가 발생했습니다' }, { status: 500 });
+  }
+}

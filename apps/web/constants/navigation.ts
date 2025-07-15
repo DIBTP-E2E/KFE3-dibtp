@@ -25,4 +25,10 @@ export const BOTTOM_NAVIGATION_ITEMS: NavigationItem[] = [
     icon: 'Chat',
     activeIcon: 'ChatFill',
   },
+  {
+    href: '/mypage',
+    label: '마이페이지',
+    icon: 'User',
+    activeIcon: 'UserFill',
+  },
 ];

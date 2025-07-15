@@ -37,3 +37,6 @@ dist/
 
 *storybook.log
 storybook-static
+
+# release automation
+release_notes.md
