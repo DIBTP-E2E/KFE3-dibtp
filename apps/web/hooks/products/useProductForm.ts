@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 
-import { useRouter } from 'next/navigation';
-
 import { z } from 'zod';
 
 import { productSchema } from '@/lib/validations';
+
+import { useAppNavigation } from '@/hooks';
 
 import { registerProduct } from '@/services';
 import type { ProductFormData, ProductFormErrors, ProductFieldName } from '@/types';
@@ -22,7 +22,7 @@ const initialFormData: ProductFormData = {
 };
 
 export const useProductForm = () => {
-  const router = useRouter();
+  const { goHome } = useAppNavigation();
   const [formData, setFormData] = useState<ProductFormData>(initialFormData);
   const [images, setImages] = useState<File[]>([]);
   const [errors, setErrors] = useState<ProductFormErrors>({});
@@ -60,7 +60,7 @@ export const useProductForm = () => {
       // TODO: 토스트 메시지 또는 모달로 개선 필요
       alert('상품이 성공적으로 등록되었습니다!');
       resetForm();
-      router.push('/');
+      goHome();
     } catch (error) {
       if (error instanceof z.ZodError) {
         // Handle Zod validation errors

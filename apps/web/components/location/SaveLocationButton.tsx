@@ -2,8 +2,7 @@
 
 import React, { useState, useTransition } from 'react';
 
-import { useRouter } from 'next/navigation';
-
+import { useAppNavigation } from '@/hooks';
 import { saveLocationAction } from '@/server-actions';
 import type { Location } from '@/types';
 
@@ -12,7 +11,7 @@ interface SaveLocationButtonProps {
 }
 
 const SaveLocationButton = ({ selectedLocation }: SaveLocationButtonProps) => {
-  const router = useRouter();
+  const { goHome } = useAppNavigation();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -35,7 +34,7 @@ const SaveLocationButton = ({ selectedLocation }: SaveLocationButtonProps) => {
 
           // 2초 후 홈페이지로 이동
           setTimeout(() => {
-            router.push('/');
+            goHome();
           }, 2000);
         } else {
           setError('저장에 실패했습니다.');

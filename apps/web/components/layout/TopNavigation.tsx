@@ -1,7 +1,8 @@
 'use client';
 
 import { Icon } from '@repo/ui/components';
-import { useRouter } from 'next/navigation';
+
+import { useAppNavigation } from '@/hooks';
 
 interface TopNavigationProps {
   title: string;
@@ -9,10 +10,10 @@ interface TopNavigationProps {
 }
 
 const TopNavigation = ({ title, showBackButton = false }: TopNavigationProps) => {
-  const router = useRouter();
+  const { goBack } = useAppNavigation();
 
   const handleBack = () => {
-    router.back();
+    goBack();
   };
 
   return (

@@ -2,11 +2,11 @@
 
 import { useState, useTransition } from 'react';
 
-import { useRouter } from 'next/navigation';
-
 import { signupAction } from '@/server-actions/signup/signupAction';
 
 import FormErrorMessage from '@/components/shared/FormErrorMessage';
+
+import { useAppNavigation } from '@/hooks';
 
 import EmailInput from './EmailInput';
 import NameInput from './NameInput';
@@ -16,7 +16,7 @@ import SignupButton from './SignupButton';
 const SignupForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
+  const { goHome } = useAppNavigation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ const SignupForm = () => {
       try {
         const res = await signupAction(formData);
         if (res.success) {
-          router.push('/');
+          goHome();
         }
       } catch (err: any) {
         setError(err?.message || '회원가입에 실패했습니다.');

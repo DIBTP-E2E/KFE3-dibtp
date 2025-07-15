@@ -1,13 +1,14 @@
 'use client';
 
 import { Icon } from '@repo/ui/components/Icons';
-import { useRouter } from 'next/navigation';
+
+import { useAppNavigation } from '@/hooks';
 
 const BackButton = () => {
-  const router = useRouter();
+  const { goHome } = useAppNavigation();
 
   const handleClick = () => {
-    router.push('/');
+    goHome();
   };
 
   return (

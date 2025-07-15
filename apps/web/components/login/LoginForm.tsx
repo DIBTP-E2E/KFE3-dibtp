@@ -2,18 +2,18 @@
 
 import { useState, useTransition } from 'react';
 
-import { useRouter } from 'next/navigation';
-
 import { loginAction } from '@/server-actions/login/loginAction';
 
 import FormErrorMessage from '@/components/shared/FormErrorMessage';
+
+import { useAppNavigation } from '@/hooks';
 
 import EmailInput from './EmailInput';
 import LoginButton from './LoginButton';
 import PasswordInput from './PasswordInput';
 
 const LoginForm = () => {
-  const router = useRouter();
+  const { goHome } = useAppNavigation();
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -27,7 +27,7 @@ const LoginForm = () => {
       try {
         const res = await loginAction(formData);
         if (res.success) {
-          router.push('/');
+          goHome();
         }
       } catch (err: any) {
         setError(err?.message || '로그인에 실패했습니다.');
