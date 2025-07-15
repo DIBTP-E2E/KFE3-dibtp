@@ -3,8 +3,6 @@ import { Metadata } from 'next';
 import { PageContainer } from '@/components/layout';
 import { ProductListWithSuspense } from '@/components/products';
 
-import { searchProductsWithPrisma } from '@/services';
-
 interface SearchResultPageParams {
   searchParams: Promise<{ keyword: string }>;
 }
@@ -31,11 +29,10 @@ export async function generateMetadata({
 
 const SearchResultPage = async ({ searchParams }: SearchResultPageParams) => {
   const { keyword } = await searchParams;
-  const products = await searchProductsWithPrisma({ keyword });
 
   return (
     <PageContainer>
-      <ProductListWithSuspense products={products} />
+      <ProductListWithSuspense keyword={keyword} />
     </PageContainer>
   );
 };

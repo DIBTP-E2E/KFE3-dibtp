@@ -1,16 +1,14 @@
-import type { ProductsAPIResponse } from '@/types';
+import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products';
 
 import ProductCard from './ProductCard';
 
-interface ProductListProps {
-  products: ProductsAPIResponse;
-}
+const ProductList = async ({ keyword }: ProductQueryFilters) => {
+  const products = await fetchProductsWithPrisma({ keyword });
 
-const ProductList = ({ products }: ProductListProps) => {
   if (!products || products.length === 0) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <p className="text-gray-500">등록된 상품이 없습니다.</p>
+      <div className="flex items-center justify-center p-3xl">
+        <p className="text-text-info">등록된 상품이 없습니다.</p>
       </div>
     );
   }

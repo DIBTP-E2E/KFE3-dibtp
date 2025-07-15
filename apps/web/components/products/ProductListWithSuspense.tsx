@@ -1,18 +1,14 @@
 import { Suspense } from 'react';
 
-import type { ProductsAPIResponse } from '@/types';
+import { ProductQueryFilters } from '@/services/products';
 
 import ProductList from './ProductList';
 import ProductListSkeleton from './ProductListSkeleton';
 
-interface ProductListWithSuspenseProps {
-  products: ProductsAPIResponse;
-}
-
-const ProductListWithSuspense = ({ products }: ProductListWithSuspenseProps) => {
+const ProductListWithSuspense = ({ keyword }: ProductQueryFilters) => {
   return (
     <Suspense fallback={<ProductListSkeleton />}>
-      <ProductList products={products} />
+      <ProductList keyword={keyword} />
     </Suspense>
   );
 };
