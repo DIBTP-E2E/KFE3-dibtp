@@ -6,7 +6,7 @@ interface CloseTextButtonProps {
 
 const CloseTextButton = ({ onClick }: CloseTextButtonProps) => {
   return (
-    <Button onClick={onClick} size="sm" isTransparnt isFullWidth={false}>
+    <Button onClick={onClick} size="sm" isTransparent isFullWidth={false}>
       닫기
     </Button>
   );
