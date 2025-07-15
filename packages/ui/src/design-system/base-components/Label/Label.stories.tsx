@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Label } from './Label';
+import { default as Label } from './Label';
 
 const meta: Meta<typeof Label> = {
   title: 'Design System/Base Components/Label',

@@ -1,5 +1,6 @@
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { cn } from '@/utils/cn';
+
+import { cn } from '@ui/utils/cn';
 
 export interface PasswordToggleProps {
   showPassword: boolean;

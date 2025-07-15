@@ -2,7 +2,7 @@
 
 import { forwardRef } from 'react';
 import Image from 'next/image';
-import { cn } from '@/utils/cn';
+import { cn } from '@ui/utils/cn';
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   src?: string; // 프로필 이미지 URL

@@ -1,4 +1,4 @@
-import type { IconName } from '@repo/ui/components/Icons';
+import type { IconName } from '@ui/components/Icons';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import IconButton from './IconButton';

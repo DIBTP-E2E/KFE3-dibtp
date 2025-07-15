@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { cn } from '@/utils/cn';
+import { cn } from '@ui/utils/cn';
 
 export interface InputProps extends Omit<React.ComponentProps<'input'>, 'size'> {
   variant?: 'default' | 'error' | 'success';

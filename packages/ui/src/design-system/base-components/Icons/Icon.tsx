@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@ui/utils/cn';
 import { ICONS } from './assets/Icons';
 
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -13,6 +13,7 @@ type IconColor =
   | 'error';
 
 export type IconName = keyof typeof ICONS;
+
 export interface IconProps extends React.SVGProps<SVGSVGElement> {
   size?: IconSize;
   color?: IconColor;
@@ -49,3 +50,5 @@ export const Icon = ({ name, size = 'md', color = 'default', className, ...props
 
   return <IconComponent className={cn(sizeClass, colorClass, className)} {...props} />;
 };
+
+export default Icon;

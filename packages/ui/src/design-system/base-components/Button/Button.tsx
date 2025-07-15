@@ -1,5 +1,5 @@
 import type { ElementType } from 'react';
-import { cn } from '@/utils/cn';
+import { cn } from '@ui/utils/cn';
 
 export interface ButtonOwnProps<T extends ElementType = 'button'> {
   children: React.ReactNode;

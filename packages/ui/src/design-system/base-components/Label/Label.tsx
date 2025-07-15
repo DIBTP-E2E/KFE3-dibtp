@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@ui/utils/cn';
 
 export interface LabelProps {
   htmlFor?: string;
@@ -7,7 +7,7 @@ export interface LabelProps {
   className?: string;
 }
 
-export const Label = ({ htmlFor, children, required = false, className }: LabelProps) => {
+const Label = ({ htmlFor, children, required = false, className }: LabelProps) => {
   return (
     <label
       htmlFor={htmlFor}
@@ -18,3 +18,5 @@ export const Label = ({ htmlFor, children, required = false, className }: LabelP
     </label>
   );
 };
+
+export default Label;

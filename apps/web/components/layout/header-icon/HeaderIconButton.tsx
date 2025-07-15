@@ -1,6 +1,5 @@
-import { IconButton } from '@repo/ui/components';
+import { IconButton, type IconButtonProps } from '@repo/ui/components';
 
-type IconButtonProps = React.ComponentProps<typeof IconButton>;
 type HeaderIconButtonProps = Omit<IconButtonProps, 'variant' | 'color' | 'iconSize' | 'buttonSize'>;
 
 const HeaderIconButton = ({ iconName, ariaLabel, ...restProps }: HeaderIconButtonProps) => {
