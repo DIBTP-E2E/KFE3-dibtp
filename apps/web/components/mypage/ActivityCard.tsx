@@ -7,7 +7,7 @@ interface StatItem {
 }
 
 interface ActivityCardProps {
-  icon: string;
+  icon: IconName;
   title: string;
   iconBgColor: string;
   stats: StatItem[];
@@ -18,7 +18,7 @@ const ActivityCard = ({ icon, title, iconBgColor, stats }: ActivityCardProps) =>
     <div className="flex flex-col gap-sm p-sm">
       <div className="flex items-center justify-center gap-sm">
         <div className={`w-7 h-7 ${iconBgColor} rounded-md flex items-center justify-center`}>
-          <Icon name={icon as IconName} size="sm" color="inverse" />
+          <Icon name={icon} size="sm" color="inverse" />
         </div>
         <h3 className="font-style-medium">{title}</h3>
       </div>

@@ -2,7 +2,7 @@ import { Icon, type IconName } from '@repo/ui/components';
 import Link from 'next/link';
 
 export interface MypageMenuItemProps {
-  icon: string;
+  icon: IconName;
   title: string;
   href: string;
 }
@@ -12,7 +12,7 @@ const MypageMenuItem = ({ icon, title, href }: MypageMenuItemProps) => {
     <Link href={href} className="flex items-center justify-between py-sm">
       <div className="flex items-center gap-sm">
         <div className="w-8 h-8 flex items-center justify-center">
-          <Icon name={icon as IconName} size="sm" color="default" />
+          <Icon name={icon} size="sm" color="default" />
         </div>
         <div>
           <h3 className="font-style-medium">{title}</h3>
