@@ -14,7 +14,7 @@ export interface ButtonOwnProps<T extends ElementType = 'button'> {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   className?: string;
-  isTransparnt?: boolean;
+  isTransparent?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
 }
@@ -72,7 +72,6 @@ const Button = <T extends ElementType = 'button'>({
   size = 'xl',
   rounded = 'full',
   className,
-  isTransparnt = false,
   isDisabled = false,
   isFullWidth = true,
   ...restprops
@@ -80,7 +79,7 @@ const Button = <T extends ElementType = 'button'>({
   const Component = (as || 'button') as ElementType;
 
   const sizeClass = SIZES[size];
-  const colorClass = !isTransparnt ? COLORS[color][variant] : 'bg-transparent';
+  const colorClass = COLORS[color][variant];
   const roundedClass = ROUNDEDS[rounded];
 
   return (

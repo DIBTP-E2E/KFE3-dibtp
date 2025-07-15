@@ -14,7 +14,7 @@ interface IconButtonOwnProps<T extends ElementType = 'button'> {
   variant: 'fulled' | 'outlined';
   buttonSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
-  isTransparnt?: boolean;
+  isTransparent?: boolean;
 
   // 아이콘 정의
   iconName: IconName;
@@ -67,13 +67,13 @@ const IconButton = <T extends ElementType = 'button'>({
   variant,
   buttonSize,
   className,
-  isTransparnt = false,
+  isTransparent = false,
   ...restprops
 }: IconButtonProps<T>) => {
   const Component = (as || 'button') as ElementType;
 
   const sizeClass = SIZES[buttonSize];
-  const colorClass = !isTransparnt ? COLORS[color][variant] : 'bg-transparent';
+  const colorClass = !isTransparent ? COLORS[color][variant] : 'bg-transparent';
 
   return (
     <Component
