@@ -7,14 +7,14 @@ interface MypageLayoutProps {
 const MypageLayout = ({ children }: MypageLayoutProps) => {
   return (
     <div className="h-screen flex flex-col">
-      <TopNavigation title="마이페이지" showBackButton={false} />
-      <PageContainer
-        className="flex-1 py-lg bg-bg-base"
-        hasTopNavigation={true}
-        hasBottomNavigation={true}
-      >
-        {children}
-      </PageContainer>
+      <TopNavigation
+        title="마이페이지"
+        showTitle
+        showBackButton={false}
+        showSearchButton={false}
+        showAlarmButton={false}
+      />
+      <PageContainer className="flex-1 py-lg bg-bg-base">{children}</PageContainer>
       <BottomNavigation />
     </div>
   );
