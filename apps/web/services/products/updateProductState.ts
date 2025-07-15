@@ -1,7 +1,7 @@
-
-import { PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { prisma } from '@/lib/prisma';
+
 import type { ProductStatus } from '@/types';
 
 /**
@@ -13,10 +13,7 @@ import type { ProductStatus } from '@/types';
 export const updateProductStatus = async (
   productId: bigint,
   status: ProductStatus,
-  tx?: Omit<
-    PrismaClient,
-    '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
-  >
+  tx?: Prisma.TransactionClient
 ) => {
   const db = tx || prisma;
   try {

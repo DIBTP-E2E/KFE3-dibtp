@@ -1,5 +1,4 @@
-
-import { PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { prisma } from '@/lib/prisma';
 
@@ -14,10 +13,7 @@ export const createBid = async (
   productId: bigint,
   bidderUserId: string,
   bidPrice: number,
-  tx?: Omit<
-    PrismaClient,
-    '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
-  >
+  tx?: Prisma.TransactionClient
 ) => {
   const db = tx || prisma;
   try {
