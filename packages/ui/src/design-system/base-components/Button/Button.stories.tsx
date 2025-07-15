@@ -12,10 +12,11 @@ const meta: Meta<ButtonProps<'button'>> = {
 공통 버튼 컴포넌트입니다.
 
 ## 주요 기능
-- ✅ 6가지 미리 정의된 variant (Primary/Secondary/Danger의 Filled/Outlined 조합)
-- ✅ 3가지 크기 지원 (sm, md, lg)
+- ✅ 6가지 미리 정의된 variant (lightMode/darkMode/Primary/Secondary/Danger의 Filled/Outlined 조합)
+- ✅ 다양한 크기 지원 (sm, md, lg)
 - ✅ 다양한 HTML 요소로 렌더링 가능 (button, a, div, span)
 - ✅ 전체 너비 및 비활성화 상태 지원
+- ✅ 투명 배경 지원 (isTransparent)
 
 ## as prop 사용 가이드
 - **button**: 기본값, 일반적인 버튼 용도
@@ -23,6 +24,11 @@ const meta: Meta<ButtonProps<'button'>> = {
 - **div/span**: react-router-dom의 <Link>와 함께 사용할 때 <a> 태그 중복 방지를 위해 사용
 - Next.js의 <Link>는 자식이 <a> 태그일 경우 a 요소 중복이 자동 제거되므로 <a> 태그 사용 권장
 - 불필요한 div, span 사용은 지양해주세요
+
+## isTransparent 사용 가이드
+- 헤더나 툴바에서 다른 아이콘 버튼들과 균형을 맞춰야 하는 텍스트 버튼에 사용
+- 배경색이 투명하여 주변 요소들과 자연스럽게 어우러짐
+- 주로 '닫기', '취소', '완료' 등의 액션 버튼에 활용
         `,
       },
     },
@@ -32,10 +38,10 @@ const meta: Meta<ButtonProps<'button'>> = {
   argTypes: {
     color: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'danger'],
+      options: ['lightMode', 'darkMode', 'primary', 'secondary', 'danger'],
       description: '버튼의 색상을 선택하세요.',
       table: {
-        type: { summary: 'primary | secondary | danger' },
+        type: { summary: 'lightMode | darkMode | primary | secondary | danger' },
         defaultValue: { summary: 'primary' },
       },
     },
@@ -50,10 +56,10 @@ const meta: Meta<ButtonProps<'button'>> = {
     },
     size: {
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg', 'xl'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
       description: '버튼의 크기를 선택하세요.',
       table: {
-        type: { summary: 'sm | md | lg | xl' },
+        type: { summary: 'xs | sm | md | lg | xl' },
         defaultValue: { summary: 'xl' },
       },
     },
@@ -69,6 +75,10 @@ const meta: Meta<ButtonProps<'button'>> = {
     isFullWidth: {
       control: 'boolean',
       description: '버튼이 전체 너비를 차지할지 설정하세요.',
+    },
+    isTransparent: {
+      control: 'boolean',
+      description: '버튼의 배경을 투명하게 설정하세요. 헤더나 툴바의 텍스트 버튼에 유용합니다.',
     },
     rounded: {
       control: { type: 'select' },
@@ -97,6 +107,7 @@ const meta: Meta<ButtonProps<'button'>> = {
     rounded: 'full',
     isDisabled: false,
     isFullWidth: true,
+    isTransparent: false,
   },
 };
 
@@ -207,6 +218,160 @@ export const AsAnchor: AnchorStory = {
   },
 };
 
+export const TransparentButton: Story = {
+  args: {
+    children: '닫기',
+    color: 'primary',
+    size: 'sm',
+    isTransparent: true,
+    isFullWidth: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'isTransparent 속성을 사용한 투명 버튼입니다. 헤더나 툴바에서 다른 아이콘과 균형을 맞추는 텍스트 버튼에 적합합니다.',
+      },
+    },
+  },
+};
+
+export const HeaderExample: Story = {
+  render: () => (
+    <div className="w-full bg-white border border-gray-200 rounded-lg">
+      {/* 검색 헤더 예시 */}
+      <div className="flex items-center h-14 px-4 border-b border-gray-100">
+        <div className="flex items-center gap-2">
+          {/* 뒤로가기 아이콘 (시뮬레이션) */}
+          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+            <span className="text-xs">←</span>
+          </div>
+        </div>
+
+        <div className="flex-1 mx-4">
+          <div className="h-8 bg-gray-50 rounded-lg px-3 flex items-center">
+            <span className="text-sm text-gray-500">서울 근처에서 검색</span>
+          </div>
+        </div>
+
+        {/* 투명 텍스트 버튼 */}
+        <Button size="sm" isTransparent isFullWidth={false} color="primary">
+          닫기
+        </Button>
+      </div>
+
+      {/* 일반 헤더 예시 */}
+      <div className="flex items-center h-14 px-4">
+        <div className="flex items-center gap-2">
+          {/* 뒤로가기 아이콘 (시뮬레이션) */}
+          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+            <span className="text-xs">←</span>
+          </div>
+        </div>
+
+        <h1 className="flex-1 text-center font-medium">페이지 제목</h1>
+
+        {/* 투명 텍스트 버튼 */}
+        <Button size="sm" isTransparent isFullWidth={false} color="primary">
+          완료
+        </Button>
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '실제 헤더에서 isTransparent 버튼이 어떻게 사용되는지 보여주는 예시입니다. 아이콘과 텍스트 버튼이 시각적으로 균형을 이룹니다.',
+      },
+    },
+  },
+};
+
+export const TransparentComparison: Story = {
+  render: () => (
+    <div className="w-full space-y-6">
+      {/* 일반 버튼 vs 투명 버튼 비교 */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">일반 버튼 vs 투명 버튼</h3>
+
+        <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+          <span className="text-sm text-gray-600">일반 버튼:</span>
+          <Button size="sm" color="primary" variant="fulled" isFullWidth={false}>
+            닫기
+          </Button>
+          <Button size="sm" color="secondary" variant="outlined" isFullWidth={false}>
+            취소
+          </Button>
+        </div>
+
+        <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+          <span className="text-sm text-gray-600">투명 버튼:</span>
+          <Button size="sm" isTransparent isFullWidth={false} color="primary">
+            닫기
+          </Button>
+          <Button size="sm" isTransparent isFullWidth={false} color="secondary">
+            취소
+          </Button>
+        </div>
+      </div>
+
+      {/* 다양한 색상의 투명 버튼 */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">투명 버튼 색상 옵션</h3>
+
+        <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+          <Button size="sm" isTransparent isFullWidth={false} color="primary">
+            Primary
+          </Button>
+          <Button size="sm" isTransparent isFullWidth={false} color="secondary">
+            Secondary
+          </Button>
+          <Button size="sm" isTransparent isFullWidth={false} color="danger">
+            Danger
+          </Button>
+          <Button size="sm" isTransparent isFullWidth={false} color="lightMode">
+            Light Mode
+          </Button>
+          <Button size="sm" isTransparent isFullWidth={false} color="darkMode">
+            Dark Mode
+          </Button>
+        </div>
+      </div>
+
+      {/* 툴바 시뮬레이션 */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">툴바에서의 활용</h3>
+
+        <div className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-gray-200 rounded"></div>
+            <div className="w-6 h-6 bg-gray-200 rounded"></div>
+            <div className="w-6 h-6 bg-gray-200 rounded"></div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button size="xs" isTransparent isFullWidth={false} color="secondary">
+              취소
+            </Button>
+            <Button size="xs" isTransparent isFullWidth={false} color="primary">
+              저장
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '투명 버튼과 일반 버튼의 차이점과 다양한 활용 사례를 보여줍니다. 툴바나 헤더에서 자연스러운 통합을 제공합니다.',
+      },
+    },
+  },
+};
+
 export const AllVariants: Story = {
   render: () => (
     <div className="flex w-full flex-col gap-4">
@@ -247,6 +412,9 @@ export const AllSizes: Story = {
   render: () => (
     <div className="flex w-full flex-col gap-4">
       <div className="flex items-center gap-2">
+        <Button color="primary" variant="fulled" size="xs" isFullWidth={false}>
+          Extra Small
+        </Button>
         <Button color="primary" variant="fulled" size="sm" isFullWidth={false}>
           Small
         </Button>
@@ -265,7 +433,7 @@ export const AllSizes: Story = {
   parameters: {
     docs: {
       description: {
-        story: '버튼의 모든 크기를 비교해볼 수 있습니다 (sm < md < lg < xl).',
+        story: '버튼의 모든 크기를 비교해볼 수 있습니다 (xs < sm < md < lg < xl).',
       },
     },
   },
