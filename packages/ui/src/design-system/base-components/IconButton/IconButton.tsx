@@ -1,8 +1,8 @@
 import type { ElementType } from 'react';
 
-import { Icon } from '@repo/ui/components';
-import type { IconName, IconSize } from '@repo/ui/components';
-import { cn } from '@repo/ui/utils/cn';
+import { Icon } from '@/design-system/base-components';
+import type { IconName, IconSize } from '@/design-system/base-components';
+import { cn } from '@/utils/cn';
 
 interface IconButtonOwnProps<T extends ElementType = 'button'> {
   // div, span은 react-router-dom의 <Link>와 함께 사용할 때 <a> 태그 중복 방지를 위해 사용.
