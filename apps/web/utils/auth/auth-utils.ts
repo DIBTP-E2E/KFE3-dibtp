@@ -1,5 +1,3 @@
-'use server';
-
 import { supabaseServerClient } from '@/lib/supabase';
 
 import { handleError } from '../error';
@@ -7,10 +5,12 @@ import { handleError } from '../error';
 interface AuthResult {
   success: boolean;
   userId?: string;
+  email?: string;
   error?: string;
 }
 
 // 로그인한 유저의 세션 정보 반환
+// 꼭 서버 환경에서 사용!!
 export const getAuthenticatedUser = async (): Promise<AuthResult> => {
   try {
     const supabase = await supabaseServerClient();
@@ -27,6 +27,7 @@ export const getAuthenticatedUser = async (): Promise<AuthResult> => {
     return {
       success: true,
       userId: user.id,
+      email: user.email,
     };
   } catch (error) {
     return handleError(error, '인증 확인');
