@@ -1,3 +1,5 @@
+import { PAGE_ROUTES } from './routes';
+
 interface NavigationItem {
   href: string;
   label: string;
@@ -5,22 +7,21 @@ interface NavigationItem {
   activeIcon: string;
 }
 
-// 추후 메뉴별 정보에 접근 가능하도록 객체로 바꿀 예정
 export const BOTTOM_NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    href: '/',
+    href: PAGE_ROUTES.HOME,
     label: '홈',
     icon: 'Home',
     activeIcon: 'HomeFill',
   },
   {
-    href: '/products/register',
+    href: PAGE_ROUTES.PRODUCTS.REGISTER,
     label: '출품',
     icon: 'Export',
     activeIcon: 'ExportFill',
   },
   {
-    href: '/chat',
+    href: PAGE_ROUTES.CHAT.LIST,
     label: '채팅',
     icon: 'Chat',
     activeIcon: 'ChatFill',
