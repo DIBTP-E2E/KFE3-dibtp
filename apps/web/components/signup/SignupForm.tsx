@@ -2,11 +2,10 @@
 
 import { useState, useTransition } from 'react';
 
-import { signupAction } from '@/server-actions/signup/signupAction';
-
 import FormErrorMessage from '@/components/shared/FormErrorMessage';
 
 import { useAppNavigation } from '@/hooks';
+import { signupAction } from '@/server-actions';
 
 import EmailInput from './EmailInput';
 import NameInput from './NameInput';

@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/prisma';
 
-import { createBid } from '@/services/bids';
-import { updateProductStatus } from '@/services/products/updateProductState';
+import { createBid } from '@/services/bids/server';
+import { updateProductStatus } from '@/services/products/server';
 
-import { getAuthenticatedUser } from '@/utils';
+import { getAuthenticatedUser } from '@/utils/auth/server';
 
 export async function POST(request: NextRequest) {
   try {

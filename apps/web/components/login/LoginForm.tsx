@@ -2,11 +2,10 @@
 
 import { useState, useTransition } from 'react';
 
-import { loginAction } from '@/server-actions/login/loginAction';
-
-import FormErrorMessage from '@/components/shared/FormErrorMessage';
-
 import { useAppNavigation } from '@/hooks';
+import { loginAction } from '@/server-actions';
+
+import { FormErrorMessage } from '../shared';
 
 import EmailInput from './EmailInput';
 import LoginButton from './LoginButton';

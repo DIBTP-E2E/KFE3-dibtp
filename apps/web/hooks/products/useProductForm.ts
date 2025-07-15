@@ -6,9 +6,10 @@ import { z } from 'zod';
 
 import { productSchema } from '@/lib/validations';
 
+import { registerProduct } from '@/services/products/client';
+
 import { useAppNavigation } from '@/hooks';
 
-import { registerProduct } from '@/services';
 import type { ProductFormData, ProductFormErrors, ProductFieldName } from '@/types';
 
 const initialFormData: ProductFormData = {

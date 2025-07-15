@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-import { fetchProductsWithPrisma } from '@/services/products';
+import { fetchProductsWithPrisma } from '@/services/products/server';
 
 import { PAGE_ROUTES } from '@/constants';
 

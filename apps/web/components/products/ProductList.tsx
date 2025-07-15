@@ -1,4 +1,4 @@
-import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products';
+import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products/server';
 
 import ProductCard from './ProductCard';
 

@@ -1,10 +1,10 @@
 import { Thumbnail } from '@repo/ui/components';
 
-import { ProductBadge } from '@/components/shared';
-
 import type { ProductStatus } from '@/types';
 
 import noImage from '@/assets/images/no-image.png';
+
+import { ProductBadge } from '../shared';
 
 interface ProductThumbProps {
   status: ProductStatus;

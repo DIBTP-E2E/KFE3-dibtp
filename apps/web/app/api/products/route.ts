@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { productSchema } from '@/lib/validations';
 
-import { getAuthenticatedUser } from '@/utils';
+import { getAuthenticatedUser } from '@/utils/auth/server';
 
 export async function POST(request: NextRequest) {
   try {

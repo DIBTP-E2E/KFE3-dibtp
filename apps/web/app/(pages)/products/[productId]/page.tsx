@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
-import { fetchProductDetailWithPrisma } from '@/services/products';
+import { fetchProductDetailWithPrisma } from '@/services/products/server';
 
 import {
   ProductDetailHeader,

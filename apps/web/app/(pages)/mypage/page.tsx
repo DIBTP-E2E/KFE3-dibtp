@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { prisma } from '@/lib/prisma/client';
+import { prisma } from '@/lib/prisma';
 
 import {
   ActivityStats,
@@ -10,7 +10,7 @@ import {
   LogoutButton,
 } from '@/components/mypage';
 
-import { getAuthenticatedUser } from '@/utils/auth';
+import { getAuthenticatedUser } from '@/utils/auth/server';
 
 const ProfilePage = async () => {
   const authResult = await getAuthenticatedUser();
