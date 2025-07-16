@@ -1,7 +1,7 @@
 import { uploadImageServer } from '@/lib/storage/server';
 import { validateImageFile } from '@/lib/validations';
 
-import { generateImagePath } from '@/utils';
+import { generateImagePath } from '@/utils/image';
 
 /**
  * 서버에서 직접 스토리지에 이미지 업로드

@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 
 import { ProductDetailAPIResponse } from '@/types';
-import { convertToProductDetailResponse } from '@/utils';
+import { convertToProductDetailResponse } from '@/utils/products';
 
 export const fetchProductDetailWithPrisma = async (
   productId: number

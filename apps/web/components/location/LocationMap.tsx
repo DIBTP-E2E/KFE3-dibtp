@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useKakaoGeocoder, useKakaoMap, useMapMarker } from '@/hooks';
 import type { Location } from '@/types';
-import { debounce } from '@/utils';
+import { debounce } from '@/utils/common';
 
 interface LocationMapProps {
   onLocationSelect: (location: Location) => void;

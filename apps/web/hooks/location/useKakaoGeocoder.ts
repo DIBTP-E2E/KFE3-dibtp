@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import type { Address } from '@/types';
-import { isKakaoMapsLoaded, parseAddressInfo } from '@/utils';
+import { isKakaoMapsLoaded, parseAddressInfo } from '@/utils/location';
 
 export const useKakaoGeocoder = () => {
   const convertCoordsToAddress = useCallback(async (lat: number, lng: number): Promise<Address> => {

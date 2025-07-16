@@ -2,7 +2,8 @@ import Link from 'next/link';
 
 import { PAGE_ROUTES } from '@/constants';
 import type { ProductStatus } from '@/types';
-import { formatRelativeTime } from '@/utils';
+
+import { formatRelativeTime } from '@/utils/date';
 
 import ProductThumb from './ProductThumb';
 

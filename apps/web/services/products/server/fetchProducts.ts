@@ -1,8 +1,9 @@
 import { prisma } from '@/lib/prisma';
 
 import { ProductsAPIResponse } from '@/types';
-import { convertToProductCardResponse } from '@/utils';
+
 import { getAuthenticatedUser } from '@/utils/auth/server';
+import { convertToProductCardResponse } from '@/utils/products';
 
 export interface ProductQueryFilters {
   keyword?: string;

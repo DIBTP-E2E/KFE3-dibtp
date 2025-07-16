@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 
-import { isKakaoMapsLoaded, validateKakaoApiKey } from '@/utils';
+import { isKakaoMapsLoaded, validateKakaoApiKey } from '@/utils/location';
 
 interface UseKakaoMapOptions {
   center?: { lat: number; lng: number };

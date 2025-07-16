@@ -1,6 +1,6 @@
 import { supabaseServerClient } from '@/lib/supabase/server';
 
-import { createSuccessResult, handleError } from '@/utils';
+import { createSuccessResult, handleError } from '@/utils/error';
 
 interface UpdateUserLocationProps {
   userId: string;

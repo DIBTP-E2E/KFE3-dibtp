@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-import { isKakaoMapsLoaded } from '@/utils';
+import { isKakaoMapsLoaded } from '@/utils/location';
 
 export const useMapMarker = (mapInstance: kakao.maps.Map | null) => {
   const markerInstance = useRef<kakao.maps.Marker | null>(null);
