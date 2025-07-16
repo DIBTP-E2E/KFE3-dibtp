@@ -15,6 +15,11 @@ import { getAuthenticatedUser } from '@/utils/auth/server';
 const ProfilePage = async () => {
   const authResult = await getAuthenticatedUser();
 
+  // 인증 실패 시 404 페이지로 이동
+  if (!authResult.success || !authResult.userId) {
+    notFound();
+  }
+
   // 사용자 정보 조회
   const user = await prisma.users.findUnique({
     where: { user_id: authResult.userId },
