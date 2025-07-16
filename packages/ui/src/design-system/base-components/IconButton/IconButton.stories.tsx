@@ -712,7 +712,7 @@ export const SizesAndFulledColors: Story = {
   },
 };
 
-export const SizesAndOutlineddColors: Story = {
+export const SizesAndOutlinedColors: Story = {
   render: () => (
     <Container>
       <Table>
