@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { PageContainer } from '@/components/layout';
+import { PageContainer, SearchHeader } from '@/components/layout';
 import { ProductListWithSuspense } from '@/components/products';
 
 interface SearchResultPageParams {
@@ -31,9 +31,12 @@ const SearchResultPage = async ({ searchParams }: SearchResultPageParams) => {
   const { keyword } = await searchParams;
 
   return (
-    <PageContainer>
-      <ProductListWithSuspense keyword={keyword} />
-    </PageContainer>
+    <>
+      <SearchHeader resultKeyword={keyword} />
+      <PageContainer>
+        <ProductListWithSuspense keyword={keyword} />
+      </PageContainer>
+    </>
   );
 };
 
