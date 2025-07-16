@@ -9,3 +9,4 @@ export * from './Icons';
 export * from './Button';
 export * from './Thumbnail';
 export * from './IconButton';
+export * from './Tabs';
