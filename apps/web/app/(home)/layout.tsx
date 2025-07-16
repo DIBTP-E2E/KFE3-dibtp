@@ -14,7 +14,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         title="홈"
         showTitle={false}
         showBackButton={false}
-        region="강남구 역삼동"
         showRegion
         showSearchButton
         showAlarmButton
