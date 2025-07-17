@@ -14,8 +14,10 @@ export async function fetchUserRegion(): Promise<string | null> {
 
     return data.region;
   } catch (error) {
-    console.error('Error fetching user region:', error);
-
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching user region:', error);
+    }
     return null;
   }
 }

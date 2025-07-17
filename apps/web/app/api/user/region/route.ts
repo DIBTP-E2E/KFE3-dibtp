@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { getUserRegion } from '@/utils/user/server/getUser';
+import { getUserRegion } from '@/services/user/server';
 
 export async function GET() {
   try {
@@ -8,6 +8,6 @@ export async function GET() {
 
     return NextResponse.json({ region });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch user region' }, { status: 500 });
+    return NextResponse.json({ error: `Failed to fetch user region: ${error}` }, { status: 500 });
   }
 }
