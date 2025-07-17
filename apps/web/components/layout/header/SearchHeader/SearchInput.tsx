@@ -4,10 +4,11 @@ import { useState } from 'react';
 
 import { Icon } from '@repo/ui/components/Icons';
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import { fetchUserRegion } from '@/services/user/client';
 
-import { USER_REGION_QUERY_KEY } from '@/constants';
+import { USER_REGION_QUERY_KEY, PAGE_ROUTES } from '@/constants';
 
 interface SearchInputProps {
   resultKeyword?: string;
@@ -15,6 +16,7 @@ interface SearchInputProps {
 
 const SearchInput = ({ resultKeyword }: SearchInputProps) => {
   const [searchTerm, setSearchTerm] = useState(resultKeyword ?? '');
+  const router = useRouter();
 
   const { data: region } = useQuery<string | null>({
     queryKey: USER_REGION_QUERY_KEY,
@@ -22,6 +24,19 @@ const SearchInput = ({ resultKeyword }: SearchInputProps) => {
   });
 
   const clearSearch = () => setSearchTerm('');
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      const keyword = encodeURIComponent(searchTerm.trim());
+      router.push(`${PAGE_ROUTES.SEARCH(keyword)}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <div className="ml-md flex-1 relative flex items-center h-full bg-bg-base rounded-lg px-md">
@@ -31,6 +46,7 @@ const SearchInput = ({ resultKeyword }: SearchInputProps) => {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder={`${region} 근처에서 검색`}
         className="flex-1 bg-transparent outline-none placeholder:text-text-info"
       />
