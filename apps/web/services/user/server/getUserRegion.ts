@@ -4,7 +4,6 @@ import { prisma } from '@/lib/prisma';
 
 import { getAuthenticatedUser } from '@/utils/auth/server';
 
-// react cache 기능 사용
 export const getUserRegion = async (): Promise<string | null> => {
   try {
     const authResult = await getAuthenticatedUser();

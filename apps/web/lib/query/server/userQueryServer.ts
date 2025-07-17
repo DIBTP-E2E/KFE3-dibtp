@@ -8,10 +8,6 @@ export async function prefetchUserRegion(queryClient: QueryClient) {
 
   await queryClient.prefetchQuery({
     queryKey: USER_REGION_QUERY_KEY,
-    queryFn: async () => {
-      // 서버에서 직접 데이터를 가져와서 클라이언트와 동일한 형태로 반환
-      const region = await getUserRegion();
-      return region;
-    },
+    queryFn: getUserRegion,
   });
 }
