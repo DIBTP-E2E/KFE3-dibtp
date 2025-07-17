@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { fetchUserRegion } from '@/services/user/client';
 
 import { USER_REGION_QUERY_KEY, PAGE_ROUTES } from '@/constants';
+import { useRecentSearches } from '@/hooks/products';
 
 interface SearchInputProps {
   resultKeyword?: string;
@@ -17,6 +18,7 @@ interface SearchInputProps {
 const SearchInput = ({ resultKeyword }: SearchInputProps) => {
   const [searchTerm, setSearchTerm] = useState(resultKeyword ?? '');
   const router = useRouter();
+  const { addRecentSearch } = useRecentSearches();
 
   const { data: region } = useQuery<string | null>({
     queryKey: USER_REGION_QUERY_KEY,
@@ -27,7 +29,13 @@ const SearchInput = ({ resultKeyword }: SearchInputProps) => {
 
   const handleSearch = () => {
     if (searchTerm.trim()) {
-      const keyword = encodeURIComponent(searchTerm.trim());
+      const trimmedKeyword = searchTerm.trim();
+
+      // 로컬스토리지에 검색어 저장
+      addRecentSearch(trimmedKeyword);
+
+      // 검색 결과 페이지로 이동
+      const keyword = encodeURIComponent(trimmedKeyword);
       router.push(`${PAGE_ROUTES.SEARCH(keyword)}`);
     }
   };

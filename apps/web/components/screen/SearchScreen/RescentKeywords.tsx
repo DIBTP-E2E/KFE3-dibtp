@@ -1,24 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-
 import { Icon } from '@repo/ui/components';
 
+import { useRecentSearches } from '@/hooks/products/useRecentSearches';
+
 const RescentKeywords = () => {
-  // TODO: SUPABASE에서 받아 올 수 있도록 수정 예정
-  const [recentSearches, setRecentSearches] = useState([
-    '스타벅스 머그',
-    '스타벅스 외자',
-    '스타벅스 프라푸치노 워터병',
-  ]);
-
-  // 선택적 삭제: 특정 인덱스의 검색어 삭제
-  const removeRecentSearch = (index: number) => {
-    setRecentSearches((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  // 전체 삭제: 모든 검색어 삭제
-  const clearAllRecentSearches = () => setRecentSearches([]);
+  const { recentSearches, removeRecentSearch, clearAllRecentSearches } = useRecentSearches();
 
   return (
     <section className="flex-1 overflow-y-auto px-container py-container">
