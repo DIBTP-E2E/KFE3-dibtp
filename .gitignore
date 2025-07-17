@@ -40,3 +40,6 @@ storybook-static
 
 # release automation
 release_notes.md
+
+CLAUDE.md
+GEMINI.md

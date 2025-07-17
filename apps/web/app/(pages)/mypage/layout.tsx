@@ -4,6 +4,8 @@ interface MypageLayoutProps {
   children: React.ReactNode;
 }
 
+export const dynamic = 'force-dynamic';
+
 const MypageLayout = ({ children }: MypageLayoutProps) => {
   return (
     <div className="h-screen flex flex-col">
