@@ -3,14 +3,21 @@
 import { useState } from 'react';
 
 import { Icon } from '@repo/ui/components/Icons';
+import { useQuery } from '@tanstack/react-query';
+
+import { fetchUserRegion } from '@/lib/query/client';
 
 interface SearchInputProps {
   resultKeyword?: string;
-  region: string | null;
 }
 
-const SearchInput = ({ resultKeyword, region }: SearchInputProps) => {
+const SearchInput = ({ resultKeyword }: SearchInputProps) => {
   const [searchTerm, setSearchTerm] = useState(resultKeyword ?? '');
+
+  const { data: region } = useQuery<string | null>({
+    queryKey: ['user-region'],
+    queryFn: fetchUserRegion,
+  });
 
   const clearSearch = () => setSearchTerm('');
 

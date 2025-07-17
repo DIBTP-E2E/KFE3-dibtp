@@ -1,6 +1,6 @@
-import { cn } from '@repo/ui/utils/cn';
+'use client';
 
-import { getUserRegion } from '@/utils/user/server';
+import { cn } from '@repo/ui/utils/cn';
 
 import { BackButton, CloseTextButton } from '../../header-icon';
 
@@ -13,20 +13,14 @@ interface SearchHeaderProps {
   onClose?: () => void;
 }
 
-const SearchHeader = async ({ resultKeyword, onClose }: SearchHeaderProps) => {
-  const region = await getUserRegion();
-
+const SearchHeader = ({ resultKeyword, onClose }: SearchHeaderProps) => {
   return (
     <HeaderContainer className="pr-0">
-      {resultKeyword ? (
-        <h1 className={cn('font-style-headline-h5', 'sr-only')}>{resultKeyword} 검색 결과</h1>
-      ) : (
-        <h2 className={cn('font-style-headline-h5', 'sr-only')}>검색하기</h2>
-      )}
+      {!resultKeyword && <h2 className={cn('font-style-headline-h5', 'sr-only')}>검색하기</h2>}
 
       <BackButton onClick={onClose} />
 
-      <SearchInput resultKeyword={resultKeyword} region={region} />
+      <SearchInput resultKeyword={resultKeyword} />
 
       <CloseTextButton onClick={onClose} />
     </HeaderContainer>

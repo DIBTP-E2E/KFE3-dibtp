@@ -1,5 +1,9 @@
 import { Metadata } from 'next';
 
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+
+import { createServerQueryClient, prefetchUserRegion } from '@/lib/query/server';
+
 import { PageContainer, SearchHeader } from '@/components/layout';
 import { ProductListWithSuspense } from '@/components/products';
 
@@ -30,13 +34,20 @@ export async function generateMetadata({
 const SearchResultPage = async ({ searchParams }: SearchResultPageParams) => {
   const { keyword } = await searchParams;
 
+  const queryClient = createServerQueryClient();
+
+  await prefetchUserRegion(queryClient);
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <h1 className="font-style-headline-h5 sr-only">&quot;{keyword}&quot; 상품 목록</h1>
+
       <SearchHeader resultKeyword={keyword} />
+
       <PageContainer>
         <ProductListWithSuspense keyword={keyword} />
       </PageContainer>
-    </>
+    </HydrationBoundary>
   );
 };
 
