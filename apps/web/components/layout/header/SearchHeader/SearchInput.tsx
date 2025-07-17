@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Icon } from '@repo/ui/components/Icons';
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchUserRegion } from '@/lib/query/client';
+import { fetchUserRegion } from '@/services/user/client';
 
 interface SearchInputProps {
   resultKeyword?: string;
