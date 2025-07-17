@@ -1,6 +1,9 @@
 'use client';
 
 import { Icon } from '@repo/ui/components';
+import Link from 'next/link';
+
+import { PAGE_ROUTES } from '@/constants';
 
 import { useRecentSearches } from '@/hooks/products/useRecentSearches';
 
@@ -8,14 +11,11 @@ const RescentKeywords = () => {
   const { recentSearches, removeRecentSearch, clearAllRecentSearches } = useRecentSearches();
 
   return (
-    <section className="flex-1 overflow-y-auto px-container py-container">
+    <section>
       <div className="flex items-center justify-between mb-container">
         <h3 className="font-style-large">최근 검색</h3>
 
-        <button
-          onClick={clearAllRecentSearches}
-          className="text-sm text-text-info hover:text-text-base transition-colors"
-        >
+        <button onClick={clearAllRecentSearches} className="text-sm text-text-info">
           전체 삭제
         </button>
       </div>
@@ -24,9 +24,12 @@ const RescentKeywords = () => {
         <dl className="space-y-3">
           {recentSearches.map((search, index) => (
             <li key={index} className="flex items-center justify-between gap-sm">
-              <div className="flex items-center gap-sm">
+              <div className="flex-1 flex items-center py-sm gap-sm">
                 <Icon name="ClockThin" size="xs" color="info" />
-                <span>{search}</span>
+
+                <Link href={PAGE_ROUTES.SEARCH(search)} className="flex-1">
+                  <span>{search}</span>
+                </Link>
               </div>
 
               <button
