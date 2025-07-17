@@ -4,7 +4,8 @@ import { useEffect } from 'react';
 
 import { cn } from '@repo/ui/utils/cn';
 
-import { SearchHeader } from '@/components/layout';
+// import 체인 충돌 문제(서버 컴포넌트까지 호출)로 구체적인 경로 작성
+import { SearchHeader } from '@/components/layout/header/SearchHeader';
 
 import RescentKeywords from './RescentKeywords';
 
