@@ -17,7 +17,6 @@ export interface Product {
   title: string;
   description: string;
   start_price: number;
-  current_price: number;
   min_price: number;
   decrease_unit: number;
   status: ProductStatus;

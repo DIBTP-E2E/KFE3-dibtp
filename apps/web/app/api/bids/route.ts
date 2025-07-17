@@ -6,6 +6,7 @@ import { createBid } from '@/services/bids/server';
 import { updateProductStatus } from '@/services/products/server';
 
 import { getAuthenticatedUser } from '@/utils/auth/server';
+import { calculateCurrentPrice } from '@/utils/common/calculateCurrentPrice';
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,7 +42,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '자신의 상품에는 입찰할 수 없습니다' }, { status: 400 });
     }
 
-    if (product.current_price.toFixed(2) !== bidPrice.toFixed(2)) {
+    const calculatedCurrentPrice = calculateCurrentPrice(
+      product.start_price.toNumber(),
+      product.min_price.toNumber(),
+      product.decrease_unit.toNumber(),
+      product.created_at.toISOString()
+    );
+
+    if (calculatedCurrentPrice.toFixed(2) !== bidPrice.toFixed(2)) {
       return NextResponse.json(
         { error: '입찰 가격이 현재 가격과 일치하지 않습니다' },
         { status: 400 }

@@ -10,11 +10,13 @@ import type {
 interface PrismaProductCard {
   product_id: bigint;
   title: string;
-  current_price: { toNumber(): number };
   status: string;
   view_count: number;
   created_at: Date;
   region: string;
+  start_price: { toNumber(): number };
+  min_price: { toNumber(): number };
+  decrease_unit: { toNumber(): number };
   product_images: Array<{
     image_url: string;
     image_order: number;
@@ -29,7 +31,6 @@ interface PrismaProductDetail {
   title: string;
   description: string;
   start_price: { toNumber(): number };
-  current_price: { toNumber(): number };
   min_price: { toNumber(): number };
   decrease_unit: { toNumber(): number };
   status: string;
@@ -61,12 +62,14 @@ export const convertToProductCardResponse = (
     product_id: parseInt(product.product_id.toString()),
     title: product.title,
     image_url: product.product_images?.length ? (product.product_images[0]?.image_url ?? '') : '',
-    current_price: product.current_price.toNumber(),
     status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.READY,
     view_count: product.view_count,
     created_at: product.created_at.toISOString(),
     region: product.region,
     bidder_user_id: product.bids?.bidder_user_id ?? '',
+    start_price: product.start_price.toNumber(),
+    min_price: product.min_price.toNumber(),
+    decrease_unit: product.decrease_unit.toNumber(),
   };
 };
 
@@ -78,7 +81,6 @@ export const convertToProductDetailResponse = (
     title: product.title,
     description: product.description,
     start_price: product.start_price.toNumber(),
-    current_price: product.current_price.toNumber(),
     min_price: product.min_price.toNumber(),
     decrease_unit: product.decrease_unit.toNumber(),
     status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.READY,

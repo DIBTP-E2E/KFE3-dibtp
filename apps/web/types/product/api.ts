@@ -7,7 +7,15 @@ export type ProductCreationResponse = ProductCreationAPIResponse;
 export interface ProductCardAPIResponse
   extends Pick<
     Product,
-    'product_id' | 'title' | 'current_price' | 'status' | 'view_count' | 'created_at' | 'region'
+    | 'product_id'
+    | 'title'
+    | 'status'
+    | 'view_count'
+    | 'created_at'
+    | 'region'
+    | 'start_price'
+    | 'min_price'
+    | 'decrease_unit'
   > {
   image_url: string; // product_images[0]?.image_url에서 추출
   bidder_user_id: string; // 입찰 관련 추가 필드

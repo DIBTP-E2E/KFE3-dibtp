@@ -16,7 +16,6 @@ export const fetchProductDetailWithPrisma = async (
         title: true,
         description: true,
         start_price: true,
-        current_price: true,
         min_price: true,
         decrease_unit: true,
         status: true,

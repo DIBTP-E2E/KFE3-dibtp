@@ -1,10 +1,12 @@
+import { calculateCurrentPrice } from '@/utils/common/calculateCurrentPrice';
+
 import { Timer } from '../shared';
+
+import AuctionSummary from './AuctionSummary';
 import CurrentPrice from './CurrentPrice';
 import NextPrice from './NextPrice';
-import AuctionSummary from './AuctionSummary';
 
 interface AuctionInfoLayoutProps {
-  currentPrice: number;
   decreaseUnit: number;
   startPrice: number;
   minPrice: number;
@@ -12,12 +14,13 @@ interface AuctionInfoLayoutProps {
 }
 
 const AuctionInfoLayout = ({
-  currentPrice,
   decreaseUnit,
   startPrice,
   minPrice,
   createdAt,
 }: AuctionInfoLayoutProps) => {
+  const currentPrice = calculateCurrentPrice(startPrice, minPrice, decreaseUnit, createdAt);
+
   return (
     <>
       <div className="mt-4 flex justify-between items-center gap-4">

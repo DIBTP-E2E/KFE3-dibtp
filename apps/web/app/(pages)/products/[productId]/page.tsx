@@ -16,6 +16,8 @@ import {
   UserInfoLayout,
 } from '@/components/product-detail';
 
+import { calculateCurrentPrice } from '@/utils/common/calculateCurrentPrice';
+
 interface ProductDetailPageParams {
   params: Promise<{ productId: string }>;
 }
@@ -67,6 +69,12 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   }
 
   const images = product.product_images.map((image) => image.image_url);
+  const currentPrice = calculateCurrentPrice(
+    product.start_price,
+    product.min_price,
+    product.decrease_unit,
+    product.created_at
+  );
 
   return (
     <section className="mx-auto w-full md:max-w-container pb-20">
@@ -81,7 +89,6 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
           sellerAvatarUrl="https://picsum.photos/seed/seller/200/200" // 실제 데이터 사용 시 변경
         />
         <AuctionInfoLayout
-          currentPrice={product.current_price}
           decreaseUnit={product.decrease_unit}
           startPrice={product.start_price}
           minPrice={product.min_price}
@@ -91,7 +98,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
       </div>
       <ProductFooter
         productId={product.product_id}
-        currentPrice={product.current_price}
+        currentPrice={currentPrice}
         minPrice={product.min_price}
         createdAt={product.created_at}
       />

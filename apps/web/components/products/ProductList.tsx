@@ -1,5 +1,7 @@
 import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products/server';
 
+import { calculateCurrentPrice } from '@/utils/common/calculateCurrentPrice';
+
 import ProductCard from './ProductCard';
 
 const ProductList = async ({ keyword }: ProductQueryFilters) => {
@@ -21,7 +23,12 @@ const ProductList = async ({ keyword }: ProductQueryFilters) => {
             productId={product.product_id}
             imgUrl={product.image_url}
             title={product.title}
-            currentPrice={product.current_price}
+            currentPrice={calculateCurrentPrice(
+              product.start_price,
+              product.min_price,
+              product.decrease_unit,
+              product.created_at
+            )}
             status={product.status}
             viewCount={product.view_count}
             region={product.region}

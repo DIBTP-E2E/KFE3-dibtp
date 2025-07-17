@@ -24,14 +24,14 @@ interface WhereConditions {
     title?: { contains: string; mode: 'insensitive' };
     description?: { contains: string; mode: 'insensitive' };
   }>;
-  current_price?: { gte?: number; lte?: number };
+  // current_price?: { gte?: number; lte?: number }; // current_price 제거
   status?: string;
   category?: string;
 }
 
 interface OrderByConditions {
   created_at?: 'asc' | 'desc';
-  current_price?: 'asc' | 'desc';
+  // current_price?: 'asc' | 'desc'; // current_price 제거
   view_count?: 'asc' | 'desc';
 }
 
@@ -89,16 +89,16 @@ export const fetchProductsWithPrisma = async (
       ];
     }
 
-    // 가격 범위 필터
-    if (minPrice !== undefined || maxPrice !== undefined) {
-      whereConditions.current_price = {};
-      if (minPrice !== undefined) {
-        whereConditions.current_price.gte = minPrice;
-      }
-      if (maxPrice !== undefined) {
-        whereConditions.current_price.lte = maxPrice;
-      }
-    }
+    // 가격 범위 필터 (current_price 제거로 인해 주석 처리)
+    // if (minPrice !== undefined || maxPrice !== undefined) {
+    //   whereConditions.current_price = {};
+    //   if (minPrice !== undefined) {
+    //     whereConditions.current_price.gte = minPrice;
+    //   }
+    //   if (maxPrice !== undefined) {
+    //     whereConditions.current_price.lte = maxPrice;
+    //   }
+    // }
 
     // 상태 필터
     if (status) {
@@ -113,7 +113,7 @@ export const fetchProductsWithPrisma = async (
     // 정렬 조건
     const orderBy: OrderByConditions = {};
     if (sortBy === 'price') {
-      orderBy.current_price = sortOrder;
+      // orderBy.current_price = sortOrder; // current_price 제거
     } else if (sortBy === 'popularity') {
       orderBy.view_count = sortOrder;
     } else {
@@ -125,7 +125,9 @@ export const fetchProductsWithPrisma = async (
       select: {
         product_id: true,
         title: true,
-        current_price: true,
+        start_price: true,
+        min_price: true,
+        decrease_unit: true,
         status: true,
         view_count: true,
         created_at: true,
