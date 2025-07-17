@@ -1,7 +1,5 @@
 import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products/server';
 
-import { calculateCurrentPrice } from '@/utils/products';
-
 import ProductCard from './ProductCard';
 
 const ProductList = async ({ keyword }: ProductQueryFilters) => {
@@ -15,6 +13,8 @@ const ProductList = async ({ keyword }: ProductQueryFilters) => {
     );
   }
 
+  const DECREASE_INTERVAL_SECONDS = 30 * 60; // 30분
+
   return (
     <ul className="grid grid-cols-1">
       {products.map((product) => (
@@ -23,17 +23,15 @@ const ProductList = async ({ keyword }: ProductQueryFilters) => {
             productId={product.product_id}
             imgUrl={product.image_url}
             title={product.title}
-            currentPrice={calculateCurrentPrice(
-              product.start_price,
-              product.min_price,
-              product.decrease_unit,
-              product.created_at
-            )}
+            startPrice={product.start_price}
+            minPrice={product.min_price}
+            decreaseUnit={product.decrease_unit}
+            auctionStartedAt={product.created_at}
+            decreaseInterval={DECREASE_INTERVAL_SECONDS}
             status={product.status}
             viewCount={product.view_count}
             region={product.region}
             createdAt={product.created_at}
-            bidderUserId={product.bidder_user_id}
           />
         </li>
       ))}
