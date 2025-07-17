@@ -15,7 +15,10 @@ const RescentKeywords = () => {
       <div className="flex items-center justify-between mb-container">
         <h3 className="font-style-large">최근 검색</h3>
 
-        <button onClick={clearAllRecentSearches} className="text-sm text-text-info">
+        <button
+          onClick={clearAllRecentSearches}
+          className="text-sm text-text-info hover:opacity-70 transition-opacity"
+        >
           전체 삭제
         </button>
       </div>

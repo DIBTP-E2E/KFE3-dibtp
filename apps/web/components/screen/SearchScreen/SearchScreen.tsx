@@ -44,7 +44,7 @@ const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
       )}
     >
       <section className="min-h-screen bg-bg-light">
-        <SearchHeader onClose={onClose} />
+        <SearchHeader onClose={onClose} autoFocus={isOpen} />
 
         <div className="flex-1 overflow-y-auto px-container py-container">
           <RescentKeywords />
