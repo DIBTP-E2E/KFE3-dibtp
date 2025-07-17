@@ -1,4 +1,4 @@
-import { calculateCurrentPrice } from '@/utils/common/calculateCurrentPrice';
+import { calculateCurrentPrice } from '@/utils/products';
 
 import { Timer } from '../shared';
 

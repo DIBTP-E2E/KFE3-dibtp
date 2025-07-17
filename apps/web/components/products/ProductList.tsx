@@ -1,6 +1,6 @@
 import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products/server';
 
-import { calculateCurrentPrice } from '@/utils/common/calculateCurrentPrice';
+import { calculateCurrentPrice } from '@/utils/products';
 
 import ProductCard from './ProductCard';
 

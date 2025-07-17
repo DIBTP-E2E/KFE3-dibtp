@@ -6,7 +6,7 @@ import { createBid } from '@/services/bids/server';
 import { updateProductStatus } from '@/services/products/server';
 
 import { getAuthenticatedUser } from '@/utils/auth/server';
-import { calculateCurrentPrice } from '@/utils/common/calculateCurrentPrice';
+import { calculateCurrentPrice } from '@/utils/products';
 
 export async function POST(request: NextRequest) {
   try {

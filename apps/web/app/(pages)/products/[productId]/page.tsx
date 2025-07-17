@@ -16,7 +16,7 @@ import {
   UserInfoLayout,
 } from '@/components/product-detail';
 
-import { calculateCurrentPrice } from '@/utils/common/calculateCurrentPrice';
+import { calculateCurrentPrice } from '@/utils/products';
 
 interface ProductDetailPageParams {
   params: Promise<{ productId: string }>;
