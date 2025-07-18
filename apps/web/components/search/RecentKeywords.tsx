@@ -17,7 +17,7 @@ const RecentKeywords = () => {
 
         <button
           onClick={clearAllRecentSearches}
-          className="text-sm text-text-info hover:opacity-70 transition-opacity"
+          className="text-text-info hover:opacity-70 transition-opacity"
         >
           전체 삭제
         </button>
