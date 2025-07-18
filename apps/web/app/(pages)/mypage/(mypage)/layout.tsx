@@ -4,19 +4,17 @@ interface MypageLayoutProps {
   children: React.ReactNode;
 }
 
-export const dynamic = 'force-dynamic';
-
 const MypageLayout = ({ children }: MypageLayoutProps) => {
   return (
     <div className="h-screen flex flex-col">
       <TopNavigation
         title="마이페이지"
-        showTitle
+        showTitle={true}
         showBackButton={false}
         showSearchButton={false}
         showAlarmButton={false}
       />
-      <PageContainer className="flex-1 py-lg bg-bg-base">{children}</PageContainer>
+      <PageContainer className="flex-1 py-lg">{children}</PageContainer>
       <BottomNavigation />
     </div>
   );
