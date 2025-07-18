@@ -4,11 +4,15 @@ import { cn } from '@repo/ui/utils/cn';
 
 import { RecentKeywords } from '@/components/search';
 
+import { useSearchDropdown } from '@/hooks/products';
+
 interface SearchDropDownProps {
   onClose: () => void;
 }
 
 const SearchDropDown = ({ onClose }: SearchDropDownProps) => {
+  const { handleRecentSearchClick } = useSearchDropdown();
+
   return (
     <>
       {/* 투명한 오버레이 - 외부 클릭 방지 */}
@@ -23,7 +27,7 @@ const SearchDropDown = ({ onClose }: SearchDropDownProps) => {
           'shadow-lg border-b border-border-base rounded-b-lg'
         )}
       >
-        <RecentKeywords />
+        <RecentKeywords onKeywordClick={handleRecentSearchClick} />
       </div>
     </>
   );

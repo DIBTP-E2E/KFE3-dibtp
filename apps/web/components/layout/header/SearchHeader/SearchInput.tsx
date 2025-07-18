@@ -43,6 +43,10 @@ const SearchInput = ({
     },
   });
 
+  useEffect(() => {
+    setSearchTerm(resultKeyword ?? '');
+  }, [resultKeyword]);
+
   // autoFocus가 true일 때 input에 포커스
   useEffect(() => {
     if (autoFocus === true && inputRef.current) {

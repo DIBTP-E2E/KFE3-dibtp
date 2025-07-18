@@ -1,13 +1,14 @@
 'use client';
 
 import { Icon } from '@repo/ui/components';
-import Link from 'next/link';
-
-import { PAGE_ROUTES } from '@/constants';
 
 import { useRecentSearches } from '@/hooks/products/useRecentSearches';
 
-const RecentKeywords = () => {
+interface RecentKeywordsProps {
+  onKeywordClick?: (keyword: string) => void;
+}
+
+const RecentKeywords = ({ onKeywordClick }: RecentKeywordsProps) => {
   const { recentSearches, removeRecentSearch, clearAllRecentSearches } = useRecentSearches();
 
   return (
@@ -27,13 +28,13 @@ const RecentKeywords = () => {
         <ul className="space-y-3">
           {recentSearches.map((search, index) => (
             <li key={index} className="flex items-center justify-between gap-sm">
-              <div className="flex-1 flex items-center py-sm gap-sm">
+              <button
+                onClick={() => onKeywordClick?.(search)}
+                className="flex-1 flex items-center py-sm gap-sm text-left"
+              >
                 <Icon name="ClockThin" size="xs" color="info" />
-
-                <Link href={PAGE_ROUTES.SEARCH(search)} className="flex-1">
-                  <span>{search}</span>
-                </Link>
-              </div>
+                <span className="flex-1">{search}</span>
+              </button>
 
               <button
                 onClick={() => removeRecentSearch(index)}
