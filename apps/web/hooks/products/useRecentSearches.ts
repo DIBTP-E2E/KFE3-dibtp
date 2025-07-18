@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 
 const RECENT_SEARCHES_KEY = 'recent-searches';

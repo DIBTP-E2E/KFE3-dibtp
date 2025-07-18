@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useEffect, useState, useCallback } from 'react';
 
 import { isKakaoMapsLoaded, validateKakaoApiKey } from '@/utils/location';
