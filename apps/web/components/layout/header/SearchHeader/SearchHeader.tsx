@@ -12,16 +12,26 @@ interface SearchHeaderProps {
   resultKeyword?: string;
   onClose?: () => void;
   autoFocus?: boolean;
+  hasSearchDropDown?: boolean;
 }
 
-const SearchHeader = ({ resultKeyword, onClose, autoFocus }: SearchHeaderProps) => {
+const SearchHeader = ({
+  resultKeyword,
+  onClose,
+  autoFocus = false,
+  hasSearchDropDown = false,
+}: SearchHeaderProps) => {
   return (
     <HeaderContainer className="pr-0">
       {!resultKeyword && <h2 className={cn('font-style-headline-h5', 'sr-only')}>검색하기</h2>}
 
       <BackButton onClick={onClose} />
 
-      <SearchInput resultKeyword={resultKeyword} autoFocus={autoFocus} />
+      <SearchInput
+        resultKeyword={resultKeyword}
+        autoFocus={autoFocus}
+        hasSearchDropDown={hasSearchDropDown}
+      />
 
       <CloseTextButton onClick={onClose} />
     </HeaderContainer>
