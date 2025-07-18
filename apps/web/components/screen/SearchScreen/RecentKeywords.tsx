@@ -24,7 +24,7 @@ const RecentKeywords = () => {
       </div>
 
       {recentSearches.length > 0 ? (
-        <dl className="space-y-3">
+        <ul className="space-y-3">
           {recentSearches.map((search, index) => (
             <li key={index} className="flex items-center justify-between gap-sm">
               <div className="flex-1 flex items-center py-sm gap-sm">
@@ -44,7 +44,7 @@ const RecentKeywords = () => {
               </button>
             </li>
           ))}
-        </dl>
+        </ul>
       ) : (
         <div className="text-center text-text-info py-8">
           <Icon name="ClockThin" size="lg" color="info" className="mx-auto mb-2" />
