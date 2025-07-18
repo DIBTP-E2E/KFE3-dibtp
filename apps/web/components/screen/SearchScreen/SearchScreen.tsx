@@ -7,7 +7,7 @@ import { cn } from '@repo/ui/utils/cn';
 // import 체인 충돌 문제(서버 컴포넌트까지 호출)로 구체적인 경로 작성
 import { SearchHeader } from '@/components/layout/header/SearchHeader';
 
-import RescentKeywords from './RescentKeywords';
+import RecentKeywords from './RecentKeywords';
 
 interface SearchScreenProps {
   isOpen: boolean;
@@ -47,7 +47,7 @@ const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
         <SearchHeader onClose={onClose} autoFocus={isOpen} />
 
         <div className="flex-1 overflow-y-auto px-container py-container">
-          <RescentKeywords />
+          <RecentKeywords />
         </div>
       </section>
     </div>

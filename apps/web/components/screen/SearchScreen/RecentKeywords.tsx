@@ -7,7 +7,7 @@ import { PAGE_ROUTES } from '@/constants';
 
 import { useRecentSearches } from '@/hooks/products/useRecentSearches';
 
-const RescentKeywords = () => {
+const RecentKeywords = () => {
   const { recentSearches, removeRecentSearch, clearAllRecentSearches } = useRecentSearches();
 
   return (
@@ -55,4 +55,4 @@ const RescentKeywords = () => {
   );
 };
 
-export default RescentKeywords;
+export default RecentKeywords;
