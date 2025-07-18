@@ -1,8 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
-import { PAGE_ROUTES } from '@/constants/routes';
+import { useAppNavigation } from '@/hooks';
 
 import HeaderIconButton from './HeaderIconButton';
 
@@ -11,8 +9,7 @@ interface BackButtonProps {
 }
 
 const BackButton = ({ onClick }: BackButtonProps) => {
-  const router = useRouter();
-  const goBack = () => router.push(PAGE_ROUTES.HOME);
+  const { goBack } = useAppNavigation();
 
   return (
     <HeaderIconButton
