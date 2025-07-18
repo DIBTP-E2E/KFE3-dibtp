@@ -20,9 +20,9 @@ export interface TabsProps {
 }
 
 const SIZE_CLASSES = {
-  sm: 'py-xs px-md font-style-small',
-  md: 'py-sm px-lg font-style-medium',
-  lg: 'py-md px-xl font-style-large',
+  sm: 'p-xs font-style-extra-small',
+  md: 'p-sm font-style-small',
+  lg: 'p-md font-style-medium',
 } as const;
 
 const COLOR_CLASSES = {
