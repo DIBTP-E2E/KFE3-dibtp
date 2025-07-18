@@ -12,7 +12,7 @@ const HeaderContainer = ({ children, className }: HeaderContainerProps) => {
         'flex items-center justify-center',
         'z-50',
         'px-container py-sm',
-        'h-[56px] bg-bg-light border-b border-border-base',
+        'h-header bg-bg-light border-b border-border-base',
         className
       )}
     >
