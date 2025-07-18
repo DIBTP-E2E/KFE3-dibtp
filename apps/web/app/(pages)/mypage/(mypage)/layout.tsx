@@ -9,7 +9,7 @@ const MypageLayout = ({ children }: MypageLayoutProps) => {
     <div className="h-screen flex flex-col">
       <TopNavigation
         title="마이페이지"
-        showTitle={true}
+        showTitle
         showBackButton={false}
         showSearchButton={false}
         showAlarmButton={false}
