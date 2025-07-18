@@ -13,7 +13,7 @@ export interface TopNavigationProps {
   showAlarmButton: boolean;
 }
 
-const TopNavigation = async ({
+const TopNavigation = ({
   title,
   showTitle = true,
   showRegion = false,
