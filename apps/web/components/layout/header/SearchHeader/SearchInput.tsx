@@ -53,7 +53,7 @@ const SearchInput = ({
   }, [autoFocus]);
 
   // 입력창 포커스/클릭 시 드롭다운 열기
-  const handleInputInteraction = () => {
+  const showSearchDropDown = () => {
     if (hasSearchDropDown && recentSearches.length > 0) {
       open();
     }
@@ -61,12 +61,18 @@ const SearchInput = ({
 
   // 검색어 클릭 시 처리
   const handleKeywordClick = (keyword: string) => {
-    close(); // 드롭다운 먼저 닫기
+    close();
     setSearchTerm(keyword); // 검색어 설정
     searchKeyword(keyword); // 검색 실행
   };
 
-  // 직접 검색 시 처리
+  // 검색어 수정 시 처리
+  const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    showSearchDropDown();
+  };
+
+  // 검색어 작성 완료 후 처리
   const handleSearch = () => {
     if (searchTerm.trim()) {
       close(); // 드롭다운 닫기
@@ -89,10 +95,10 @@ const SearchInput = ({
           id="search"
           type="text"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleKeywordChange}
           onKeyDown={handleKeyDown}
-          onFocus={handleInputInteraction}
-          onClick={handleInputInteraction}
+          onFocus={showSearchDropDown}
+          onClick={showSearchDropDown}
           placeholder={`${region} 근처에서 검색`}
           className="flex-1 bg-transparent outline-none placeholder:text-text-info"
         />
