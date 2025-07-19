@@ -33,4 +33,7 @@
 
   /* width */
   --max-width-container: 375px;
+
+  /* height */
+  --height-header: 56px;
 }

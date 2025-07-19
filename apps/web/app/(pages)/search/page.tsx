@@ -34,7 +34,7 @@ const SearchResultPage = async ({ searchParams }: SearchResultPageParams) => {
     <>
       <h1 className="font-style-headline-h5 sr-only">&quot;{keyword}&quot; 상품 목록</h1>
 
-      <SearchHeader resultKeyword={keyword} />
+      <SearchHeader resultKeyword={keyword} hasSearchDropDown={true} />
 
       <PageContainer>
         <ProductListWithSuspense keyword={keyword} />
