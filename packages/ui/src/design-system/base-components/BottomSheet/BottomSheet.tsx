@@ -27,6 +27,8 @@ export interface BottomSheetProps {
   preventBackdropClose?: boolean;
   /** 접근성을 위한 aria-label */
   'aria-label'?: string;
+  /** 포털 컨테이너 선택자 (기본값: #bottom-sheet-root) */
+  portalContainer?: string;
 }
 
 const BottomSheet = ({
@@ -40,6 +42,7 @@ const BottomSheet = ({
   showHandle = true,
   preventBackdropClose = false,
   'aria-label': ariaLabel,
+  portalContainer,
 }: BottomSheetProps) => {
   // 바텀시트 상태 및 기본 동작 관리
   const { shouldRender, isAnimating, sheetRef } = useBottomSheetState(isOpen, onClose);
@@ -71,7 +74,7 @@ const BottomSheet = ({
       {/* 백드롭 */}
       <div
         className={cn(
-          'absolute inset-0 bg-bg-dark/50 backdrop-blur-sm transition-opacity duration-300',
+          'absolute inset-0 bg-bg-dark/50 transition-opacity duration-300',
           isAnimating ? 'opacity-100' : 'opacity-0'
         )}
         onClick={handleBackdropClick}
@@ -118,7 +121,10 @@ const BottomSheet = ({
 
   // 포털을 통해 렌더링
   if (typeof document !== 'undefined') {
-    return createPortal(bottomSheetContent, document.body);
+    const defaultContainer = '#bottom-sheet-root';
+    const containerSelector = portalContainer || defaultContainer;
+    const container = document.querySelector(containerSelector) || document.body;
+    return createPortal(bottomSheetContent, container);
   }
 
   return null;

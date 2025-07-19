@@ -38,6 +38,7 @@ const ActionSheet = ({
   itemClassName,
   cancelClassName,
   onClose,
+  portalContainer,
   ...bottomSheetProps
 }: ActionSheetProps) => {
   // 아이템 클릭 처리
@@ -61,6 +62,7 @@ const ActionSheet = ({
       {...bottomSheetProps}
       onClose={onClose}
       showHandle={false}
+      portalContainer={portalContainer}
       className={bottomSheetProps.className}
     >
       <div className="space-y-xs">
