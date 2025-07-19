@@ -9,12 +9,16 @@ import { SearchHeader } from '@/components/layout/header/SearchHeader';
 
 import { RecentKeywords } from '@/components/search';
 
+import { useSearchAction } from '@/hooks/products';
+
 interface SearchScreenProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
+  const { searchKeyword } = useSearchAction();
+
   // 키보드 ESC로 닫기
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -32,6 +36,12 @@ const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
     };
   }, [isOpen, onClose]);
 
+  // 검색어 클릭 시 SearchScreen 닫기 + 검색 실행
+  const handleKeywordClick = (keyword: string) => {
+    onClose(); // SearchScreen 닫기
+    searchKeyword(keyword); // 검색 실행
+  };
+
   return (
     <div
       role="dialog"
@@ -47,7 +57,7 @@ const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
         <SearchHeader onClose={onClose} autoFocus={isOpen} />
 
         <div className="flex-1 overflow-y-auto px-container py-container">
-          <RecentKeywords />
+          <RecentKeywords onKeywordClick={handleKeywordClick} />
         </div>
       </section>
     </div>

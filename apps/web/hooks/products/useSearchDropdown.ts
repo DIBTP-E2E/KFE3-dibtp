@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 import { PAGE_ROUTES } from '@/constants';
 
@@ -11,55 +11,26 @@ interface UseSearchDropdownProps {
   onSearch?: (keyword: string) => void;
 }
 
-// 싱글톤 상태 관리
-let globalIsOpen = false;
-let globalSetIsOpen: ((value: boolean) => void) | null = null;
-const stateSubscribers: Set<(isOpen: boolean) => void> = new Set();
-
-const updateGlobalState = (isOpen: boolean) => {
-  globalIsOpen = isOpen;
-  stateSubscribers.forEach((callback) => callback(isOpen));
-};
-
 export const useSearchDropdown = ({
   hasDropdown = false,
   onSearch,
 }: UseSearchDropdownProps = {}) => {
-  const [isOpen, setIsOpen] = useState(globalIsOpen);
+  const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const pathname = usePathname();
   const { addRecentSearch, recentSearches } = useRecentSearches();
 
-  // 전역 상태 구독
+  // 페이지 변경 시 드롭다운 닫기
   useEffect(() => {
-    const updateLocalState = (newIsOpen: boolean) => {
-      setIsOpen(newIsOpen);
-    };
-
-    stateSubscribers.add(updateLocalState);
-
-    // 첫 번째 인스턴스에서 전역 setter 설정
-    if (!globalSetIsOpen) {
-      globalSetIsOpen = updateGlobalState;
-    }
-
-    return () => {
-      stateSubscribers.delete(updateLocalState);
-    };
-  }, []);
-
-  // 전역 상태 업데이트 함수
-  const updateIsOpen = (value: boolean) => {
-    if (globalSetIsOpen) {
-      globalSetIsOpen(value);
-    }
-  };
+    setIsOpen(false);
+  }, [pathname]);
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        updateIsOpen(false);
+        setIsOpen(false);
       }
     };
 
@@ -75,18 +46,23 @@ export const useSearchDropdown = ({
   // 입력창 포커스 시 드롭다운 열기
   const handleInputFocus = () => {
     if (hasDropdown && recentSearches.length > 0) {
-      updateIsOpen(true);
+      setIsOpen(true);
     }
   };
 
   // 최근 검색어 클릭 시 처리
   const handleRecentSearchClick = (search: string) => {
-    updateIsOpen(false);
+    // 드롭다운 먼저 닫기
+    setIsOpen(false);
 
-    // 검색어 저장 및 페이지 이동
-    addRecentSearch(search);
+    // 페이지 이동 후 검색어 저장 (UI 깜박임 방지)
     const keyword = encodeURIComponent(search);
     router.push(`${PAGE_ROUTES.SEARCH(keyword)}`);
+
+    // 페이지 이동 후 검색어 저장
+    setTimeout(() => {
+      addRecentSearch(search);
+    }, 0);
 
     // 외부에서 전달된 콜백 실행
     onSearch?.(search);
@@ -94,7 +70,7 @@ export const useSearchDropdown = ({
 
   // 검색 시 드롭다운 닫기
   const closeDropdown = () => {
-    updateIsOpen(false);
+    setIsOpen(false);
   };
 
   return {

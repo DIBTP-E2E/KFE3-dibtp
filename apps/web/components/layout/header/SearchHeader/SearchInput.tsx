@@ -5,14 +5,13 @@ import { useState, useEffect, useRef } from 'react';
 import { Icon } from '@repo/ui/components/Icons';
 
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 
 import { fetchUserRegion } from '@/services/user/client';
 
 import { SearchDropDown } from '@/components/search';
 
-import { USER_REGION_QUERY_KEY, PAGE_ROUTES } from '@/constants';
-import { useRecentSearches, useSearchDropdown } from '@/hooks/products';
+import { USER_REGION_QUERY_KEY } from '@/constants';
+import { useRecentSearches, useSearchDropdownState, useSearchAction } from '@/hooks/products';
 
 interface SearchInputProps {
   resultKeyword?: string;
@@ -26,21 +25,15 @@ const SearchInput = ({
   hasSearchDropDown = false,
 }: SearchInputProps) => {
   const [searchTerm, setSearchTerm] = useState(resultKeyword ?? '');
-  const router = useRouter();
-  const { addRecentSearch } = useRecentSearches();
+  const { recentSearches } = useRecentSearches();
+  const { searchKeyword } = useSearchAction();
+  const { isOpen, containerRef, open, close } = useSearchDropdownState();
   const inputRef = useRef<HTMLInputElement>(null);
   const clearSearch = () => setSearchTerm('');
 
   const { data: region } = useQuery<string | null>({
     queryKey: USER_REGION_QUERY_KEY,
     queryFn: fetchUserRegion,
-  });
-
-  const { containerRef, handleInputFocus, closeDropdown, shouldShowDropdown } = useSearchDropdown({
-    hasDropdown: hasSearchDropDown,
-    onSearch: (keyword: string) => {
-      setSearchTerm(keyword);
-    },
   });
 
   useEffect(() => {
@@ -59,19 +52,25 @@ const SearchInput = ({
     }
   }, [autoFocus]);
 
+  // 입력창 포커스 시 드롭다운 열기
+  const handleInputFocus = () => {
+    if (hasSearchDropDown && recentSearches.length > 0) {
+      open();
+    }
+  };
+
+  // 검색어 클릭 시 처리
+  const handleKeywordClick = (keyword: string) => {
+    close(); // 드롭다운 먼저 닫기
+    setSearchTerm(keyword); // 검색어 설정
+    searchKeyword(keyword); // 검색 실행
+  };
+
+  // 직접 검색 시 처리
   const handleSearch = () => {
     if (searchTerm.trim()) {
-      const trimmedKeyword = searchTerm.trim();
-
-      // 드롭다운 닫기
-      closeDropdown();
-
-      // 로컬스토리지에 검색어 저장
-      addRecentSearch(trimmedKeyword);
-
-      // 검색 결과 페이지로 이동
-      const keyword = encodeURIComponent(trimmedKeyword);
-      router.push(`${PAGE_ROUTES.SEARCH(keyword)}`);
+      close(); // 드롭다운 닫기
+      searchKeyword(searchTerm);
     }
   };
 
@@ -99,7 +98,9 @@ const SearchInput = ({
         {searchTerm && <Icon name="Cancel" onClick={clearSearch} className="px-xs" />}
       </div>
 
-      {shouldShowDropdown && <SearchDropDown onClose={closeDropdown} />}
+      {hasSearchDropDown && isOpen && recentSearches.length > 0 && (
+        <SearchDropDown onClose={close} onKeywordClick={handleKeywordClick} />
+      )}
     </div>
   );
 };
