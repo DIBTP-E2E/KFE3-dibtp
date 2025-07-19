@@ -264,9 +264,9 @@ export const LongText: Story = {
   render: TabsWithState,
   args: {
     options: [
-      { key: 'tab1', label: '매우 긴 탭 제목입니다' },
+      { key: 'tab1', label: '매우 긴 탭 제목입니다 매우 긴 탭 제목입니다' },
       { key: 'tab2', label: '짧은 탭' },
-      { key: 'tab3', label: '또 다른 긴 탭 제목' },
+      { key: 'tab3', label: '또 다른 긴 탭 제목 또 다른 긴 탭 제목' },
     ],
     activeTab: 'tab1',
     size: 'md',

@@ -7,7 +7,6 @@ import HeaderContainer from './HeaderContainer';
 export interface TopNavigationProps {
   title: string;
   showTitle: boolean;
-  region?: string;
   showRegion?: boolean;
   showBackButton: boolean;
   showSearchButton: boolean;
@@ -17,7 +16,6 @@ export interface TopNavigationProps {
 const TopNavigation = ({
   title,
   showTitle = true,
-  region,
   showRegion = false,
   showBackButton,
   showSearchButton,
@@ -29,7 +27,7 @@ const TopNavigation = ({
 
       <div className="flex gap-sm absolute left-[var(--space-container)]">
         {showBackButton && <BackButton />}
-        {showRegion && region && <RegionLabel region={region} />}
+        {showRegion && <RegionLabel />}
       </div>
 
       <div className="flex gap-sm absolute right-[var(--space-container)]">

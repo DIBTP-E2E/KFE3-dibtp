@@ -12,7 +12,7 @@ import {
 
 import { getAuthenticatedUser } from '@/utils/auth/server';
 
-const ProfilePage = async () => {
+const MyPage = async () => {
   const authResult = await getAuthenticatedUser();
 
   // 인증 실패 시 404 페이지로 이동
@@ -50,4 +50,4 @@ const ProfilePage = async () => {
   );
 };
 
-export default ProfilePage;
+export default MyPage;

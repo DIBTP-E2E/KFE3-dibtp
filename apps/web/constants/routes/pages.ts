@@ -13,6 +13,8 @@ export const PAGE_ROUTES = {
     DETAIL: (productId: string) => `/products/${productId}`,
   },
 
+  SEARCH: (keyword: string) => `/search?keyword=${keyword}`,
+
   CHAT: {
     LIST: '/chat',
     ROOM: (chatId: string) => `/chat/${chatId}`,

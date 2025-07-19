@@ -3,7 +3,6 @@ export const PRODUCT_STATUS = {
   READY: 'READY',
   ACTIVE: 'ACTIVE',
   SOLD: 'SOLD',
-  EXPIRED: 'EXPIRED',
   CANCEL: 'CANCEL',
 } as const;
 
