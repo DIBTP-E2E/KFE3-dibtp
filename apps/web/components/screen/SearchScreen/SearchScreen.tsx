@@ -9,7 +9,8 @@ import { SearchHeader } from '@/components/layout/header/SearchHeader';
 
 import { RecentKeywords } from '@/components/search';
 
-import { useSearchAction } from '@/hooks/products';
+import { useKeyboardNavigation } from '@/hooks/common';
+import { useSearchAction, useRecentSearches } from '@/hooks/products';
 
 interface SearchScreenProps {
   isOpen: boolean;
@@ -18,29 +19,28 @@ interface SearchScreenProps {
 
 const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
   const { searchKeyword } = useSearchAction();
-
-  // 키보드 ESC로 닫기
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, onClose]);
+  const { recentSearches } = useRecentSearches();
 
   // 검색어 클릭 시 SearchScreen 닫기 + 검색 실행
   const handleKeywordClick = (keyword: string) => {
     onClose(); // SearchScreen 닫기
     searchKeyword(keyword); // 검색 실행
   };
+
+  // 키보드 네비게이션 훅 사용
+  const { selectedIndex, resetSelection } = useKeyboardNavigation({
+    items: recentSearches,
+    isEnabled: isOpen && recentSearches.length > 0,
+    onSelect: handleKeywordClick,
+    onEscape: onClose,
+  });
+
+  // SearchScreen이 열릴 때 선택 상태 초기화
+  useEffect(() => {
+    if (isOpen) {
+      resetSelection();
+    }
+  }, [isOpen, resetSelection]);
 
   return (
     <div
@@ -57,7 +57,7 @@ const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
         <SearchHeader onClose={onClose} autoFocus={isOpen} />
 
         <div className="flex-1 overflow-y-auto px-container py-container">
-          <RecentKeywords onKeywordClick={handleKeywordClick} />
+          <RecentKeywords onKeywordClick={handleKeywordClick} selectedIndex={selectedIndex} />
         </div>
       </section>
     </div>
