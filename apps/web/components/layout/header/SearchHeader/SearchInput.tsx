@@ -52,8 +52,8 @@ const SearchInput = ({
     }
   }, [autoFocus]);
 
-  // 입력창 포커스 시 드롭다운 열기
-  const handleInputFocus = () => {
+  // 입력창 포커스/클릭 시 드롭다운 열기
+  const handleInputInteraction = () => {
     if (hasSearchDropDown && recentSearches.length > 0) {
       open();
     }
@@ -91,7 +91,8 @@ const SearchInput = ({
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={handleKeyDown}
-          onFocus={handleInputFocus}
+          onFocus={handleInputInteraction}
+          onClick={handleInputInteraction}
           placeholder={`${region} 근처에서 검색`}
           className="flex-1 bg-transparent outline-none placeholder:text-text-info"
         />
