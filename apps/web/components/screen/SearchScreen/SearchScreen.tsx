@@ -27,12 +27,13 @@ const SearchScreen = ({ isOpen, onClose }: SearchScreenProps) => {
     searchKeyword(keyword); // 검색 실행
   };
 
-  // 키보드 네비게이션 훅 사용
+  // 키보드 네비게이션 훅 사용 (SearchInput보다 높은 이벤트 우선순위)
   const { selectedIndex, resetSelection } = useKeyboardNavigation({
     items: recentSearches,
     isEnabled: isOpen && recentSearches.length > 0,
     onSelect: handleKeywordClick,
     onEscape: onClose,
+    eventPriority: 10, // SearchInput의 기본 이벤트 우선순위(0)보다 높음
   });
 
   // SearchScreen이 열릴 때 선택 상태 초기화
