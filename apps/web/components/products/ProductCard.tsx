@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 
 import { PAGE_ROUTES } from '@/constants';
+import { useCurrentPrice } from '@/hooks/products';
 import type { ProductStatus } from '@/types';
 
 import { formatRelativeTime } from '@/utils/date';
@@ -11,7 +14,11 @@ interface ProductCardProps {
   productId: number;
   title: string;
   imgUrl: string;
-  currentPrice: number;
+  startPrice: number;
+  minPrice: number;
+  decreaseUnit: number;
+  auctionStartedAt: string;
+  decreaseInterval: number;
   status: ProductStatus;
   viewCount?: number;
   createdAt: string;
@@ -23,12 +30,24 @@ const ProductCard = ({
   productId,
   imgUrl,
   title,
-  currentPrice,
+  startPrice,
+  minPrice,
+  decreaseUnit,
+  auctionStartedAt,
+  decreaseInterval,
   status,
   region,
   bidderUserId,
   createdAt,
 }: ProductCardProps) => {
+  const currentPrice = useCurrentPrice({
+    startPrice,
+    minPrice,
+    decreaseUnit,
+    auctionStartedAt,
+    decreaseInterval,
+  });
+
   return (
     <Link href={PAGE_ROUTES.PRODUCTS.DETAIL(productId.toString())}>
       <article

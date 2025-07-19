@@ -1,10 +1,30 @@
+'use client';
+
+import { useCurrentPrice } from '@/hooks/products';
+
 interface NextPriceProps {
-  currentPrice: number;
-  decreaseUnit: number;
+  startPrice: number;
   minPrice: number;
+  decreaseUnit: number;
+  auctionStartedAt: string;
+  decreaseInterval: number;
 }
 
-const NextPrice = ({ currentPrice, decreaseUnit, minPrice }: NextPriceProps) => {
+const NextPrice = ({
+  startPrice,
+  minPrice,
+  decreaseUnit,
+  auctionStartedAt,
+  decreaseInterval,
+}: NextPriceProps) => {
+  const currentPrice = useCurrentPrice({
+    startPrice,
+    minPrice,
+    decreaseUnit,
+    auctionStartedAt,
+    decreaseInterval,
+  });
+
   const calculatedNextPrice = currentPrice - decreaseUnit;
   const displayPrice = Math.max(calculatedNextPrice, minPrice);
 

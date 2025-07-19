@@ -1,15 +1,36 @@
+'use client';
+
+import { useCurrentPrice } from '@/hooks/products';
+
 import { Timer } from '../shared';
 
 import BidButton from './BidButton';
 
 interface ProductFooterProps {
   productId: number;
-  currentPrice: number;
+  startPrice: number;
   minPrice: number;
-  createdAt: string;
+  decreaseUnit: number;
+  createdAt: string; // auctionStartedAt으로 사용
+  decreaseInterval: number;
 }
 
-const ProductFooter = ({ productId, currentPrice, minPrice, createdAt }: ProductFooterProps) => {
+const ProductFooter = ({
+  productId,
+  startPrice,
+  minPrice,
+  decreaseUnit,
+  createdAt,
+  decreaseInterval,
+}: ProductFooterProps) => {
+  const currentPrice = useCurrentPrice({
+    startPrice,
+    minPrice,
+    decreaseUnit,
+    auctionStartedAt: createdAt,
+    decreaseInterval,
+  });
+
   return (
     <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full md:max-w-container bg-white p-4 border-t border-gray-200 flex justify-between items-center">
       <div className="flex flex-col">

@@ -1,17 +1,20 @@
-const PRICE_DECREASE_INTERVAL_MINUTES = 30; // 30분마다 가격 인하
-
 export const calculateCurrentPrice = (
   startPrice: number,
   minPrice: number,
   decreaseUnit: number,
-  createdAt: string
+  auctionStartedAt: string,
+  decreaseInterval: number
 ): number => {
-  const createdDate = new Date(createdAt);
+  const createdDate = new Date(auctionStartedAt);
   const now = new Date();
 
-  const timeDiffMinutes = Math.floor((now.getTime() - createdDate.getTime()) / (1000 * 60));
+  const timeDiffSeconds = Math.floor((now.getTime() - createdDate.getTime()) / 1000);
 
-  const numberOfDecreases = Math.floor(timeDiffMinutes / PRICE_DECREASE_INTERVAL_MINUTES);
+  if (timeDiffSeconds < 0) {
+    return startPrice;
+  }
+
+  const numberOfDecreases = Math.floor(timeDiffSeconds / decreaseInterval);
 
   let currentPrice = startPrice - numberOfDecreases * decreaseUnit;
 

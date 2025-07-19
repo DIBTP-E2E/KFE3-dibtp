@@ -10,10 +10,15 @@ export const metadata: Metadata = {
 const ChatLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-screen flex flex-col">
-      <TopNavigation title="채팅" />
-      <PageContainer className="flex-1 py-lg" hasTopNavigation={true} hasBottomNavigation={true}>
-        {children}
-      </PageContainer>
+      <TopNavigation
+        title="채팅"
+        showTitle
+        showAlarmButton
+        showBackButton={false}
+        showSearchButton={false}
+        showRegion={false}
+      />
+      <PageContainer className="py-lg">{children}</PageContainer>
       <BottomNavigation />
     </div>
   );
