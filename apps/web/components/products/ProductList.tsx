@@ -1,5 +1,7 @@
 import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products/server';
 
+import { DECREASE_INTERVAL_SECONDS } from '@/constants';
+
 import ProductCard from './ProductCard';
 
 const ProductList = async ({ keyword }: ProductQueryFilters) => {
@@ -12,8 +14,6 @@ const ProductList = async ({ keyword }: ProductQueryFilters) => {
       </div>
     );
   }
-
-  const DECREASE_INTERVAL_SECONDS = 30 * 60; // 30분
 
   return (
     <ul className="grid grid-cols-1">

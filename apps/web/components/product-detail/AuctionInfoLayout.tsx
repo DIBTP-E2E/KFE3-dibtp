@@ -1,5 +1,6 @@
 'use client';
 
+import { DECREASE_INTERVAL_SECONDS } from '@/constants';
 import { useCurrentPrice } from '@/hooks/products';
 
 import { Timer } from '../shared';
@@ -14,8 +15,6 @@ interface AuctionInfoLayoutProps {
   minPrice: number;
   createdAt: string;
 }
-
-const DECREASE_INTERVAL_SECONDS = 30 * 60; // 30분
 
 const AuctionInfoLayout = ({
   decreaseUnit,
