@@ -4,9 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 
 import { Icon, Thumbnail } from '@repo/ui/components';
 
-import { validateMultipleImages } from '@/lib/validations/image';
-
-import { PRODUCT_MAX_IMAGES } from '@/constants';
+import { PRODUCT_MAX_IMAGES } from '@web/constants';
+import { validateMultipleImages } from '@web/lib/validations/image';
 
 interface ImageUploadProps {
   onImagesChange: (images: File[]) => void;
