@@ -1,7 +1,9 @@
 'use client';
 
 import { Icon } from '@repo/ui/components';
+import { useRouter } from 'next/navigation';
 
+import { PAGE_ROUTES } from '@/constants';
 import { useRecentSearches } from '@/hooks/products/useRecentSearches';
 
 interface RecentKeywordsProps {
@@ -9,7 +11,19 @@ interface RecentKeywordsProps {
 }
 
 const RecentKeywords = ({ onKeywordClick }: RecentKeywordsProps) => {
-  const { recentSearches, removeRecentSearch, clearAllRecentSearches } = useRecentSearches();
+  const router = useRouter();
+  const { recentSearches, removeRecentSearch, clearAllRecentSearches, addRecentSearch } =
+    useRecentSearches();
+
+  const handleDefaultClick = (keyword: string) => {
+    const trimmedKeyword = keyword.trim();
+    addRecentSearch(trimmedKeyword);
+    const encodedKeyword = encodeURIComponent(trimmedKeyword);
+
+    router.push(`${PAGE_ROUTES.SEARCH(encodedKeyword)}`);
+  };
+
+  const handleClick = onKeywordClick || handleDefaultClick;
 
   return (
     <section>
@@ -29,7 +43,7 @@ const RecentKeywords = ({ onKeywordClick }: RecentKeywordsProps) => {
           {recentSearches.map((search, index) => (
             <li key={index} className="flex items-center justify-between gap-sm">
               <button
-                onClick={() => onKeywordClick?.(search)}
+                onClick={() => handleClick(search)}
                 className="flex-1 flex items-center py-sm gap-sm text-left"
               >
                 <Icon name="ClockThin" size="xs" color="info" />
