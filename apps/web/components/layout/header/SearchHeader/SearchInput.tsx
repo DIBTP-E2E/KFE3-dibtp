@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 
 import { Icon } from '@repo/ui/components/Icons';
-
 import { useQuery } from '@tanstack/react-query';
 
 import { fetchUserRegion } from '@/services/user/client';
@@ -11,7 +10,7 @@ import { fetchUserRegion } from '@/services/user/client';
 import { SearchDropDown } from '@/components/search';
 
 import { USER_REGION_QUERY_KEY } from '@/constants';
-import { useRecentSearches, useSearchDropdownState, useSearchAction } from '@/hooks/products';
+import { useSearchInputHandlers } from '@/hooks/products';
 
 interface SearchInputProps {
   resultKeyword?: string;
@@ -24,16 +23,28 @@ const SearchInput = ({
   autoFocus = false,
   hasSearchDropDown = false,
 }: SearchInputProps) => {
-  const [searchTerm, setSearchTerm] = useState(resultKeyword ?? '');
-  const { recentSearches } = useRecentSearches();
-  const { searchKeyword } = useSearchAction();
-  const { isOpen, containerRef, open, close } = useSearchDropdownState();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [searchTerm, setSearchTerm] = useState(resultKeyword ?? '');
   const clearSearch = () => setSearchTerm('');
 
   const { data: region } = useQuery<string | null>({
     queryKey: USER_REGION_QUERY_KEY,
     queryFn: fetchUserRegion,
+  });
+
+  const {
+    containerRef,
+    selectedIndex,
+    shouldShowDropdown,
+    showSearchDropDown,
+    handleRecentKeywordClick,
+    handleKeywordChange,
+    handleKeyDown,
+    closeDropdown,
+  } = useSearchInputHandlers({
+    searchTerm,
+    setSearchTerm,
+    hasSearchDropDown,
   });
 
   useEffect(() => {
@@ -51,40 +62,6 @@ const SearchInput = ({
       return () => clearTimeout(timer);
     }
   }, [autoFocus]);
-
-  // 입력창 포커스/클릭 시 드롭다운 열기
-  const showSearchDropDown = () => {
-    if (hasSearchDropDown && recentSearches.length > 0) {
-      open();
-    }
-  };
-
-  // 검색어 클릭 시 처리
-  const handleKeywordClick = (keyword: string) => {
-    close();
-    setSearchTerm(keyword); // 검색어 설정
-    searchKeyword(keyword); // 검색 실행
-  };
-
-  // 검색어 수정 시 처리
-  const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    showSearchDropDown();
-  };
-
-  // 검색어 작성 완료 후 처리
-  const handleSearch = () => {
-    if (searchTerm.trim()) {
-      close(); // 드롭다운 닫기
-      searchKeyword(searchTerm);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
 
   return (
     <div ref={containerRef} className="ml-md flex-1 relative h-full">
@@ -105,8 +82,12 @@ const SearchInput = ({
         {searchTerm && <Icon name="Cancel" onClick={clearSearch} className="px-xs" />}
       </div>
 
-      {hasSearchDropDown && isOpen && recentSearches.length > 0 && (
-        <SearchDropDown onClose={close} onKeywordClick={handleKeywordClick} />
+      {shouldShowDropdown && (
+        <SearchDropDown
+          onClose={closeDropdown}
+          onKeywordClick={handleRecentKeywordClick}
+          selectedIndex={selectedIndex}
+        />
       )}
     </div>
   );

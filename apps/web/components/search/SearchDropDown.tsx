@@ -7,13 +7,14 @@ import { RecentKeywords } from '@/components/search';
 interface SearchDropDownProps {
   onClose: () => void;
   onKeywordClick: (keyword: string) => void;
+  selectedIndex?: number;
 }
 
-const SearchDropDown = ({ onClose, onKeywordClick }: SearchDropDownProps) => {
+const SearchDropDown = ({ onClose, onKeywordClick, selectedIndex = -1 }: SearchDropDownProps) => {
   return (
     <>
       {/* 투명한 오버레이 - 외부 클릭 방지 */}
-      <div className="fixed inset-0 z-40 bg-black/15" onClick={onClose} />
+      <div className="fixed inset-0 z-40" onClick={onClose} />
 
       <div
         className={cn(
@@ -24,7 +25,7 @@ const SearchDropDown = ({ onClose, onKeywordClick }: SearchDropDownProps) => {
           'shadow-lg border-b border-border-base rounded-b-lg'
         )}
       >
-        <RecentKeywords onKeywordClick={onKeywordClick} />
+        <RecentKeywords onKeywordClick={onKeywordClick} selectedIndex={selectedIndex} />
       </div>
     </>
   );

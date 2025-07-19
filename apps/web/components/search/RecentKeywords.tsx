@@ -1,6 +1,9 @@
 'use client';
 
 import { Icon } from '@repo/ui/components';
+
+import { cn } from '@repo/ui/utils/cn';
+
 import { useRouter } from 'next/navigation';
 
 import { PAGE_ROUTES } from '@/constants';
@@ -8,9 +11,10 @@ import { useRecentSearches } from '@/hooks/products/useRecentSearches';
 
 interface RecentKeywordsProps {
   onKeywordClick?: (keyword: string) => void;
+  selectedIndex?: number;
 }
 
-const RecentKeywords = ({ onKeywordClick }: RecentKeywordsProps) => {
+const RecentKeywords = ({ onKeywordClick, selectedIndex = -1 }: RecentKeywordsProps) => {
   const router = useRouter();
   const { recentSearches, removeRecentSearch, clearAllRecentSearches, addRecentSearch } =
     useRecentSearches();
@@ -41,18 +45,25 @@ const RecentKeywords = ({ onKeywordClick }: RecentKeywordsProps) => {
       {recentSearches.length > 0 ? (
         <ul className="space-y-3">
           {recentSearches.map((search, index) => (
-            <li key={index} className="flex items-center justify-between gap-sm">
+            <li key={index} className="flex items-center justify-between">
               <button
                 onClick={() => handleClick(search)}
-                className="flex-1 flex items-center py-sm gap-sm text-left"
+                className={cn(
+                  'h-[32px] flex-1 flex items-center gap-sm text-left transition-colors',
+                  selectedIndex === index ? 'bg-bg-accent text-text-primary' : 'hover:bg-bg-base'
+                )}
               >
                 <Icon name="ClockThin" size="xs" color="info" />
+
                 <span className="flex-1">{search}</span>
               </button>
 
               <button
                 onClick={() => removeRecentSearch(index)}
-                className="w-[24px] h-full hover:opacity-70 transition-opacity"
+                className={cn(
+                  'inline-flex justify-center items-center',
+                  'w-[32px] h-[32px] hover:opacity-70 transition-opacity'
+                )}
                 aria-label={`${search} 검색어 삭제`}
               >
                 <Icon name="Cancel" size="sm" color="info" />
