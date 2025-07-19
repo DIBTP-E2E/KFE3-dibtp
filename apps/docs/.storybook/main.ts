@@ -33,7 +33,9 @@ const config: StorybookConfig = {
       /* 스토리북 별칭 이슈 해결을 위한 경로 매칭 */
       '@ui/components': join(__dirname, '../../../packages/ui/src/design-system/base-components'),
       '@ui': join(__dirname, '../../../packages/ui/src'),
-      /* @web 의 경우 @web 내부에서 @ 별칭을 많이 사용하므로 마이그레이션 필요할 경우 적용 */
+
+      /* TODO: web app 내부에서 @ 별칭을 많이 사용하므로 점진적으로 @web 적용 후 @ 별칭 제거 */
+      '@web': join(__dirname, '../../web'),
       '@': join(__dirname, '../../web'),
     };
 
