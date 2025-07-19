@@ -10,7 +10,7 @@ import { fetchUserRegion } from '@/services/user/client';
 import { SearchDropDown } from '@/components/search';
 
 import { USER_REGION_QUERY_KEY } from '@/constants';
-import { useSearchInputHandlers } from '@/hooks/products';
+import { useSearchInputHandlers } from '@/hooks';
 
 interface SearchInputProps {
   resultKeyword?: string;

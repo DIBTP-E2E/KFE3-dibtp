@@ -9,8 +9,7 @@ import { SearchHeader } from '@/components/layout/header/SearchHeader';
 
 import { RecentKeywords } from '@/components/search';
 
-import { useKeyboardNavigation } from '@/hooks/common';
-import { useSearchAction, useRecentSearches } from '@/hooks/products';
+import { useSearchAction, useRecentSearches, useKeyboardNavigation } from '@/hooks';
 
 interface SearchScreenProps {
   isOpen: boolean;

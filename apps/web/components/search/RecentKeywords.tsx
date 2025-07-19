@@ -7,7 +7,7 @@ import { cn } from '@repo/ui/utils/cn';
 import { useRouter } from 'next/navigation';
 
 import { PAGE_ROUTES } from '@/constants';
-import { useRecentSearches } from '@/hooks/products/useRecentSearches';
+import { useRecentSearches } from '@/hooks';
 
 interface RecentKeywordsProps {
   onKeywordClick?: (keyword: string) => void;
@@ -45,12 +45,18 @@ const RecentKeywords = ({ onKeywordClick, selectedIndex = -1 }: RecentKeywordsPr
       {recentSearches.length > 0 ? (
         <ul className="space-y-3">
           {recentSearches.map((search, index) => (
-            <li key={index} className="flex items-center justify-between">
+            <li
+              key={index}
+              className={cn(
+                'flex items-center justify-between hover:bg-bg-base rounded-sm transition-all',
+                selectedIndex === index && 'bg-bg-base'
+              )}
+            >
               <button
                 onClick={() => handleClick(search)}
                 className={cn(
                   'h-[32px] flex-1 flex items-center gap-sm text-left transition-colors',
-                  selectedIndex === index ? 'bg-bg-accent text-text-primary' : 'hover:bg-bg-base'
+                  selectedIndex === index && 'text-text-primary'
                 )}
               >
                 <Icon name="ClockThin" size="xs" color="info" />
