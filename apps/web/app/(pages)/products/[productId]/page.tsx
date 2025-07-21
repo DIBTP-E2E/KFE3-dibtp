@@ -87,6 +87,8 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
         <UserInfoLayout
           sellerNickname="판매자 닉네임 (목데이터)" // 실제 데이터 사용 시 mockProduct.seller_nickname 등으로 변경
           sellerAvatarUrl="https://picsum.photos/seed/seller/200/200" // 실제 데이터 사용 시 변경
+          sellerUserId={product.seller_user_id}
+          productId={product.product_id}
         />
         <AuctionInfoLayout
           decreaseUnit={product.decrease_unit}
