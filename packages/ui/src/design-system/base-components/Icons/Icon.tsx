@@ -2,7 +2,7 @@ import { cn } from '@ui/utils/cn';
 import { ICONS } from './assets/Icons';
 
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-type IconColor =
+export type IconColor =
   | 'default'
   | 'inverse'
   | 'info'
@@ -50,5 +50,9 @@ export const Icon = ({ name, size = 'md', color = 'default', className, ...props
 
   return <IconComponent className={cn(sizeClass, colorClass, className)} {...props} />;
 };
+
+export const ICON_NAME_KEYS = Object.keys(ICONS) as IconName[];
+export const ICON_COLOR_KEYS = Object.keys(COLORS) as IconColor[];
+export const ICON_SIZE_KEYS = Object.keys(SIZES) as IconSize[];
 
 export default Icon;

@@ -1,8 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { Icon, type IconName } from './Icon';
-import { ICONS } from './assets/Icons';
-
-const ICON_NAMES = Object.keys(ICONS) as IconName[];
+import { Icon, ICON_COLOR_KEYS, ICON_NAME_KEYS, ICON_SIZE_KEYS } from './Icon';
 
 const meta: Meta<typeof Icon> = {
   title: 'Design System/Base Components/Icons',
@@ -30,12 +27,12 @@ const meta: Meta<typeof Icon> = {
   argTypes: {
     name: {
       control: 'select',
-      options: ICON_NAMES,
+      options: ICON_NAME_KEYS,
       description: '렌더링할 아이콘의 이름',
     },
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
+      options: ICON_SIZE_KEYS,
       description: '아이콘의 크기 (디자인 토큰 기반)',
       table: {
         defaultValue: { summary: 'md' },
@@ -43,7 +40,7 @@ const meta: Meta<typeof Icon> = {
     },
     color: {
       control: 'select',
-      options: ['default', 'inverse', 'info', 'primary', 'secondary', 'success', 'danger', 'error'],
+      options: ICON_COLOR_KEYS,
       description: '아이콘의 색상 (디자인 시스템 컬러 토큰 사용)',
       table: {
         defaultValue: { summary: 'default' },
@@ -54,7 +51,7 @@ const meta: Meta<typeof Icon> = {
     },
   },
   args: {
-    name: ICON_NAMES[0],
+    name: ICON_NAME_KEYS[0],
     size: 'md',
     color: 'default',
   },
@@ -78,7 +75,7 @@ export const Playground: Story = {
 export const AllIcons: Story = {
   render: (args) => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24 }}>
-      {ICON_NAMES.map((iconName) => (
+      {ICON_NAME_KEYS.map((iconName) => (
         <div
           key={iconName}
           style={{
