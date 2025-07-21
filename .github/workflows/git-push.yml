@@ -7,13 +7,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: pandoc/latex
     steps:
-      - uses: actions/checkout@v2
-      - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
-      - name: creates output
-        run: sh ./build.sh
+      - uses: actions/checkout@v4
+      - name: Create output directory
+        run: |
+          mkdir -p output
+          cp -R * output/ || true
+          ls -la output/
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
