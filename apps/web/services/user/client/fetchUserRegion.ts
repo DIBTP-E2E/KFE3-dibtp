@@ -1,8 +1,9 @@
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES } from '@web/constants';
+import type { UserRegion } from '@web/types';
 
 // 클라이언트 컴포넌트에서 사용할 query 함수들
 
-export async function fetchUserRegion(): Promise<string | null> {
+export async function fetchUserRegion(): Promise<UserRegion> {
   try {
     const response = await fetch(`${API_ROUTES.USER}/region`);
 
@@ -12,12 +13,13 @@ export async function fetchUserRegion(): Promise<string | null> {
 
     const data = await response.json();
 
-    return data.region;
+    return data;
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
       console.error('Error fetching user region:', error);
     }
-    return null;
+
+    throw new Error('알 수 없는 오류가 발생했습니다');
   }
 }
