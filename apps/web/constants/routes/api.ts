@@ -5,4 +5,5 @@ export const API_ROUTES = {
   IMAGES: `${API_BASE}/images`,
   BIDS: `${API_BASE}/bids`,
   USER: `${API_BASE}/user`,
+  FAVORITES: `${API_BASE}/favorites`,
 } as const;
