@@ -18,9 +18,7 @@ const ChatListPage = () => {
         showSearchButton={false}
         showRegion={false}
       />
-      <PageContainer className="py-lg">
-        <div></div>
-      </PageContainer>
+      <PageContainer className="py-lg">준비중입니다!</PageContainer>
       <BottomNavigation />
     </div>
   );

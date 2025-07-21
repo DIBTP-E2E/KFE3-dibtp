@@ -4,6 +4,7 @@ import { Button } from '@repo/ui/components';
 import { useQuery } from '@tanstack/react-query';
 
 import { USER_REGION_QUERY_KEY } from '@web/constants';
+import { useAppNavigation } from '@web/hooks';
 import { useCreateChatRoom } from '@web/hooks/chat/useCreateChatRoom';
 import { fetchUserRegion } from '@web/services/user/client';
 import type { UserRegion } from '@web/types';
@@ -19,6 +20,8 @@ const ChatButton = ({ productId, sellerUserId }: ChatButtonProps) => {
     queryFn: fetchUserRegion,
   });
 
+  const { goToChatRoom } = useAppNavigation();
+
   const createChatRoomMutation = useCreateChatRoom({
     onSuccess: (data) => {
       if (process.env.NODE_ENV === 'development') {
@@ -27,6 +30,8 @@ const ChatButton = ({ productId, sellerUserId }: ChatButtonProps) => {
         // data.chatRoom - 생성된 채팅방 정보
         // data.isExisting - 기존 채팅방인지 여부
       }
+
+      goToChatRoom(data.chatRoom.chat_room_id);
     },
     onError: (error) => {
       if (process.env.NODE_ENV === 'development') {
