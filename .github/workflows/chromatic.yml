@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy Storybook to Chromatic
     needs: detect-changes
-    if: needs.detect-changes.outputs.ui == 'true' || needs.detect-changes.outputs.web == 'true' || needs.detect-changes.outputs.docs == 'true' || github.ref == 'refs/heads/main'
+    if: needs.detect-changes.outputs.ui-changed == 'true' || needs.detect-changes.outputs.web-changed == 'true' || needs.detect-changes.outputs.docs-changed == 'true' || github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
