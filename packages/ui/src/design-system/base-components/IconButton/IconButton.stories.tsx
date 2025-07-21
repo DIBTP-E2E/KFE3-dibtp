@@ -1,6 +1,7 @@
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
 import type { IconName } from '@ui/components/Icons';
 import { ICON_NAME_KEYS, ICON_SIZE_KEYS } from '@ui/components/Icons';
-import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import IconButton, {
   ICON_BUTTON_COLORS_KEYS,

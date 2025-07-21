@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
+
 import { Icon, ICON_COLOR_KEYS, ICON_NAME_KEYS, ICON_SIZE_KEYS } from './Icon';
 
 const meta: Meta<typeof Icon> = {
