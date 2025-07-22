@@ -32,7 +32,7 @@ export const createChatRoom = async (
     }
 
     // 상품 등록자가 본인이면 error
-    if (existingRoom) {
+    if (buyer_user_id === seller_user_id) {
       return {
         data: null,
         error: {
