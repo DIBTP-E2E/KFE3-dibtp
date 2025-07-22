@@ -1,4 +1,4 @@
-import { supabaseServerClient } from '@web/lib/supabase/server';
+import { prisma } from '@web/lib/prisma';
 import type { CreateChatRoomPayload, CreateChatRoomAPIResponse } from '@web/types';
 
 /**
@@ -8,28 +8,7 @@ export const createChatRoom = async (
   payload: CreateChatRoomPayload
 ): Promise<CreateChatRoomAPIResponse> => {
   try {
-    const supabase = await supabaseServerClient();
     const { product_id, buyer_user_id, seller_user_id } = payload;
-
-    // 기존 채팅방 확인
-    const { data: existingRoom, error: findError } = await supabase
-      .from('chat_rooms')
-      .select('*')
-      .eq('product_id', product_id)
-      .eq('buyer_user_id', buyer_user_id)
-      .eq('seller_user_id', seller_user_id)
-      .single();
-
-    if (findError && findError.code !== 'PGRST116') {
-      // PGRST116 = not found
-      return {
-        data: null,
-        error: {
-          message: '채팅방 조회 중 오류가 발생했습니다.',
-          code: findError.code,
-        },
-      };
-    }
 
     // 상품 등록자가 본인이면 error
     if (buyer_user_id === seller_user_id) {
@@ -41,11 +20,25 @@ export const createChatRoom = async (
       };
     }
 
+    // 기존 채팅방 확인
+    const existingRoom = await prisma.chat_rooms.findFirst({
+      where: {
+        product_id: BigInt(product_id),
+        buyer_user_id,
+        seller_user_id,
+      },
+    });
+
     // 기존 채팅방이 있으면 반환
     if (existingRoom) {
       return {
         data: {
-          chatRoom: existingRoom,
+          chatRoom: {
+            ...existingRoom,
+            product_id: Number(existingRoom.product_id),
+            created_at: existingRoom.created_at.toISOString(),
+            updated_at: existingRoom.updated_at?.toISOString() ?? null,
+          },
           isExisting: true,
         },
         error: null,
@@ -53,31 +46,22 @@ export const createChatRoom = async (
     }
 
     // 새 채팅방 생성
-    const { data: newRoom, error: createError } = await supabase
-      .from('chat_rooms')
-      .insert({
-        product_id,
+    const newRoom = await prisma.chat_rooms.create({
+      data: {
+        product_id: BigInt(product_id),
         buyer_user_id,
         seller_user_id,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-      .select()
-      .single();
-
-    if (createError) {
-      return {
-        data: null,
-        error: {
-          message: createError.message,
-          code: createError.code,
-        },
-      };
-    }
+      },
+    });
 
     return {
       data: {
-        chatRoom: newRoom,
+        chatRoom: {
+          ...newRoom,
+          product_id: Number(newRoom.product_id),
+          created_at: newRoom.created_at.toISOString(),
+          updated_at: newRoom.updated_at?.toISOString() ?? null,
+        },
         isExisting: false,
       },
       error: null,
