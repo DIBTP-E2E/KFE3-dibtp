@@ -70,7 +70,7 @@ export type Database = {
       chat_messages: {
         Row: {
           chat_message_id: number;
-          chat_room_id: number;
+          chat_room_id: string;
           created_at: string;
           is_read: boolean;
           message: string;
@@ -78,7 +78,7 @@ export type Database = {
         };
         Insert: {
           chat_message_id?: number;
-          chat_room_id: number;
+          chat_room_id: string;
           created_at?: string;
           is_read?: boolean;
           message: string;
@@ -86,7 +86,7 @@ export type Database = {
         };
         Update: {
           chat_message_id?: number;
-          chat_room_id?: number;
+          chat_room_id?: string;
           created_at?: string;
           is_read?: boolean;
           message?: string;
