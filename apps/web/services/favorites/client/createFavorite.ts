@@ -1,5 +1,7 @@
+import { API_ROUTES } from '@/constants';
+
 export const createFavorite = async (productId: number) => {
-  const response = await fetch('/api/favorites', {
+  const response = await fetch(API_ROUTES.FAVORITES, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

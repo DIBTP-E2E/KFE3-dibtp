@@ -1,5 +1,7 @@
+import { API_ROUTES } from '@web/constants';
+
 export const getFavoriteStatus = async (productId: number): Promise<{ isFavorite: boolean }> => {
-  const response = await fetch(`/api/favorites?productId=${productId}`);
+  const response = await fetch(`${API_ROUTES.FAVORITES}?productId=${productId}`);
 
   if (!response.ok) {
     const errorData = await response.json();

@@ -1,5 +1,7 @@
+import { API_ROUTES } from '@web/constants';
+
 export const deleteFavorite = async (productId: number) => {
-  const response = await fetch('/api/favorites', {
+  const response = await fetch(API_ROUTES.FAVORITES, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
