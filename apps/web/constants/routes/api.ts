@@ -7,4 +7,5 @@ export const API_ROUTES = {
   USER: `${API_BASE}/user`,
   FAVORITES: `${API_BASE}/favorites`,
   CHAT_ROOMS: `${API_BASE}/chat/rooms`,
+  MY_INFO: `${API_BASE}/my-info`,
 } as const;

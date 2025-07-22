@@ -3,9 +3,8 @@ import type { Metadata } from 'next';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import localFont from 'next/font/local';
 
-import { createServerQueryClient, prefetchUserRegion } from '@/lib/query/server';
-
-import QueryProvider from '@/providers/QueryProvider';
+import { createServerQueryClient, prefetchMyInfo } from '@web/lib/query/server';
+import QueryProvider from '@web/providers/QueryProvider';
 
 import '../styles/globals.css';
 
@@ -37,7 +36,7 @@ const notoSansKR = localFont({
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const queryClient = createServerQueryClient();
-  await prefetchUserRegion(queryClient);
+  await prefetchMyInfo(queryClient);
 
   return (
     <html lang="ko" className={notoSansKR.variable}>

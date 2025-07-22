@@ -1,11 +1,11 @@
 import { API_ROUTES } from '@web/constants';
-import type { UserRegion } from '@web/types';
+import type { MyInfoAPIResponse } from '@web/types';
 
 // 클라이언트 컴포넌트에서 사용할 query 함수들
 
-export async function fetchUserRegion(): Promise<UserRegion> {
+export async function fetchMyInfo(): Promise<MyInfoAPIResponse> {
   try {
-    const response = await fetch(`${API_ROUTES.USER}/region`);
+    const response = await fetch(API_ROUTES.MY_INFO);
 
     if (!response.ok) {
       throw new Error('Failed to fetch user region');

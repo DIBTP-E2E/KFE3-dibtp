@@ -1,21 +1,15 @@
 'use client';
 
 import { Button } from '@repo/ui/components';
-import { useQuery } from '@tanstack/react-query';
 
-import { USER_REGION_QUERY_KEY } from '@web/constants';
-import { fetchUserRegion } from '@web/services/user/client';
-import type { UserRegion } from '@web/types';
+import { useMyInfo } from '@web/hooks';
 
 const RegionLabel = () => {
-  const { data } = useQuery<UserRegion>({
-    queryKey: USER_REGION_QUERY_KEY,
-    queryFn: fetchUserRegion,
-  });
+  const { region } = useMyInfo();
 
   return (
     <Button size="sm" color="lightMode" isFullWidth={false}>
-      {data?.region}
+      {region}
     </Button>
   );
 };

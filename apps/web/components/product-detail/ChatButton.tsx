@@ -1,13 +1,9 @@
 'use client';
 
 import { Button } from '@repo/ui/components';
-import { useQuery } from '@tanstack/react-query';
 
-import { USER_REGION_QUERY_KEY } from '@web/constants';
-import { useAppNavigation } from '@web/hooks';
+import { useAppNavigation, useMyInfo } from '@web/hooks';
 import { useCreateChatRoom } from '@web/hooks/chat/useCreateChatRoom';
-import { fetchUserRegion } from '@web/services/user/client';
-import type { UserRegion } from '@web/types';
 
 interface ChatButtonProps {
   productId: number;
@@ -15,10 +11,7 @@ interface ChatButtonProps {
 }
 
 const ChatButton = ({ productId, sellerUserId }: ChatButtonProps) => {
-  const { data } = useQuery<UserRegion>({
-    queryKey: USER_REGION_QUERY_KEY,
-    queryFn: fetchUserRegion,
-  });
+  const { userId } = useMyInfo();
 
   const { goToChatRoom } = useAppNavigation();
 
@@ -45,7 +38,7 @@ const ChatButton = ({ productId, sellerUserId }: ChatButtonProps) => {
     createChatRoomMutation.mutate({
       product_id: productId,
       seller_user_id: sellerUserId,
-      buyer_user_id: data?.userId ?? '',
+      buyer_user_id: userId,
     });
   };
 
