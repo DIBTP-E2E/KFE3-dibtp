@@ -3,13 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 
 import { Icon } from '@repo/ui/components/Icons';
-import { useQuery } from '@tanstack/react-query';
 
 import { SearchDropDown } from '@web/components/search';
-import { MY_INFO_QUERY_KEY } from '@web/constants';
 import { useSearchInputHandlers } from '@web/hooks';
-import { fetchMyInfo } from '@web/services/my/client';
-import type { MyInfoAPIResponse } from '@web/types';
+import { useMyInfo } from '@web/hooks';
 
 interface SearchInputProps {
   resultKeyword?: string;
@@ -22,14 +19,12 @@ const SearchInput = ({
   autoFocus = false,
   hasSearchDropDown = false,
 }: SearchInputProps) => {
+  const { region } = useMyInfo();
+
   const inputRef = useRef<HTMLInputElement>(null);
+
   const [searchTerm, setSearchTerm] = useState(resultKeyword ?? '');
   const clearSearch = () => setSearchTerm('');
-
-  const { data } = useQuery<MyInfoAPIResponse>({
-    queryKey: MY_INFO_QUERY_KEY,
-    queryFn: fetchMyInfo,
-  });
 
   const {
     containerRef,
@@ -75,7 +70,7 @@ const SearchInput = ({
           onKeyDown={handleKeyDown}
           onFocus={showSearchDropDown}
           onClick={showSearchDropDown}
-          placeholder={`${data?.region} 근처에서 검색`}
+          placeholder={`${region} 근처에서 검색`}
           className="flex-1 bg-transparent outline-none placeholder:text-text-info"
         />
         {searchTerm && <Icon name="Cancel" onClick={clearSearch} className="px-xs" />}
