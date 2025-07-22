@@ -1,3 +1,4 @@
+import { API_ROUTES } from '@web/constants';
 import type { CreateChatRoomPayload, CreateChatRoomAPIResponse } from '@web/types';
 
 /**
@@ -7,7 +8,7 @@ export const createChatRoom = async (
   payload: CreateChatRoomPayload
 ): Promise<CreateChatRoomAPIResponse> => {
   try {
-    const response = await fetch('/api/chat/rooms', {
+    const response = await fetch(API_ROUTES.CHAT_ROOMS, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
