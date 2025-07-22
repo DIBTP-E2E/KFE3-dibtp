@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
-import { getUserRegion } from '@/services/user/server';
+import { getMyInfo } from '@/services/my/server';
 
 export async function GET() {
   try {
-    const data = await getUserRegion();
+    const data = await getMyInfo();
 
     return NextResponse.json(data);
   } catch (error) {

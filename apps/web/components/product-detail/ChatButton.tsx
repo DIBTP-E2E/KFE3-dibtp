@@ -3,11 +3,11 @@
 import { Button } from '@repo/ui/components';
 import { useQuery } from '@tanstack/react-query';
 
-import { USER_REGION_QUERY_KEY } from '@web/constants';
+import { MY_INFO_QUERY_KEY } from '@web/constants';
 import { useAppNavigation } from '@web/hooks';
 import { useCreateChatRoom } from '@web/hooks/chat/useCreateChatRoom';
-import { fetchUserRegion } from '@web/services/user/client';
-import type { UserRegion } from '@web/types';
+import { fetchMyInfo } from '@web/services/my/client';
+import type { MyInfoAPIResponse } from '@web/types';
 
 interface ChatButtonProps {
   productId: number;
@@ -15,9 +15,9 @@ interface ChatButtonProps {
 }
 
 const ChatButton = ({ productId, sellerUserId }: ChatButtonProps) => {
-  const { data } = useQuery<UserRegion>({
-    queryKey: USER_REGION_QUERY_KEY,
-    queryFn: fetchUserRegion,
+  const { data } = useQuery<MyInfoAPIResponse>({
+    queryKey: MY_INFO_QUERY_KEY,
+    queryFn: fetchMyInfo,
   });
 
   const { goToChatRoom } = useAppNavigation();

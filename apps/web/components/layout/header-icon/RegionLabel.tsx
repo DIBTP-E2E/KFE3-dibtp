@@ -3,14 +3,15 @@
 import { Button } from '@repo/ui/components';
 import { useQuery } from '@tanstack/react-query';
 
-import { USER_REGION_QUERY_KEY } from '@web/constants';
-import { fetchUserRegion } from '@web/services/user/client';
-import type { UserRegion } from '@web/types';
+import { fetchMyInfo } from '@/services/my/client';
+
+import { MY_INFO_QUERY_KEY } from '@web/constants';
+import type { MyInfoAPIResponse } from '@web/types';
 
 const RegionLabel = () => {
-  const { data } = useQuery<UserRegion>({
-    queryKey: USER_REGION_QUERY_KEY,
-    queryFn: fetchUserRegion,
+  const { data } = useQuery<MyInfoAPIResponse>({
+    queryKey: MY_INFO_QUERY_KEY,
+    queryFn: fetchMyInfo,
   });
 
   return (

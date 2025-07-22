@@ -6,10 +6,10 @@ import { Icon } from '@repo/ui/components/Icons';
 import { useQuery } from '@tanstack/react-query';
 
 import { SearchDropDown } from '@web/components/search';
-import { USER_REGION_QUERY_KEY } from '@web/constants';
+import { MY_INFO_QUERY_KEY } from '@web/constants';
 import { useSearchInputHandlers } from '@web/hooks';
-import { fetchUserRegion } from '@web/services/user/client';
-import type { UserRegion } from '@web/types';
+import { fetchMyInfo } from '@web/services/my/client';
+import type { MyInfoAPIResponse } from '@web/types';
 
 interface SearchInputProps {
   resultKeyword?: string;
@@ -26,9 +26,9 @@ const SearchInput = ({
   const [searchTerm, setSearchTerm] = useState(resultKeyword ?? '');
   const clearSearch = () => setSearchTerm('');
 
-  const { data } = useQuery<UserRegion>({
-    queryKey: USER_REGION_QUERY_KEY,
-    queryFn: fetchUserRegion,
+  const { data } = useQuery<MyInfoAPIResponse>({
+    queryKey: MY_INFO_QUERY_KEY,
+    queryFn: fetchMyInfo,
   });
 
   const {
