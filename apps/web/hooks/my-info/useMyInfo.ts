@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { MY_INFO_QUERY_KEY } from '@web/constants';
-import { fetchMyInfo } from '@web/services/my/client';
+import { fetchMyInfo } from '@web/services/my-info/client';
 
 import type { MyInfoAPIResponse } from '@web/types';
 
