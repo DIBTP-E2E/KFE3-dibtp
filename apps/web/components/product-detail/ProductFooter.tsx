@@ -11,8 +11,7 @@ interface ProductFooterProps {
   startPrice: number;
   minPrice: number;
   decreaseUnit: number;
-  createdAt: string; // auctionStartedAt으로 사용
-  decreaseInterval: number;
+  createdAt: string;
 }
 
 const ProductFooter = ({
@@ -21,14 +20,12 @@ const ProductFooter = ({
   minPrice,
   decreaseUnit,
   createdAt,
-  decreaseInterval,
 }: ProductFooterProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
     minPrice,
     decreaseUnit,
     auctionStartedAt: createdAt,
-    decreaseInterval,
   });
 
   return (

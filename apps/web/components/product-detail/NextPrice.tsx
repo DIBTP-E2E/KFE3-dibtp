@@ -7,22 +7,14 @@ interface NextPriceProps {
   minPrice: number;
   decreaseUnit: number;
   auctionStartedAt: string;
-  decreaseInterval: number;
 }
 
-const NextPrice = ({
-  startPrice,
-  minPrice,
-  decreaseUnit,
-  auctionStartedAt,
-  decreaseInterval,
-}: NextPriceProps) => {
+const NextPrice = ({ startPrice, minPrice, decreaseUnit, auctionStartedAt }: NextPriceProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
     minPrice,
     decreaseUnit,
     auctionStartedAt,
-    decreaseInterval,
   });
 
   const calculatedNextPrice = currentPrice - decreaseUnit;

@@ -1,5 +1,5 @@
 import type { ProductStatus } from '@/types';
-import { calculateCurrentPrice, filterProductsByStatus } from '@/utils/products';
+import { filterProductsByStatus } from '@/utils/products';
 
 import ProductCard from '../products/ProductCard';
 
@@ -26,17 +26,14 @@ const SalesProductList = ({ targetStatus }: SalesProductListProps) => {
           productId={product.product_id}
           title={product.title}
           imgUrl={product.product_images[0]?.image_url || ''}
-          currentPrice={calculateCurrentPrice(
-            product.start_price,
-            product.min_price,
-            product.decrease_unit,
-            product.created_at
-          )}
+          startPrice={product.start_price}
+          minPrice={product.min_price}
+          decreaseUnit={product.decrease_unit}
+          auctionStartedAt={product.created_at}
           status={product.status}
           viewCount={product.view_count}
           createdAt={product.created_at}
           region={product.region}
-          bidderUserId={product.seller_user_id}
         />
       ))}
     </div>

@@ -1,9 +1,10 @@
+import { DECREASE_INTERVAL_SECONDS } from '@/constants/products/product-status';
+
 export const calculateCurrentPrice = (
   startPrice: number,
   minPrice: number,
   decreaseUnit: number,
-  auctionStartedAt: string,
-  decreaseInterval: number
+  auctionStartedAt: string
 ): number => {
   const createdDate = new Date(auctionStartedAt);
   const now = new Date();
@@ -14,7 +15,7 @@ export const calculateCurrentPrice = (
     return startPrice;
   }
 
-  const numberOfDecreases = Math.floor(timeDiffSeconds / decreaseInterval);
+  const numberOfDecreases = Math.floor(timeDiffSeconds / DECREASE_INTERVAL_SECONDS);
 
   let currentPrice = startPrice - numberOfDecreases * decreaseUnit;
 

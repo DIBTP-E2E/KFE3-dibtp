@@ -82,6 +82,7 @@ model products {
   auction_started_at DateTime?        @db.Timestamptz(6)
   bids               bids?
   chat_rooms         chat_rooms[]
+  favorites          favorites[]
   product_images     product_images[]
   users              users            @relation(fields: [seller_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -99,5 +100,17 @@ model users {
   chat_messages                               chat_messages[]
   chat_rooms_chat_rooms_buyer_user_idTousers  chat_rooms[]    @relation("chat_rooms_buyer_user_idTousers")
   chat_rooms_chat_rooms_seller_user_idTousers chat_rooms[]    @relation("chat_rooms_seller_user_idTousers")
+  favorites                                   favorites[]
   products                                    products[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model favorites {
+  user_id    String   @db.Uuid
+  product_id BigInt
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  products   products @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction)
+  users      users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, product_id])
 }

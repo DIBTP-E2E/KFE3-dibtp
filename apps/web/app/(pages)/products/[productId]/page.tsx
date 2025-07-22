@@ -100,8 +100,9 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
       </div>
       <ProductFooter
         productId={product.product_id}
-        currentPrice={currentPrice}
+        startPrice={product.start_price}
         minPrice={product.min_price}
+        decreaseUnit={product.decrease_unit}
         createdAt={product.created_at}
       />
     </section>

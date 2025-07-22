@@ -18,12 +18,10 @@ interface ProductCardProps {
   minPrice: number;
   decreaseUnit: number;
   auctionStartedAt: string;
-  decreaseInterval: number;
   status: ProductStatus;
   viewCount?: number;
   createdAt: string;
   region: string;
-  bidderUserId: string;
 }
 
 const ProductCard = ({
@@ -34,10 +32,8 @@ const ProductCard = ({
   minPrice,
   decreaseUnit,
   auctionStartedAt,
-  decreaseInterval,
   status,
   region,
-  bidderUserId,
   createdAt,
 }: ProductCardProps) => {
   const currentPrice = useCurrentPrice({
@@ -45,7 +41,6 @@ const ProductCard = ({
     minPrice,
     decreaseUnit,
     auctionStartedAt,
-    decreaseInterval,
   });
 
   return (
@@ -54,13 +49,7 @@ const ProductCard = ({
         className="bg-white flex items-center gap-md p-sm rounded-[20px]"
         aria-label={`${title}, 경매 중, 현재가 ${currentPrice}, 지역 ${region}`}
       >
-        <ProductThumb
-          imgUrl={imgUrl}
-          title={title}
-          status={status}
-          bidderUserId={bidderUserId}
-          width="w-[80px]"
-        />
+        <ProductThumb imgUrl={imgUrl} title={title} status={status} width="w-[80px]" />
 
         <section className="flex flex-col gap-sm">
           <h3 className="font-normal text-base line-clamp-2">{title}</h3>
