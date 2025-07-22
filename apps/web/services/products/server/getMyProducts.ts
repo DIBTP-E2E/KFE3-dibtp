@@ -37,7 +37,6 @@ export const getMyProducts = async (
         view_count: true,
         created_at: true,
         region: true,
-        seller_user_id: true,
         product_images: {
           select: {
             image_url: true,
