@@ -10,12 +10,19 @@ interface ProductThumbProps {
   status: ProductStatus;
   imgUrl: string;
   title: string;
-  bidderUserId?: string; // 입찰 기능 완료시 필수값으로 변경 예정
   width?: string;
   className?: string;
+  isShowBadge?: boolean;
 }
 
-const ProductThumb = ({ status, imgUrl, title, width, className }: ProductThumbProps) => {
+const ProductThumb = ({
+  status,
+  imgUrl,
+  title,
+  width,
+  className,
+  isShowBadge = true,
+}: ProductThumbProps) => {
   return (
     <section className="relative">
       <Thumbnail
@@ -25,10 +32,12 @@ const ProductThumb = ({ status, imgUrl, title, width, className }: ProductThumbP
         className={className}
       />
 
-      <ProductBadge
-        status={status}
-        className="absolute top-[var(--space-xs)] left-[var(--space-xs)]"
-      />
+      {isShowBadge && (
+        <ProductBadge
+          status={status}
+          className="absolute top-[var(--space-xs)] left-[var(--space-xs)]"
+        />
+      )}
     </section>
   );
 };
