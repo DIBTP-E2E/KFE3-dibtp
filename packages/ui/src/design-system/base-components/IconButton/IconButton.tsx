@@ -4,15 +4,19 @@ import { Icon } from '@ui/components';
 import type { IconName, IconSize } from '@ui/components';
 import { cn } from '@ui/utils/cn';
 
+export type IconButtonColor = 'darkMode' | 'lightMode' | 'primary' | 'secondary' | 'danger';
+export type IconButtonVariant = 'fulled' | 'outlined';
+export type IconButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
 interface IconButtonOwnProps<T extends ElementType = 'button'> {
   // div, span은 react-router-dom의 <Link>와 함께 사용할 때 <a> 태그 중복 방지를 위해 사용.
   // Next.js의 <Link>는 자식이 <a> 태그일 경우 a 요소 중복이 자동 제거됨. <a> 태그 사용 권장. 불 필요한 div, span 사용 방지.
   as?: T;
 
   // 스타일 정의
-  color: 'darkMode' | 'lightMode' | 'primary' | 'secondary' | 'danger';
-  variant: 'fulled' | 'outlined';
-  buttonSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  color: IconButtonColor;
+  variant: IconButtonVariant;
+  buttonSize: IconButtonSize;
   className?: string;
   isTransparent?: boolean;
 
@@ -27,7 +31,7 @@ type IconButtonProps<T extends ElementType = 'button'> = IconButtonOwnProps<T> &
 
 export type { IconButtonProps };
 
-const SIZES = {
+const SIZES: Record<IconButtonSize, string> = {
   xs: 'w-[32px] h-[32px]',
   sm: 'w-[40px] h-[40px]',
   md: 'w-[44px] h-[44px]',
@@ -35,7 +39,7 @@ const SIZES = {
   xl: 'w-[56px] h-[56px]',
 } as const;
 
-const COLORS = {
+const COLORS: Record<IconButtonColor, Record<IconButtonVariant, string>> = {
   lightMode: {
     fulled: 'bg-bg-base text-text-base',
     outlined: 'border border-border-base text-text-base',
@@ -90,5 +94,9 @@ const IconButton = <T extends ElementType = 'button'>({
     </Component>
   );
 };
+
+export const ICON_BUTTON_COLORS_KEYS = Object.keys(COLORS) as IconButtonColor[];
+export const ICON_BUTTON_VARIANTS_KEYS = Object.keys(COLORS.lightMode) as IconButtonVariant[];
+export const ICON_BUTTON_SIZES_KEYS = Object.keys(SIZES) as IconButtonSize[];
 
 export default IconButton;

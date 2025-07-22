@@ -10,6 +10,8 @@ Disallow: /admin/
 Disallow: /_next/
 Disallow: /private/
 Disallow: /mypage/
+Disallow: /chat/
+Disallow: /search/
 
 # 특정 검색엔진 설정
 User-agent: Googlebot

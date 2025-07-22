@@ -6,4 +6,5 @@ export const API_ROUTES = {
   BIDS: `${API_BASE}/bids`,
   USER: `${API_BASE}/user`,
   FAVORITES: `${API_BASE}/favorites`,
+  CHAT_ROOMS: `${API_BASE}/chat/rooms`,
 } as const;

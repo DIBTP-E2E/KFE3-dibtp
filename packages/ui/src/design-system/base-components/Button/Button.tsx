@@ -25,8 +25,8 @@ type ButtonProps<T extends ElementType = 'button'> = ButtonOwnProps<T> &
 export type { ButtonProps };
 
 const SIZES = {
-  xs: 'px-sm h-[32px]',
-  sm: 'font-style-small px-md h-[40px]',
+  xs: 'font-style-small px-sm h-[32px]',
+  sm: 'font-style-medium px-md h-[40px]',
   md: 'font-style-medium px-md h-[44px]',
   lg: 'font-style-large px-lg h-[48px]',
   xl: 'font-style-extra-large px-lg h-[56px]',

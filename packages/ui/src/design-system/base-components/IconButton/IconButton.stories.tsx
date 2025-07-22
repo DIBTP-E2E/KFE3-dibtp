@@ -1,7 +1,13 @@
-import type { IconName } from '@ui/components/Icons';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import IconButton from './IconButton';
+import type { IconName } from '@ui/components/Icons';
+import { ICON_NAME_KEYS, ICON_SIZE_KEYS } from '@ui/components/Icons';
+
+import IconButton, {
+  ICON_BUTTON_COLORS_KEYS,
+  ICON_BUTTON_VARIANTS_KEYS,
+  ICON_BUTTON_SIZES_KEYS,
+} from './IconButton';
 
 const meta: Meta<typeof IconButton> = {
   title: 'Design System/Base Components/Icon Button',
@@ -28,27 +34,27 @@ const meta: Meta<typeof IconButton> = {
   argTypes: {
     iconName: {
       control: { type: 'select' },
-      options: ['Bell', 'Bell', 'ArrowLeft', 'Heart', 'Home', 'Export'],
+      options: ICON_NAME_KEYS,
       description: '아이콘 이름',
     },
     iconSize: {
       control: { type: 'select' },
-      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      options: ICON_SIZE_KEYS,
       description: '아이콘 크기',
     },
     color: {
       control: { type: 'select' },
-      options: ['light', 'darkMode', 'primary', 'secondary', 'danger'],
+      options: ICON_BUTTON_COLORS_KEYS,
       description: '색상 테마',
     },
     variant: {
       control: { type: 'select' },
-      options: ['fulled', 'outlined'],
+      options: ICON_BUTTON_VARIANTS_KEYS,
       description: '스타일 변형',
     },
     buttonSize: {
       control: { type: 'select' },
-      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      options: ICON_BUTTON_SIZES_KEYS,
       description: '버튼 크기',
     },
     ariaLabel: {
