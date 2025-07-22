@@ -14,12 +14,16 @@ export const getMyInfo = async (): Promise<MyInfoAPIResponse> => {
       select: {
         user_id: true,
         region: true,
+        nickname: true,
+        profile_image: true,
       },
     });
 
     return {
       userId: user?.user_id ?? '',
       region: user?.region ?? '',
+      nickname: user?.nickname ?? '',
+      profileImage: user?.profile_image ?? '',
     }; // TODO: null 일 경우 어떻게 처리하는 것이 가장 좋을까?
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
