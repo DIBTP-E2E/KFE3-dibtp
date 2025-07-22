@@ -1,8 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
-import { PAGE_ROUTES } from '@/constants';
+import { useAppNavigation } from '@web/hooks';
 
 import { useRecentSearches } from './useRecentSearches';
 
@@ -11,7 +9,7 @@ import { useRecentSearches } from './useRecentSearches';
  * SearchInput과 SearchScreen에서 재사용 가능
  */
 export const useSearchAction = () => {
-  const router = useRouter();
+  const { goToSearch } = useAppNavigation();
   const { addRecentSearch } = useRecentSearches();
 
   const searchKeyword = (keyword: string) => {
@@ -22,8 +20,7 @@ export const useSearchAction = () => {
     addRecentSearch(trimmedKeyword);
 
     // 검색 결과 페이지로 이동
-    const encodedKeyword = encodeURIComponent(trimmedKeyword);
-    router.push(`${PAGE_ROUTES.SEARCH(encodedKeyword)}`);
+    goToSearch(trimmedKeyword);
   };
 
   return {

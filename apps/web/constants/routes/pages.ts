@@ -11,6 +11,7 @@ export const PAGE_ROUTES = {
   PRODUCTS: {
     REGISTER: '/products/register',
     DETAIL: (productId: string) => `/products/${productId}`,
+    EDIT: (productId: string) => `/products/${productId}/edit`,
   },
 
   SEARCH: (keyword: string) => `/search?keyword=${keyword}`,

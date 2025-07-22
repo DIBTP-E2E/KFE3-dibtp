@@ -1,8 +1,10 @@
+'use client';
+
 import { useState, useEffect, useRef } from 'react';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
-import { PAGE_ROUTES } from '@/constants';
+import { useAppNavigation } from '@web/hooks';
 
 import { useRecentSearches } from './useRecentSearches';
 
@@ -17,7 +19,7 @@ export const useSearchDropdown = ({
 }: UseSearchDropdownProps = {}) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+  const { goToSearch } = useAppNavigation();
   const pathname = usePathname();
   const { addRecentSearch, recentSearches } = useRecentSearches();
 
@@ -56,8 +58,7 @@ export const useSearchDropdown = ({
     setIsOpen(false);
 
     // 페이지 이동 후 검색어 저장 (UI 깜박임 방지)
-    const keyword = encodeURIComponent(search);
-    router.push(`${PAGE_ROUTES.SEARCH(keyword)}`);
+    goToSearch(search);
 
     // 페이지 이동 후 검색어 저장
     setTimeout(() => {
