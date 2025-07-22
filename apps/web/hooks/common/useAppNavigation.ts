@@ -30,6 +30,14 @@ export const useAppNavigation = () => {
   const goToProductDetail = (productId: string) =>
     router.push(PAGE_ROUTES.PRODUCTS.DETAIL(productId));
 
+  const goToProductEdit = (productId: string) => router.push(PAGE_ROUTES.PRODUCTS.EDIT(productId));
+
+  // 검색 관련 네비게이션
+  const goToSearch = (keyword: string) => {
+    const encodedKeyword = encodeURIComponent(keyword);
+    router.push(PAGE_ROUTES.SEARCH(encodedKeyword));
+  };
+
   // 채팅 관련 네비게이션
   const goToChat = () => router.push(PAGE_ROUTES.CHAT.LIST);
 
@@ -73,6 +81,8 @@ export const useAppNavigation = () => {
     goToLocationSetup,
     goToProductRegister,
     goToProductDetail,
+    goToProductEdit,
+    goToSearch,
     goToChat,
     goToChatRoom,
     goToMypage,
