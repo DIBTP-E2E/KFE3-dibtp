@@ -1,5 +1,3 @@
-import { DECREASE_INTERVAL_SECONDS } from '@/constants/products/product-status';
-
 import type { ProductStatus } from '@/types';
 import { filterProductsByStatus } from '@/utils/products';
 
@@ -32,12 +30,10 @@ const SalesProductList = ({ targetStatus }: SalesProductListProps) => {
           minPrice={product.min_price}
           decreaseUnit={product.decrease_unit}
           auctionStartedAt={product.created_at}
-          decreaseInterval={DECREASE_INTERVAL_SECONDS}
           status={product.status}
           viewCount={product.view_count}
           createdAt={product.created_at}
           region={product.region}
-          bidderUserId={product.seller_user_id}
         />
       ))}
     </div>

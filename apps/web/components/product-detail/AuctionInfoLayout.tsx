@@ -1,6 +1,5 @@
 'use client';
 
-import { DECREASE_INTERVAL_SECONDS } from '@/constants';
 import { useCurrentPrice } from '@/hooks/products';
 
 import { Timer } from '../shared';
@@ -27,7 +26,6 @@ const AuctionInfoLayout = ({
     minPrice,
     decreaseUnit,
     auctionStartedAt: createdAt,
-    decreaseInterval: DECREASE_INTERVAL_SECONDS,
   });
 
   return (
@@ -40,7 +38,6 @@ const AuctionInfoLayout = ({
             minPrice={minPrice}
             decreaseUnit={decreaseUnit}
             auctionStartedAt={createdAt}
-            decreaseInterval={DECREASE_INTERVAL_SECONDS}
           />
         </div>
         <div className="flex flex-col items-center flex-1 gap-y-0.5">
@@ -58,7 +55,6 @@ const AuctionInfoLayout = ({
             minPrice={minPrice}
             decreaseUnit={decreaseUnit}
             auctionStartedAt={createdAt}
-            decreaseInterval={DECREASE_INTERVAL_SECONDS}
           />
         </div>
       </div>

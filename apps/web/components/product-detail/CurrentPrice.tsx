@@ -7,7 +7,6 @@ interface CurrentPriceProps {
   minPrice: number;
   decreaseUnit: number;
   auctionStartedAt: string;
-  decreaseInterval: number;
 }
 
 const CurrentPrice = ({
@@ -15,14 +14,12 @@ const CurrentPrice = ({
   minPrice,
   decreaseUnit,
   auctionStartedAt,
-  decreaseInterval,
 }: CurrentPriceProps) => {
   const price = useCurrentPrice({
     startPrice,
     minPrice,
     decreaseUnit,
     auctionStartedAt,
-    decreaseInterval,
   });
 
   return (

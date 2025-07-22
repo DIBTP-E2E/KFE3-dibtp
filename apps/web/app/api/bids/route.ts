@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { DECREASE_INTERVAL_SECONDS } from '@/constants/products/product-status';
-
 import { prisma } from '@/lib/prisma';
 
 import { createBid } from '@/services/bids/server';
@@ -48,8 +46,7 @@ export async function POST(request: NextRequest) {
       product.start_price.toNumber(),
       product.min_price.toNumber(),
       product.decrease_unit.toNumber(),
-      product.created_at.toISOString(),
-      DECREASE_INTERVAL_SECONDS
+      product.created_at.toISOString()
     );
 
     if (calculatedCurrentPrice.toFixed(2) !== bidPrice.toFixed(2)) {

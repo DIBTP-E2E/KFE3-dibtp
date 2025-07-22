@@ -1,7 +1,5 @@
 import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products/server';
 
-import { DECREASE_INTERVAL_SECONDS } from '@/constants';
-
 import ProductCard from './ProductCard';
 
 const ProductList = async ({ keyword }: ProductQueryFilters) => {
@@ -27,7 +25,6 @@ const ProductList = async ({ keyword }: ProductQueryFilters) => {
             minPrice={product.min_price}
             decreaseUnit={product.decrease_unit}
             auctionStartedAt={product.created_at}
-            decreaseInterval={DECREASE_INTERVAL_SECONDS}
             status={product.status}
             viewCount={product.view_count}
             region={product.region}

@@ -4,8 +4,6 @@ import { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
-import { DECREASE_INTERVAL_SECONDS } from '@/constants/products/product-status';
-
 import { fetchProductDetailWithPrisma } from '@/services/products/server';
 
 import {
@@ -75,8 +73,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
     product.start_price,
     product.min_price,
     product.decrease_unit,
-    product.created_at,
-    DECREASE_INTERVAL_SECONDS
+    product.created_at
   );
 
   return (
@@ -107,7 +104,6 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
         minPrice={product.min_price}
         decreaseUnit={product.decrease_unit}
         createdAt={product.created_at}
-        decreaseInterval={DECREASE_INTERVAL_SECONDS}
       />
     </section>
   );
