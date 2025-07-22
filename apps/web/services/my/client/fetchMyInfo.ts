@@ -5,7 +5,7 @@ import type { MyInfoAPIResponse } from '@web/types';
 
 export async function fetchMyInfo(): Promise<MyInfoAPIResponse> {
   try {
-    const response = await fetch(`${API_ROUTES.USER}/region`);
+    const response = await fetch(API_ROUTES.MY_INFO);
 
     if (!response.ok) {
       throw new Error('Failed to fetch user region');
