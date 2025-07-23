@@ -1,5 +1,5 @@
-import { API_ROUTES } from '@/constants';
-import { ProductStatus } from '@/types';
+import { API_ROUTES } from '@web/constants';
+import type { ProductStatus } from '@web/types';
 
 interface UpdateProductStatusParams {
   productId: string;
@@ -11,7 +11,7 @@ interface UpdateProductStatusResponse {
   product: {
     product_id: string;
     status: ProductStatus;
-    updated_at: Date;
+    updated_at: string;
   };
 }
 
