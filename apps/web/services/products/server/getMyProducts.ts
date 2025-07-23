@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@web/lib/prisma';
 
 import type { ProductsAPIResponse, ProductStatus } from '@web/types';
 import { getAuthenticatedUser } from '@web/utils/auth/server';
