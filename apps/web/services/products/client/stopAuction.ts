@@ -1,4 +1,5 @@
-import { updateProductStatus } from '@/services/products/client';
+import { PRODUCT_STATUS } from '@web/constants';
+import { updateProductStatus } from '@web/services/products/client';
 
 /**
  * 상품 경매 중단
@@ -8,7 +9,7 @@ export const stopAuction = async (productId: number): Promise<void> => {
   try {
     await updateProductStatus({
       productId: productId.toString(),
-      status: 'CANCEL',
+      status: PRODUCT_STATUS.CANCEL,
     });
 
     // TODO: 성공 알림 및 상태 업데이트
