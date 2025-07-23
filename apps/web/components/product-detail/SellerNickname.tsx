@@ -1,8 +1,14 @@
+'use client';
+
+import { useUserInfo } from '@web/hooks';
+
 interface SellerNicknameProps {
-  nickname: string;
+  sellerUserId: string;
 }
 
-const SellerNickname = ({ nickname }: SellerNicknameProps) => {
+const SellerNickname = ({ sellerUserId }: SellerNicknameProps) => {
+  const { nickname } = useUserInfo(sellerUserId);
+
   return <span className="font-semibold text-gray-800">{nickname}</span>;
 };
 
