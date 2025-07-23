@@ -27,7 +27,7 @@ export const PAGE_ROUTES = {
     NOTIFICATIONS: '/mypage/notifications',
     ACCOUNT: '/mypage/account',
     SALES: '/mypage/sales',
-    PURCHASES: '/mypage/purchases',
+    BIDS: '/mypage/bids',
     FAVORITES: '/mypage/favorites',
   },
 } as const;
