@@ -14,7 +14,7 @@ const SalesLayout = ({ children }: SalesLayoutProps) => {
         showSearchButton={false}
         showAlarmButton={false}
       />
-      <PageContainer className="flex-1 py-lg">{children}</PageContainer>
+      <PageContainer className="py-lg">{children}</PageContainer>
     </div>
   );
 };
