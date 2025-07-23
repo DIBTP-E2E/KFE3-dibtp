@@ -1,7 +1,7 @@
 'use client';
 
-import { PRODUCT_STATUS } from '@/constants';
-import type { ProductStatus } from '@/types';
+import { PRODUCT_STATUS } from '@web/constants';
+import type { ProductStatus } from '@web/types';
 
 interface ActionItem {
   label: string;

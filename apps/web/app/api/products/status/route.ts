@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@web/lib/prisma';
 
-import { updateProductStatus } from '@/services/products/server';
+import { updateProductStatus } from '@web/services/products/server';
 
-import { ProductStatus } from '@/types';
+import type { ProductStatus } from '@web/types';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
+import { getAuthenticatedUser } from '@web/utils/auth/server';
 
 interface UpdateStatusRequest {
   productId: string;

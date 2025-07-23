@@ -2,10 +2,14 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { removeProduct, shareProduct, startAuction, stopAuction } from '@/services/products/client';
-
-import { MY_PRODUCTS_QUERY_KEY } from '@/constants';
-import { useAppNavigation } from '@/hooks';
+import { MY_PRODUCTS_QUERY_KEY } from '@web/constants';
+import { useAppNavigation } from '@web/hooks';
+import {
+  removeProduct,
+  shareProduct,
+  startAuction,
+  stopAuction,
+} from '@web/services/products/client';
 
 interface UseProductActionsProps {
   productId: number;

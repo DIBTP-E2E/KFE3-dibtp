@@ -1,4 +1,4 @@
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES } from '@web/constants';
 
 /**
  * 상품 제거 (출품 철회)

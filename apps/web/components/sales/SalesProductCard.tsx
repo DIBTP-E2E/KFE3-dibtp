@@ -4,9 +4,9 @@ import { useState, useCallback } from 'react';
 
 import { ActionSheet, IconButton } from '@repo/ui/components';
 
-import { useProductActions, useProductActionMenu } from '@/hooks/products';
+import { useProductActions, useProductActionMenu } from '@web/hooks';
 
-import type { ProductStatus } from '@/types';
+import type { ProductStatus } from '@web/types';
 
 import ProductCard from '../products/ProductCard';
 

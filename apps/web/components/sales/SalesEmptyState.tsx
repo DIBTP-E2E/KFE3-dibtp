@@ -1,5 +1,5 @@
-import { PRODUCT_STATUS } from '@/constants';
-import type { ProductStatus } from '@/types';
+import { PRODUCT_STATUS } from '@web/constants';
+import type { ProductStatus } from '@web/types';
 
 interface SalesEmptyStateProps {
   status: ProductStatus;

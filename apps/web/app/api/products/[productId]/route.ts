@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@web/lib/prisma';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
+import { getAuthenticatedUser } from '@web/utils/auth/server';
 
 interface RouteParams {
   params: {
