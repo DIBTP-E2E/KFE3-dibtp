@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getMyProducts } from '@web/services/products/server';
 
-import { ProductStatus } from '@web/types';
+import type { ProductStatus } from '@web/types';
 
 export async function GET(request: NextRequest) {
   try {
