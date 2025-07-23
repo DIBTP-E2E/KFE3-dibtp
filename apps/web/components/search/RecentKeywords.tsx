@@ -4,10 +4,7 @@ import { Icon } from '@repo/ui/components';
 
 import { cn } from '@repo/ui/utils/cn';
 
-import { useRouter } from 'next/navigation';
-
-import { PAGE_ROUTES } from '@/constants';
-import { useRecentSearches } from '@/hooks';
+import { useRecentSearches, useAppNavigation } from '@web/hooks';
 
 interface RecentKeywordsProps {
   onKeywordClick?: (keyword: string) => void;
@@ -15,16 +12,14 @@ interface RecentKeywordsProps {
 }
 
 const RecentKeywords = ({ onKeywordClick, selectedIndex = -1 }: RecentKeywordsProps) => {
-  const router = useRouter();
+  const { goToSearch } = useAppNavigation();
   const { recentSearches, removeRecentSearch, clearAllRecentSearches, addRecentSearch } =
     useRecentSearches();
 
   const handleDefaultClick = (keyword: string) => {
     const trimmedKeyword = keyword.trim();
     addRecentSearch(trimmedKeyword);
-    const encodedKeyword = encodeURIComponent(trimmedKeyword);
-
-    router.push(`${PAGE_ROUTES.SEARCH(encodedKeyword)}`);
+    goToSearch(trimmedKeyword);
   };
 
   const handleClick = onKeywordClick || handleDefaultClick;

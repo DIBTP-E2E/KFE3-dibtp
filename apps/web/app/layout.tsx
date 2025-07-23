@@ -44,7 +44,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         <QueryProvider>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <div className="flex min-h-screen justify-center">
-              <div className="w-full md:max-w-container transform translate-x-0 overflow-x-hidden bg-bg-light relative">
+              <div className="w-full md:max-w-container transform translate-x-0 overflow-hidden bg-bg-light relative">
                 {children}
                 {/* 바텀시트 포털 컨테이너 */}
                 <div id="bottom-sheet-root" className="relative z-50" />

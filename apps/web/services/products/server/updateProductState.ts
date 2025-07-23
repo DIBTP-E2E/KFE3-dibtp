@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 
 import { prisma } from '@/lib/prisma';
 
+import { PRODUCT_STATUS } from '@/constants';
 import type { ProductStatus } from '@/types';
 
 /**
@@ -24,6 +25,7 @@ export const updateProductStatus = async (
       data: {
         status,
         updated_at: new Date(),
+        ...(status === PRODUCT_STATUS.ACTIVE && { auction_started_at: new Date().toISOString() }),
       },
     });
 

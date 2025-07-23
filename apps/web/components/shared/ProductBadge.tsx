@@ -19,12 +19,6 @@ const MAP = {
     label: '경매 중',
   },
   [PRODUCT_STATUS.SOLD]: {
-    // 낙찰 상태는 SOLD 에서 SUCCESS 로 변경 예정
-    color: 'success',
-    variant: 'fulled',
-    label: '낙찰',
-  },
-  [PRODUCT_STATUS.EXPIRED]: {
     color: 'disabled',
     variant: 'fulled',
     label: '경매 종료',
