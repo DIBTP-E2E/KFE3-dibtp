@@ -1,5 +1,8 @@
-import type { Product, ProductStatus } from '@/types';
+import type { ProductStatus } from '@web/types';
 
-export const filterProductsByStatus = (products: Product[], status: ProductStatus): Product[] => {
+export const filterProductsByStatus = <T extends { status: ProductStatus }>(
+  products: T[],
+  status: ProductStatus
+): T[] => {
   return products.filter((product) => product.status === status);
 };

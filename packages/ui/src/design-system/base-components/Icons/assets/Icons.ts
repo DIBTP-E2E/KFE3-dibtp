@@ -5,7 +5,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
 import { HiXMark } from 'react-icons/hi2';
 import { CiClock1 } from 'react-icons/ci';
-import { MdRefresh, MdOutlinePhotoCamera, MdOutlineLocationOn } from 'react-icons/md';
+import { MdRefresh, MdOutlinePhotoCamera, MdOutlineLocationOn, MdMoreVert } from 'react-icons/md';
 import { PiMagnifyingGlassBold, PiExport, PiExportFill, PiUser, PiUserFill } from 'react-icons/pi';
 
 export const ICONS = {
@@ -50,4 +50,6 @@ export const ICONS = {
   Search: HiSearch,
 
   Cancel: HiXMark,
+
+  MoreVert: MdMoreVert,
 };

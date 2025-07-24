@@ -1,42 +1,54 @@
-import type { ProductStatus } from '@/types';
-import { filterProductsByStatus } from '@/utils/products';
+import { useMyProducts } from '@web/hooks';
+import type { ProductStatus } from '@web/types';
+import { filterProductsByStatus } from '@web/utils/products';
 
-import ProductCard from '../products/ProductCard';
+import ProductListSkeleton from '../products/ProductListSkeleton';
 
-import { MOCK_SALES_PRODUCTS } from './mockData';
 import SalesEmptyState from './SalesEmptyState';
+import SalesProductCard from './SalesProductCard';
 
 interface SalesProductListProps {
   targetStatus: ProductStatus;
 }
 
 const SalesProductList = ({ targetStatus }: SalesProductListProps) => {
-  // TODO: 실제 데이터는 서버에서 패치해야 함
-  const filteredProducts = filterProductsByStatus(MOCK_SALES_PRODUCTS, targetStatus);
+  const { data: userProducts = [], isLoading, error } = useMyProducts();
+
+  if (isLoading) return <ProductListSkeleton />;
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center py-lg text-text-secondary">
+        데이터를 불러오는데 실패했습니다.
+      </div>
+    );
+  }
+
+  const filteredProducts = filterProductsByStatus(userProducts, targetStatus);
 
   if (filteredProducts.length === 0) {
     return <SalesEmptyState status={targetStatus} />;
   }
 
   return (
-    <div className="space-y-md">
+    <ul>
       {filteredProducts.map((product) => (
-        <ProductCard
-          key={product.product_id}
-          productId={product.product_id}
-          title={product.title}
-          imgUrl={product.product_images[0]?.image_url || ''}
-          startPrice={product.start_price}
-          minPrice={product.min_price}
-          decreaseUnit={product.decrease_unit}
-          auctionStartedAt={product.created_at}
-          status={product.status}
-          viewCount={product.view_count}
-          createdAt={product.created_at}
-          region={product.region}
-        />
+        <li key={product.product_id}>
+          <SalesProductCard
+            productId={product.product_id}
+            imgUrl={product.image_url}
+            title={product.title}
+            startPrice={product.start_price}
+            minPrice={product.min_price}
+            decreaseUnit={product.decrease_unit}
+            auctionStartedAt={product.created_at}
+            status={product.status}
+            region={product.region}
+            createdAt={product.created_at}
+          />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

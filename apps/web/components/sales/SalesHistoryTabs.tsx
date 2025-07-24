@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 import { Tabs } from '@repo/ui/components';
 
-import { PRODUCT_STATUS } from '@/constants';
-import type { ProductStatus } from '@/types';
+import { PRODUCT_STATUS } from '@web/constants';
+import type { ProductStatus } from '@web/types';
 
 import SalesProductList from './SalesProductList';
 

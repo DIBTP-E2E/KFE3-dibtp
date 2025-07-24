@@ -22,6 +22,7 @@ interface ProductCardProps {
   viewCount?: number;
   createdAt: string;
   region: string;
+  isShowProductBadge?: boolean;
 }
 
 const ProductCard = ({
@@ -33,8 +34,9 @@ const ProductCard = ({
   decreaseUnit,
   auctionStartedAt,
   status,
-  region,
   createdAt,
+  region,
+  isShowProductBadge,
 }: ProductCardProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
@@ -49,7 +51,13 @@ const ProductCard = ({
         className="bg-white flex items-center gap-md p-sm rounded-[20px]"
         aria-label={`${title}, 경매 중, 현재가 ${currentPrice}, 지역 ${region}`}
       >
-        <ProductThumb imgUrl={imgUrl} title={title} status={status} width="w-[80px]" />
+        <ProductThumb
+          imgUrl={imgUrl}
+          title={title}
+          status={status}
+          isShowBadge={isShowProductBadge}
+          width="w-[80px]"
+        />
 
         <section className="flex flex-col gap-sm">
           <h3 className="font-normal text-base line-clamp-2">{title}</h3>
