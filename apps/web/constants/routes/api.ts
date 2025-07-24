@@ -13,4 +13,5 @@ export const API_ROUTES = {
   FAVORITES: `${API_BASE}/favorites`,
   CHAT_ROOMS: `${API_BASE}/chat/rooms`,
   MY_INFO: `${API_BASE}/my-info`,
+  USERS: `${API_BASE}/users`,
 } as const;
