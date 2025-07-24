@@ -1,7 +1,7 @@
 import { prisma } from '@web/lib/prisma';
-import type { MyInfoAPIResponse } from '@web/types';
+import type { UserInfoAPIResponse } from '@web/types';
 
-export const getUserInfo = async (userId: string): Promise<MyInfoAPIResponse> => {
+export const getUserInfo = async (userId: string): Promise<UserInfoAPIResponse> => {
   try {
     const user = await prisma.users.findUnique({
       where: { user_id: userId },
