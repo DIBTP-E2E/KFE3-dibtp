@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
+import { getFavoriteStatus } from '@/services/favorites/server';
 import { fetchProductDetailWithPrisma } from '@/services/products/server';
 
 import {
@@ -15,8 +16,6 @@ import {
   ProductFooter,
   UserInfoLayout,
 } from '@/components/product-detail';
-
-import { calculateCurrentPrice } from '@/utils/products';
 
 interface ProductDetailPageParams {
   params: Promise<{ productId: string }>;
@@ -59,10 +58,19 @@ export async function generateMetadata({ params }: ProductDetailPageParams): Pro
   };
 }
 
+import { getAuthenticatedUser } from '@/utils/auth/server';
+
 const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   const { productId: productIdParam } = await params;
   const productId = parseInt(productIdParam);
-  const product = await getCachedProductDetail(productId);
+
+  const authResult = await getAuthenticatedUser();
+  const userId = authResult.success ? authResult.userId : null;
+
+  const [product, isLiked] = await Promise.all([
+    getCachedProductDetail(productId),
+    userId ? getFavoriteStatus(userId, productId) : Promise.resolve(false),
+  ]);
 
   if (!product) {
     return notFound();
@@ -73,7 +81,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   return (
     <section className="mx-auto w-full md:max-w-container pb-20">
       {/* 푸터 높이만큼 하단 패딩 추가 */}
-      <ProductDetailHeader />
+      <ProductDetailHeader initialIsLiked={isLiked} />
       <ProductImageCarousel images={images} />
       {/* 여기에 상품 상세 정보 컴포넌트들이 추가될 예정 */}
       <div className="p-4">

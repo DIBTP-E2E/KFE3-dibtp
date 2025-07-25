@@ -1,50 +1,50 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Icon } from '@repo/ui/components/Icons';
 import { useParams } from 'next/navigation';
 
-import { createFavorite, deleteFavorite, getFavoriteStatus } from '@/services/favorites/client';
+import { createFavorite, deleteFavorite } from '@/services/favorites/client';
 
-const LikeButton = () => {
+interface LikeButtonProps {
+  initialIsLiked: boolean;
+}
+
+const LikeButton = ({ initialIsLiked }: LikeButtonProps) => {
   const { productId: productIdParam } = useParams();
   const productId = parseInt(productIdParam as string, 10);
 
-  const [isLiked, setIsLiked] = useState(false);
-
-  useEffect(() => {
-    const checkFavorite = async () => {
-      if (!productId) return;
-      try {
-        const { isFavorite } = await getFavoriteStatus(productId);
-        setIsLiked(isFavorite);
-      } catch (error) {
-        console.error('찜 상태를 불러오는 데 실패했습니다:', error);
-      }
-    };
-
-    checkFavorite();
-  }, [productId]);
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {
-    if (!productId) return;
+    if (isLoading || !productId) return;
+
+    setIsLoading(true);
+    const previousIsLiked = isLiked;
+
+    setIsLiked(!previousIsLiked);
+
     try {
-      if (isLiked) {
+      if (previousIsLiked) {
         await deleteFavorite(productId);
       } else {
         await createFavorite(productId);
       }
-      setIsLiked((prev) => !prev);
     } catch (error) {
       console.error('찜하기 처리 중 오류 발생:', error);
+      setIsLiked(previousIsLiked);
       alert(error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <button
       onClick={handleClick}
+      disabled={isLoading}
       className="rounded-full p-1 flex items-center justify-center bg-white shadow-sm"
     >
       <Icon

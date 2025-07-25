@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { createChatRoom } from '@web/services/chat/server';
+import { createChatRoom } from '@/services/chat/server/createChatRoom';
+
 import type { CreateChatRoomPayload } from '@web/types/chat';
 
 /**

@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react';
 import BackButton from './BackButton';
 import LikeButton from './LikeButton';
 
-const ProductDetailHeader = () => {
+interface ProductDetailHeaderProps {
+  initialIsLiked: boolean;
+}
+
+const ProductDetailHeader = ({ initialIsLiked }: ProductDetailHeaderProps) => {
   const [isBgVisible, setIsBgVisible] = useState(false);
 
   useEffect(() => {
@@ -33,7 +37,7 @@ const ProductDetailHeader = () => {
       <div className="w-full mx-auto px-4">
         <div className="flex h-14 items-center justify-between">
           <BackButton />
-          <LikeButton />
+          <LikeButton initialIsLiked={initialIsLiked} />
         </div>
       </div>
     </header>
