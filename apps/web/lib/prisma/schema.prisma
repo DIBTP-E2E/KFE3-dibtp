@@ -44,8 +44,8 @@ model chat_rooms {
   updated_at                             DateTime?       @default(now()) @db.Timestamptz(6)
   chat_messages                          chat_messages[]
   users_chat_rooms_buyer_user_idTousers  users           @relation("chat_rooms_buyer_user_idTousers", fields: [buyer_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  users_chat_rooms_seller_user_idTousers users           @relation("chat_rooms_seller_user_idTousers", fields: [seller_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "chat_rooms_created_user_id_fkey")
   products                               products        @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
-  users_chat_rooms_seller_user_idTousers users           @relation("chat_rooms_seller_user_idTousers", fields: [seller_user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([product_id, seller_user_id, buyer_user_id], map: "unique_product_users")
 }
@@ -72,7 +72,7 @@ model products {
   start_price        Decimal          @db.Decimal
   min_price          Decimal          @db.Decimal
   decrease_unit      Decimal          @db.Decimal
-  status             String           @default("ACTIVE") @db.VarChar
+  status             String           @default("READY") @db.VarChar
   region             String           @db.VarChar
   detail_address     String           @db.VarChar
   view_count         Int              @default(0)
