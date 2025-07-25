@@ -69,12 +69,6 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   }
 
   const images = product.product_images.map((image) => image.image_url);
-  const currentPrice = calculateCurrentPrice(
-    product.start_price,
-    product.min_price,
-    product.decrease_unit,
-    product.created_at
-  );
 
   return (
     <section className="mx-auto w-full md:max-w-container pb-20">
@@ -84,12 +78,10 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
       {/* 여기에 상품 상세 정보 컴포넌트들이 추가될 예정 */}
       <div className="p-4">
         <ProductTitle title={product.title} />
-        <UserInfoLayout
-          sellerNickname="판매자 닉네임 (목데이터)" // 실제 데이터 사용 시 mockProduct.seller_nickname 등으로 변경
-          sellerAvatarUrl="https://picsum.photos/seed/seller/200/200" // 실제 데이터 사용 시 변경
-          sellerUserId={product.seller_user_id}
-          productId={product.product_id}
-        />
+        {await UserInfoLayout({
+          sellerUserId: product.seller_user_id,
+          productId: product.product_id,
+        })}
         <AuctionInfoLayout
           decreaseUnit={product.decrease_unit}
           startPrice={product.start_price}
