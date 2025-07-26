@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import BackButton from './BackButton';
+import { BackButton } from '@/components/layout/header-icon';
+
 import LikeButton from './LikeButton';
 
 interface ProductDetailHeaderProps {

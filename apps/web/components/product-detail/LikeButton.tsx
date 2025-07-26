@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 
-import { Icon } from '@repo/ui/components/Icons';
+import { IconButton } from '@repo/ui/components';
+
 import { useParams } from 'next/navigation';
 
 import { createFavorite, deleteFavorite } from '@/services/favorites/client';
@@ -42,17 +43,17 @@ const LikeButton = ({ initialIsLiked }: LikeButtonProps) => {
   };
 
   return (
-    <button
+    <IconButton
       onClick={handleClick}
       disabled={isLoading}
-      className="rounded-full p-1 flex items-center justify-center bg-white shadow-sm"
-    >
-      <Icon
-        name={isLiked ? 'HeartFill' : 'Heart'}
-        size="xs"
-        color={isLiked ? 'primary' : 'default'}
-      />
-    </button>
+      iconName={isLiked ? 'HeartFill' : 'Heart'}
+      ariaLabel="찜하기"
+      iconSize="sm"
+      buttonSize="sm"
+      variant="fulled"
+      color="lightMode"
+      className={isLiked ? 'text-text-primary' : ''}
+    />
   );
 };
 
