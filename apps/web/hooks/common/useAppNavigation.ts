@@ -41,6 +41,11 @@ export const useAppNavigation = () => {
   // 채팅 관련 네비게이션
   const goToChat = () => router.push(PAGE_ROUTES.CHAT.LIST);
 
+  const goToChatList = () => router.push(PAGE_ROUTES.CHAT.LIST);
+
+  const goToProductChatList = (productId: string) =>
+    router.push(PAGE_ROUTES.CHAT.LIST_BY_PRODUCT(productId));
+
   const goToChatRoom = (chatId: string) => router.push(PAGE_ROUTES.CHAT.ROOM(chatId));
 
   // 마이페이지 관련 네비게이션
@@ -84,6 +89,8 @@ export const useAppNavigation = () => {
     goToProductEdit,
     goToSearch,
     goToChat,
+    goToChatList,
+    goToProductChatList,
     goToChatRoom,
     goToMypage,
     goToMyProfile,

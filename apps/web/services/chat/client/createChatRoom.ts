@@ -8,7 +8,7 @@ export const createChatRoom = async (
   payload: CreateChatRoomPayload
 ): Promise<CreateChatRoomAPIResponse> => {
   try {
-    const response = await fetch(API_ROUTES.CHAT_ROOMS, {
+    const response = await fetch(API_ROUTES.CHAT.ROOMS, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

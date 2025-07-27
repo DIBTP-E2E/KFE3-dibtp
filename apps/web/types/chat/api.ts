@@ -80,12 +80,6 @@ export type MarkMessagesAsReadAPIResponse = ApiResponse<{
   updatedCount: number;
 }>;
 
-// React Query 키 타입들
-export type ChatQueryKey =
-  | ['chat', 'rooms', string] // ['chat', 'rooms', user_id]
-  | ['chat', 'messages', string] // ['chat', 'messages', chat_room_id]
-  | ['chat', 'room', string, number]; // ['chat', 'room', user_id, product_id]
-
 // Supabase Realtime 채널 타입들
 export type ChatRealtimeChannel = {
   channelName: string;

@@ -2,6 +2,8 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { CHAT_ROOM_QUERY_KEY } from '@web/constants';
+import { useMyInfo } from '@web/hooks';
 import { createChatRoom } from '@web/services/chat/client/createChatRoom';
 
 import type { CreateChatRoomPayload, ChatRoom } from '@web/types';
@@ -16,6 +18,7 @@ interface UseCreateChatRoomOptions {
  */
 export const useCreateChatRoom = ({ onSuccess, onError }: UseCreateChatRoomOptions = {}) => {
   const queryClient = useQueryClient();
+  const { userId } = useMyInfo();
 
   return useMutation({
     mutationFn: async (payload: CreateChatRoomPayload) => {
@@ -31,7 +34,7 @@ export const useCreateChatRoom = ({ onSuccess, onError }: UseCreateChatRoomOptio
     onSuccess: (data) => {
       // 채팅방 목록 무효화하여 새로운 채팅방 반영
       queryClient.invalidateQueries({
-        queryKey: ['chat', 'rooms'],
+        queryKey: CHAT_ROOM_QUERY_KEY.LIST_ALL(userId),
       });
 
       onSuccess?.(data);

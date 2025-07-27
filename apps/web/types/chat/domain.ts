@@ -116,9 +116,3 @@ export type GetMessagesAPIResponse = ApiResponse<{
   nextCursor?: string;
   prevCursor?: string;
 }>;
-
-// Query Key 타입
-export type ChatQueryKey =
-  | ['chat', 'rooms']
-  | ['chat', 'room', 'detail', string]
-  | ['chat', 'messages', string];
