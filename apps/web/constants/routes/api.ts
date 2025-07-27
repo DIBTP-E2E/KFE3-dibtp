@@ -17,8 +17,8 @@ export const API_ROUTES = {
   CHAT: {
     ROOMS: `${API_BASE}/chat/rooms`,
     ROOM_DETAIL: `${API_BASE}/chat/room/detail`,
-    MESSAGES: (chatRoomId: string | number) => `${API_BASE}/chat/messages/${chatRoomId}`,
-    SEND_MESSAGE: `${API_BASE}/chat/messages`,
+    MESSAGES: (request: string) => `${API_BASE}/chat/messages?${request}`,
+    SEND_MESSAGE: `${API_BASE}/chat/messages/send`,
     MARK_AS_READ: `${API_BASE}/chat/messages/read`,
   },
 } as const;
