@@ -34,7 +34,7 @@ export const useCreateChatRoom = ({ onSuccess, onError }: UseCreateChatRoomOptio
     onSuccess: (data) => {
       // 채팅방 목록 무효화하여 새로운 채팅방 반영
       queryClient.invalidateQueries({
-        queryKey: CHAT_ROOM_QUERY_KEY.LIST_ALL(userId),
+        queryKey: CHAT_ROOM_QUERY_KEY.LIST({ user_id: userId }),
       });
 
       onSuccess?.(data);

@@ -8,14 +8,18 @@ export const createChatRoom = async (
   payload: CreateChatRoomPayload
 ): Promise<CreateChatRoomAPIResponse> => {
   try {
-    const { product_id, buyer_user_id, seller_user_id } = payload;
+    const {
+      product_id: productId,
+      buyer_user_id: buyerUserId,
+      seller_user_id: sellerUserId,
+    } = payload;
 
     // 상품 등록자가 본인이면 error
-    if (buyer_user_id === seller_user_id) {
+    if (!buyerUserId) {
       return {
         data: null,
         error: {
-          message: '본인이 등록한 상품은 채팅방을 생성할 수 없습니다.',
+          message: '채팅한 이웃이 없어요',
         },
       };
     }
@@ -23,9 +27,9 @@ export const createChatRoom = async (
     // 기존 채팅방 확인
     const existingRoom = await prisma.chat_rooms.findFirst({
       where: {
-        product_id: BigInt(product_id),
-        buyer_user_id,
-        seller_user_id,
+        product_id: BigInt(productId),
+        buyer_user_id: buyerUserId,
+        seller_user_id: sellerUserId,
       },
     });
 
@@ -48,9 +52,9 @@ export const createChatRoom = async (
     // 새 채팅방 생성
     const newRoom = await prisma.chat_rooms.create({
       data: {
-        product_id: BigInt(product_id),
-        buyer_user_id,
-        seller_user_id,
+        product_id: BigInt(productId),
+        buyer_user_id: buyerUserId,
+        seller_user_id: sellerUserId,
       },
     });
 

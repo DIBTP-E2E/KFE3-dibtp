@@ -46,7 +46,7 @@ export const useAppNavigation = () => {
   const goToProductChatList = (productId: string) =>
     router.push(PAGE_ROUTES.CHAT.LIST_BY_PRODUCT(productId));
 
-  const goToChatRoom = (chatId: string) => router.push(PAGE_ROUTES.CHAT.ROOM(chatId));
+  const goToChatRoom = (chatRoomId: string) => router.push(PAGE_ROUTES.CHAT.ROOM(chatRoomId));
 
   // 마이페이지 관련 네비게이션
   const goToMypage = () => router.push(PAGE_ROUTES.MYPAGE.INDEX);

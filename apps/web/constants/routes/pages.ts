@@ -20,7 +20,7 @@ export const PAGE_ROUTES = {
     INDEX: '/chat',
     LIST: '/chat/rooms',
     LIST_BY_PRODUCT: (productId: string | number) => `/chat/rooms?productId=${productId}`,
-    ROOM: (chatId: string | number) => `/chat/${chatId}`,
+    ROOM: (chatRoomId: string | number) => `/chat/${chatRoomId}`,
   },
 
   MYPAGE: {
