@@ -1,19 +1,26 @@
 'use client';
 
-import React from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
-import { useKakaoGeocoder, useKakaoMap, useMapMarker } from '@/hooks';
-import type { Location } from '@/types';
-import { debounce } from '@/utils/common';
+import { useKakaoGeocoder, useKakaoMap, useMapMarker } from '@web/hooks';
+import type { Location } from '@web/types';
+import { debounce } from '@web/utils/common';
 
 interface LocationMapProps {
   onLocationSelect: (location: Location) => void;
+  initialAddress?: { region: string; detail_address: string } | null;
 }
 
-const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
-  const { convertCoordsToAddress } = useKakaoGeocoder();
+const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => {
+  const { convertCoordsToAddress, convertAddressToCoords } = useKakaoGeocoder();
 
-  const handleMapClick = React.useMemo(
+  const { mapRef, mapInstance, isLoaded, error } = useKakaoMap();
+  const { addMarker } = useMapMarker(mapInstance);
+
+  // 이전 초기 주소를 저장하여 불필요한 API 호출 방지
+  const previousInitialAddress = useRef<string | null>(null);
+
+  const handleMapClick = useMemo(
     () =>
       debounce(async (lat: number, lng: number) => {
         addMarker(lat, lng);
@@ -30,14 +37,65 @@ const LocationMap = ({ onLocationSelect }: LocationMapProps) => {
           console.error('주소 변환 실패:', error);
         }
       }, 300),
-    [convertCoordsToAddress, onLocationSelect]
+    [addMarker, convertCoordsToAddress, onLocationSelect]
   );
 
-  const { mapRef, mapInstance, isLoaded, error } = useKakaoMap({
-    onClick: handleMapClick,
-  });
+  // 지도 클릭 이벤트 설정
+  useEffect(() => {
+    if (mapInstance && handleMapClick) {
+      const clickListener = (mouseEvent: any) => {
+        const latlng = mouseEvent.latLng;
+        handleMapClick(latlng.getLat(), latlng.getLng());
+      };
 
-  const { addMarker } = useMapMarker(mapInstance);
+      if (typeof kakao !== 'undefined' && kakao.maps && kakao.maps.event) {
+        kakao.maps.event.addListener(mapInstance, 'click', clickListener);
+
+        return () => {
+          kakao.maps.event.removeListener(mapInstance, 'click', clickListener);
+        };
+      }
+    }
+  }, [mapInstance, handleMapClick]);
+
+  // 초기 주소가 있을 때 지도에 표시
+  useEffect(() => {
+    if (initialAddress && mapInstance && convertAddressToCoords) {
+      const fullAddress = `${initialAddress.region} ${initialAddress.detail_address}`;
+
+      // 이전 주소와 동일한 경우 API 호출 건너뛰기
+      if (previousInitialAddress.current === fullAddress) {
+        return;
+      }
+
+      previousInitialAddress.current = fullAddress;
+
+      convertAddressToCoords(fullAddress)
+        .then((coords: { latitude: number; longitude: number } | null) => {
+          if (coords) {
+            // 지도 중심을 초기 주소 위치로 이동
+            if (typeof kakao !== 'undefined' && kakao.maps) {
+              mapInstance.setCenter(new kakao.maps.LatLng(coords.latitude, coords.longitude));
+            }
+            // 마커 추가
+            addMarker(coords.latitude, coords.longitude);
+            // 초기 위치 정보를 상위 컴포넌트에 전달
+            onLocationSelect({
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+              region: initialAddress.region,
+              detail_address: initialAddress.detail_address,
+              full_address: `${initialAddress.region} ${initialAddress.detail_address}`,
+            });
+          } else {
+            console.warn('Failed to convert initial address to coordinates');
+          }
+        })
+        .catch((error: Error) => {
+          console.error('초기 주소 변환 실패:', error);
+        });
+    }
+  }, [initialAddress, mapInstance, convertAddressToCoords, addMarker]);
 
   if (error) {
     return (

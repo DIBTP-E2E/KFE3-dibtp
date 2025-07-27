@@ -9,20 +9,33 @@ export const useMapMarker = (mapInstance: kakao.maps.Map | null) => {
 
   const addMarker = useCallback(
     (lat: number, lng: number) => {
-      if (!mapInstance || !isKakaoMapsLoaded()) return;
+      if (!mapInstance || !isKakaoMapsLoaded()) {
+        console.warn('Map instance or Kakao Maps not available');
+        return;
+      }
 
-      const markerPosition = new window.kakao.maps.LatLng(lat, lng);
+      try {
+        const markerPosition = new window.kakao.maps.LatLng(lat, lng);
 
-      if (markerInstance.current) {
-        markerInstance.current.setPosition(markerPosition);
-      } else {
+        // 기존 마커 제거
+        if (markerInstance.current) {
+          markerInstance.current.setMap(null);
+        }
+
+        // 새 마커 생성
         markerInstance.current = new window.kakao.maps.Marker({
           position: markerPosition,
           map: mapInstance,
         });
-      }
 
-      mapInstance.setCenter(markerPosition);
+        // 지도 중심을 마커 위치로 이동
+        mapInstance.setCenter(markerPosition);
+        markerInstance.current.setMap(mapInstance);
+
+        console.log('Marker added at:', lat, lng);
+      } catch (error) {
+        console.error('Error adding marker:', error);
+      }
     },
     [mapInstance]
   );
