@@ -29,7 +29,7 @@ const ChatListPage = async ({ searchParams }: ChatListPageParmas) => {
       <PageContainer className="py-lg">
         <ChatList productId={productId} />
       </PageContainer>
-      <BottomNavigation />
+      {!productId && <BottomNavigation />}
     </div>
   );
 };
