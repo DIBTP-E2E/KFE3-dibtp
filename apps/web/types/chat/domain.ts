@@ -1,3 +1,5 @@
+import type { ApiResponse } from '@web/types/common';
+
 import type { Tables } from '@web/types/lib/supabase-type';
 
 // 기본 채팅 테이블 타입들
@@ -80,6 +82,7 @@ export type ChatRoomEvent = {
 
 // 채팅 목록 필터링 옵션
 export type ChatListFilter = {
+  product_id?: number;
   status?: 'all' | 'unread' | 'active';
   sortBy?: 'last_message' | 'created_at' | 'updated_at';
   sortOrder?: 'asc' | 'desc';
@@ -91,3 +94,31 @@ export type MessagePaginationOptions = {
   before?: string; // cursor (created_at)
   after?: string; // cursor (created_at)
 };
+
+// API 요청/응답 타입들
+export type GetMessagesAPIRequest = {
+  chat_room_id: string;
+  user_id: string;
+  pagination?: MessagePaginationOptions;
+};
+
+export type SendMessageAPIRequest = SendMessagePayload;
+
+export type MarkMessagesAsReadAPIRequest = {
+  chat_room_id: string;
+  user_id: string;
+  message_ids?: number[];
+};
+
+export type GetMessagesAPIResponse = ApiResponse<{
+  messages: ChatMessageWithSender[];
+  hasMore: boolean;
+  nextCursor?: string;
+  prevCursor?: string;
+}>;
+
+// Query Key 타입
+export type ChatQueryKey =
+  | ['chat', 'rooms']
+  | ['chat', 'room', 'detail', string]
+  | ['chat', 'messages', string];

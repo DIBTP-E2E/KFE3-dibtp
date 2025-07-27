@@ -1,3 +1,4 @@
+export type * from './common';
 export type * from './location';
 export type * from './image';
 export type * from './product';

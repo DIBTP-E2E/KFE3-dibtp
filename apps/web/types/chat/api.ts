@@ -1,3 +1,5 @@
+import type { ApiResponse } from '@web/types/common';
+
 import type {
   ChatRoom,
   ChatMessage,
@@ -6,20 +8,6 @@ import type {
   ChatListFilter,
   MessagePaginationOptions,
 } from './domain';
-
-// API 응답 기본 타입
-export type ApiResponse<T> =
-  | {
-      data: T;
-      error: null;
-    }
-  | {
-      data: null;
-      error: {
-        message: string;
-        code?: string;
-      };
-    };
 
 // === API 요청 타입들 ===
 
