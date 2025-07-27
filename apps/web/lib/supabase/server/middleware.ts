@@ -56,7 +56,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   // 로그인된 사용자의 위치 정보 확인
-  const protectedPaths = [PAGE_ROUTES.HOME, PAGE_ROUTES.CHAT.LIST, PAGE_ROUTES.MYPAGE.INDEX];
+  const protectedPaths = [PAGE_ROUTES.HOME, PAGE_ROUTES.CHAT.INDEX, PAGE_ROUTES.MYPAGE.INDEX];
   const isProtectedPage = protectedPaths.some(
     (path) => pathname === path || pathname.startsWith(`${path}/`)
   );
