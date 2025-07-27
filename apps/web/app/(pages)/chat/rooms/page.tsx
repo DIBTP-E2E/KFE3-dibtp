@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: '진행 중인 채팅 목록을 확인하세요.',
 };
 
+export const dynamic = 'force-dynamic';
+
 const ChatListPage = async ({ searchParams }: ChatListPageParmas) => {
   const { productId: productIdParam } = await searchParams;
   const productId = productIdParam ? parseInt(productIdParam, 10) : undefined;

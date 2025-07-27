@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: '실시간 채팅으로 거래를 진행하세요.',
 };
 
+export const dynamic = 'force-dynamic';
+
 interface ChatRoomPageParams {
   params: Promise<{ chatRoomId: string }>;
 }
