@@ -6,8 +6,8 @@ export const QUERY_KEY = {
 
   // 사용자 상품 관련
   MY_PRODUCTS: {
-    all: () => ['my-products'] as const,
-    byStatus: (status?: ProductStatus) => ['my-products', status] as const,
+    ALL: ['my-products'] as const,
+    BY_STATUS: (status?: ProductStatus) => ['my-products', status] as const,
   } as const,
 
   // 사용자 채팅방 관련
@@ -27,3 +27,9 @@ export const QUERY_KEY = {
 export const MY_INFO_QUERY_KEY = QUERY_KEY.MY_INFO;
 export const MY_PRODUCTS_QUERY_KEY = QUERY_KEY.MY_PRODUCTS;
 export const CHAT_ROOM_QUERY_KEY = QUERY_KEY.CHAT_ROOM;
+
+// 유저 정보 관련
+export const USER_INFO_QUERY_KEY = (userId: string) => ['user-info', userId] as const;
+
+// 사용자 입찰 관련
+export const BID_HISTORY_QUERY_KEY = ['bid-history'] as const;

@@ -22,7 +22,7 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
 
   const invalidateQueries = async () => {
     await queryClient.invalidateQueries({
-      queryKey: MY_PRODUCTS_QUERY_KEY.all(),
+      queryKey: MY_PRODUCTS_QUERY_KEY.ALL,
     });
   };
 

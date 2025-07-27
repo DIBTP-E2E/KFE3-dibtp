@@ -12,7 +12,8 @@ export const API_ROUTES = {
   BIDS: `${API_BASE}/bids`,
   FAVORITES: `${API_BASE}/favorites`,
   MY_INFO: `${API_BASE}/my-info`,
-
+  USERS: `${API_BASE}/users`,
+  
   // 채팅 관련
   CHAT: {
     ROOMS: `${API_BASE}/chat/rooms`,
