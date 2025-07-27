@@ -7,6 +7,7 @@ import { HiXMark } from 'react-icons/hi2';
 import { CiClock1 } from 'react-icons/ci';
 import { MdRefresh, MdOutlinePhotoCamera, MdOutlineLocationOn, MdMoreVert } from 'react-icons/md';
 import { PiMagnifyingGlassBold, PiExport, PiExportFill, PiUser, PiUserFill } from 'react-icons/pi';
+import { IoSend } from 'react-icons/io5';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -35,6 +36,7 @@ export const ICONS = {
   HomeFill: GoHomeFill,
   Chat: BsChat,
   ChatFill: BsChatFill,
+  SendFill: IoSend,
 
   ShoppingBag: HiOutlineShoppingBag,
   ShoppingBagFill: HiShoppingBag,
