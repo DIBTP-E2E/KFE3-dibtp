@@ -18,8 +18,7 @@ export const QUERY_KEY = {
       ['chat', 'rooms', userId, 'list', 'product', productId] as const,
     DETAIL: (userId: string, chatRoomId: string) =>
       ['chat', 'rooms', userId, 'detail', chatRoomId] as const,
-    MESSAGES: (userId: string, chatRoomId: string) =>
-      ['chat', 'rooms', userId, 'messages', chatRoomId] as const,
+    MESSAGES: (chatRoomId: string) => ['chat', 'rooms', 'messages', chatRoomId] as const,
   } as const,
 };
 
