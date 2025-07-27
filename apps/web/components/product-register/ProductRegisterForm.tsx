@@ -2,16 +2,17 @@
 
 import { Button } from '@repo/ui/components';
 
-import { ImageUpload } from '@/components/product-register';
-
 import { useProductForm } from '@/hooks';
 
-import DecreaseUnitField from './DecreaseUnitField';
-import DescriptionField from './DescriptionField';
-import LocationInfoField from './LocationInfoField';
-import MinimumPriceField from './MinimumPriceField';
-import StartPriceField from './StartPriceField';
-import TitleField from './TitleField';
+import {
+  ProductImage,
+  TitleField,
+  DescriptionField,
+  StartPriceField,
+  MinimumPriceField,
+  DecreaseUnitField,
+  LocationInfoField,
+} from '../product-form';
 
 const ProductRegisterForm = () => {
   const {
@@ -22,12 +23,12 @@ const ProductRegisterForm = () => {
     handleInputChange,
     handleImagesChange,
     handleSubmit,
-  } = useProductForm();
+  } = useProductForm({ mode: 'create' });
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* 이미지 업로드 */}
-      <ImageUpload images={images} onImagesChange={handleImagesChange} />
+      <ProductImage images={images} errors={errors} onImagesChange={handleImagesChange} />
 
       {/* 상품명 */}
       <TitleField formData={formData} errors={errors} onInputChange={handleInputChange} />
