@@ -10,6 +10,48 @@ export const getChatList = async (
   try {
     const { user_id: userId, filter = {}, limit = 20, offset = 0 } = request;
 
+    // status 필터에 따른 추가 조건 구성
+    const buildStatusFilter = () => {
+      switch (filter.status) {
+        case 'unread':
+          // 읽지 않은 메시지가 있는 채팅방만 조회
+          return [
+            {
+              chat_messages: {
+                some: {
+                  is_read: false,
+                  sender_user_id: {
+                    not: userId,
+                  },
+                },
+              },
+            },
+          ];
+        case 'active': {
+          // 최근 7일 내 활동이 있는 채팅방만 조회
+          const sevenDaysAgo = new Date();
+          sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+          return [
+            {
+              OR: [
+                { updated_at: { gte: sevenDaysAgo } },
+                {
+                  chat_messages: {
+                    some: {
+                      created_at: { gte: sevenDaysAgo },
+                    },
+                  },
+                },
+              ],
+            },
+          ];
+        }
+        case 'all':
+        default:
+          return [];
+      }
+    };
+
     // 채팅방 목록 조회 (Prisma include를 사용한 조인)
     const chatRooms = await prisma.chat_rooms.findMany({
       where: {
@@ -18,6 +60,7 @@ export const getChatList = async (
             OR: [{ buyer_user_id: userId }, { seller_user_id: userId }],
           },
           ...(filter.product_id ? [{ product_id: BigInt(filter.product_id) }] : []),
+          ...buildStatusFilter(),
         ],
       },
       include: {
@@ -60,7 +103,7 @@ export const getChatList = async (
       take: limit,
     });
 
-    // 전체 개수 조회
+    // 전체 개수 조회 (같은 필터 조건 적용)
     const totalCount = await prisma.chat_rooms.count({
       where: {
         AND: [
@@ -68,6 +111,7 @@ export const getChatList = async (
             OR: [{ buyer_user_id: userId }, { seller_user_id: userId }],
           },
           ...(filter.product_id ? [{ product_id: BigInt(filter.product_id) }] : []),
+          ...buildStatusFilter(),
         ],
       },
     });
