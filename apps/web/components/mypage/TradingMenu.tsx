@@ -7,13 +7,13 @@ const TradingMenu = () => {
   const tradingMenuItems: MypageMenuItemProps[] = [
     {
       icon: 'Export',
-      title: '판매내역',
+      title: '출품내역',
       href: PAGE_ROUTES.MYPAGE.SALES,
     },
     {
       icon: 'ShoppingBag',
-      title: '구매내역',
-      href: PAGE_ROUTES.MYPAGE.PURCHASES,
+      title: '낙찰내역',
+      href: PAGE_ROUTES.MYPAGE.BIDS,
     },
     {
       icon: 'Heart',

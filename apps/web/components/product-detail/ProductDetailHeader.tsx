@@ -2,10 +2,16 @@
 
 import { useEffect, useState } from 'react';
 
-import BackButton from './BackButton';
+import HeaderContainer from '@/components/layout/header/HeaderContainer';
+import { BackButton } from '@/components/layout/header-icon';
+
 import LikeButton from './LikeButton';
 
-const ProductDetailHeader = () => {
+interface ProductDetailHeaderProps {
+  initialIsLiked: boolean;
+}
+
+const ProductDetailHeader = ({ initialIsLiked }: ProductDetailHeaderProps) => {
   const [isBgVisible, setIsBgVisible] = useState(false);
 
   useEffect(() => {
@@ -25,18 +31,16 @@ const ProductDetailHeader = () => {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 z-10 md:max-w-container w-full transition-colors duration-300 ${
+    <HeaderContainer
+      className={`fixed top-0 md:max-w-container w-full transition-colors duration-300 border-none ${
         isBgVisible ? 'bg-white shadow-md' : 'bg-transparent'
       }`}
     >
-      <div className="w-full mx-auto px-4">
-        <div className="flex h-14 items-center justify-between">
-          <BackButton />
-          <LikeButton />
-        </div>
+      <div className="w-full flex items-center justify-between">
+        <BackButton />
+        <LikeButton initialIsLiked={initialIsLiked} />
       </div>
-    </header>
+    </HeaderContainer>
   );
 };
 

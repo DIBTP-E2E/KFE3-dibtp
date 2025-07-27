@@ -13,7 +13,7 @@ interface UseMyProductsProps {
 
 export const useMyProducts = ({ status }: UseMyProductsProps = {}) => {
   return useQuery<ProductsAPIResponse>({
-    queryKey: MY_PRODUCTS_QUERY_KEY.byStatus(status),
+    queryKey: MY_PRODUCTS_QUERY_KEY.BY_STATUS(status),
     queryFn: () => fetchMyProducts(status),
   });
 };

@@ -9,6 +9,9 @@ export const USER_INFO_QUERY_KEY = (userId: string) => ['user-info', userId] as 
 
 // 사용자 상품 관련
 export const MY_PRODUCTS_QUERY_KEY = {
-  all: () => ['my-products'] as const,
-  byStatus: (status?: ProductStatus) => ['my-products', status] as const,
+  ALL: ['my-products'] as const,
+  BY_STATUS: (status?: ProductStatus) => ['my-products', status] as const,
 };
+
+// 사용자 입찰 관련
+export const BID_HISTORY_QUERY_KEY = ['bid-history'] as const;
