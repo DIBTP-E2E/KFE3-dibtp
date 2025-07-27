@@ -1,4 +1,4 @@
-export * from './createProduct';
+export * from './saveProduct';
 export * from './fetchMyProducts';
 export * from './updateProductStatus';
 export * from './removeProduct';
