@@ -12,40 +12,46 @@ import type {
 // === API 요청 타입들 ===
 
 // 채팅방 목록 조회 요청
-export type GetChatRoomsAPIRequest = {
+export interface GetChatRoomsAPIRequest {
   user_id: string;
   filter?: ChatListFilter;
   limit?: number;
   offset?: number;
-};
+}
+
+// 채팅방 상세 조회 요청
+export interface GetChatRoomDetailAPIRequest {
+  chat_room_id: string;
+  user_id: string;
+}
 
 // 메시지 목록 조회 요청
-export type GetMessagesAPIRequest = {
+export interface GetMessagesAPIRequest {
   chat_room_id: string;
   user_id: string;
   pagination?: MessagePaginationOptions;
-};
+}
 
 // 채팅방 생성 요청
-export type CreateChatRoomAPIRequest = {
+export interface CreateChatRoomAPIRequest {
   product_id: number;
   buyer_user_id: string;
   seller_user_id: string;
-};
+}
 
 // 메시지 전송 요청
-export type SendMessageAPIRequest = {
+export interface SendMessageAPIRequest {
   chat_room_id: string;
   message: string;
   sender_user_id: string;
-};
+}
 
 // 메시지 읽음 처리 요청
-export type MarkMessagesAsReadAPIRequest = {
+export interface MarkMessagesAsReadAPIRequest {
   chat_room_id: string;
   user_id: string;
   message_ids?: number[]; // 특정 메시지들만 읽음 처리 (없으면 전체)
-};
+}
 
 // === API 응답 타입들 ===
 
@@ -54,6 +60,11 @@ export type GetChatRoomsAPIResponse = ApiResponse<{
   chatRooms: ChatRoomWithDetails[];
   totalCount: number;
   hasMore: boolean;
+}>;
+
+// 채팅방 상세 조회 응답
+export type GetChatRoomDetailAPIResponse = ApiResponse<{
+  chatRoom: ChatRoomWithDetails;
 }>;
 
 // 메시지 목록 조회 응답
@@ -81,14 +92,14 @@ export type MarkMessagesAsReadAPIResponse = ApiResponse<{
 }>;
 
 // Supabase Realtime 채널 타입들
-export type ChatRealtimeChannel = {
+export interface ChatRealtimeChannel {
   channelName: string;
   subscribe: () => void;
   unsubscribe: () => void;
-};
+}
 
-export type RealtimeSubscriptionConfig = {
+export interface RealtimeSubscriptionConfig {
   table: 'chat_messages' | 'chat_rooms';
   filter?: string;
   event?: '*' | 'INSERT' | 'UPDATE' | 'DELETE';
-};
+}

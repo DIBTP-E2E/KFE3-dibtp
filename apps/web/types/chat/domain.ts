@@ -1,5 +1,3 @@
-import type { ApiResponse } from '@web/types/common';
-
 import type { Tables } from '@web/types/lib/supabase-type';
 
 // 기본 채팅 테이블 타입들
@@ -7,18 +5,18 @@ export type ChatRoom = Tables<'chat_rooms'>;
 export type ChatMessage = Tables<'chat_messages'>;
 
 // 채팅방 생성을 위한 타입
-export type CreateChatRoomPayload = {
+export interface CreateChatRoomPayload {
   product_id: number;
   buyer_user_id: string;
   seller_user_id: string;
-};
+}
 
 // 메시지 전송을 위한 타입
-export type SendMessagePayload = {
+export interface SendMessagePayload {
   chat_room_id: string;
   message: string;
   sender_user_id: string;
-};
+}
 
 // 확장된 채팅방 정보 (조인된 데이터 포함)
 export type ChatRoomWithDetails = ChatRoom & {
@@ -55,7 +53,7 @@ export type ChatMessageWithSender = ChatMessage & {
 export type MessageStatus = 'sending' | 'sent' | 'delivered' | 'read' | 'failed';
 
 // 옵티미스틱 업데이트를 위한 임시 메시지 타입
-export type OptimisticMessage = {
+export interface OptimisticMessage {
   chat_message_id: number;
   chat_room_id: string;
   message: string;
@@ -65,54 +63,32 @@ export type OptimisticMessage = {
   status: MessageStatus;
   isOptimistic: true;
   tempId: string;
-};
+}
 
 // 실시간 구독 이벤트 타입
-export type ChatMessageEvent = {
+export interface ChatMessageEvent {
   eventType: 'INSERT' | 'UPDATE' | 'DELETE';
   new: ChatMessage;
   old: ChatMessage | null;
-};
+}
 
-export type ChatRoomEvent = {
+export interface ChatRoomEvent {
   eventType: 'INSERT' | 'UPDATE' | 'DELETE';
   new: ChatRoom;
   old: ChatRoom | null;
-};
+}
 
 // 채팅 목록 필터링 옵션
-export type ChatListFilter = {
+export interface ChatListFilter {
   product_id?: number;
   status?: 'all' | 'unread' | 'active';
   sortBy?: 'last_message' | 'created_at' | 'updated_at';
   sortOrder?: 'asc' | 'desc';
-};
+}
 
 // 메시지 페이지네이션 옵션
-export type MessagePaginationOptions = {
+export interface MessagePaginationOptions {
   limit?: number;
   before?: string; // cursor (created_at)
   after?: string; // cursor (created_at)
-};
-
-// API 요청/응답 타입들
-export type GetMessagesAPIRequest = {
-  chat_room_id: string;
-  user_id: string;
-  pagination?: MessagePaginationOptions;
-};
-
-export type SendMessageAPIRequest = SendMessagePayload;
-
-export type MarkMessagesAsReadAPIRequest = {
-  chat_room_id: string;
-  user_id: string;
-  message_ids?: number[];
-};
-
-export type GetMessagesAPIResponse = ApiResponse<{
-  messages: ChatMessageWithSender[];
-  hasMore: boolean;
-  nextCursor?: string;
-  prevCursor?: string;
-}>;
+}
