@@ -1,41 +1,45 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import { FormMessage, Label } from '@repo/ui/components';
 
-import { LocationMap, LocationDisplay } from '@/components/location';
+import { LocationMap, LocationDisplay } from '@web/components/location';
 
-import type { Location, ProductFormData } from '@/types';
+import type { Address, Location, ProductFormData } from '@web/types';
 
 interface LocationInfoFieldProps {
   errors: Record<string, string>;
   onInputChange: (
     field: keyof ProductFormData
   ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  initialLocation?: Address | null; // 초기 위치 정보
 }
 
-const LocationInfoField = ({ errors, onInputChange }: LocationInfoFieldProps) => {
+const LocationInfoField = ({ errors, onInputChange, initialLocation }: LocationInfoFieldProps) => {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
 
-  const handleLocationSelect = (location: Location) => {
-    setSelectedLocation(location);
+  const handleLocationSelect = useCallback(
+    (location: Location) => {
+      setSelectedLocation(location);
 
-    // 폼 데이터 업데이트
-    onInputChange('region')({
-      target: { value: location.region },
-    } as React.ChangeEvent<HTMLInputElement>);
-    onInputChange('detail_address')({
-      target: { value: location.detail_address },
-    } as React.ChangeEvent<HTMLInputElement>);
-  };
+      // 폼 데이터 업데이트
+      onInputChange('region')({
+        target: { value: location.region },
+      } as React.ChangeEvent<HTMLInputElement>);
+      onInputChange('detail_address')({
+        target: { value: location.detail_address },
+      } as React.ChangeEvent<HTMLInputElement>);
+    },
+    [onInputChange]
+  );
 
   return (
     <div className="space-y-4">
       <Label required>거래 장소 선택</Label>
       <div className="flex flex-col gap-sm rounded-lg">
         {/* 지도 표시 */}
-        <LocationMap onLocationSelect={handleLocationSelect} />
+        <LocationMap onLocationSelect={handleLocationSelect} initialAddress={initialLocation} />
         {/* 선택된 위치 표시 */}
         {selectedLocation && <LocationDisplay location={selectedLocation} />}
       </div>

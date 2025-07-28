@@ -38,6 +38,7 @@ export const LabeledTextarea = forwardRef<HTMLTextAreaElement, LabeledTextareaPr
             disabled={disabled}
             aria-describedby={getAriaDescribedBy()}
             className={className}
+            required={required}
             {...props}
           />
 

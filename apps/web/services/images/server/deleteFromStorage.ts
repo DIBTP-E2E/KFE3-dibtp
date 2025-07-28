@@ -1,9 +1,16 @@
-import { deleteImageServer } from '@/lib/storage/server';
+import { IMAGE_CONFIGS } from '@web/constants';
+import { deleteImageServer } from '@web/lib/storage/server';
+import type { ImageConfigType } from '@web/types';
 
 /**
- * 서버에서 직접 스토리지에서 이미지 삭제
+ * 타입별 통합 이미지 삭제 서비스
  */
-export const deleteFromStorage = async (paths: string[], userId: string) => {
+export const deleteFromStorage = async (
+  paths: string[],
+  userId: string,
+  configType: ImageConfigType = 'product'
+) => {
+  const config = IMAGE_CONFIGS[configType];
   const deleteResults = [];
   const errors = [];
 
@@ -13,13 +20,15 @@ export const deleteFromStorage = async (paths: string[], userId: string) => {
       continue;
     }
 
-    // 보안: 사용자의 폴더 내 파일만 삭제 가능하도록 검증
-    if (!path.startsWith(`products/${userId}/`)) {
+    // 보안: 해당 타입의 사용자 폴더 내 파일만 삭제 가능하도록 검증
+    const allowedPrefix = config.storage.pathPrefix(userId);
+    if (!path.startsWith(allowedPrefix)) {
       errors.push(`권한이 없는 파일: ${path}`);
       continue;
     }
 
-    const deleteResult = await deleteImageServer(path);
+    // 기존 함수 재사용하되 bucket 동적 설정
+    const deleteResult = await deleteImageServer(path, config.storage.bucket);
 
     if (deleteResult.success) {
       deleteResults.push(path);

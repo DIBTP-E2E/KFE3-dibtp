@@ -1,3 +1,5 @@
+import type { ApiResponse } from '@web/types/common';
+
 import type { Tables } from '@web/types/lib/supabase-type';
 
 // 기본 채팅 테이블 타입들

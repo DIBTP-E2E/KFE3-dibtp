@@ -1,5 +1,5 @@
 import { API_ROUTES } from '@/constants';
-import type { ImageUploadResponse, UploadedImage } from '@/types';
+import type { UploadedImage } from '@/types';
 
 /**
  * 클라이언트에서 API를 통해 이미지 업로드
@@ -22,6 +22,6 @@ export const uploadImages = async (images: File[]): Promise<UploadedImage[]> => 
     throw new Error(errorData.error || '이미지 업로드에 실패했습니다');
   }
 
-  const result: ImageUploadResponse = await response.json();
+  const result = await response.json();
   return result.images;
 };

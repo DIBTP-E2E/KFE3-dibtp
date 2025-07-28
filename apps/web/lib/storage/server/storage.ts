@@ -9,12 +9,16 @@ export interface UploadResult {
   error?: string;
 }
 
-// 서버 사이드 업로드
-export const uploadImageServer = async (file: File, path: string): Promise<UploadResult> => {
+// 서버 사이드 업로드 (bucket 동적 지원)
+export const uploadImageServer = async (
+  file: File,
+  path: string,
+  bucketName: string = STORAGE_BUCKET_NAME
+): Promise<UploadResult> => {
   try {
     const supabase = await supabaseServerClient();
 
-    const { data, error } = await supabase.storage.from(STORAGE_BUCKET_NAME).upload(path, file, {
+    const { data, error } = await supabase.storage.from(bucketName).upload(path, file, {
       upsert: false,
       contentType: file.type,
     });
@@ -24,7 +28,7 @@ export const uploadImageServer = async (file: File, path: string): Promise<Uploa
     }
 
     // 공개 URL 생성
-    const { data: urlData } = supabase.storage.from(STORAGE_BUCKET_NAME).getPublicUrl(data.path);
+    const { data: urlData } = supabase.storage.from(bucketName).getPublicUrl(data.path);
 
     return {
       success: true,
@@ -39,12 +43,12 @@ export const uploadImageServer = async (file: File, path: string): Promise<Uploa
   }
 };
 
-// 이미지 삭제
-export const deleteImageServer = async (path: string) => {
+// 이미지 삭제 (bucket 동적 지원)
+export const deleteImageServer = async (path: string, bucketName: string = STORAGE_BUCKET_NAME) => {
   try {
     const supabase = await supabaseServerClient();
 
-    const { error } = await supabase.storage.from(STORAGE_BUCKET_NAME).remove([path]);
+    const { error } = await supabase.storage.from(bucketName).remove([path]);
 
     if (error) {
       return { success: false, error: error.message };
