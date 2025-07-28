@@ -9,8 +9,36 @@ import { markMessagesAsRead } from '@/services/chat/server/markMessagesAsRead';
  */
 export async function PATCH(request: NextRequest) {
   try {
-    // 요청 바디 파싱
-    const payload: MarkMessagesAsReadAPIRequest = await request.json();
+    // 요청 바디 안전하게 파싱
+    let payload: MarkMessagesAsReadAPIRequest;
+
+    try {
+      const body = await request.text();
+      if (!body.trim()) {
+        return NextResponse.json(
+          {
+            data: null,
+            error: {
+              message: '요청 바디가 비어있습니다.',
+              code: 'EMPTY_BODY',
+            },
+          },
+          { status: 400 }
+        );
+      }
+      payload = JSON.parse(body);
+    } catch (parseError) {
+      return NextResponse.json(
+        {
+          data: null,
+          error: {
+            message: '잘못된 JSON 형식입니다.',
+            code: 'INVALID_JSON',
+          },
+        },
+        { status: 400 }
+      );
+    }
 
     // 입력 검증
     if (!payload.chat_room_id || !payload.user_id) {

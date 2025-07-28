@@ -107,14 +107,14 @@ const ChatRoom = ({ chatRoom, currentUserId, className }: ChatRoomProps) => {
       (msg) => !msg.is_read && msg.sender_user_id !== currentUserId
     );
 
-    if (unreadMessages.length > 0) {
+    if (unreadMessages.length > 0 && chatRoom.chat_room_id && currentUserId) {
       markAsReadMutation.mutate({
         chat_room_id: chatRoom.chat_room_id,
         user_id: currentUserId,
         message_ids: unreadMessages.map((msg) => msg.chat_message_id),
       });
     }
-  }, [messages, currentUserId, chatRoom.chat_room_id, markAsReadMutation]);
+  }, [messages, currentUserId, chatRoom.chat_room_id]);
 
   return (
     <section className={cn('flex flex-col h-full bg-bg-light', className)}>
