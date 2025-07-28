@@ -6,6 +6,7 @@ export interface ProductFormData
   start_price: string;
   min_price: string;
   decrease_unit: string;
+  images?: File[];
 }
 
 // form 필드명

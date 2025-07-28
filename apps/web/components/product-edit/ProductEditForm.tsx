@@ -2,7 +2,8 @@
 
 import { Button } from '@repo/ui/components';
 
-import { useProductForm } from '@/hooks';
+import { useProductForm } from '@web/hooks';
+import type { ProductDetailAPIResponse } from '@web/types';
 
 import {
   ProductImage,
@@ -14,21 +15,41 @@ import {
   LocationInfoField,
 } from '../product-form';
 
-const ProductRegisterForm = () => {
+interface ProductEditFormProps {
+  productId: string;
+  product: ProductDetailAPIResponse;
+}
+
+const ProductEditForm = ({ productId, product }: ProductEditFormProps) => {
   const {
     formData,
     images,
+    existingImages,
+    initialLocation,
     errors,
     isSubmitting,
     handleInputChange,
     handleImagesChange,
+    handleExistingImagesChange,
+    handleOrderedImagesChange,
     handleSubmit,
-  } = useProductForm({ mode: 'create' });
+  } = useProductForm({
+    mode: 'edit',
+    productData: product,
+    productId,
+  });
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* 이미지 업로드 */}
-      <ProductImage images={images} errors={errors} onImagesChange={handleImagesChange} />
+      <ProductImage
+        images={images}
+        existingImages={existingImages}
+        onImagesChange={handleImagesChange}
+        onExistingImagesChange={handleExistingImagesChange}
+        onOrderedImagesChange={handleOrderedImagesChange}
+        errors={errors}
+      />
 
       {/* 상품명 */}
       <TitleField formData={formData} errors={errors} onInputChange={handleInputChange} />
@@ -46,14 +67,18 @@ const ProductRegisterForm = () => {
       <DecreaseUnitField formData={formData} errors={errors} onInputChange={handleInputChange} />
 
       {/* 거래 주소 */}
-      <LocationInfoField errors={errors} onInputChange={handleInputChange} />
+      <LocationInfoField
+        errors={errors}
+        onInputChange={handleInputChange}
+        initialLocation={initialLocation}
+      />
 
-      {/* 등록 버튼 */}
+      {/* 수정 버튼 */}
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? '등록 중...' : '상품 등록'}
+        {isSubmitting ? '수정 중...' : '상품 수정'}
       </Button>
     </form>
   );
 };
 
-export default ProductRegisterForm;
+export default ProductEditForm;

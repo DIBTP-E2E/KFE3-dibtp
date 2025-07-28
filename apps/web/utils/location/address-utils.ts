@@ -1,5 +1,5 @@
-import { METROPOLITAN_CITIES, SPECIAL_CITIES } from '@/constants';
-import type { Address } from '@/types';
+import { METROPOLITAN_CITIES, SPECIAL_CITIES } from '@web/constants';
+import type { FullAddress } from '@web/types';
 
 // 특별,광역,자치 시 이름
 const getCityName = (region1: string): string => {
@@ -37,7 +37,7 @@ const getDetailAddress = (region1: string, region2: string, region3: string): st
 };
 
 // 주소 정보 파싱
-export const parseAddressInfo = (landAddress: kakao.maps.services.Address): Address => {
+export const parseAddressInfo = (landAddress: kakao.maps.services.Address): FullAddress => {
   const region1 = landAddress.region_1depth_name;
   const region2 = landAddress.region_2depth_name;
   const region3 = landAddress.region_3depth_name;

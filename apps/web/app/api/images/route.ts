@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { uploadToStorage, deleteFromStorage } from '@/services/images/server';
+import { uploadToStorage, deleteFromStorage } from '@web/services/images/server';
+import type { ImageConfigType } from '@web/types';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
+import { getAuthenticatedUser } from '@web/utils/auth/server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,16 +13,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
-    // FormData에서 파일 추출
+    // FormData에서 파일과 설정 타입 추출
     const formData = await request.formData();
     const files = formData.getAll('images') as File[];
+    const configType = (formData.get('type') as ImageConfigType) || 'product';
 
     if (files.length === 0) {
       return NextResponse.json({ error: '업로드할 이미지를 선택해주세요' }, { status: 400 });
     }
 
-    // 서버 서비스를 통해 이미지 업로드
-    const result = await uploadToStorage(files, authResult.userId);
+    // 타입별 통합 서비스를 통해 이미지 업로드
+    const result = await uploadToStorage(files, authResult.userId, configType);
 
     // 결과 반환
     if (!result.success && result.errors.length > 0) {
@@ -51,14 +53,15 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
-    const { paths } = await request.json();
+    const { paths, type } = await request.json();
+    const configType = (type as ImageConfigType) || 'product';
 
     if (!Array.isArray(paths) || paths.length === 0) {
       return NextResponse.json({ error: '삭제할 이미지 경로를 제공해주세요' }, { status: 400 });
     }
 
-    // 서버 서비스를 통해 이미지 삭제
-    const result = await deleteFromStorage(paths, authResult.userId);
+    // 타입별 통합 서비스를 통해 이미지 삭제
+    const result = await deleteFromStorage(paths, authResult.userId, configType);
 
     return NextResponse.json({
       success: true,
