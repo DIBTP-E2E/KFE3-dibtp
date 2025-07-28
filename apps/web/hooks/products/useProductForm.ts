@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { z } from 'zod';
 
+import { PAGE_ROUTES } from '@/constants';
 import { useAppNavigation } from '@web/hooks';
 import { productWithImagesSchema } from '@web/lib/validations';
 import { saveProduct } from '@web/services/products/client';
@@ -149,7 +150,7 @@ export function useProductForm(options: UseProductFormOptions) {
         resetForm();
         goHome();
       } else {
-        navigateTo('/mypage/sales');
+        navigateTo(PAGE_ROUTES.MYPAGE.SALES);
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
