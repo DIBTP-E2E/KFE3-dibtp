@@ -12,6 +12,8 @@ import {
 
 import { getAuthenticatedUser } from '@/utils/auth/server';
 
+export const dynamic = 'force-dynamic';
+
 const MyPage = async () => {
   const authResult = await getAuthenticatedUser();
 
