@@ -1,10 +1,17 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { getUserInfo } from '@web/services/users/server';
 
-export async function GET(request: Request, { params }: { params: { userId: string } }) {
+interface RouteParams {
+  params: Promise<{
+    userId: string;
+  }>;
+}
+
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const userInfo = await getUserInfo(params.userId);
+    const { userId } = await params;
+    const userInfo = await getUserInfo(userId);
     return NextResponse.json(userInfo);
   } catch (error) {
     return new NextResponse(JSON.stringify({ message: 'Failed to get user info' }), {
