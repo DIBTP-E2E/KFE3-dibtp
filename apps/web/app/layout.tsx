@@ -1,8 +1,9 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import localFont from 'next/font/local';
 
+import { PWAManager } from '@web/components/shared';
 import { createServerQueryClient, prefetchMyInfo } from '@web/lib/query/server';
 import QueryProvider from '@web/providers/QueryProvider';
 
@@ -11,6 +12,15 @@ import '../styles/globals.css';
 export const metadata: Metadata = {
   title: '지역 기반 중고 물품 경매 플랫폼',
   description: '독특하고 재미있는 경매 시스템을 통해 중고 물품을 거래할 수 있는 플랫폼입니다.',
+  appleWebApp: {
+    title: 'DDIP(띱)',
+    statusBarStyle: 'default',
+    capable: true,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#ee8e1f',
 };
 
 const notoSansKR = localFont({
@@ -48,6 +58,8 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
                 {children}
                 {/* 바텀시트 포털 컨테이너 */}
                 <div id="bottom-sheet-root" className="relative z-50" />
+                {/* 프로덕션 환경에서만 PWA 기능 활성화 */}
+                {process.env.NODE_ENV === 'production' && <PWAManager />}
               </div>
             </div>
           </HydrationBoundary>
