@@ -39,7 +39,11 @@ const LocationInfoField = ({ errors, onInputChange, initialLocation }: LocationI
       <Label required>거래 장소 선택</Label>
       <div className="flex flex-col gap-sm rounded-lg">
         {/* 지도 표시 */}
-        <LocationMap onLocationSelect={handleLocationSelect} initialAddress={initialLocation} />
+        <LocationMap
+          onLocationSelect={handleLocationSelect}
+          initialAddress={initialLocation}
+          isForProduct={true}
+        />
         {/* 선택된 위치 표시 */}
         {selectedLocation && <LocationDisplay location={selectedLocation} />}
       </div>

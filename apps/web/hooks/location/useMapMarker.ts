@@ -31,8 +31,6 @@ export const useMapMarker = (mapInstance: kakao.maps.Map | null) => {
         // 지도 중심을 마커 위치로 이동
         mapInstance.setCenter(markerPosition);
         markerInstance.current.setMap(mapInstance);
-
-        console.log('Marker added at:', lat, lng);
       } catch (error) {
         console.error('Error adding marker:', error);
       }

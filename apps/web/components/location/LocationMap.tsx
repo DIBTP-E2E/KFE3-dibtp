@@ -9,9 +9,14 @@ import { debounce } from '@web/utils/common';
 interface LocationMapProps {
   onLocationSelect: (location: Location) => void;
   initialAddress?: { region: string; detail_address: string } | null;
+  isForProduct?: boolean; // 상품용인지 여부
 }
 
-const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => {
+const LocationMap = ({
+  onLocationSelect,
+  initialAddress,
+  isForProduct = false,
+}: LocationMapProps) => {
   const { convertCoordsToAddress, convertAddressToCoords } = useKakaoGeocoder();
 
   const { mapRef, mapInstance, isLoaded, error } = useKakaoMap();
@@ -26,7 +31,7 @@ const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => 
         addMarker(lat, lng);
 
         try {
-          const addressData = await convertCoordsToAddress(lat, lng);
+          const addressData = await convertCoordsToAddress(lat, lng, isForProduct);
 
           onLocationSelect({
             latitude: lat,
@@ -37,7 +42,7 @@ const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => 
           console.error('주소 변환 실패:', error);
         }
       }, 300),
-    [addMarker, convertCoordsToAddress, onLocationSelect]
+    [addMarker, convertCoordsToAddress, onLocationSelect, isForProduct]
   );
 
   // 지도 클릭 이벤트 설정
