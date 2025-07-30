@@ -1,6 +1,5 @@
-import { Prisma } from '@prisma/client';
-
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@web/lib/prisma';
+import type { TransactionClient } from '@web/types/lib';
 
 /**
  * 새로운 입찰을 생성하는 서비스 함수
@@ -13,7 +12,7 @@ export const createBid = async (
   productId: bigint,
   bidderUserId: string,
   bidPrice: number,
-  tx?: Prisma.TransactionClient
+  tx?: TransactionClient
 ) => {
   const db = tx || prisma;
   try {

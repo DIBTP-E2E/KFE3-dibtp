@@ -55,7 +55,7 @@ const MessageBubble = ({
         <Avatar
           src={message.sender?.profile_image || undefined}
           alt={message.sender?.nickname || '익명'}
-          size="sm"
+          size="md"
           className="mt-1"
         />
       )}
