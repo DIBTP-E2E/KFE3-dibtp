@@ -7,7 +7,7 @@ import { HiXMark } from 'react-icons/hi2';
 import { CiClock1 } from 'react-icons/ci';
 import { MdRefresh, MdOutlinePhotoCamera, MdOutlineLocationOn, MdMoreVert } from 'react-icons/md';
 import { PiMagnifyingGlassBold, PiExport, PiExportFill, PiUser, PiUserFill } from 'react-icons/pi';
-import { IoSend } from 'react-icons/io5';
+import { IoSend, IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -54,4 +54,7 @@ export const ICONS = {
   Cancel: HiXMark,
 
   MoreVert: MdMoreVert,
+
+  Setting: IoSettingsOutline,
+  SettingFill: IoSettingsSharp,
 };
