@@ -5,6 +5,7 @@ export interface Address {
 
 export interface FullAddress extends Address {
   full_address: string; // 모든 단위의 주소
+  road_address?: string; // 도로명주소
 }
 
 export interface Location extends FullAddress {
