@@ -31,9 +31,6 @@ export const PWAManager = () => {
         updateViaCache: 'none',
       });
 
-      // eslint-disable-next-line no-console
-      console.log('[PWA] ServiceWorker registration successful with scope: ', registration.scope);
-
       // Check for updates
       registration.addEventListener('updatefound', () => {
         const installingWorker = registration.installing;
@@ -53,10 +50,7 @@ export const PWAManager = () => {
           });
         }
       });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('[PWA] ServiceWorker registration failed: ', error);
-    }
+    } catch {}
   }
 
   if (!isSupported) {
