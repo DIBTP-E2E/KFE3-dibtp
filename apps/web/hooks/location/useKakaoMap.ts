@@ -8,9 +8,15 @@ interface UseKakaoMapOptions {
   center?: { lat: number; lng: number };
   level?: number;
   onClick?: (lat: number, lng: number) => void;
+  showZoomControl?: boolean; // 줌 컨트롤 표시 여부
 }
 
-export const useKakaoMap = ({ center, level = 3, onClick }: UseKakaoMapOptions = {}) => {
+export const useKakaoMap = ({
+  center,
+  level = 5,
+  onClick,
+  showZoomControl = true,
+}: UseKakaoMapOptions = {}) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<kakao.maps.Map | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -27,6 +33,12 @@ export const useKakaoMap = ({ center, level = 3, onClick }: UseKakaoMapOptions =
 
     mapInstance.current = new window.kakao.maps.Map(mapRef.current, options);
 
+    // 줌 컨트롤 추가
+    if (showZoomControl) {
+      const zoomControl = new window.kakao.maps.ZoomControl();
+      mapInstance.current.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+    }
+
     if (onClick) {
       window.kakao.maps.event.addListener(
         mapInstance.current,
@@ -39,7 +51,7 @@ export const useKakaoMap = ({ center, level = 3, onClick }: UseKakaoMapOptions =
     }
 
     setIsLoaded(true);
-  }, [center, level, onClick]);
+  }, [center, level, onClick, showZoomControl]);
 
   useEffect(() => {
     const loadScript = () => {
