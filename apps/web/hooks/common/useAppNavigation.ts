@@ -59,7 +59,7 @@ export const useAppNavigation = () => {
 
   const goToMySales = () => router.push(PAGE_ROUTES.MYPAGE.SALES);
 
-  const goToMyPurchases = () => router.push(PAGE_ROUTES.MYPAGE.PURCHASES);
+  const goToMyPurchases = () => router.push(PAGE_ROUTES.MYPAGE.BIDS);
 
   const goToMyFavorites = () => router.push(PAGE_ROUTES.MYPAGE.FAVORITES);
 
