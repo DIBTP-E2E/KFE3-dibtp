@@ -43,7 +43,8 @@ const ChatListItem = ({ chatRoom, currentUserId, className }: ChatRoomItemProps)
         <div className="flex-1 flex items-center gap-md min-w-0">
           {/* 사용자 아바타 */}
           <div className="relative">
-            <Avatar src={otherUser?.profile_image || undefined} alt={otherUserNickname} size="sm" />
+            <Avatar src={otherUser?.profile_image || undefined} alt={otherUserNickname} size="lg" />
+
             {hasUnreadMessages && (
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-bg-primary rounded-full" />
             )}
