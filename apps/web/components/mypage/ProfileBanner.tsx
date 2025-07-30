@@ -1,22 +1,22 @@
 import { Avatar, IconButton } from '@repo/ui/components';
 import Link from 'next/link';
 
-import { PAGE_ROUTES } from '@/constants/routes';
+import { PAGE_ROUTES } from '@web/constants/routes';
 
-interface MypageHeaderProps {
+interface ProfileBannerProps {
   userNickname: string;
+  userProfileImage: string;
 }
 
-const MypageHeader = ({ userNickname }: MypageHeaderProps) => {
+const ProfileBanner = ({ userNickname, userProfileImage }: ProfileBannerProps) => {
   return (
     <div className="bg-gradient-to-br from-orange-200 via-orange-400 to-bg-primary px-md py-md rounded-lg shadow-sm">
       <div className="flex items-center gap-md">
         <Avatar
           className="bg-white border-white/30"
-          src="/images/ddip_logo.png"
+          src={userProfileImage}
           alt="프로필 이미지"
           size="xl"
-          name={userNickname}
         />
         <h1 className="block py-sm font-style-headline-h4 flex-1 truncate text-white drop-shadow-sm">
           {userNickname}
@@ -38,4 +38,4 @@ const MypageHeader = ({ userNickname }: MypageHeaderProps) => {
   );
 };
 
-export default MypageHeader;
+export default ProfileBanner;

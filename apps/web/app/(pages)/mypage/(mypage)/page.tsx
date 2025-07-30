@@ -2,15 +2,15 @@ import { notFound } from 'next/navigation';
 
 import { prisma } from '@/lib/prisma';
 
+import { getAuthenticatedUser } from '@/utils/auth/server';
 import {
   ActivityStats,
-  MypageHeader,
   SettingsMenu,
   TradingMenu,
   LogoutButton,
-} from '@/components/mypage';
+  ProfileBanner,
+} from '@web/components/mypage';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +27,7 @@ const MyPage = async () => {
     where: { user_id: authResult.userId },
     select: {
       nickname: true,
+      profile_image: true,
     },
   });
 
@@ -37,7 +38,7 @@ const MyPage = async () => {
 
   return (
     <div className="flex flex-col gap-md">
-      <MypageHeader userNickname={user.nickname} />
+      <ProfileBanner userNickname={user.nickname} userProfileImage={user.profile_image ?? ''} />
 
       <ActivityStats />
 

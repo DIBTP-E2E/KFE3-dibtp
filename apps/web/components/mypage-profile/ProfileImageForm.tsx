@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Avatar, Icon } from '@repo/ui/components';
 
 interface ProfileImageFormProps {
-  initialImageUrl: string | undefined;
+  initialImageUrl: string;
   onImageChange: (file: File | null) => void;
 }
 
