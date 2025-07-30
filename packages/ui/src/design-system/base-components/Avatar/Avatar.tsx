@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 
 import { cn } from '@ui/utils/cn';
 
@@ -33,7 +33,28 @@ const AVATAR_SIZES = {
 
 const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   ({ src, alt, size = 'md', onImageError, className, ...props }, ref) => {
+    const [hasImageError, setHasImageError] = useState(false);
     const sizeConfig = AVATAR_SIZES[size];
+
+    // 이미지 로딩 실패 처리
+    const handleImageError = () => {
+      // 개발 환경에서 디버깅을 위한 콘솔 로그
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`[Avatar] 이미지 로딩 실패:`, {
+          src,
+          alt,
+          size,
+          timestamp: new Date().toISOString(),
+          userAgent: navigator.userAgent,
+        });
+      }
+
+      // 내부 상태 업데이트 - 디폴트 이미지로 자동 전환
+      setHasImageError(true);
+
+      // 외부 콜백 실행 (사용자 정의 에러 처리)
+      onImageError?.();
+    };
 
     return (
       <figure
@@ -51,14 +72,14 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         )}
         {...props}
       >
-        {src ? (
+        {src && !hasImageError ? (
           <img
             src={src}
             alt={alt}
             width={sizeConfig.pixels}
             height={sizeConfig.pixels}
             className="object-cover size-full"
-            onError={onImageError}
+            onError={handleImageError}
             sizes={`${sizeConfig.pixels}px`}
           />
         ) : (
