@@ -13,6 +13,7 @@ module.exports = {
         'test', // 테스트 코드 추가/리팩토링
         'chore', // 패키지 매니저 등 기타 수정
         'design', // 사용자 UI 디자인 변경
+        'perf', // 성능 개선
         'comment', // 주석 추가 또는 수정
         'rename', // 파일/폴더명 변경
         'remove', // 파일 삭제
