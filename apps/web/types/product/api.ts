@@ -13,6 +13,7 @@ export interface ProductCardAPIResponse
     | 'view_count'
     | 'created_at'
     | 'region'
+    | 'detail_address'
     | 'start_price'
     | 'min_price'
     | 'decrease_unit'

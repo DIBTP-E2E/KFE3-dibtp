@@ -14,6 +14,7 @@ interface PrismaProductCard {
   view_count: number;
   created_at: Date;
   region: string;
+  detail_address: string;
   start_price: { toNumber(): number };
   min_price: { toNumber(): number };
   decrease_unit: { toNumber(): number };
@@ -66,6 +67,7 @@ export const convertToProductCardResponse = (
     view_count: product.view_count,
     created_at: product.created_at.toISOString(),
     region: product.region,
+    detail_address: product.detail_address,
     bidder_user_id: product.bids?.bidder_user_id ?? '',
     start_price: product.start_price.toNumber(),
     min_price: product.min_price.toNumber(),

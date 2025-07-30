@@ -14,6 +14,7 @@ export const getMyInfo = async (): Promise<MyInfoAPIResponse> => {
       select: {
         user_id: true,
         region: true,
+        detail_address: true,
         nickname: true,
         profile_image: true,
       },
@@ -22,6 +23,7 @@ export const getMyInfo = async (): Promise<MyInfoAPIResponse> => {
     return {
       userId: user?.user_id ?? '',
       region: user?.region ?? '',
+      detailAddress: user?.detail_address ?? '',
       nickname: user?.nickname ?? '',
       profileImage: user?.profile_image ?? '',
     }; // TODO: null 일 경우 어떻게 처리하는 것이 가장 좋을까?

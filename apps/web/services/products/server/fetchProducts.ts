@@ -20,6 +20,9 @@ export interface ProductQueryFilters {
 
 interface WhereConditions {
   region: string;
+  detail_address?: {
+    contains: string;
+  };
   OR?: Array<{
     title?: { contains: string; mode: 'insensitive' };
     description?: { contains: string; mode: 'insensitive' };
@@ -45,10 +48,10 @@ export const fetchProductsWithPrisma = async (
       throw new Error('User not authenticated');
     }
 
-    // 사용자의 region 정보 가져오기
+    // 사용자의 위치 정보 가져오기 (region과 detail_address)
     const user = await prisma.users.findUnique({
       where: { user_id: authResult.userId },
-      select: { region: true },
+      select: { region: true, detail_address: true },
     });
 
     if (!user?.region) {
@@ -57,8 +60,8 @@ export const fetchProductsWithPrisma = async (
 
     const {
       keyword,
-      minPrice,
-      maxPrice,
+      // minPrice, // TODO: 향후 사용 예정
+      // maxPrice, // TODO: 향후 사용 예정
       status,
       region,
       category,
@@ -66,10 +69,18 @@ export const fetchProductsWithPrisma = async (
       sortOrder = 'desc',
     } = filters;
 
-    // 기본 where 조건 (사용자의 region 또는 필터로 지정된 region)
+    // 기본 where 조건 - detail_address 우선, 없으면 region으로 폴백
     const whereConditions: WhereConditions = {
       region: region || user.region,
     };
+
+    // 사용자가 detail_address를 설정했다면 더 세밀한 매칭 적용
+    // 같은 region 내에서 사용자의 구/군이 상품의 전체 주소에 포함되는 경우에만 노출
+    if (user.detail_address && user.detail_address !== '상세 주소 없음') {
+      whereConditions.detail_address = {
+        contains: user.detail_address, // 예: 사용자 "중구" → 상품 "서울 중구 남창동 9-1" 매칭
+      };
+    }
 
     // 키워드 검색 (제목과 설명에서 검색)
     if (keyword) {
@@ -132,6 +143,7 @@ export const fetchProductsWithPrisma = async (
         view_count: true,
         created_at: true,
         region: true,
+        detail_address: true,
         product_images: {
           select: {
             image_url: true,
