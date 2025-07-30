@@ -1,9 +1,8 @@
-import { Prisma } from '@prisma/client';
+import { PRODUCT_STATUS } from '@web/constants';
+import { prisma } from '@web/lib/prisma';
 
-import { prisma } from '@/lib/prisma';
-
-import { PRODUCT_STATUS } from '@/constants';
-import type { ProductStatus } from '@/types';
+import type { ProductStatus } from '@web/types';
+import type { TransactionClient } from '@web/types/lib';
 
 /**
  * 상품 상태를 업데이트하는 서비스 함수
@@ -14,7 +13,7 @@ import type { ProductStatus } from '@/types';
 export const updateProductStatus = async (
   productId: bigint,
   status: ProductStatus,
-  tx?: Prisma.TransactionClient
+  tx?: TransactionClient
 ) => {
   const db = tx || prisma;
   try {

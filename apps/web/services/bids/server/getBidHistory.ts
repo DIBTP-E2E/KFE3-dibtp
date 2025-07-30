@@ -1,8 +1,6 @@
-import { Prisma } from '@prisma/client';
-
-
 import { prisma } from '@web/lib/prisma';
 import type { BidHistoryResponse } from '@web/types';
+import { TransactionClient } from '@web/types/lib';
 import { convertToBidHistoryResponse } from '@web/utils/bids';
 
 /**
@@ -12,7 +10,7 @@ import { convertToBidHistoryResponse } from '@web/utils/bids';
  */
 export const getBidHistory = async (
   userId: string,
-  tx?: Prisma.TransactionClient
+  tx?: TransactionClient
 ): Promise<BidHistoryResponse> => {
   const db = tx || prisma;
 
