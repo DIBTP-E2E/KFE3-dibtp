@@ -9,7 +9,7 @@ const LocationHeader = () => {
       <p className="font-style-medium font-medium text-text-info">
         모든 회원은 거래를 위해 위치를 설정해야합니다.
         <br />
-        지도에서 위치를 선택해주세요.
+        지도를 클릭하거나 주소를 검색하여 위치를 선택해주세요.
       </p>
     </div>
   );

@@ -9,12 +9,14 @@ import { debounce } from '@web/utils/common';
 interface LocationMapProps {
   onLocationSelect: (location: Location) => void;
   initialAddress?: { region: string; detail_address: string } | null;
+  selectedLocation?: Location | null; // 주소 검색에서 설정된 위치
   isForProduct?: boolean; // 상품용인지 여부
 }
 
 const LocationMap = ({
   onLocationSelect,
   initialAddress,
+  selectedLocation,
   isForProduct = false,
 }: LocationMapProps) => {
   const { convertCoordsToAddress, convertAddressToCoords } = useKakaoGeocoder();
@@ -101,6 +103,33 @@ const LocationMap = ({
         });
     }
   }, [initialAddress, mapInstance, convertAddressToCoords, addMarker]);
+
+  // 외부에서 선택된 위치가 있을 때 지도에 표시
+  const previousSelectedLocation = useRef<Location | null>(null);
+
+  useEffect(() => {
+    if (selectedLocation && mapInstance && addMarker) {
+      // 이전 위치와 동일한 경우 건너뛰기
+      if (
+        previousSelectedLocation.current &&
+        previousSelectedLocation.current.latitude === selectedLocation.latitude &&
+        previousSelectedLocation.current.longitude === selectedLocation.longitude
+      ) {
+        return;
+      }
+
+      previousSelectedLocation.current = selectedLocation;
+      const { latitude, longitude } = selectedLocation;
+
+      // 지도 중심을 선택된 위치로 이동
+      if (typeof kakao !== 'undefined' && kakao.maps) {
+        mapInstance.setCenter(new kakao.maps.LatLng(latitude, longitude));
+      }
+
+      // 마커 추가
+      addMarker(latitude, longitude);
+    }
+  }, [selectedLocation, mapInstance, addMarker]);
 
   if (error) {
     return (
