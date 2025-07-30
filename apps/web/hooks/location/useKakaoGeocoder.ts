@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import type { FullAddress } from '@web/types';
-import { isKakaoMapsLoaded, parseAddressInfo } from '@web/utils/location';
+import { isKakaoMapsLoaded, parseKakaoAddress } from '@web/utils/location';
 
 export const useKakaoGeocoder = () => {
   const convertCoordsToAddress = useCallback(
@@ -20,7 +20,7 @@ export const useKakaoGeocoder = () => {
               const roadAddress = result[0]?.road_address;
 
               if (!landAddress) reject(new Error('주소 변환에 실패했습니다.'));
-              else resolve(parseAddressInfo(landAddress, roadAddress, isForProduct));
+              else resolve(parseKakaoAddress(landAddress, roadAddress, isForProduct));
             } else {
               reject(new Error('주소 변환에 실패했습니다.'));
             }
