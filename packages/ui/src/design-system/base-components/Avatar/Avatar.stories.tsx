@@ -45,6 +45,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const sampleImageSrc =
+  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face';
+
 // 기본 스토리 (Fallback 아바타)
 export const Default: Story = {
   args: {
@@ -56,7 +59,7 @@ export const Default: Story = {
 // 실제 이미지가 있는 경우
 export const WithImage: Story = {
   args: {
-    src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+    src: sampleImageSrc,
     alt: '사용자 프로필',
     size: 'lg',
   },
@@ -67,19 +70,19 @@ export const Sizes: Story = {
   render: () => (
     <div className="flex items-center gap-4">
       <div className="text-center">
-        <Avatar alt="Small" size="sm" />
+        <Avatar src={sampleImageSrc} alt="Small" size="sm" />
         <p className="mt-2 text-sm text-text-base">sm (24px)</p>
       </div>
       <div className="text-center">
-        <Avatar alt="Medium" size="md" />
+        <Avatar src={sampleImageSrc} alt="Medium" size="md" />
         <p className="mt-2 text-sm text-text-base">md (32px)</p>
       </div>
       <div className="text-center">
-        <Avatar alt="Large" size="lg" />
+        <Avatar src={sampleImageSrc} alt="Large" size="lg" />
         <p className="mt-2 text-sm text-text-base">lg (44px)</p>
       </div>
       <div className="text-center">
-        <Avatar alt="Extra Large" size="xl" />
+        <Avatar src={sampleImageSrc} alt="Extra Large" size="xl" />
         <p className="mt-2 text-sm text-text-base">xl (48px)</p>
       </div>
     </div>
@@ -92,23 +95,6 @@ export const Sizes: Story = {
     docs: {
       description: {
         story: '다양한 크기의 Avatar 컴포넌트를 보여줍니다.',
-      },
-    },
-  },
-};
-
-// 인터랙션 테스트
-export const Interactive: Story = {
-  args: {
-    alt: '인터랙티브 아바타',
-    size: 'lg',
-    className: 'cursor-pointer',
-    onClick: () => alert('Avatar clicked!'),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '클릭 가능한 Avatar 예시입니다. 호버 시 보더 색상이 변경됩니다.',
       },
     },
   },
