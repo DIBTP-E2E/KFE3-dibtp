@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ui-changed: ${{ steps.changes.outputs.ui }}
-      web-changed: ${{ steps.changes.outputs.web }}
+      stories-changed: ${{ steps.changes.outputs.stories }}
       docs-changed: ${{ steps.changes.outputs.docs }}
     steps:
       - name: Checkout repository
@@ -29,8 +29,9 @@ jobs:
           filters: |
             ui:
               - 'packages/ui/**'
-            web:
-              - 'apps/web/components/**'
+            stories:
+              - '**/*.stories.tsx'
+              - '**/*.stories.ts'
             docs:
               - 'apps/docs/**'
 
@@ -39,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy Storybook to Chromatic
     needs: detect-changes
-    if: needs.detect-changes.outputs.ui-changed == 'true' || needs.detect-changes.outputs.web-changed == 'true' || needs.detect-changes.outputs.docs-changed == 'true' || github.ref == 'refs/heads/main'
+    if: needs.detect-changes.outputs.ui-changed == 'true' || needs.detect-changes.outputs.stories-changed == 'true' || needs.detect-changes.outputs.docs-changed == 'true' || github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
