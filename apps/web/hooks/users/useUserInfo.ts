@@ -16,6 +16,7 @@ export const useUserInfo = (userId: string): MyInfoAPIResponse => {
 
   return {
     region: data?.region ?? '',
+    detailAddress: data?.detailAddress ?? '',
     userId: data?.userId ?? '',
     nickname: data?.nickname ?? '',
     profileImage: data?.profileImage ?? '',
