@@ -89,7 +89,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
           // 기본 스타일
           'relative inline-flex shrink-0 overflow-hidden rounded-full',
           // 보더 및 배경 스타일 (디자인 시스템 컬러 사용)
-          'border border-border-base bg-bg-base',
+          'border border-border-base bg-[var(--color-border-base)]',
           // 크기
           sizeConfig.container,
           // 호버 효과 (상호작용 개선)
