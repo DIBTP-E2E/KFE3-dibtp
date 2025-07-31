@@ -10,6 +10,7 @@ interface AddressSearchButtonProps {
 const AddressSearchButton = ({ onSearch, disabled = false }: AddressSearchButtonProps) => {
   return (
     <Button
+      type="button"
       onClick={onSearch}
       disabled={disabled}
       variant="outlined"
