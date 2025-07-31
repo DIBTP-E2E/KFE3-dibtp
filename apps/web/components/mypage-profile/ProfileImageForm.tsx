@@ -5,12 +5,17 @@ import { useState, useEffect } from 'react';
 import { Avatar, Icon } from '@repo/ui/components';
 
 interface ProfileImageFormProps {
-  initialImageUrl: string;
+  initialImageUrl: string | null;
   onImageChange: (file: File | null) => void;
+  onImageDelete: () => void;
 }
 
-const ProfileImageForm = ({ initialImageUrl, onImageChange }: ProfileImageFormProps) => {
-  const [previewUrl, setPreviewUrl] = useState<string | undefined>(initialImageUrl);
+const ProfileImageForm = ({
+  initialImageUrl,
+  onImageChange,
+  onImageDelete,
+}: ProfileImageFormProps) => {
+  const [previewUrl, setPreviewUrl] = useState<string | undefined | null>(initialImageUrl);
 
   useEffect(() => {
     setPreviewUrl(initialImageUrl);
@@ -23,16 +28,19 @@ const ProfileImageForm = ({ initialImageUrl, onImageChange }: ProfileImageFormPr
       onImageChange(file);
       const newPreviewUrl = URL.createObjectURL(file);
       setPreviewUrl(newPreviewUrl);
+    } else {
+      onImageChange(null);
+      setPreviewUrl(initialImageUrl);
     }
   };
 
-  useEffect(() => {
-    return () => {
-      if (previewUrl && previewUrl.startsWith('blob:')) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
+  const handleDeleteClick = () => {
+    if (!initialImageUrl && !previewUrl) {
+      return;
+    }
+    onImageDelete();
+    setPreviewUrl(null);
+  };
 
   return (
     <div className="flex flex-col items-center gap-4 py-8">
@@ -47,8 +55,16 @@ const ProfileImageForm = ({ initialImageUrl, onImageChange }: ProfileImageFormPr
           accept="image/*"
           className="hidden"
           onChange={handleFileChange}
+          onClick={(e) => (e.currentTarget.value = '')} // 같은 파일 재선택 시 onChange 발동을 위해
         />
       </label>
+      <button
+        type="button"
+        onClick={handleDeleteClick}
+        className="text-sm text-gray-500 underline mt-2"
+      >
+        기본 이미지로 변경
+      </button>
       <p className="text-sm text-gray-500">클릭하여 프로필 이미지를 변경하세요.</p>
     </div>
   );
