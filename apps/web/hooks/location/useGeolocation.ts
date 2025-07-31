@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useCallback } from 'react';
 
 export interface GeolocationState {
@@ -12,6 +14,7 @@ export interface GeolocationState {
 interface UseGeolocationReturn extends GeolocationState {
   getCurrentLocation: () => void;
   clearError: () => void;
+  clearCoordinates: () => void;
 }
 
 const GEOLOCATION_OPTIONS: PositionOptions = {
@@ -97,9 +100,17 @@ export const useGeolocation = (): UseGeolocationReturn => {
     }));
   }, []);
 
+  const clearCoordinates = useCallback(() => {
+    setState((prev) => ({
+      ...prev,
+      coordinates: null,
+    }));
+  }, []);
+
   return {
     ...state,
     getCurrentLocation,
     clearError,
+    clearCoordinates,
   };
 };
