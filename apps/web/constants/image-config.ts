@@ -22,12 +22,15 @@ export const IMAGE_CONFIGS: Record<ImageConfigType, ImageConfig> = {
     maxSize: 2 * 1024 * 1024, // 2MB
     allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] as const,
     storage: {
-      bucket: 'profiles',
+      bucket: 'profile-images',
       pathPrefix: (userId: string) => `profiles/${userId}`,
     },
     transforms: {
-      thumbnail: { width: 100, height: 100, resize: 'cover', quality: 90 },
-      preview: { width: 400, height: 400, resize: 'cover', quality: 95 },
+      sm: { width: 24, height: 24, resize: 'cover', quality: 90 },
+      md: { width: 32, height: 32, resize: 'cover', quality: 90 },
+      lg: { width: 44, height: 44, resize: 'cover', quality: 90 },
+      xl: { width: 48, height: 48, resize: 'cover', quality: 90 },
+      max: { width: 128, height: 128, resize: 'cover', quality: 90 },
     },
   },
 } as const;

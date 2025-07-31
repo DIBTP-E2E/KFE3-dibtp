@@ -1,11 +1,17 @@
-import { API_ROUTES } from '@/constants';
-import type { UploadedImage } from '@/types';
+import { API_ROUTES, IMAGE_CONFIGS } from '@/constants';
+import type { ImageConfigType, UploadedImage } from '@/types';
 
 /**
  * 클라이언트에서 API를 통해 여러 이미지 삭제
  */
-export const deleteImages = async (images: UploadedImage[]): Promise<void> => {
+export const deleteImages = async (
+  images: UploadedImage[],
+  type: ImageConfigType = 'product'
+): Promise<void> => {
   if (images.length === 0) return;
+
+  const config = IMAGE_CONFIGS[type];
+  const bucketName = config.storage.bucket;
 
   // 이미지 URL에서 path 추출 (Supabase 스토리지 경로)
   const imagePaths = images
@@ -15,7 +21,7 @@ export const deleteImages = async (images: UploadedImage[]): Promise<void> => {
         // 예: https://supabase.com/storage/v1/object/public/bucket/path/file.jpg -> path/file.jpg
         const url = new URL(image.url);
         const pathSegments = url.pathname.split('/');
-        const bucketIndex = pathSegments.findIndex((segment) => segment === 'product-image');
+        const bucketIndex = pathSegments.findIndex((segment) => segment === bucketName);
         if (bucketIndex !== -1 && bucketIndex < pathSegments.length - 1) {
           return pathSegments.slice(bucketIndex + 1).join('/');
         }
@@ -34,6 +40,7 @@ export const deleteImages = async (images: UploadedImage[]): Promise<void> => {
       },
       body: JSON.stringify({
         paths: imagePaths,
+        type: type,
       }),
     });
 
