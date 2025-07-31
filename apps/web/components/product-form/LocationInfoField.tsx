@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 
 import { FormMessage, Label } from '@repo/ui/components';
 
-import { LocationMap, LocationDisplay } from '@web/components/location';
+import { LocationSelector } from '@web/components/location';
 
 import type { Address, Location, ProductFormData } from '@web/types';
 
@@ -37,15 +37,12 @@ const LocationInfoField = ({ errors, onInputChange, initialLocation }: LocationI
   return (
     <div className="space-y-4">
       <Label required>거래 장소 선택</Label>
-      <div className="flex flex-col gap-sm rounded-lg">
-        {/* 지도 표시 */}
-        <LocationMap
-          onLocationSelect={handleLocationSelect}
+      <div className="rounded-lg">
+        <LocationSelector
           initialAddress={initialLocation}
+          onLocationSelect={handleLocationSelect}
           isForProduct={true}
         />
-        {/* 선택된 위치 표시 */}
-        {selectedLocation && <LocationDisplay location={selectedLocation} />}
       </div>
 
       {/* Hidden inputs for form data */}
