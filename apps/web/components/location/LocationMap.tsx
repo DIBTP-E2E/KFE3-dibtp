@@ -49,7 +49,9 @@ const LocationMap = ({
             ...addressData,
           });
         } catch (error) {
-          console.error('주소 변환 실패:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('주소 변환 실패:', error);
+          }
         }
       }, 300),
     [addMarker, convertCoordsToAddress, onLocationSelect, isForProduct]
@@ -58,7 +60,7 @@ const LocationMap = ({
   // 지도 클릭 이벤트 설정
   useEffect(() => {
     if (mapInstance && handleMapClick) {
-      const clickListener = (mouseEvent: any) => {
+      const clickListener = (mouseEvent: kakao.maps.event.MouseEvent) => {
         const latlng = mouseEvent.latLng;
         handleMapClick(latlng.getLat(), latlng.getLng());
       };
@@ -103,11 +105,15 @@ const LocationMap = ({
               full_address: `${initialAddress.region} ${initialAddress.detail_address}`,
             });
           } else {
-            console.warn('Failed to convert initial address to coordinates');
+            if (process.env.NODE_ENV === 'development') {
+              console.warn('Failed to convert initial address to coordinates');
+            }
           }
         })
         .catch((error: Error) => {
-          console.error('초기 주소 변환 실패:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('초기 주소 변환 실패:', error);
+          }
         });
     }
   }, [initialAddress, mapInstance, convertAddressToCoords, addMarker]);

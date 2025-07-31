@@ -2,7 +2,7 @@
 
 import { useRef, useCallback } from 'react';
 
-import { isKakaoMapsLoaded } from '@/utils/location';
+import { isKakaoMapsLoaded } from '@web/utils/location';
 
 export const useMapMarker = (mapInstance: kakao.maps.Map | null) => {
   const markerInstance = useRef<kakao.maps.Marker | null>(null);
@@ -10,7 +10,9 @@ export const useMapMarker = (mapInstance: kakao.maps.Map | null) => {
   const addMarker = useCallback(
     (lat: number, lng: number) => {
       if (!mapInstance || !isKakaoMapsLoaded()) {
-        console.warn('Map instance or Kakao Maps not available');
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Map instance or Kakao Maps not available');
+        }
         return;
       }
 
@@ -32,7 +34,9 @@ export const useMapMarker = (mapInstance: kakao.maps.Map | null) => {
         mapInstance.setCenter(markerPosition);
         markerInstance.current.setMap(mapInstance);
       } catch (error) {
-        console.error('Error adding marker:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error adding marker:', error);
+        }
       }
     },
     [mapInstance]

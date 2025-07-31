@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { useDaumPostcode, useKakaoGeocoder, useGeolocation } from '@web/hooks';
 import type { DaumPostcodeData, Location } from '@web/types';
@@ -23,6 +23,11 @@ const LocationMapContainer = () => {
     error: geoError,
     coordinates,
   } = useGeolocation();
+
+  // convertCoordsToAddress를 메모이제이션하여 불필요한 useEffect 재실행 방지
+  const memoizedConvertCoordsToAddress = useCallback(convertCoordsToAddress, [
+    convertCoordsToAddress,
+  ]);
 
   const handleLocationSelect = (location: Location) => {
     setSelectedLocation(location);
@@ -67,7 +72,7 @@ const LocationMapContainer = () => {
     if (coordinates) {
       const convertCurrentLocation = async () => {
         try {
-          const addressInfo = await convertCoordsToAddress(
+          const addressInfo = await memoizedConvertCoordsToAddress(
             coordinates.latitude,
             coordinates.longitude,
             false
@@ -93,7 +98,7 @@ const LocationMapContainer = () => {
 
       convertCurrentLocation();
     }
-  }, [coordinates, convertCoordsToAddress]);
+  }, [coordinates, memoizedConvertCoordsToAddress]);
 
   // Geolocation 오류 처리
   useEffect(() => {
