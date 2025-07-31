@@ -6,11 +6,16 @@ import { useKakaoGeocoder, useKakaoMap, useMapMarker } from '@web/hooks';
 import type { Location } from '@web/types';
 import { debounce } from '@web/utils/common';
 
+import CurrentLocationButton from './CurrentLocationButton';
+
 interface LocationMapProps {
   onLocationSelect: (location: Location) => void;
   initialAddress?: { region: string; detail_address: string } | null;
   selectedLocation?: Location | null; // 주소 검색에서 설정된 위치
   isForProduct?: boolean; // 상품용인지 여부
+  onCurrentLocationClick?: () => void; // 현재 위치 버튼 클릭 핸들러
+  currentLocationLoading?: boolean; // 현재 위치 로딩 상태
+  showCurrentLocationButton?: boolean; // 현재 위치 버튼 표시 여부
 }
 
 const LocationMap = ({
@@ -18,6 +23,9 @@ const LocationMap = ({
   initialAddress,
   selectedLocation,
   isForProduct = false,
+  onCurrentLocationClick,
+  currentLocationLoading = false,
+  showCurrentLocationButton = false,
 }: LocationMapProps) => {
   const { convertCoordsToAddress, convertAddressToCoords } = useKakaoGeocoder();
 
@@ -146,6 +154,12 @@ const LocationMap = ({
         <div className="absolute inset-0 bg-bg-base rounded-lg flex items-center justify-center">
           <p>지도를 로딩 중...</p>
         </div>
+      )}
+      {showCurrentLocationButton && onCurrentLocationClick && (
+        <CurrentLocationButton
+          onGetLocation={onCurrentLocationClick}
+          loading={currentLocationLoading}
+        />
       )}
     </div>
   );
