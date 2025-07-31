@@ -3,37 +3,22 @@
 import { useCallback } from 'react';
 
 import type { UseDaumPostcodeOptions } from '@web/types';
+import { loadExternalScript } from '@web/utils/common';
 
 export const useDaumPostcode = () => {
-  const loadDaumPostcodeScript = useCallback((): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      // 이미 로드된 경우
-      if (window.daum?.Postcode) {
-        resolve();
-        return;
-      }
-
-      // 이미 스크립트가 있는 경우
-      const existingScript = document.getElementById('daum-postcode-script');
-      if (existingScript) {
-        existingScript.addEventListener('load', () => resolve());
-        existingScript.addEventListener('error', () =>
-          reject(new Error('다음 우편번호 서비스 로드 실패'))
-        );
-        return;
-      }
-
-      // 새 스크립트 생성
-      const script = document.createElement('script');
-      script.id = 'daum-postcode-script';
-      script.src = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-      script.async = true;
-
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error('다음 우편번호 서비스 로드 실패'));
-
-      document.head.appendChild(script);
-    });
+  const loadDaumPostcodeScript = useCallback(async (): Promise<void> => {
+    try {
+      await loadExternalScript({
+        id: 'daum-postcode-script',
+        src: 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js',
+        isAlreadyLoaded: () => !!window.daum?.Postcode,
+        onError: () => {
+          throw new Error('다음 우편번호 서비스 로드 실패');
+        },
+      });
+    } catch (error) {
+      throw new Error('다음 우편번호 서비스 로드 실패');
+    }
   }, []);
 
   const openPostcode = useCallback(
@@ -49,7 +34,9 @@ export const useDaumPostcode = () => {
 
         postcode.open();
       } catch (error) {
-        console.error('우편번호 검색 오류:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('우편번호 검색 오류:', error);
+        }
         throw error;
       }
     },
@@ -69,7 +56,9 @@ export const useDaumPostcode = () => {
 
         postcode.embed(element);
       } catch (error) {
-        console.error('우편번호 검색 임베드 오류:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('우편번호 검색 임베드 오류:', error);
+        }
         throw error;
       }
     },

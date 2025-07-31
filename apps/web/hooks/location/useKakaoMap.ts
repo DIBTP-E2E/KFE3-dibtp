@@ -2,7 +2,8 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react';
 
-import { isKakaoMapsLoaded, validateKakaoApiKey } from '@/utils/location';
+import { loadExternalScript } from '@web/utils/common';
+import { isKakaoMapsLoaded, validateKakaoApiKey } from '@web/utils/location';
 
 interface UseKakaoMapOptions {
   center?: { lat: number; lng: number };
@@ -54,25 +55,32 @@ export const useKakaoMap = ({
   }, [center, level, onClick, showZoomControl]);
 
   useEffect(() => {
-    const loadScript = () => {
+    const loadScript = async () => {
       if (isKakaoMapsLoaded()) {
         initializeMap();
         return;
       }
 
-      const script = document.createElement('script');
-      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&libraries=services&autoload=false`;
-      script.async = true;
-      script.onload = () => {
-        window.kakao.maps.load(initializeMap);
-      };
-      script.onerror = () => {
+      try {
+        await loadExternalScript({
+          id: 'kakao-maps-script',
+          src: `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&libraries=services&autoload=false`,
+          isAlreadyLoaded: isKakaoMapsLoaded,
+          onLoad: () => {
+            window.kakao.maps.load(initializeMap);
+          },
+          onError: () => {
+            setError('카카오 지도 API 로드에 실패했습니다.');
+          },
+        });
+      } catch (error) {
         setError('카카오 지도 API 로드에 실패했습니다.');
-      };
-      document.head.appendChild(script);
+      }
     };
 
-    if (validateKakaoApiKey()) loadScript();
+    if (validateKakaoApiKey()) {
+      loadScript();
+    }
   }, [initializeMap]);
 
   return {
