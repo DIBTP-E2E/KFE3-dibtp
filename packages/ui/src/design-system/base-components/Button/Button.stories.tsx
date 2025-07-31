@@ -145,6 +145,16 @@ export const DangerFilled: Story = {
   },
 };
 
+export const SuccessFilled: Story = {
+  args: {
+    children: 'Success Filled',
+    color: 'success',
+    variant: 'fulled',
+    size: 'xl',
+    as: 'button',
+  },
+};
+
 export const PrimaryOutlined: Story = {
   args: {
     children: 'Primary Outlined',
@@ -169,6 +179,16 @@ export const DangerOutlined: Story = {
   args: {
     children: 'Danger Outlined',
     color: 'danger',
+    variant: 'outlined',
+    size: 'xl',
+    as: 'button',
+  },
+};
+
+export const SuccessOutlined: Story = {
+  args: {
+    children: 'Success Outlined',
+    color: 'success',
     variant: 'outlined',
     size: 'xl',
     as: 'button',

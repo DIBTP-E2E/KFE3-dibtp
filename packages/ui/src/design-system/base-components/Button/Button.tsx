@@ -9,7 +9,7 @@ export interface ButtonOwnProps<T extends ElementType = 'button'> {
   as?: T;
 
   // 스타일 정의
-  color?: 'lightMode' | 'darkMode' | 'primary' | 'secondary' | 'danger';
+  color?: 'lightMode' | 'darkMode' | 'primary' | 'secondary' | 'danger' | 'success';
   variant?: 'fulled' | 'outlined';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -62,6 +62,10 @@ const COLORS = {
     fulled: 'bg-bg-danger text-text-inverse',
     outlined: 'bg-white border border-border-danger text-text-danger',
   },
+  success: {
+    fulled: 'bg-bg-success text-text-inverse',
+    outlined: 'bg-white border border-border-success text-text-success',
+  },
 } as const;
 
 const Button = <T extends ElementType = 'button'>({
@@ -86,7 +90,7 @@ const Button = <T extends ElementType = 'button'>({
   return (
     <Component
       className={cn(
-        'flex items-center justify-center gap-x-sm',
+        'flex items-center justify-center gap-x-sm cursor-pointer',
         sizeClass,
         colorClass,
         roundedClass,
