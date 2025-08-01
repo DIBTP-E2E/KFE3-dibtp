@@ -44,9 +44,13 @@ const ProfileImageForm = ({
 
   return (
     <div className="flex flex-col items-center gap-4 py-8">
-      <label htmlFor="profile-image-upload" className="relative cursor-pointer">
+      <label
+        htmlFor="profile-image-upload"
+        className="relative cursor-pointer"
+        aria-label="프로필 사진 업데이트하기"
+      >
         <Avatar src={previewUrl} alt="프로필 이미지" size="max" />
-        <div className="absolute bottom-2 right-2 flex items-center justify-center w-10 h-10 bg-gray-700 text-white rounded-full pointer-events-none">
+        <div className="absolute bottom-[var(--space-md)] right-[var(--space-md)] flex items-center justify-center w-10 h-10 bg-bg-dark text-text-inverse rounded-full pointer-events-none">
           <Icon name="Photo" size="md" color="inverse" />
         </div>
         <input
