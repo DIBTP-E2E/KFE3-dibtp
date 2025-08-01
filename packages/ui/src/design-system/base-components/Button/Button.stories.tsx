@@ -38,10 +38,10 @@ const meta: Meta<ButtonProps<'button'>> = {
   argTypes: {
     color: {
       control: { type: 'select' },
-      options: ['lightMode', 'darkMode', 'primary', 'secondary', 'danger'],
+      options: ['lightMode', 'darkMode', 'primary', 'secondary', 'danger', 'success', 'error'],
       description: '버튼의 색상을 선택하세요.',
       table: {
-        type: { summary: 'lightMode | darkMode | primary | secondary | danger' },
+        type: { summary: 'lightMode | darkMode | primary | secondary | danger | success | error' },
         defaultValue: { summary: 'primary' },
       },
     },
@@ -155,6 +155,16 @@ export const SuccessFilled: Story = {
   },
 };
 
+export const ErrorFilled: Story = {
+  args: {
+    children: 'Error Filled',
+    color: 'error',
+    variant: 'fulled',
+    size: 'xl',
+    as: 'button',
+  },
+};
+
 export const PrimaryOutlined: Story = {
   args: {
     children: 'Primary Outlined',
@@ -189,6 +199,16 @@ export const SuccessOutlined: Story = {
   args: {
     children: 'Success Outlined',
     color: 'success',
+    variant: 'outlined',
+    size: 'xl',
+    as: 'button',
+  },
+};
+
+export const ErrorOutlined: Story = {
+  args: {
+    children: 'Error Outlined',
+    color: 'error',
     variant: 'outlined',
     size: 'xl',
     as: 'button',
@@ -405,6 +425,12 @@ export const AllVariants: Story = {
         <Button color="danger" variant="fulled" size="md">
           Danger Filled
         </Button>
+        <Button color="success" variant="fulled" size="md">
+          Success Filled
+        </Button>
+        <Button color="error" variant="fulled" size="md">
+          Error Filled
+        </Button>
       </div>
       <div className="flex flex-wrap gap-2">
         <Button color="primary" variant="outlined" size="md">
@@ -415,6 +441,12 @@ export const AllVariants: Story = {
         </Button>
         <Button color="danger" variant="outlined" size="md">
           Danger Outlined
+        </Button>
+        <Button color="success" variant="outlined" size="md">
+          Success Outlined
+        </Button>
+        <Button color="error" variant="outlined" size="md">
+          Error Outlined
         </Button>
       </div>
     </div>
