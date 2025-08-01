@@ -10,23 +10,13 @@ export interface ImageConfig {
     pathPrefix: (userId: string) => string;
   };
   // Supabase transform options for different use cases
-  transforms?: {
-    thumbnail?: {
-      width: number;
-      height: number;
-      resize?: 'cover' | 'contain' | 'fill';
-      quality?: number;
-    };
-    preview?: {
-      width: number;
-      height: number;
-      resize?: 'cover' | 'contain' | 'fill';
-      quality?: number;
-    };
-    full?: {
+  transforms?: Record<
+    string,
+    {
       width?: number;
       height?: number;
+      resize?: 'cover' | 'contain' | 'fill';
       quality?: number;
-    };
-  };
+    }
+  >;
 }

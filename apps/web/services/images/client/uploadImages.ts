@@ -4,13 +4,18 @@ import type { UploadedImage } from '@/types';
 /**
  * 클라이언트에서 API를 통해 이미지 업로드
  */
-export const uploadImages = async (images: File[]): Promise<UploadedImage[]> => {
+export const uploadImages = async (
+  images: File[],
+  type: string = 'product'
+): Promise<UploadedImage[]> => {
   if (images.length === 0) return [];
 
   const formData = new FormData();
   images.forEach((image) => {
     formData.append('images', image);
   });
+
+  formData.append('type', type);
 
   const response = await fetch(API_ROUTES.IMAGES, {
     method: 'POST',

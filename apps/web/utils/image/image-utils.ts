@@ -1,4 +1,5 @@
 import { IMAGE_CONFIGS } from '@web/constants';
+import { ImageConfigType } from '@web/types';
 
 // 파일 경로 생성 유틸리티
 export const generateImagePath = (pathPrefix: string, fileName: string) => {
@@ -9,8 +10,8 @@ export const generateImagePath = (pathPrefix: string, fileName: string) => {
 };
 
 // 이미지 파일 유효성 검사
-export const validateImageFile = (file: File) => {
-  const config = IMAGE_CONFIGS.product;
+export const validateImageFile = (file: File, configType: ImageConfigType = 'product') => {
+  const config = IMAGE_CONFIGS[configType];
 
   // 파일 타입 검사
   if (!(config.allowedTypes as readonly string[]).includes(file.type)) {

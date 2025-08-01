@@ -32,7 +32,7 @@ const AuctionInfoLayout = ({
     <>
       <div className="mt-4 flex justify-between items-center gap-4">
         <div className="flex flex-col items-center flex-1 gap-y-0.5">
-          <span className="text-xs text-gray-500 font-bold">현재 가격</span>
+          <span className="text-xs text-text-info font-bold">현재 가격</span>
           <CurrentPrice
             startPrice={startPrice}
             minPrice={minPrice}
@@ -48,7 +48,7 @@ const AuctionInfoLayout = ({
               minPrice={minPrice}
               className="text-xs text-text-primary font-bold"
             />
-            <span className="text-xs text-gray-500 font-bold">뒤 인하</span>
+            <span className="text-xs text-text-info font-bold">뒤 인하</span>
           </div>
           <NextPrice
             startPrice={startPrice}

@@ -16,7 +16,7 @@ const AuctionSummary = ({ startPrice, decreaseUnit, minPrice }: AuctionSummaryPr
       {summaryItems.map((item) => (
         <div key={item.label} className="flex justify-between items-center">
           <span className="text-sm text-gray-600">{item.label}</span>
-          <span className="text-base font-semibold text-gray-500">
+          <span className="text-base font-semibold text-text-info">
             {item.value.toLocaleString()}원
           </span>
         </div>
