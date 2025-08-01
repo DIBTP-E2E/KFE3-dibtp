@@ -10,7 +10,7 @@ interface ProfileBannerProps {
 
 const ProfileBanner = ({ userNickname, userProfileImage }: ProfileBannerProps) => {
   return (
-    <div className="bg-gradient-to-br from-orange-200 via-orange-400 to-bg-primary px-md py-md rounded-lg shadow-sm">
+    <section className="bg-gradient-to-br from-orange-200 via-orange-400 to-bg-primary px-md py-md rounded-lg shadow-sm">
       <div className="flex items-center gap-md">
         <Avatar
           className="bg-white border-white/30"
@@ -18,9 +18,9 @@ const ProfileBanner = ({ userNickname, userProfileImage }: ProfileBannerProps) =
           alt="프로필 이미지"
           size="xl"
         />
-        <h1 className="block py-sm font-style-headline-h4 flex-1 truncate text-white drop-shadow-sm">
+        <h2 className="block py-sm font-style-headline-h4 flex-1 truncate text-white drop-shadow-sm">
           {userNickname}
-        </h1>
+        </h2>
         <Link href={PAGE_ROUTES.MYPAGE.PROFILE}>
           <IconButton
             iconName="SettingFill"
@@ -34,7 +34,7 @@ const ProfileBanner = ({ userNickname, userProfileImage }: ProfileBannerProps) =
           />
         </Link>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 
-import { getMyInfo } from '@/services/my-info/server';
-import { updateProfile } from '@/services/my-info/server/updateProfile';
-
+import { getMyInfo } from '@web/services/my-info/server';
+import { updateProfile } from '@web/services/my-info/server/updateProfile';
 import { getAuthenticatedUser } from '@web/utils/auth/server';
 
 export async function GET() {

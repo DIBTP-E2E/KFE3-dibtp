@@ -1,5 +1,5 @@
-import { API_ROUTES, IMAGE_CONFIGS } from '@/constants';
-import type { ImageConfigType, UploadedImage } from '@/types';
+import { API_ROUTES, IMAGE_CONFIGS } from '@web/constants';
+import type { ImageConfigType, UploadedImage } from '@web/types';
 
 /**
  * 클라이언트에서 API를 통해 여러 이미지 삭제

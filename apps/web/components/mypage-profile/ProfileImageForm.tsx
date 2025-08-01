@@ -61,7 +61,8 @@ const ProfileImageForm = ({
       <button
         type="button"
         onClick={handleDeleteClick}
-        className="text-sm text-gray-500 underline mt-2"
+        className={`text-sm text-gray-500 underline mt-2 ${!previewUrl ? 'invisible' : ''}`}
+        disabled={!previewUrl}
       >
         기본 이미지로 변경
       </button>

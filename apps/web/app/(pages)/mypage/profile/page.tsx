@@ -4,15 +4,14 @@ import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-import { updateProfile } from '@/services/my-info/client/updateProfile';
-
-import { useMyInfo } from '@/hooks/my-info/useMyInfo';
 import {
   ProfileImageForm,
   ProfileNicknameForm,
   ProfileUpdateButton,
 } from '@web/components/mypage-profile';
 import { MY_INFO_QUERY_KEY } from '@web/constants';
+import { useMyInfo } from '@web/hooks/my-info/useMyInfo';
+import { updateProfile } from '@web/services/my-info/client/updateProfile';
 
 const ProfileEditPage = () => {
   const { nickname: initialNickname, profileImage: initialImageUrl } = useMyInfo();

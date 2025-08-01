@@ -1,6 +1,6 @@
 import { supabaseServerClient } from '@/lib/supabase/server';
 
-import { STORAGE_BUCKET } from '@/constants';
+import { STORAGE_BUCKET } from '@web/constants';
 
 export interface UploadResult {
   success: boolean;

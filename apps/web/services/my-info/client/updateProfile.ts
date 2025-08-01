@@ -1,9 +1,9 @@
-import { deleteImages } from '@/services/images/client/deleteImages';
-import { uploadImages } from '@/services/images/client/uploadImages';
+import { API_ROUTES } from '@web/constants';
+import { deleteImages } from '@web/services/images/client/deleteImages';
+import { uploadImages } from '@web/services/images/client/uploadImages';
 
-import { API_ROUTES } from '@/constants';
 
-import type { UploadedImage } from '@/types';
+import type { UploadedImage } from '@web/types';
 
 interface UpdateProfileArgs {
   nickname?: string;

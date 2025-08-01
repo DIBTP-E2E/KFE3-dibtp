@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma/prisma';
+import { prisma } from '@web/lib/prisma/prisma';
 
 interface UpdateProfileArgs {
   userId: string;
