@@ -6,7 +6,15 @@ import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
 import { HiXMark } from 'react-icons/hi2';
 import { CiClock1 } from 'react-icons/ci';
 import { MdRefresh, MdOutlinePhotoCamera, MdOutlineLocationOn, MdMoreVert } from 'react-icons/md';
-import { PiMagnifyingGlassBold, PiExport, PiExportFill, PiUser, PiUserFill } from 'react-icons/pi';
+import {
+  PiMagnifyingGlassBold,
+  PiExport,
+  PiExportFill,
+  PiUser,
+  PiUserFill,
+  PiWarningFill,
+  PiWarningLight,
+} from 'react-icons/pi';
 import { IoSend, IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
 
 export const ICONS = {
@@ -20,6 +28,9 @@ export const ICONS = {
 
   HeartFill: GoHeartFill,
   Heart: GoHeart,
+
+  WarningFill: PiWarningFill,
+  Warning: PiWarningLight,
 
   ClockFill: BsClockFill,
   Clock: BsClock,

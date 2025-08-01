@@ -82,7 +82,7 @@ export interface ToastOptions {
 
 const SuccessIcon = () => <Icon name="HeartFill" color="inverse" size="sm" />;
 const ErrorIcon = () => <Icon name="Cancel" color="inverse" size="sm" />;
-const WarningIcon = () => <Icon name="Bell" color="default" size="sm" />;
+const WarningIcon = () => <Icon name="WarningFill" color="default" size="sm" />;
 const InfoIcon = () => <Icon name="Bell" color="inverse" size="sm" />;
 
 /** Toast 메시지 컴포넌트 */
@@ -90,14 +90,14 @@ export const ToastMessage = ({ message, type, action, cancel }: ToastMessageProp
   const bgColorClass = {
     success: 'bg-bg-success',
     error: 'bg-bg-danger',
-    warning: 'bg-bg-warning',
+    warning: 'bg-bg-primary',
     info: 'bg-bg-primary',
   }[type];
 
   const textColorClass = {
     success: 'text-text-inverse',
     error: 'text-text-inverse',
-    warning: 'text-text-base',
+    warning: 'text-text-inverse',
     info: 'text-text-inverse',
   }[type];
 
@@ -119,11 +119,13 @@ export const ToastMessage = ({ message, type, action, cancel }: ToastMessageProp
       <div className="flex-shrink-0">
         <IconComponent />
       </div>
-      <div className="font-style-paragraph flex-1">{message}</div>
+
+      <div className="font-style-paragraph font-bold flex-1">{message}</div>
       {(action || cancel) && (
         <div className="flex gap-xs ml-md">
           {cancel && (
             <button
+              type="button"
               onClick={cancel.onClick}
               className="font-style-small px-sm py-xs rounded bg-white/20 hover:bg-white/30 transition-colors"
             >
@@ -132,8 +134,9 @@ export const ToastMessage = ({ message, type, action, cancel }: ToastMessageProp
           )}
           {action && (
             <button
+              type="button"
               onClick={action.onClick}
-              className="font-style-small px-sm py-xs rounded bg-white/20 hover:bg-white/30 transition-colors font-medium"
+              className="font-style-small px-sm py-xs rounded bg-white/20 hover:bg-white/30 transition-colors"
             >
               {action.label}
             </button>
@@ -172,6 +175,5 @@ export const ToastProvider = ({
   );
 };
 
-// 기본 export는 ToastProvider
 export const Toast = ToastProvider;
 export default ToastProvider;
