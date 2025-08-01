@@ -81,7 +81,7 @@ export interface ToastOptions {
 }
 
 const SuccessIcon = () => <Icon name="HeartFill" color="inverse" size="sm" />;
-const ErrorIcon = () => <Icon name="Cancel" color="inverse" size="sm" />;
+const ErrorIcon = () => <Icon name="Error" color="inverse" size="sm" />;
 const WarningIcon = () => <Icon name="WarningFill" color="default" size="sm" />;
 const InfoIcon = () => <Icon name="Bell" color="inverse" size="sm" />;
 

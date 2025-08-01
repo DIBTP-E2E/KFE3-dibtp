@@ -16,6 +16,7 @@ import {
   PiWarningLight,
 } from 'react-icons/pi';
 import { IoSend, IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
+import { VscError } from 'react-icons/vsc';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -31,6 +32,8 @@ export const ICONS = {
 
   WarningFill: PiWarningFill,
   Warning: PiWarningLight,
+
+  Error: VscError,
 
   ClockFill: BsClockFill,
   Clock: BsClock,
