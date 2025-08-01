@@ -224,14 +224,35 @@ export const Component: ToastMessageStory = {
       control: 'text',
       description: '토스트에 표시할 메시지',
     },
+    // action과 cancel은 복합 객체이므로 스토리북에서 편집하기 어려움
+    // 대신 미리 정의된 값으로 보여주고 테이블에서 타입 정보만 표시
+    action: {
+      table: {
+        type: {
+          summary: '{ label: string; onClick: () => void; }',
+        },
+      },
+      description: '액션 버튼 설정',
+    },
+    cancel: {
+      table: {
+        type: {
+          summary: '{ label: string; onClick?: () => void; }',
+        },
+      },
+      description: '취소 버튼 설정',
+    },
   },
   args: {
     type: 'success',
     message: '성공적으로 처리되었습니다!',
-
     action: {
       label: '보기',
-      onClick: () => alert('동작 완료'),
+      onClick: () => alert('보기 완료'),
+    },
+    cancel: {
+      label: '취소',
+      onClick: () => alert('취소됨'),
     },
   },
 };
