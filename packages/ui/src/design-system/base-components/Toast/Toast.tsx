@@ -89,8 +89,8 @@ const InfoIcon = () => <Icon name="Bell" color="inverse" size="sm" />;
 export const ToastMessage = ({ message, type, action, cancel }: ToastMessageProps) => {
   const bgColorClass = {
     success: 'bg-bg-success',
-    error: 'bg-bg-danger',
-    warning: 'bg-bg-primary',
+    error: 'bg-bg-error',
+    warning: 'bg-bg-danger',
     info: 'bg-bg-primary',
   }[type];
 
