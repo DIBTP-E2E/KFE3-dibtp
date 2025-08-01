@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { useState } from 'react';
-import { ToastProvider } from './Toast';
+import { ToastProvider, ToastMessage } from './Toast';
 import { toast } from './utils/toast';
 import { Button } from '../Button';
 
@@ -189,6 +189,53 @@ toast.success('메시지', {
 export default meta;
 type Story = StoryObj<typeof ToastProvider>;
 
+type ToastMessageStory = StoryObj<typeof ToastMessage>;
+
+export const Component: ToastMessageStory = {
+  render: (args) => <ToastMessage {...args} />,
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component: `
+토스트 메시지 컴포넌트의 시각적 모습과 props를 직접 확인할 수 있습니다.
+다양한 타입과 옵션을 조합하여 토스트의 모양을 실시간으로 확인해보세요.
+
+## Props
+- **type**: 토스트 타입 (success, error, warning, info)
+- **message**: 표시할 메시지
+- **action**: 액션 버튼 설정 (선택사항)
+- **cancel**: 취소 버튼 설정 (선택사항)
+        `,
+      },
+    },
+  },
+  argTypes: {
+    type: {
+      control: 'select',
+      options: ['success', 'error', 'warning', 'info'],
+      description: '토스트 메시지 타입',
+      table: {
+        type: { summary: 'success | error | warning | info' },
+        defaultValue: { summary: 'success' },
+      },
+    },
+    message: {
+      control: 'text',
+      description: '토스트에 표시할 메시지',
+    },
+  },
+  args: {
+    type: 'success',
+    message: '성공적으로 처리되었습니다!',
+
+    action: {
+      label: '보기',
+      onClick: () => alert('동작 완료'),
+    },
+  },
+};
+
 // Toast 데모를 위한 래퍼 컴포넌트
 const ToastDemo = (args: Story['args']) => {
   const [loadingToastId, setLoadingToastId] = useState<string | number | null>(null);
@@ -359,7 +406,7 @@ toast.promise(
   );
 };
 
-export const Default: Story = {
+export const Interaction: Story = {
   render: (args) => <ToastDemo {...args} />,
   args: {
     theme: 'system',
@@ -373,39 +420,6 @@ export const Default: Story = {
     docs: {
       description: {
         story: '기본 토스트 설정입니다. 다양한 토스트 타입을 테스트해볼 수 있습니다.',
-      },
-    },
-  },
-};
-
-export const TopPosition: Story = {
-  render: (args) => <ToastDemo {...args} />,
-  args: {
-    ...Default.args,
-    position: 'top-center',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '화면 상단에 토스트를 표시합니다. 헤더나 상단 네비게이션과 겹치지 않도록 주의해주세요.',
-      },
-    },
-  },
-};
-
-export const Expanded: Story = {
-  render: (args) => <ToastDemo {...args} />,
-  args: {
-    ...Default.args,
-    expand: true,
-    visibleToasts: 5,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '토스트를 확장 모드로 표시하여 더 많은 토스트를 동시에 볼 수 있습니다. 최대 5개까지 표시됩니다.',
       },
     },
   },
