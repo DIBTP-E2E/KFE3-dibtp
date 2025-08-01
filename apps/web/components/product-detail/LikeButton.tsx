@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { IconButton } from '@repo/ui/components';
-
+import { toast } from '@repo/ui/utils';
 import { useParams } from 'next/navigation';
 
 import { createFavorite, deleteFavorite } from '@/services/favorites/client';
@@ -34,9 +34,16 @@ const LikeButton = ({ initialIsLiked }: LikeButtonProps) => {
         await createFavorite(productId);
       }
     } catch (error) {
-      console.error('찜하기 처리 중 오류 발생:', error);
       setIsLiked(previousIsLiked);
-      alert(error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.');
+
+      const errorMassage =
+        error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.';
+      toast.error(errorMassage);
+
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.error('찜하기 실패:', error);
+      }
     } finally {
       setIsLoading(false);
     }

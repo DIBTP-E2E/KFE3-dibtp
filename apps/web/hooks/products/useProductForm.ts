@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
+import { toast } from '@repo/ui/utils';
 import { z } from 'zod';
 
 import { PAGE_ROUTES } from '@/constants';
@@ -144,7 +145,7 @@ export function useProductForm(options: UseProductFormOptions) {
 
       // 성공 후 처리
       const action = options.mode === 'create' ? '등록' : '수정';
-      alert(`상품이 성공적으로 ${action}되었습니다!`);
+      toast.success(`상품이 성공적으로 ${action}되었습니다!`);
 
       if (options.mode === 'create') {
         resetForm();
@@ -163,8 +164,12 @@ export function useProductForm(options: UseProductFormOptions) {
         });
         setErrors(fieldErrors);
       } else {
-        // TODO: 토스트 메시지 또는 모달로 개선 필요
-        alert(error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다');
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error(`상품 등록 또는 수정 실패`, error);
+        }
+
+        toast.error(error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다');
       }
     } finally {
       setIsSubmitting(false);
