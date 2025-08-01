@@ -1,8 +1,9 @@
 'use client';
 
-import { supabaseClient } from '@/lib/supabase/client';
+import { toast } from '@repo/ui/utils';
 
-import { useAppNavigation } from '@/hooks';
+import { useAppNavigation } from '@web/hooks';
+import { supabaseClient } from '@web/lib/supabase/client';
 
 const LogoutButton = () => {
   const { goToLogin } = useAppNavigation();
@@ -14,8 +15,12 @@ const LogoutButton = () => {
         await supabaseClient.auth.signOut();
         goToLogin();
       } catch (error) {
-        console.error('로그아웃 중 오류가 발생했습니다:', error);
-        alert('로그아웃 중 오류가 발생했습니다. 다시 시도해 주세요.');
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error('로그아웃 실패:', error);
+        }
+
+        toast.error('로그아웃 중 오류가 발생했습니다. 다시 시도해 주세요.');
       }
     }
   };
