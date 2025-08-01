@@ -61,12 +61,12 @@ const ProfileImageForm = ({
       <button
         type="button"
         onClick={handleDeleteClick}
-        className={`text-sm text-gray-500 underline mt-2 ${!previewUrl ? 'invisible' : ''}`}
+        className={`text-sm text-text-info underline mt-2 ${!previewUrl ? 'invisible' : ''}`}
         disabled={!previewUrl}
       >
         기본 이미지로 변경
       </button>
-      <p className="text-sm text-gray-500">클릭하여 프로필 이미지를 변경하세요.</p>
+      <p className="text-sm text-text-info">클릭하여 프로필 이미지를 변경하세요.</p>
     </div>
   );
 };
