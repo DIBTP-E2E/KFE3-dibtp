@@ -61,7 +61,7 @@ const ChatButton = ({ productId, sellerUserId }: ChatButtonProps) => {
 
     if (productChatRooms.length === 0) {
       // 채팅방이 없는 경우
-      toast.warning('채팅한 이웃이 없어요', {
+      toast.info('채팅한 이웃이 없어요', {
         cancel: {
           label: '닫기',
           onClick: () => toast.dismiss(),
