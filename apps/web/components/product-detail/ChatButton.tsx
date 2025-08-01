@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, toast } from '@repo/ui/components';
+import { Button } from '@repo/ui/components';
+import { toast } from '@repo/ui/utils';
 
 import { useAppNavigation, useMyInfo } from '@web/hooks';
-import { useChatRooms } from '@web/hooks/chat/useChatRooms';
-import { useCreateChatRoom } from '@web/hooks/chat/useCreateChatRoom';
+import { useChatRooms, useCreateChatRoom } from '@web/hooks/chat';
 
 interface ChatButtonProps {
   productId: number;

@@ -17,6 +17,10 @@
       "types": "./dist/design-system/base-components/index.d.ts",
       "import": "./dist/design-system/base-components/index.js"
     },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "import": "./dist/*.js"
