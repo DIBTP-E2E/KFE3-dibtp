@@ -14,7 +14,7 @@ const LocationDisplay = ({ location }: LocationDisplayProps) => {
         <p className="font-style-large">{location.full_address}</p>
 
         <p className="font-style-small text-text-info">
-          ㅇ 📍 {location.road_address || `${location.region} ${location.detail_address}`}
+          📍 {location.road_address || `${location.region} ${location.detail_address}`}
         </p>
       </div>
     </div>
