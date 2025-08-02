@@ -2,7 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { MY_PRODUCTS_QUERY_KEY } from '@web/constants';
+import { MY_PRODUCTS_QUERY_KEY, PRODUCT_STATUS_MESSAGES } from '@web/constants';
 import { useAppNavigation } from '@web/hooks';
 import {
   removeProduct,
@@ -57,7 +57,7 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
       await startAuction(productId);
       await invalidateQueries();
     } catch (error) {
-      console.error('경매 시작 실패:', error);
+      console.log(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
       throw error;
     }
   };
@@ -70,7 +70,7 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
         await invalidateQueries();
       }
     } catch (error) {
-      console.error('경매 중단 실패:', error);
+      console.log(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
       throw error;
     }
   };

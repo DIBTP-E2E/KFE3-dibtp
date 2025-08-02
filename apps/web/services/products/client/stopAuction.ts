@@ -1,4 +1,4 @@
-import { PRODUCT_STATUS } from '@web/constants';
+import { PRODUCT_STATUS, PRODUCT_STATUS_MESSAGES } from '@web/constants';
 import { updateProductStatus } from '@web/services/products/client';
 
 /**
@@ -13,9 +13,9 @@ export const stopAuction = async (productId: number): Promise<void> => {
     });
 
     // TODO: 성공 알림 및 상태 업데이트
-    console.log('경매가 중단되었습니다.');
+    console.log(PRODUCT_STATUS_MESSAGES.AUCTION_STOPPED);
   } catch (error) {
-    console.error('경매 중단 오류:', error);
+    console.log(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
     throw error;
   }
 };
