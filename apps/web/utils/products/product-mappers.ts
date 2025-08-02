@@ -85,7 +85,7 @@ export const convertToProductDetailResponse = (
     start_price: product.start_price.toNumber(),
     min_price: product.min_price.toNumber(),
     decrease_unit: product.decrease_unit.toNumber(),
-    status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.READY,
+    status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.ACTIVE,
     region: product.region,
     detail_address: product.detail_address,
     view_count: product.view_count,
