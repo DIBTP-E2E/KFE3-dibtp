@@ -21,7 +21,7 @@ import {
   MdMoreVert,
   MdMyLocation,
 } from 'react-icons/md';
-import { IoSend, IoSettingsOutline, IoSettingsSharp, IoWarningOutline } from 'react-icons/io5';
+import { IoSend, IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
 import { VscError } from 'react-icons/vsc';
 
 export const ICONS = {
