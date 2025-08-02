@@ -25,7 +25,7 @@ const meta = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg', 'xl'],
+      options: ['sm', 'md', 'lg', 'xl', 'max'],
       description: '아바타 크기',
       table: {
         defaultValue: { summary: 'md' },
@@ -84,6 +84,10 @@ export const Sizes: Story = {
       <div className="text-center">
         <Avatar src={sampleImageSrc} alt="Extra Large" size="xl" />
         <p className="mt-2 text-sm text-text-base">xl (48px)</p>
+      </div>
+      <div className="text-center">
+        <Avatar src={sampleImageSrc} alt="Max" size="max" />
+        <p className="mt-2 text-sm text-text-base">max (128px)</p>
       </div>
     </div>
   ),

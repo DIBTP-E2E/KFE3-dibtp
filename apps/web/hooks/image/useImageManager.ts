@@ -93,7 +93,7 @@ export const useImageManager = ({
 
       const validFiles: File[] = [];
       files.forEach((file, index) => {
-        const validation = validateImageFile(file);
+        const validation = validateImageFile(file, 'product');
         if (validation.isValid) {
           validFiles.push(file);
         } else {

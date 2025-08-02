@@ -1,6 +1,6 @@
 import { supabaseServerClient } from '@/lib/supabase/server';
 
-import { STORAGE_BUCKET_NAME } from '@/constants';
+import { STORAGE_BUCKET } from '@web/constants';
 
 export interface UploadResult {
   success: boolean;
@@ -13,7 +13,7 @@ export interface UploadResult {
 export const uploadImageServer = async (
   file: File,
   path: string,
-  bucketName: string = STORAGE_BUCKET_NAME
+  bucketName: string = STORAGE_BUCKET.PRODUCT_IMAGES
 ): Promise<UploadResult> => {
   try {
     const supabase = await supabaseServerClient();
@@ -44,7 +44,10 @@ export const uploadImageServer = async (
 };
 
 // 이미지 삭제 (bucket 동적 지원)
-export const deleteImageServer = async (path: string, bucketName: string = STORAGE_BUCKET_NAME) => {
+export const deleteImageServer = async (
+  path: string,
+  bucketName: string = STORAGE_BUCKET.PRODUCT_IMAGES
+) => {
   try {
     const supabase = await supabaseServerClient();
 

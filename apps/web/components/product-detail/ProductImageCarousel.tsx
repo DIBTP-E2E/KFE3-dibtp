@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+
 import { Thumbnail } from '@repo/ui/components/Thumbnail';
-import PrevButton from './PrevButton';
-import NextButton from './NextButton';
+
 import ImageCounter from './ImageCounter';
+import NextButton from './NextButton';
+import PrevButton from './PrevButton';
 
 interface ProductImageCarouselProps {
   images: string[];
@@ -44,7 +46,7 @@ const ProductImageCarousel = ({ images }: ProductImageCarouselProps) => {
   if (images.length === 0) {
     return (
       <div className="flex w-full items-center justify-center bg-gray-200 aspect-square">
-        <span className="text-gray-500">No Image</span>
+        <span className="text-text-info">No Image</span>
       </div>
     );
   }

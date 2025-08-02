@@ -1,1 +1,4 @@
-export const STORAGE_BUCKET_NAME = 'product-images';
+export const STORAGE_BUCKET = {
+  PRODUCT_IMAGES: 'product-images',
+  PROFILE_IMAGES: 'profile-images',
+} as const;
