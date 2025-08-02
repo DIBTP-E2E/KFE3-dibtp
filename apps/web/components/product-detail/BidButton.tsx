@@ -1,6 +1,9 @@
 'use client';
 
-import { API_ROUTES } from '@/constants/routes';
+import { Button } from '@repo/ui/components';
+import { toast } from '@repo/ui/utils';
+
+import { API_ROUTES } from '@web/constants/routes';
 
 interface BidButtonProps {
   productId: number;
@@ -32,21 +35,24 @@ const BidButton = ({ productId, currentPrice }: BidButtonProps) => {
         throw new Error(errorData.error || '입찰에 실패했습니다.');
       }
 
-      alert('입찰에 성공했습니다!');
+      toast.success('입찰에 성공했습니다!');
       window.location.reload();
     } catch (error) {
-      console.error('입찰 처리 중 오류 발생:', error);
-      alert(error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.');
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.error('입찰 실패:', error);
+      }
+
+      const errorMessage =
+        error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.';
+      toast.error(errorMessage);
     }
   };
 
   return (
-    <button
-      onClick={handleBid}
-      className="px-6 py-2 rounded-full bg-bg-primary text-text-inverse text-lg font-semibold"
-    >
+    <Button onClick={handleBid} isFullWidth={false} size="lg">
       입찰하기
-    </button>
+    </Button>
   );
 };
 

@@ -308,6 +308,68 @@ const IconsTable = ({ iconName, ariaLabel }: { iconName: IconName; ariaLabel: st
               />
             </Td>
           </tr>
+          <tr>
+            <Th>success</Th>
+            <Td>
+              <IconButton
+                iconName={iconName}
+                iconSize="md"
+                color="success"
+                variant="fulled"
+                buttonSize="sm"
+                ariaLabel={ariaLabel}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName={iconName}
+                iconSize="md"
+                color="success"
+                variant="outlined"
+                buttonSize="sm"
+                ariaLabel={ariaLabel}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+              />
+            </Td>
+          </tr>
+          <tr>
+            <Th>error</Th>
+            <Td>
+              <IconButton
+                iconName={iconName}
+                iconSize="md"
+                color="error"
+                variant="fulled"
+                buttonSize="sm"
+                ariaLabel={ariaLabel}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName={iconName}
+                iconSize="md"
+                color="error"
+                variant="outlined"
+                buttonSize="sm"
+                ariaLabel={ariaLabel}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+              />
+            </Td>
+          </tr>
         </tbody>
       </Table>
     </Container>
@@ -695,6 +757,152 @@ export const SizesAndFulledColors: Story = {
                 iconName="Bell"
                 iconSize="xl"
                 color="danger"
+                variant="fulled"
+                buttonSize="xl"
+                ariaLabel="알림"
+                style={{
+                  width: '56px',
+                  height: '56px',
+                }}
+              />
+            </Td>
+          </tr>
+          <tr>
+            <Th>success</Th>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="xs"
+                color="success"
+                variant="fulled"
+                buttonSize="xs"
+                ariaLabel="알림"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="sm"
+                color="success"
+                variant="fulled"
+                buttonSize="sm"
+                ariaLabel="알림"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="md"
+                color="success"
+                variant="fulled"
+                buttonSize="md"
+                ariaLabel="알림"
+                style={{
+                  width: '44px',
+                  height: '44px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="lg"
+                color="success"
+                variant="fulled"
+                buttonSize="lg"
+                ariaLabel="알림"
+                style={{
+                  width: '48px',
+                  height: '48px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="xl"
+                color="success"
+                variant="fulled"
+                buttonSize="xl"
+                ariaLabel="알림"
+                style={{
+                  width: '56px',
+                  height: '56px',
+                }}
+              />
+            </Td>
+          </tr>
+          <tr>
+            <Th>error</Th>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="xs"
+                color="error"
+                variant="fulled"
+                buttonSize="xs"
+                ariaLabel="알림"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="sm"
+                color="error"
+                variant="fulled"
+                buttonSize="sm"
+                ariaLabel="알림"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="md"
+                color="error"
+                variant="fulled"
+                buttonSize="md"
+                ariaLabel="알림"
+                style={{
+                  width: '44px',
+                  height: '44px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="lg"
+                color="error"
+                variant="fulled"
+                buttonSize="lg"
+                ariaLabel="알림"
+                style={{
+                  width: '48px',
+                  height: '48px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="xl"
+                color="error"
                 variant="fulled"
                 buttonSize="xl"
                 ariaLabel="알림"
@@ -1108,6 +1316,152 @@ export const SizesAndOutlinedColors: Story = {
               />
             </Td>
           </tr>
+          <tr>
+            <Th>success</Th>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="xs"
+                color="success"
+                variant="outlined"
+                buttonSize="xs"
+                ariaLabel="알림"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="sm"
+                color="success"
+                variant="outlined"
+                buttonSize="sm"
+                ariaLabel="알림"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="md"
+                color="success"
+                variant="outlined"
+                buttonSize="md"
+                ariaLabel="알림"
+                style={{
+                  width: '44px',
+                  height: '44px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="lg"
+                color="success"
+                variant="outlined"
+                buttonSize="lg"
+                ariaLabel="알림"
+                style={{
+                  width: '48px',
+                  height: '48px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="xl"
+                color="success"
+                variant="outlined"
+                buttonSize="xl"
+                ariaLabel="알림"
+                style={{
+                  width: '56px',
+                  height: '56px',
+                }}
+              />
+            </Td>
+          </tr>
+          <tr>
+            <Th>error</Th>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="xs"
+                color="error"
+                variant="outlined"
+                buttonSize="xs"
+                ariaLabel="알림"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="sm"
+                color="error"
+                variant="outlined"
+                buttonSize="sm"
+                ariaLabel="알림"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="md"
+                color="error"
+                variant="outlined"
+                buttonSize="md"
+                ariaLabel="알림"
+                style={{
+                  width: '44px',
+                  height: '44px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="lg"
+                color="error"
+                variant="outlined"
+                buttonSize="lg"
+                ariaLabel="알림"
+                style={{
+                  width: '48px',
+                  height: '48px',
+                }}
+              />
+            </Td>
+            <Td>
+              <IconButton
+                iconName="Bell"
+                iconSize="xl"
+                color="error"
+                variant="outlined"
+                buttonSize="xl"
+                ariaLabel="알림"
+                style={{
+                  width: '56px',
+                  height: '56px',
+                }}
+              />
+            </Td>
+          </tr>
         </tbody>
       </Table>
     </Container>
@@ -1121,7 +1475,7 @@ export const SizesAndOutlinedColors: Story = {
   },
 };
 
-export const Icons: Story = {
+export const ALLIconStyles: Story = {
   render: () => (
     <div className="grid grid-cols-3">
       <IconsTable iconName="Heart" ariaLabel="좋아요" />

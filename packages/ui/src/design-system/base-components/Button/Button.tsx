@@ -9,7 +9,7 @@ export interface ButtonOwnProps<T extends ElementType = 'button'> {
   as?: T;
 
   // 스타일 정의
-  color?: 'lightMode' | 'darkMode' | 'primary' | 'secondary' | 'danger';
+  color?: 'lightMode' | 'darkMode' | 'primary' | 'secondary' | 'danger' | 'success' | 'error';
   variant?: 'fulled' | 'outlined';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -52,15 +52,23 @@ const COLORS = {
   },
   primary: {
     fulled: 'bg-bg-primary text-text-inverse',
-    outlined: 'bg-white border border-border-primary text-text-primary',
+    outlined: 'bg-bg-light border border-border-primary text-text-primary',
   },
   secondary: {
     fulled: 'bg-bg-secondary text-text-inverse',
-    outlined: 'bg-white border border-border-secondary text-text-secondary',
+    outlined: 'bg-bg-light border border-border-secondary text-text-secondary',
   },
   danger: {
     fulled: 'bg-bg-danger text-text-inverse',
-    outlined: 'bg-white border border-border-danger text-text-danger',
+    outlined: 'bg-bg-light border border-border-danger text-text-danger',
+  },
+  success: {
+    fulled: 'bg-bg-success text-text-inverse',
+    outlined: 'bg-bg-light border border-border-success text-text-success',
+  },
+  error: {
+    fulled: 'bg-bg-error text-text-inverse',
+    outlined: 'bg-bg-light border border-border-error text-text-error',
   },
 } as const;
 
@@ -86,7 +94,7 @@ const Button = <T extends ElementType = 'button'>({
   return (
     <Component
       className={cn(
-        'flex items-center justify-center gap-x-sm',
+        'flex items-center justify-center gap-x-sm cursor-pointer',
         sizeClass,
         colorClass,
         roundedClass,

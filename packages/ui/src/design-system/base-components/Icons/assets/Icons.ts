@@ -6,14 +6,23 @@ import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
 import { HiXMark } from 'react-icons/hi2';
 import { CiClock1 } from 'react-icons/ci';
 import {
+  PiMagnifyingGlassBold,
+  PiExport,
+  PiExportFill,
+  PiUser,
+  PiUserFill,
+  PiWarningFill,
+  PiWarningLight,
+} from 'react-icons/pi';
+import {
   MdRefresh,
   MdOutlinePhotoCamera,
   MdOutlineLocationOn,
   MdMoreVert,
   MdMyLocation,
 } from 'react-icons/md';
-import { PiMagnifyingGlassBold, PiExport, PiExportFill, PiUser, PiUserFill } from 'react-icons/pi';
 import { IoSend, IoSettingsOutline, IoSettingsSharp, IoWarningOutline } from 'react-icons/io5';
+import { VscError } from 'react-icons/vsc';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -26,6 +35,11 @@ export const ICONS = {
 
   HeartFill: GoHeartFill,
   Heart: GoHeart,
+
+  WarningFill: PiWarningFill,
+  Warning: PiWarningLight,
+
+  Error: VscError,
 
   ClockFill: BsClockFill,
   Clock: BsClock,

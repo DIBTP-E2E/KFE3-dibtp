@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 
+import { toast } from '@repo/ui/utils';
 import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 
 import {
   ProfileImageForm,
@@ -10,12 +10,13 @@ import {
   ProfileUpdateButton,
 } from '@web/components/mypage-profile';
 import { MY_INFO_QUERY_KEY } from '@web/constants';
+import { useAppNavigation } from '@web/hooks';
 import { useMyInfo } from '@web/hooks/my-info/useMyInfo';
 import { updateProfile } from '@web/services/my-info/client/updateProfile';
 
 const ProfileEditPage = () => {
   const { nickname: initialNickname, profileImage: initialImageUrl } = useMyInfo();
-  const router = useRouter();
+  const { goToMypage } = useAppNavigation();
   const queryClient = useQueryClient();
 
   const [nickname, setNickname] = useState(initialNickname);
@@ -50,11 +51,19 @@ const ProfileEditPage = () => {
         isImageDeleted: isImageDeleted,
         currentProfileImageUrl: initialImageUrl,
       });
-      alert('프로필이 성공적으로 업데이트되었습니다.');
+
+      toast.success('프로필이 성공적으로 업데이트되었습니다.');
+
       queryClient.invalidateQueries({ queryKey: MY_INFO_QUERY_KEY });
-      router.push('/mypage');
+
+      goToMypage();
     } catch (error: any) {
-      alert(`프로필 업데이트 실패: ${error.message}`);
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.error('프로필 업데이트 실패:', error.message);
+      }
+
+      toast.error('프로필 업데이트 실패했습니다.');
     }
   };
 

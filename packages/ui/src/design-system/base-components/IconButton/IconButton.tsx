@@ -4,7 +4,14 @@ import { Icon } from '@ui/components';
 import type { IconName, IconSize } from '@ui/components';
 import { cn } from '@ui/utils/cn';
 
-export type IconButtonColor = 'darkMode' | 'lightMode' | 'primary' | 'secondary' | 'danger';
+export type IconButtonColor =
+  | 'darkMode'
+  | 'lightMode'
+  | 'primary'
+  | 'secondary'
+  | 'danger'
+  | 'success'
+  | 'error';
 export type IconButtonVariant = 'fulled' | 'outlined';
 export type IconButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -54,11 +61,19 @@ const COLORS: Record<IconButtonColor, Record<IconButtonVariant, string>> = {
   },
   secondary: {
     fulled: 'bg-bg-secondary text-text-inverse',
-    outlined: 'bg-white border border-border-secondary text-text-secondary',
+    outlined: 'bg-bg-light border border-border-secondary text-text-secondary',
   },
   danger: {
     fulled: 'bg-bg-danger text-text-inverse',
-    outlined: 'bg-white border border-border-danger text-text-danger',
+    outlined: 'bg-bg-light border border-border-danger text-text-danger',
+  },
+  success: {
+    fulled: 'bg-bg-success text-text-inverse',
+    outlined: 'bg-bg-light border border-border-success text-text-success',
+  },
+  error: {
+    fulled: 'bg-bg-error text-text-inverse',
+    outlined: 'bg-bg-light border border-border-error text-text-error',
   },
 } as const;
 
@@ -82,7 +97,7 @@ const IconButton = <T extends ElementType = 'button'>({
   return (
     <Component
       className={cn(
-        'inline-flex items-center justify-center rounded-full',
+        'inline-flex items-center justify-center rounded-full cursor-pointer',
         sizeClass,
         colorClass,
         className

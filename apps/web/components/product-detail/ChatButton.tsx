@@ -1,10 +1,10 @@
 'use client';
 
 import { Button } from '@repo/ui/components';
+import { toast } from '@repo/ui/utils';
 
 import { useAppNavigation, useMyInfo } from '@web/hooks';
-import { useChatRooms } from '@web/hooks/chat/useChatRooms';
-import { useCreateChatRoom } from '@web/hooks/chat/useCreateChatRoom';
+import { useChatRooms, useCreateChatRoom } from '@web/hooks/chat';
 
 interface ChatButtonProps {
   productId: number;
@@ -25,16 +25,20 @@ const ChatButton = ({ productId, sellerUserId }: ChatButtonProps) => {
 
   const { mutate, isPending } = useCreateChatRoom({
     onSuccess: (data) => {
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.log('채팅방 생성 및 입장 성공:', data);
-        // data.chatRoom - 생성된 채팅방 정보
-        // data.isExisting - 기존 채팅방인지 여부
-      }
+      toast.success(data.isExisting ? '채팅방에 입장했습니다' : '채팅방이 생성되었습니다', {
+        duration: 2000,
+      });
 
       goToChatRoom(data.chatRoom.chat_room_id);
     },
     onError: (error) => {
+      toast.error('채팅방 생성에 실패했습니다', {
+        action: {
+          label: '재시도',
+          onClick: handleCreateChatRoom,
+        },
+      });
+
       if (process.env.NODE_ENV === 'development') {
         // eslint-disable-next-line no-console
         console.error('채팅방 생성 및 입장 실패:', error.message);
@@ -57,7 +61,12 @@ const ChatButton = ({ productId, sellerUserId }: ChatButtonProps) => {
 
     if (productChatRooms.length === 0) {
       // 채팅방이 없는 경우
-      alert('채팅한 이웃이 없어요');
+      toast.info('채팅한 이웃이 없어요', {
+        cancel: {
+          label: '닫기',
+          onClick: () => toast.dismiss(),
+        },
+      });
       return;
     }
 
