@@ -47,7 +47,7 @@ export const parseKakaoAddress = (
     full_address: landAddress.address_name,
     region,
     detail_address: detail || '상세 주소 없음',
-    road_address: roadAddress?.address_name || undefined,
+    road_address: roadAddress?.address_name || null,
   };
 };
 
@@ -75,6 +75,6 @@ export const parsePostcodeAddress = (
     full_address: address,
     region,
     detail_address: detail,
-    road_address: roadAddress || undefined,
+    road_address: roadAddress || null,
   };
 };
