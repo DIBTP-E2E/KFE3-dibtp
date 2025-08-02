@@ -63,7 +63,7 @@ export const convertToProductCardResponse = (
     product_id: parseInt(product.product_id.toString()),
     title: product.title,
     image_url: product.product_images?.length ? (product.product_images[0]?.image_url ?? '') : '',
-    status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.READY,
+    status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.ACTIVE,
     view_count: product.view_count,
     created_at: product.created_at.toISOString(),
     region: product.region,
