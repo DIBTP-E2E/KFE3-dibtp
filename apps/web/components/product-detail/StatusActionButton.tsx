@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Button, ActionSheet, Icon } from '@repo/ui/components';
+import { Button, ActionSheet, Icon, toast } from '@repo/ui/components';
 
 import {
   PRODUCT_STATUS_ACTION_LABELS,
@@ -84,10 +84,10 @@ const StatusActionButton = ({
                 action.label === PRODUCT_STATUS_ACTION_LABELS.START_AUCTION
                   ? PRODUCT_STATUS_MESSAGES.AUCTION_STARTED
                   : PRODUCT_STATUS_MESSAGES.AUCTION_STOPPED;
-              alert(message);
+              toast.success(message);
               window.location.reload();
             } catch {
-              alert(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
+              toast.error(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
             } finally {
               setIsStatusChanging(false);
             }
