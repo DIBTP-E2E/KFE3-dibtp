@@ -14,10 +14,9 @@ interface SalesHistoryTabsProps {
 }
 
 const TAB_OPTIONS = [
-  { key: PRODUCT_STATUS.READY, label: '경매 준비중' },
   { key: PRODUCT_STATUS.ACTIVE, label: '경매 진행중' },
   { key: PRODUCT_STATUS.SOLD, label: '낙찰' },
-  { key: PRODUCT_STATUS.CANCEL, label: '취소' },
+  { key: PRODUCT_STATUS.CANCEL, label: '경매 중지' },
 ];
 
 const SalesHistoryTabs = ({ initialTab = PRODUCT_STATUS.ACTIVE }: SalesHistoryTabsProps) => {

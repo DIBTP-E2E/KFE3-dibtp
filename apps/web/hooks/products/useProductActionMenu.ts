@@ -32,28 +32,10 @@ export const useProductActionMenu = ({ status, handlers }: UseProductActionMenuP
     ];
 
     switch (status) {
-      case PRODUCT_STATUS.READY:
-        return [
-          {
-            label: '수정하기',
-            onClick: handleEdit,
-          },
-          {
-            label: '경매 시작',
-            onClick: handleStartAuction,
-          },
-          ...baseActions,
-          {
-            label: '삭제하기',
-            variant: 'danger',
-            onClick: handleDelete,
-          },
-        ];
-
       case PRODUCT_STATUS.ACTIVE:
         return [
           {
-            label: '경매 중단',
+            label: '경매 중지',
             variant: 'danger',
             onClick: handleStopAuction,
           },
@@ -65,6 +47,10 @@ export const useProductActionMenu = ({ status, handlers }: UseProductActionMenuP
 
       case PRODUCT_STATUS.CANCEL:
         return [
+          {
+            label: '수정하기',
+            onClick: handleEdit,
+          },
           {
             label: '경매 진행중으로 변경',
             onClick: handleStartAuction,

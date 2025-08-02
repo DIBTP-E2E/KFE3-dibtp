@@ -8,11 +8,6 @@ interface ProductBadgeProps {
 }
 
 const MAP = {
-  [PRODUCT_STATUS.READY]: {
-    color: 'primary',
-    variant: 'inverted',
-    label: '경매 전',
-  },
   [PRODUCT_STATUS.ACTIVE]: {
     color: 'primary',
     variant: 'fulled',
@@ -26,7 +21,7 @@ const MAP = {
   [PRODUCT_STATUS.CANCEL]: {
     color: 'disabled',
     variant: 'fulled',
-    label: '취소',
+    label: '경매 중지',
   },
 } as const;
 
