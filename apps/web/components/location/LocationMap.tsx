@@ -6,12 +6,27 @@ import { useKakaoGeocoder, useKakaoMap, useMapMarker } from '@web/hooks';
 import type { Location } from '@web/types';
 import { debounce } from '@web/utils/common';
 
+import CurrentLocationButton from './CurrentLocationButton';
+
 interface LocationMapProps {
   onLocationSelect: (location: Location) => void;
   initialAddress?: { region: string; detail_address: string } | null;
+  selectedLocation?: Location | null; // 주소 검색에서 설정된 위치
+  isForProduct?: boolean; // 상품용인지 여부
+  onCurrentLocationClick?: () => void; // 현재 위치 버튼 클릭 핸들러
+  currentLocationLoading?: boolean; // 현재 위치 로딩 상태
+  showCurrentLocationButton?: boolean; // 현재 위치 버튼 표시 여부
 }
 
-const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => {
+const LocationMap = ({
+  onLocationSelect,
+  initialAddress,
+  selectedLocation,
+  isForProduct = false,
+  onCurrentLocationClick,
+  currentLocationLoading = false,
+  showCurrentLocationButton = false,
+}: LocationMapProps) => {
   const { convertCoordsToAddress, convertAddressToCoords } = useKakaoGeocoder();
 
   const { mapRef, mapInstance, isLoaded, error } = useKakaoMap();
@@ -26,7 +41,7 @@ const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => 
         addMarker(lat, lng);
 
         try {
-          const addressData = await convertCoordsToAddress(lat, lng);
+          const addressData = await convertCoordsToAddress(lat, lng, isForProduct);
 
           onLocationSelect({
             latitude: lat,
@@ -34,16 +49,18 @@ const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => 
             ...addressData,
           });
         } catch (error) {
-          console.error('주소 변환 실패:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('주소 변환 실패:', error);
+          }
         }
       }, 300),
-    [addMarker, convertCoordsToAddress, onLocationSelect]
+    [addMarker, convertCoordsToAddress, onLocationSelect, isForProduct]
   );
 
   // 지도 클릭 이벤트 설정
   useEffect(() => {
     if (mapInstance && handleMapClick) {
-      const clickListener = (mouseEvent: any) => {
+      const clickListener = (mouseEvent: kakao.maps.event.MouseEvent) => {
         const latlng = mouseEvent.latLng;
         handleMapClick(latlng.getLat(), latlng.getLng());
       };
@@ -88,14 +105,45 @@ const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => 
               full_address: `${initialAddress.region} ${initialAddress.detail_address}`,
             });
           } else {
-            console.warn('Failed to convert initial address to coordinates');
+            if (process.env.NODE_ENV === 'development') {
+              console.warn('Failed to convert initial address to coordinates');
+            }
           }
         })
         .catch((error: Error) => {
-          console.error('초기 주소 변환 실패:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('초기 주소 변환 실패:', error);
+          }
         });
     }
   }, [initialAddress, mapInstance, convertAddressToCoords, addMarker]);
+
+  // 외부에서 선택된 위치가 있을 때 지도에 표시
+  const previousSelectedLocation = useRef<Location | null>(null);
+
+  useEffect(() => {
+    if (selectedLocation && mapInstance && addMarker) {
+      // 이전 위치와 동일한 경우 건너뛰기
+      if (
+        previousSelectedLocation.current &&
+        previousSelectedLocation.current.latitude === selectedLocation.latitude &&
+        previousSelectedLocation.current.longitude === selectedLocation.longitude
+      ) {
+        return;
+      }
+
+      previousSelectedLocation.current = selectedLocation;
+      const { latitude, longitude } = selectedLocation;
+
+      // 지도 중심을 선택된 위치로 이동
+      if (typeof kakao !== 'undefined' && kakao.maps) {
+        mapInstance.setCenter(new kakao.maps.LatLng(latitude, longitude));
+      }
+
+      // 마커 추가
+      addMarker(latitude, longitude);
+    }
+  }, [selectedLocation, mapInstance, addMarker]);
 
   if (error) {
     return (
@@ -112,6 +160,12 @@ const LocationMap = ({ onLocationSelect, initialAddress }: LocationMapProps) => 
         <div className="absolute inset-0 bg-bg-base rounded-lg flex items-center justify-center">
           <p>지도를 로딩 중...</p>
         </div>
+      )}
+      {showCurrentLocationButton && onCurrentLocationClick && (
+        <CurrentLocationButton
+          onGetLocation={onCurrentLocationClick}
+          loading={currentLocationLoading}
+        />
       )}
     </div>
   );

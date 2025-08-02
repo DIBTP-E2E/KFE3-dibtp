@@ -1,11 +1,13 @@
+'use client';
+
 import { useCallback } from 'react';
 
 import type { FullAddress } from '@web/types';
-import { isKakaoMapsLoaded, parseAddressInfo } from '@web/utils/location';
+import { isKakaoMapsLoaded, parseKakaoAddress } from '@web/utils/location';
 
 export const useKakaoGeocoder = () => {
   const convertCoordsToAddress = useCallback(
-    async (lat: number, lng: number): Promise<FullAddress> => {
+    async (lat: number, lng: number, isForProduct: boolean = false): Promise<FullAddress> => {
       try {
         if (!isKakaoMapsLoaded()) {
           throw new Error('카카오 지도 API를 사용할 수 없습니다.');
@@ -17,9 +19,10 @@ export const useKakaoGeocoder = () => {
           geocoder.coord2Address(lng, lat, (result, status) => {
             if (status === window.kakao.maps.services.Status.OK && result.length > 0) {
               const landAddress = result[0]?.address;
+              const roadAddress = result[0]?.road_address;
 
               if (!landAddress) reject(new Error('주소 변환에 실패했습니다.'));
-              else resolve(parseAddressInfo(landAddress));
+              else resolve(parseKakaoAddress(landAddress, roadAddress, isForProduct));
             } else {
               reject(new Error('주소 변환에 실패했습니다.'));
             }
