@@ -78,6 +78,4 @@ export const ICONS = {
 
   Setting: IoSettingsOutline,
   SettingFill: IoSettingsSharp,
-
-  Warning: IoWarningOutline,
 };
