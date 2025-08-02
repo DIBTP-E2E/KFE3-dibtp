@@ -1,5 +1,5 @@
 export interface DaumPostcodeData {
-  address: string; // 지번 주소
+  address: string; // 기본 주소 (검색 결과에서 첫줄에 나오는 주소, 보통 도로명 주소가 있어서 도로명 주소임)
   roadAddress: string; // 도로명 주소
   jibunAddress: string; // 지번 주소
   zonecode: string; // 우편번호
