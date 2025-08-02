@@ -5,7 +5,6 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
 import { HiXMark } from 'react-icons/hi2';
 import { CiClock1 } from 'react-icons/ci';
-import { MdRefresh, MdOutlinePhotoCamera, MdOutlineLocationOn, MdMoreVert } from 'react-icons/md';
 import {
   PiMagnifyingGlassBold,
   PiExport,
@@ -15,6 +14,13 @@ import {
   PiWarningFill,
   PiWarningLight,
 } from 'react-icons/pi';
+import {
+  MdRefresh,
+  MdOutlinePhotoCamera,
+  MdOutlineLocationOn,
+  MdMoreVert,
+  MdMyLocation,
+} from 'react-icons/md';
 import { IoSend, IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
 import { VscError } from 'react-icons/vsc';
 
@@ -62,6 +68,7 @@ export const ICONS = {
   UserFill: PiUserFill,
 
   Location: MdOutlineLocationOn,
+  CurrentLocation: MdMyLocation,
 
   Search: HiSearch,
 

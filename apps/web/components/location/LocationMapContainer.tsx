@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 
-import type { Location } from '@/types';
+import type { Location } from '@web/types';
 
-import LocationDisplay from './LocationDisplay';
-import LocationMap from './LocationMap';
+import LocationSelector from './LocationSelector';
 import SaveLocationButton from './SaveLocationButton';
 
 const LocationMapContainer = () => {
@@ -17,9 +16,8 @@ const LocationMapContainer = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-sm bg-bg-base p-sm rounded-lg mb-7xl">
-        <LocationMap onLocationSelect={handleLocationSelect} />
-        {selectedLocation && <LocationDisplay location={selectedLocation} />}
+      <div className="mb-7xl">
+        <LocationSelector onLocationSelect={handleLocationSelect} />
       </div>
       <SaveLocationButton selectedLocation={selectedLocation} />
     </>
