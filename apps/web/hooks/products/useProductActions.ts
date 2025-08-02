@@ -59,6 +59,7 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
     try {
       await startAuction(productId);
       await invalidateQueries();
+      toast.success(PRODUCT_STATUS_MESSAGES.AUCTION_STARTED);
     } catch (error) {
       toast.error(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
       if (process.env.NODE_ENV === 'development') console.error('경매 시작 실패:', error);
@@ -72,6 +73,7 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
       if (confirmed) {
         await stopAuction(productId);
         await invalidateQueries();
+        toast.success(PRODUCT_STATUS_MESSAGES.AUCTION_STOPPED);
       }
     } catch (error) {
       toast.error(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
