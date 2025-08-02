@@ -13,7 +13,7 @@ import {
   MdMyLocation,
 } from 'react-icons/md';
 import { PiMagnifyingGlassBold, PiExport, PiExportFill, PiUser, PiUserFill } from 'react-icons/pi';
-import { IoSend, IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
+import { IoSend, IoSettingsOutline, IoSettingsSharp, IoWarningOutline } from 'react-icons/io5';
 
 export const ICONS = {
   ArrowDown: FaAngleDown,
@@ -64,4 +64,6 @@ export const ICONS = {
 
   Setting: IoSettingsOutline,
   SettingFill: IoSettingsSharp,
+
+  Warning: IoWarningOutline,
 };
