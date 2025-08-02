@@ -6,10 +6,9 @@ interface SalesEmptyStateProps {
 }
 
 const EMPTY_MESSAGES = {
-  [PRODUCT_STATUS.READY]: '준비중인 경매가 없습니다.',
   [PRODUCT_STATUS.ACTIVE]: '진행중인 경매가 없습니다.',
   [PRODUCT_STATUS.SOLD]: '낙찰된 상품이 없습니다.',
-  [PRODUCT_STATUS.CANCEL]: '취소된 상품이 없습니다.',
+  [PRODUCT_STATUS.CANCEL]: '중지된 상품이 없습니다.',
 } as const;
 
 const SalesEmptyState = ({ status }: SalesEmptyStateProps) => {

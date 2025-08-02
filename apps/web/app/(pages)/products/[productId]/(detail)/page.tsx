@@ -15,6 +15,7 @@ import {
   ProductDescription,
   ProductFooter,
   UserInfoLayout,
+  StatusActionButton,
 } from '@/components/product-detail';
 
 interface ProductDetailPageParams {
@@ -65,7 +66,13 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   const productId = parseInt(productIdParam);
 
   const authResult = await getAuthenticatedUser();
-  const userId = authResult.success ? authResult.userId : null;
+
+  // 인증 실패 시 404 페이지로 이동, 추후 인증 처리 및 userId 쿠키로 처리하면 수정 필요
+  if (!authResult.success || !authResult.userId) {
+    notFound();
+  }
+
+  const userId = authResult.userId;
 
   const [product, isLiked] = await Promise.all([
     getCachedProductDetail(productId),
@@ -96,6 +103,15 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
           minPrice={product.min_price}
           createdAt={product.created_at}
         />
+        <div className="flex justify-end mt-md">
+          <StatusActionButton
+            productId={product.product_id}
+            productTitle={product.title}
+            currentStatus={product.status}
+            sellerUserId={product.seller_user_id}
+            currentUserId={userId}
+          />
+        </div>
         <ProductDescription description={product.description} />
       </div>
       <ProductFooter

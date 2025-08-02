@@ -1,6 +1,6 @@
 import { Badge } from '@repo/ui/components';
 
-import { PRODUCT_STATUS } from '@/constants';
+import { PRODUCT_STATUS, PRODUCT_STATUS_LABELS } from '@/constants';
 import type { ProductStatus } from '@/types';
 interface ProductBadgeProps {
   status: ProductStatus;
@@ -8,25 +8,20 @@ interface ProductBadgeProps {
 }
 
 const MAP = {
-  [PRODUCT_STATUS.READY]: {
-    color: 'primary',
-    variant: 'inverted',
-    label: '경매 전',
-  },
   [PRODUCT_STATUS.ACTIVE]: {
     color: 'primary',
     variant: 'fulled',
-    label: '경매 중',
+    label: PRODUCT_STATUS_LABELS[PRODUCT_STATUS.ACTIVE],
   },
   [PRODUCT_STATUS.SOLD]: {
     color: 'disabled',
     variant: 'fulled',
-    label: '경매 종료',
+    label: PRODUCT_STATUS_LABELS[PRODUCT_STATUS.SOLD],
   },
   [PRODUCT_STATUS.CANCEL]: {
     color: 'disabled',
     variant: 'fulled',
-    label: '취소',
+    label: PRODUCT_STATUS_LABELS[PRODUCT_STATUS.CANCEL],
   },
 } as const;
 
