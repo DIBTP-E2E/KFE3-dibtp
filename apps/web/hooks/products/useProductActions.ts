@@ -1,5 +1,6 @@
 'use client';
 
+import { toast } from '@repo/ui/utils';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { MY_PRODUCTS_QUERY_KEY, PRODUCT_STATUS_MESSAGES } from '@web/constants';
@@ -34,7 +35,8 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
     try {
       await shareProduct(productId, title);
     } catch (error) {
-      console.error('공유 실패:', error);
+      toast.error('공유에 실패하였습니다. 다시 시도해주세요.');
+      if (process.env.NODE_ENV === 'development') console.error('공유 실패:', error);
       throw error;
     }
   };
@@ -47,7 +49,8 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
         await invalidateQueries();
       }
     } catch (error) {
-      console.error('삭제 실패:', error);
+      toast.error('상품 삭제에 실패하였습니다. 다시 시도해주세요.');
+      if (process.env.NODE_ENV === 'development') console.error('삭제 실패:', error);
       throw error;
     }
   };
@@ -57,7 +60,8 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
       await startAuction(productId);
       await invalidateQueries();
     } catch (error) {
-      console.log(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
+      toast.error(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
+      if (process.env.NODE_ENV === 'development') console.error('경매 시작 실패:', error);
       throw error;
     }
   };
@@ -70,7 +74,8 @@ export const useProductActions = ({ productId, title }: UseProductActionsProps) 
         await invalidateQueries();
       }
     } catch (error) {
-      console.log(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
+      toast.error(PRODUCT_STATUS_MESSAGES.STATUS_CHANGE_FAILED);
+      if (process.env.NODE_ENV === 'development') console.error('경매 중지 실패:', error);
       throw error;
     }
   };
