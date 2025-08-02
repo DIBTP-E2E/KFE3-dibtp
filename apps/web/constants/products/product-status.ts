@@ -1,6 +1,5 @@
 // 상품 상태 상수 (schema의 enum 값들)
 export const PRODUCT_STATUS = {
-  READY: 'READY',
   ACTIVE: 'ACTIVE',
   SOLD: 'SOLD',
   CANCEL: 'CANCEL',
