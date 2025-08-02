@@ -50,7 +50,7 @@ const ProfileImageForm = ({
         aria-label="프로필 사진 업데이트하기"
       >
         <Avatar src={previewUrl} alt="프로필 이미지" size="max" />
-        <div className="absolute bottom-[var(--space-md)] right-[var(--space-md)] flex items-center justify-center w-10 h-10 bg-bg-dark text-text-inverse rounded-full pointer-events-none">
+        <div className="absolute bottom-[var(--space-sm)] right-[var(--space-sm)] flex items-center justify-center w-10 h-10 bg-bg-dark text-text-inverse rounded-full pointer-events-none">
           <Icon name="Photo" size="md" color="inverse" />
         </div>
         <input
