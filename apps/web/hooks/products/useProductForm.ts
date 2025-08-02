@@ -117,8 +117,8 @@ export function useProductForm(options: UseProductFormOptions) {
   }, []);
 
   // 공통 제출 핸들러
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
+  // 실제 제출 로직을 별도 함수로 분리
+  const submitForm = async (): Promise<void> => {
     setIsSubmitting(true);
     setErrors({});
 
@@ -171,6 +171,12 @@ export function useProductForm(options: UseProductFormOptions) {
     }
   };
 
+  // 폼 이벤트 핸들러
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+    await submitForm();
+  };
+
   // 폼 리셋
   const resetForm = useCallback(() => {
     if (options.mode === 'edit' && options.productData) {
@@ -198,6 +204,7 @@ export function useProductForm(options: UseProductFormOptions) {
     handleInputChange,
     handleImagesChange,
     handleSubmit,
+    submitForm,
     resetForm,
     // 수정 모드에서만 사용되는 속성들
     ...(options.mode === 'edit' && {
