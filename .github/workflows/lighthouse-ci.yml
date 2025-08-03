@@ -105,8 +105,10 @@ jobs:
         with:
           chrome-version: stable
 
-      - name: 🔧 Install Lighthouse CI
-        run: npm install -g @lhci/cli@0.15.x
+      - name: 🔧 Install Lighthouse CI and Puppeteer
+        run: |
+          npm install -g @lhci/cli@0.15.x
+          npm install -g puppeteer@24.15.0
 
       - name: 🔍 Run Lighthouse CI
         run: |
