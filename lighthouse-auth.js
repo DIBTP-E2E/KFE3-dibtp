@@ -57,8 +57,8 @@ module.exports = async (browser, context) => {
       timeout: 30000,
     });
 
-    // 페이지 로딩 완료 대기
-    await page.waitForTimeout(3000);
+    // 페이지 로딩 완료 대기 (Puppeteer 호환성)
+    await new Promise(resolve => setTimeout(resolve, 3000));
     
     // 페이지 상태 확인
     const currentUrl = page.url();
@@ -180,7 +180,7 @@ module.exports = async (browser, context) => {
 
       // 위치 설정 로직 (필요시 구현)
       // 여기서는 간단히 넘어가기
-      await page.waitForTimeout(2000);
+      await new Promise(resolve => setTimeout(resolve, 2000));
     }
   } catch (error) {
     console.error('❌ Auto-login failed:', error.message);
