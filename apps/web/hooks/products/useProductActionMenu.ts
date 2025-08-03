@@ -31,6 +31,12 @@ export const useProductActionMenu = ({ status, handlers = {} }: UseProductAction
             onClick: handleStopAuction,
           });
         }
+        if (handleShare) {
+          actions.push({
+            label: PRODUCT_STATUS_ACTION_LABELS.SHARE_PRODUCT,
+            onClick: handleShare,
+          });
+        }
         break;
 
       case PRODUCT_STATUS.CANCEL:
@@ -54,14 +60,6 @@ export const useProductActionMenu = ({ status, handlers = {} }: UseProductAction
           });
         }
         break;
-    }
-
-    // 공유하기는 항상 마지막에 추가 (있는 경우)
-    if (handleShare) {
-      actions.push({
-        label: PRODUCT_STATUS_ACTION_LABELS.SHARE_PRODUCT,
-        onClick: handleShare,
-      });
     }
 
     return actions;
