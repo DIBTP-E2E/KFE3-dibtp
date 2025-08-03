@@ -90,10 +90,10 @@ module.exports = {
         chromePath: process.env.CHROME_PATH,
 
         /**
-         * 모바일 디바이스 기준 측정
-         * desktop, mobile 중 선택 가능 (PWA는 주로 모바일에서 사용)
+         * 성능 측정 프리셋 (모바일 환경 시뮬레이션)
+         * perf: 성능 중심 측정, desktop: 데스크톱 환경, experimental: 실험적 기능
          */
-        preset: 'mobile',
+        preset: 'perf',
 
         /**
          * Chrome 브라우저 실행 옵션 (CI 환경 최적화)
@@ -109,10 +109,21 @@ module.exports = {
         ],
 
         /**
-         * 디바이스 시뮬레이션 설정
+         * 디바이스 시뮬레이션 설정 (모바일 PWA 측정)
          * mobile: 모바일 디바이스, desktop: 데스크톱
          */
         emulatedFormFactor: 'mobile',
+        
+        /**
+         * 모바일 환경 시뮬레이션을 위한 추가 설정
+         */
+        screenEmulation: {
+          mobile: true,
+          width: 375,
+          height: 667,
+          deviceScaleFactor: 2,
+          disabled: false,
+        },
 
         /**
          * 측정할 Lighthouse 카테고리 지정
