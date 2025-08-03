@@ -100,16 +100,18 @@ module.exports = {
 
         /**
          * Chrome 브라우저 실행 옵션 (CI 환경 최적화)
+         * 주의: puppeteerScript 사용 시 chromeFlags는 무시됨
+         * 실제 설정은 puppeteerLaunchOptions.args에서 처리됨
          */
-        chromeFlags: [
-          '--no-sandbox',                    // 샌드박스 비활성화 (CI 환경 필수)
-          '--disable-dev-shm-usage',         // /dev/shm 사용 안함 (메모리 부족 방지)
-          '--disable-gpu',                   // GPU 가속 비활성화 (headless 환경)
-          '--headless',                      // 헤드리스 모드 (UI 없이 실행)
-          '--no-first-run',                  // 첫 실행 설정 건너뛰기
-          '--no-zygote',                     // zygote 프로세스 비활성화 (안정성)
-          '--single-process',                // 단일 프로세스 모드 (CI 안정성)
-        ],
+        // chromeFlags: [  // puppeteerScript와 함께 사용할 때 무시됨
+        //   '--no-sandbox',
+        //   '--disable-dev-shm-usage',
+        //   '--disable-gpu',
+        //   '--headless',
+        //   '--no-first-run',
+        //   '--no-zygote',
+        //   '--single-process',
+        // ],
 
         /**
          * 디바이스 시뮬레이션 설정 (모바일 PWA 측정)

@@ -162,20 +162,20 @@ module.exports = async (browser, context) => {
     console.log('✅ Login button clicked successfully');
 
     // 로그인 성공 확인 (URL 또는 특정 요소 확인)
-    const currentUrl = page.url();
-    if (currentUrl.includes('/login')) {
+    const finalUrl = page.url();
+    if (finalUrl.includes('/login')) {
       throw new Error('Login failed - still on login page');
     }
 
     console.log('🎉 Auto-login successful!');
-    console.log(`📍 Current URL: ${currentUrl}`);
+    console.log(`📍 Final URL: ${finalUrl}`);
 
     // 세션 쿠키 추출
     const cookies = await page.cookies();
     console.log(`🍪 Extracted ${cookies.length} cookies for session persistence`);
 
     // 위치 설정이 필요한 경우 처리
-    if (currentUrl.includes('/location')) {
+    if (finalUrl.includes('/location')) {
       console.log('📍 Location setup required, handling...');
 
       // 위치 설정 로직 (필요시 구현)
