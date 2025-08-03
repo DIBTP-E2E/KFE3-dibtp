@@ -110,12 +110,16 @@ jobs:
           # Lighthouse CI 전역 설치
           npm install -g @lhci/cli@0.15.x
           
-          # 프로젝트 루트에 Puppeteer 설치 (lighthouse-auth.js에서 사용)
-          npm install puppeteer@24.15.0
+          # 프로젝트 루트에 package.json 생성 (npm 오류 방지)
+          echo '{"name": "lighthouse-ci-temp", "version": "1.0.0"}' > package.json
+          
+          # npm 캐시 클리어 및 Puppeteer 설치
+          npm cache clean --force
+          npm install puppeteer@24.15.0 --no-package-lock
           
           # 설치 확인
           ls -la node_modules/puppeteer/ || echo "Puppeteer not found in node_modules"
-          npm list puppeteer || echo "Puppeteer not in npm list"
+          node -e "console.log('Puppeteer test:', require('puppeteer'))" || echo "Puppeteer require failed"
 
       - name: 🔍 Run Lighthouse CI
         run: |
