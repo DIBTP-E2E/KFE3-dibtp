@@ -100,43 +100,26 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: 🌐 Setup Chrome
-        uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: stable
-
-      - name: 🔧 Install Lighthouse CI and Puppeteer
+      - name: 🔧 Install Lighthouse CI with Puppeteer
         run: |
-          # Lighthouse CI 전역 설치
-          npm install -g @lhci/cli@0.15.x
-          
-          # 프로젝트 루트에 package.json 생성 (npm 오류 방지)
-          echo '{"name": "lighthouse-ci-temp", "version": "1.0.0"}' > package.json
-          
-          # npm 캐시 클리어 및 Puppeteer 설치
-          npm cache clean --force
-          npm install puppeteer@24.15.0 --no-package-lock
+          # 모범 사례: puppeteer와 함께 lighthouse-ci 설치
+          npm init -y
+          npm install --save puppeteer@24.15.0 @lhci/cli@0.15.x
           
           # 설치 확인
-          ls -la node_modules/puppeteer/ || echo "Puppeteer not found in node_modules"
-          node -e "console.log('Puppeteer test:', require('puppeteer'))" || echo "Puppeteer require failed"
+          npx lhci --version
+          node -e "console.log('Puppeteer Chrome path:', require('puppeteer').executablePath())"
 
       - name: 🔍 Run Lighthouse CI
         run: |
-          # Chrome 경로 설정
-          export CHROME_PATH="/opt/hostedtoolcache/setup-chrome/chromium/stable/x64/chrome"
-          echo "Chrome path: $CHROME_PATH"
+          # Puppeteer Chrome 경로 확인
+          node -e "console.log('Using Chrome at:', require('puppeteer').executablePath())"
           
-          # Chrome 실행 가능 여부 확인
-          $CHROME_PATH --version
-          
-          # Lighthouse CI 실행
-          lhci autorun
+          # Lighthouse CI 실행 (npx로 로컬 설치된 버전 사용)
+          npx lhci autorun
         env:
           # Lighthouse CI가 GitHub PR에 코멘트를 달 수 있도록
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Chrome 경로 명시적 지정
-          CHROME_PATH: /opt/hostedtoolcache/setup-chrome/chromium/stable/x64/chrome
 
       - name: 📊 Upload Lighthouse reports
         uses: actions/upload-artifact@v4

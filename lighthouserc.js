@@ -74,14 +74,20 @@ module.exports = {
       },
 
       /**
+       * 세션 유지 설정 (인증 상태 보존)
+       * 로그인 후 쿠키와 localStorage 등을 유지
+       */
+      disableStorageReset: true,
+
+      /**
        * Lighthouse 실행 설정 (모바일 PWA 중심)
        */
       settings: {
         /**
-         * Chrome 브라우저 경로 (GitHub Actions 환경)
-         * browser-actions/setup-chrome@v1에서 설치되는 경로
+         * Chrome 브라우저 경로 (Puppeteer 번들된 Chrome 사용)
+         * 모범 사례: Puppeteer의 executablePath() 사용
          */
-        chromePath: process.env.CHROME_PATH || '/opt/hostedtoolcache/setup-chrome/chromium/stable/x64/chrome',
+        chromePath: require('puppeteer').executablePath(),
 
         /**
          * 모바일 디바이스 기준 측정
