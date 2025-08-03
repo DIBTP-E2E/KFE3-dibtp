@@ -45,8 +45,11 @@ module.exports = {
       /**
        * GitHub Actions에서 빌드된 정적 파일 경로 지정
        * Next.js 빌드 결과물(.next 폴더)을 직접 분석하여 더 정확한 성능 측정
+       * 
+       * 주의: staticDistDir과 startServerCommand는 함께 사용할 수 없음
+       * 현재는 이미 실행 중인 서버(포트 3001)를 사용하므로 staticDistDir 비활성화
        */
-      staticDistDir: './apps/web/.next',
+      // staticDistDir: './apps/web/.next',
 
       /**
        * 인증이 필요한 페이지 측정을 위한 자동 로그인 스크립트
@@ -155,11 +158,12 @@ module.exports = {
       numberOfRuns: 3,
 
       /**
-       * 서버 시작 대기 설정
-       * GitHub Actions에서 서버가 완전히 시작될 때까지 대기
+       * 서버 시작 설정 비활성화
+       * 이미 실행 중인 Next.js 서버(포트 3001)를 사용하므로
+       * Lighthouse CI가 별도 서버를 시작하지 않도록 설정
        */
-      startServerReadyPattern: 'ready',      // 'ready' 문자열 감지 시 시작
-      startServerReadyTimeout: 30000,        // 최대 30초 대기
+      // startServerReadyPattern: 'ready',      // 자체 서버 시작 비활성화
+      // startServerReadyTimeout: 30000,        // 자체 서버 시작 비활성화
     },
     /**
      * 성능 임계값 설정 (PWA 및 모바일 최적화 중심)
