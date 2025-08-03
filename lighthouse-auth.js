@@ -68,6 +68,38 @@ module.exports = async (browser, context) => {
     const pageTitle = await page.title();
     console.log(`📄 Page title: ${pageTitle}`);
 
+    // HTML 구조 디버깅
+    const bodyText = await page.evaluate(() => document.body.innerText.substring(0, 500));
+    console.log(`📄 Page content (first 500 chars): ${bodyText}`);
+    
+    // 모든 input 태그 확인
+    const allInputs = await page.evaluate(() => {
+      const inputs = Array.from(document.querySelectorAll('input'));
+      return inputs.map(input => ({
+        type: input.type,
+        name: input.name,
+        placeholder: input.placeholder,
+        className: input.className,
+        id: input.id
+      }));
+    });
+    console.log('🔍 All input elements found:', JSON.stringify(allInputs, null, 2));
+
+    // 폼 요소 확인
+    const formCount = await page.evaluate(() => document.querySelectorAll('form').length);
+    console.log(`📝 Number of forms found: ${formCount}`);
+
+    // 디버깅용 스크린샷 캡처 (에러 발생 전)
+    try {
+      await page.screenshot({
+        path: './lighthouse-debug-before-login.png',
+        fullPage: true,
+      });
+      console.log('📸 Debug screenshot saved: lighthouse-debug-before-login.png');
+    } catch (screenshotError) {
+      console.log('📸 Debug screenshot failed:', screenshotError.message);
+    }
+
     // 이메일 입력 (더 안정적인 방법)
     console.log('📧 Looking for email input...');
     
