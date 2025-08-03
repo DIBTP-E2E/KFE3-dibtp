@@ -44,7 +44,18 @@ module.exports = async (browser, context) => {
   const TEST_PASSWORD = process.env.LIGHTHOUSE_TEST_PASSWORD || '123456';
   const BASE_URL = process.env.LOCAL_BASE_URL || 'http://localhost:3001';
 
-  console.log('🔑 Starting auto-login for Lighthouse CI...');
+  // 현재 측정하려는 URL 확인
+  const targetUrl = context.url;
+  console.log(`🔑 Auto-login script called for URL: ${targetUrl}`);
+
+  // 로그인/회원가입 페이지는 인증 없이 측정
+  if (targetUrl.includes('/login') || targetUrl.includes('/signup')) {
+    console.log('📋 Public page detected - skipping authentication');
+    console.log('🚀 Auto-login script completed (no auth needed)');
+    return;
+  }
+
+  console.log('🔑 Private page detected - starting auto-login...');
 
   // 새 페이지 열기
   const page = await browser.newPage();

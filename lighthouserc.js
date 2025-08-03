@@ -16,14 +16,14 @@
 module.exports = {
   ci: {
     collect: {
-      // 성능 측정 대상 페이지들 (핵심 사용자 플로우 중심)
+      // 성능 측정 대상 페이지들 (측정 순서 최적화)
       url: [
-        // === 공개 페이지 (인증 불필요) ===
-        'http://localhost:3001/login', // 로그인 페이지
-        'http://localhost:3001/signup', // 회원가입 페이지
+        // === 공개 페이지 (인증 전 먼저 측정) ===
+        'http://localhost:3001/login', // 로그인 페이지 - 인증 전 측정
+        'http://localhost:3001/signup', // 회원가입 페이지 - 인증 전 측정
 
-        // === 핵심 플로우 페이지 (인증 필요) ===
-        'http://localhost:3001/', // 홈페이지 - 메인 랜딩 및 상품 목록
+        // === 핵심 플로우 페이지 (인증 후 측정) ===
+        'http://localhost:3001/', // 홈페이지 - 자동 로그인 후 측정
         'http://localhost:3001/search?keyword=아이폰', // 검색 페이지 - 실제 키워드로 검색 결과
         'http://localhost:3001/products/register', // 상품 등록 - 폼 렌더링 성능 (초기 로딩)
         'http://localhost:3001/products/170', // 상품 상세 - 임의 상품 선택
