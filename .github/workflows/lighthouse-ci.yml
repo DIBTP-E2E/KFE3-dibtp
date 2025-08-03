@@ -100,26 +100,35 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: 🔧 Install Lighthouse CI
+      - name: 🔧 Install Lighthouse CI and Debug Puppeteer
         run: |
-          # Lighthouse CI만 전역 설치 (puppeteer는 apps/web에 이미 있음)
+          # Lighthouse CI 전역 설치
           npm install -g @lhci/cli@0.15.x
-          
-          # 설치 확인
           lhci --version
           
-          # apps/web의 puppeteer 사용을 위한 심볼릭 링크
-          ln -sf ./apps/web/node_modules/puppeteer ./node_modules/puppeteer 2>/dev/null || echo "Symlink failed, will use direct path"
+          # Puppeteer 상황 디버깅
+          echo "🔍 Debugging Puppeteer installation..."
+          echo "Current directory: $(pwd)"
+          echo "Checking apps/web/node_modules:"
+          ls -la apps/web/node_modules/ | grep puppeteer || echo "❌ No puppeteer in apps/web/node_modules"
           
-          # Puppeteer 경로 확인
-          node -e "
-            try {
+          echo "Checking if puppeteer package exists:"
+          if [ -d "apps/web/node_modules/puppeteer" ]; then
+            echo "✅ apps/web/node_modules/puppeteer exists"
+            ls -la apps/web/node_modules/puppeteer/
+            
+            # Puppeteer Chrome 경로 확인
+            node -e "
               const puppeteer = require('./apps/web/node_modules/puppeteer');
-              console.log('Puppeteer Chrome path:', puppeteer.executablePath());
-            } catch (e) {
-              console.log('Puppeteer not found in apps/web, error:', e.message);
-            }
-          "
+              console.log('✅ Puppeteer Chrome path:', puppeteer.executablePath());
+            " || echo "❌ Failed to get Chrome path from apps/web puppeteer"
+          else
+            echo "❌ apps/web/node_modules/puppeteer does not exist"
+            echo "Installing puppeteer in project root..."
+            npm init -y
+            npm install puppeteer@24.15.0
+            node -e "console.log('✅ Root Puppeteer Chrome path:', require('puppeteer').executablePath());"
+          fi
 
       - name: 🔍 Run Lighthouse CI
         run: |
