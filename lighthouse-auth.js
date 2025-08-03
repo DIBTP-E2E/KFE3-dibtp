@@ -50,10 +50,35 @@ module.exports = async (browser, context) => {
   const page = await browser.newPage();
 
   try {
-    // 로그인 페이지로 이동 (더 관대한 설정)
-    console.log('📱 Navigating to login page...');
+    // 먼저 현재 상태 확인 (이미 로그인되어 있는지 체크)
+    console.log('🔍 Checking current authentication status...');
+    await page.goto(`${BASE_URL}/`, {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000,
+    });
+
+    // 페이지 로딩 대기
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const homeUrl = page.url();
+    console.log(`📍 Home page URL: ${homeUrl}`);
+
+    // 이미 로그인되어 있는지 확인 (홈페이지에 정상 접근되면 로그인됨)
+    if (homeUrl.includes(BASE_URL) && !homeUrl.includes('/login')) {
+      console.log('✅ Already logged in, skipping login process');
+      
+      // 세션 쿠키 확인
+      const cookies = await page.cookies();
+      console.log(`🍪 Existing session: ${cookies.length} cookies found`);
+      
+      console.log('🚀 Auto-login script completed (already authenticated)');
+      return;
+    }
+
+    // 로그인이 필요한 경우에만 로그인 진행
+    console.log('📱 Login required, navigating to login page...');
     await page.goto(`${BASE_URL}/login`, {
-      waitUntil: 'domcontentloaded',  // networkidle2보다 빠름
+      waitUntil: 'domcontentloaded',
       timeout: 30000,
     });
 
@@ -62,7 +87,7 @@ module.exports = async (browser, context) => {
     
     // 페이지 상태 확인
     const currentUrl = page.url();
-    console.log(`📍 Current page URL: ${currentUrl}`);
+    console.log(`📍 Login page URL: ${currentUrl}`);
     
     // 페이지 HTML 스크린샷 및 디버깅
     const pageTitle = await page.title();
