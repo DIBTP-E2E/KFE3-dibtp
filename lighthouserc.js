@@ -55,6 +55,25 @@ module.exports = {
       puppeteerScript: './lighthouse-auth.js',
 
       /**
+       * Puppeteer 실행 옵션 (puppeteerScript 사용 시 chromeFlags 대신 사용)
+       * GitHub Actions 환경에서 Chrome 실행을 위한 필수 플래그들
+       */
+      puppeteerLaunchOptions: {
+        args: [
+          '--no-sandbox',                    // 샌드박스 비활성화 (CI 환경 필수)
+          '--disable-dev-shm-usage',         // /dev/shm 사용 안함 (메모리 부족 방지)
+          '--disable-gpu',                   // GPU 가속 비활성화 (headless 환경)
+          '--headless',                      // 헤드리스 모드 (UI 없이 실행)
+          '--no-first-run',                  // 첫 실행 설정 건너뛰기
+          '--no-zygote',                     // zygote 프로세스 비활성화 (안정성)
+          '--single-process',                // 단일 프로세스 모드 (CI 안정성)
+          '--disable-setuid-sandbox',        // SUID 샌드박스 비활성화 (권한 문제 해결)
+          '--disable-web-security',          // 웹 보안 비활성화 (테스트 환경)
+          '--disable-features=VizDisplayCompositor', // Viz 디스플레이 컴포지터 비활성화
+        ],
+      },
+
+      /**
        * Lighthouse 실행 설정 (모바일 PWA 중심)
        */
       settings: {
