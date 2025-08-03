@@ -110,10 +110,20 @@ jobs:
 
       - name: 🔍 Run Lighthouse CI
         run: |
+          # Chrome 경로 설정
+          export CHROME_PATH="/opt/hostedtoolcache/setup-chrome/chromium/stable/x64/chrome"
+          echo "Chrome path: $CHROME_PATH"
+          
+          # Chrome 실행 가능 여부 확인
+          $CHROME_PATH --version
+          
+          # Lighthouse CI 실행
           lhci autorun
         env:
           # Lighthouse CI가 GitHub PR에 코멘트를 달 수 있도록
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Chrome 경로 명시적 지정
+          CHROME_PATH: /opt/hostedtoolcache/setup-chrome/chromium/stable/x64/chrome
 
       - name: 📊 Upload Lighthouse reports
         uses: actions/upload-artifact@v4
