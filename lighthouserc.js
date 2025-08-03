@@ -84,21 +84,10 @@ module.exports = {
        */
       settings: {
         /**
-         * Chrome 브라우저 경로 (Puppeteer 번들된 Chrome 사용)
-         * apps/web의 puppeteer 설치 버전 사용
+         * Chrome 브라우저 경로 (환경변수에서 설정)
+         * GitHub Actions에서 Puppeteer 경로를 환경변수로 전달받음
          */
-        chromePath: (() => {
-          try {
-            return require('./apps/web/node_modules/puppeteer').executablePath();
-          } catch (e) {
-            try {
-              return require('puppeteer').executablePath();
-            } catch (e2) {
-              console.warn('⚠️ Puppeteer not found, Chrome path may not be set correctly');
-              return undefined;
-            }
-          }
-        })(),
+        chromePath: process.env.CHROME_PATH,
 
         /**
          * 모바일 디바이스 기준 측정
