@@ -100,23 +100,41 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: 🔧 Install Lighthouse CI with Puppeteer
+      - name: 🔧 Install Lighthouse CI
         run: |
-          # 모범 사례: puppeteer와 함께 lighthouse-ci 설치
-          npm init -y
-          npm install --save puppeteer@24.15.0 @lhci/cli@0.15.x
+          # Lighthouse CI만 전역 설치 (puppeteer는 apps/web에 이미 있음)
+          npm install -g @lhci/cli@0.15.x
           
           # 설치 확인
-          npx lhci --version
-          node -e "console.log('Puppeteer Chrome path:', require('puppeteer').executablePath())"
+          lhci --version
+          
+          # apps/web의 puppeteer 사용을 위한 심볼릭 링크
+          ln -sf ./apps/web/node_modules/puppeteer ./node_modules/puppeteer 2>/dev/null || echo "Symlink failed, will use direct path"
+          
+          # Puppeteer 경로 확인
+          node -e "
+            try {
+              const puppeteer = require('./apps/web/node_modules/puppeteer');
+              console.log('Puppeteer Chrome path:', puppeteer.executablePath());
+            } catch (e) {
+              console.log('Puppeteer not found in apps/web, error:', e.message);
+            }
+          "
 
       - name: 🔍 Run Lighthouse CI
         run: |
           # Puppeteer Chrome 경로 확인
-          node -e "console.log('Using Chrome at:', require('puppeteer').executablePath())"
+          node -e "
+            try {
+              const puppeteer = require('./apps/web/node_modules/puppeteer');
+              console.log('Using Chrome at:', puppeteer.executablePath());
+            } catch (e) {
+              console.log('Chrome path detection failed:', e.message);
+            }
+          "
           
-          # Lighthouse CI 실행 (npx로 로컬 설치된 버전 사용)
-          npx lhci autorun
+          # Lighthouse CI 실행 (전역 설치된 버전 사용)
+          lhci autorun
         env:
           # Lighthouse CI가 GitHub PR에 코멘트를 달 수 있도록
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}

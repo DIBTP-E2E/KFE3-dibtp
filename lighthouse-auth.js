@@ -24,7 +24,19 @@
  * 사용법: lighthouserc.js에서 puppeteerScript로 자동 실행
  */
 
-const puppeteer = require('puppeteer');
+// Puppeteer 모듈 로드 (apps/web의 설치된 버전 사용)
+let puppeteer;
+try {
+  puppeteer = require('./apps/web/node_modules/puppeteer');
+  console.log('✅ Using Puppeteer from apps/web/node_modules');
+} catch (e) {
+  try {
+    puppeteer = require('puppeteer');
+    console.log('✅ Using Puppeteer from global/local installation');
+  } catch (e2) {
+    throw new Error('❌ Puppeteer not found. Please install puppeteer in apps/web or globally.');
+  }
+}
 
 module.exports = async (browser, context) => {
   // 테스트용 계정 정보 (GitHub Secrets에서 환경변수로 전달됨)
