@@ -59,6 +59,12 @@ module.exports = {
        */
       settings: {
         /**
+         * Chrome 브라우저 경로 (GitHub Actions 환경)
+         * browser-actions/setup-chrome@v1에서 설치되는 경로
+         */
+        chromePath: process.env.CHROME_PATH || '/opt/hostedtoolcache/setup-chrome/chromium/stable/x64/chrome',
+
+        /**
          * 모바일 디바이스 기준 측정
          * desktop, mobile 중 선택 가능 (PWA는 주로 모바일에서 사용)
          */
