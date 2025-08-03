@@ -1,0 +1,141 @@
+name: Lighthouse CI Performance Monitoring
+
+# 성능 측정 자동화: PR 생성 시 자동으로 성능 측정 실행
+# 프로덕션 Supabase DB를 사용하여 실제 데이터 기반 성능 테스트
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/web/**'           # 웹 앱 코드 변경 시
+      - 'lighthouserc.js'       # Lighthouse 설정 변경 시
+      - 'lighthouse-auth.js'    # 자동 로그인 스크립트 변경 시
+
+jobs:
+  lighthouse-ci:
+    runs-on: ubuntu-latest
+
+    env:
+      # Lighthouse CI 테스트용 환경변수
+      LIGHTHOUSE_TEST_EMAIL: ${{ secrets.LIGHTHOUSE_TEST_EMAIL }}
+      LIGHTHOUSE_TEST_PASSWORD: ${{ secrets.LIGHTHOUSE_TEST_PASSWORD }}
+      LIGHTHOUSE_BASE_URL: http://localhost:3001
+
+      # Supabase 프로덕션 DB 설정
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+      # Supabase 프로덕션 Database 연결 (Connection Pooling)
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      # GitHub 토큰 (PR 코멘트용)
+      LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: 📥 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🏗️ Build applications
+        run: |
+          pnpm run build
+        env:
+          NODE_ENV: production
+
+      - name: 🗄️ Generate Prisma client
+        run: |
+          # 프로덕션 DB 연결을 위한 Prisma 클라이언트 생성
+          cd apps/web
+          pnpm postinstall
+
+      - name: 🚀 Start application server
+        run: |
+          cd apps/web
+          pnpm start &
+
+          # 서버 시작 대기
+          timeout 60s bash -c 'until curl -f http://localhost:3001/api/health; do sleep 2; done'
+        env:
+          NODE_ENV: production
+
+      - name: 🔧 Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.15.x
+
+      - name: 🔍 Run Lighthouse CI
+        run: |
+          lhci autorun
+        env:
+          # Lighthouse CI가 GitHub PR에 코멘트를 달 수 있도록
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📊 Upload Lighthouse reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: |
+            .lighthouseci/
+            lighthouse-login-error.png
+          retention-days: 7
+
+      - name: 💬 Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            // Lighthouse 결과 파일 찾기
+            const resultsDir = '.lighthouseci';
+            if (fs.existsSync(resultsDir)) {
+              const files = fs.readdirSync(resultsDir);
+              const manifestFile = files.find(f => f.includes('manifest.json'));
+              
+              if (manifestFile) {
+                const manifest = JSON.parse(
+                  fs.readFileSync(path.join(resultsDir, manifestFile), 'utf8')
+                );
+                
+                let comment = '## 🚀 Lighthouse CI Performance Report\n\n';
+                comment += '| Page | Performance | PWA | Accessibility | Best Practices | SEO |\n';
+                comment += '|------|-------------|-----|---------------|----------------|-----|\n';
+                
+                manifest.forEach(result => {
+                  const scores = result.summary;
+                  const url = new URL(result.url).pathname;
+                  comment += `| ${url} | ${Math.round(scores.performance * 100)} | ${Math.round(scores.pwa * 100)} | ${Math.round(scores.accessibility * 100)} | ${Math.round(scores['best-practices'] * 100)} | ${Math.round(scores.seo * 100)} |\n`;
+                });
+                
+                comment += '\n📊 [View detailed report](' + manifest[0].htmlPath + ')';
+                
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: comment
+                });
+              }
+            }
+
+      - name: 🧹 Cleanup
+        if: always()
+        run: |
+          # 서버 프로세스 종료
+          pkill -f "next start" || true
+          pkill -f "node" || true
