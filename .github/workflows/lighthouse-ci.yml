@@ -64,10 +64,39 @@ jobs:
       - name: 🚀 Start application server
         run: |
           cd apps/web
+          echo "🚀 Starting Next.js production server..."
+          
+          # 서버 시작 (로그 출력)
           pnpm start &
-
-          # 서버 시작 대기
-          timeout 60s bash -c 'until curl -f http://localhost:3001/api/health; do sleep 2; done'
+          SERVER_PID=$!
+          echo "📝 Server PID: $SERVER_PID"
+          
+          # 포트 확인
+          echo "🔍 Checking if port 3001 is available..."
+          netstat -tulpn | grep :3001 || echo "Port 3001 not in use yet"
+          
+          # 서버 시작 대기 (더 긴 간격, 더 긴 타임아웃)
+          echo "⏳ Waiting for server to be ready..."
+          sleep 10  # 초기 대기
+          
+          for i in {1..20}; do
+            echo "🔍 Attempt $i: Checking server health..."
+            if curl -f http://localhost:3001/api/health; then
+              echo "✅ Server is ready!"
+              break
+            fi
+            
+            if [ $i -eq 20 ]; then
+              echo "❌ Server failed to start after 20 attempts"
+              echo "📊 Process status:"
+              ps aux | grep node
+              echo "📊 Port status:"
+              netstat -tulpn | grep :3001
+              exit 1
+            fi
+            
+            sleep 5
+          done
         env:
           NODE_ENV: production
 
