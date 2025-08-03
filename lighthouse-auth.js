@@ -50,32 +50,116 @@ module.exports = async (browser, context) => {
   const page = await browser.newPage();
 
   try {
-    // 로그인 페이지로 이동
+    // 로그인 페이지로 이동 (더 관대한 설정)
     console.log('📱 Navigating to login page...');
     await page.goto(`${BASE_URL}/login`, {
-      waitUntil: 'networkidle2',
+      waitUntil: 'domcontentloaded',  // networkidle2보다 빠름
       timeout: 30000,
     });
 
-    // 이메일 입력
-    console.log('📧 Entering email...');
-    await page.waitForSelector('input[type="email"]', { timeout: 10000 });
-    await page.type('input[type="email"]', TEST_EMAIL);
+    // 페이지 로딩 완료 대기
+    await page.waitForTimeout(3000);
+    
+    // 페이지 상태 확인
+    const currentUrl = page.url();
+    console.log(`📍 Current page URL: ${currentUrl}`);
+    
+    // 페이지 HTML 스크린샷 및 디버깅
+    const pageTitle = await page.title();
+    console.log(`📄 Page title: ${pageTitle}`);
 
-    // 비밀번호 입력
-    console.log('🔒 Entering password...');
-    await page.waitForSelector('input[type="password"]', { timeout: 10000 });
-    await page.type('input[type="password"]', TEST_PASSWORD);
+    // 이메일 입력 (더 안정적인 방법)
+    console.log('📧 Looking for email input...');
+    
+    // 여러 셀렉터 시도
+    const emailSelectors = [
+      'input[name="email"]',
+      'input[type="email"]', 
+      'input[placeholder*="이메일"]'
+    ];
+    
+    let emailInput = null;
+    for (const selector of emailSelectors) {
+      try {
+        await page.waitForSelector(selector, { timeout: 5000 });
+        emailInput = selector;
+        console.log(`✅ Found email input with selector: ${selector}`);
+        break;
+      } catch (e) {
+        console.log(`❌ Email selector failed: ${selector}`);
+      }
+    }
+    
+    if (!emailInput) {
+      throw new Error('Could not find email input field');
+    }
+    
+    await page.type(emailInput, TEST_EMAIL);
+    console.log('📧 Email entered successfully');
 
-    // 로그인 버튼 클릭
-    console.log('✅ Clicking login button...');
-    await page.click('button[type="submit"]');
+    // 비밀번호 입력 (더 안정적인 방법)
+    console.log('🔒 Looking for password input...');
+    
+    const passwordSelectors = [
+      'input[name="password"]',
+      'input[type="password"]',
+      'input[placeholder*="비밀번호"]'
+    ];
+    
+    let passwordInput = null;
+    for (const selector of passwordSelectors) {
+      try {
+        await page.waitForSelector(selector, { timeout: 5000 });
+        passwordInput = selector;
+        console.log(`✅ Found password input with selector: ${selector}`);
+        break;
+      } catch (e) {
+        console.log(`❌ Password selector failed: ${selector}`);
+      }
+    }
+    
+    if (!passwordInput) {
+      throw new Error('Could not find password input field');
+    }
+    
+    await page.type(passwordInput, TEST_PASSWORD);
+    console.log('🔒 Password entered successfully');
 
-    // 로그인 완료 대기 (홈페이지로 리다이렉트 대기)
-    await page.waitForNavigation({
-      waitUntil: 'networkidle2',
-      timeout: 15000,
-    });
+    // 로그인 버튼 클릭 (더 안정적인 방법)
+    console.log('✅ Looking for login button...');
+    
+    const buttonSelectors = [
+      'button[type="submit"]',
+      'button:contains("로그인")',
+      'form button'
+    ];
+    
+    let loginButton = null;
+    for (const selector of buttonSelectors) {
+      try {
+        await page.waitForSelector(selector, { timeout: 5000 });
+        loginButton = selector;
+        console.log(`✅ Found login button with selector: ${selector}`);
+        break;
+      } catch (e) {
+        console.log(`❌ Button selector failed: ${selector}`);
+      }
+    }
+    
+    if (!loginButton) {
+      throw new Error('Could not find login button');
+    }
+
+    // 로그인 버튼 클릭 및 네비게이션 대기
+    await Promise.all([
+      page.waitForNavigation({
+        waitUntil: 'domcontentloaded',
+        timeout: 15000,
+      }),
+      page.click(loginButton)
+    ]);
+    
+    console.log('✅ Login button clicked successfully');
 
     // 로그인 성공 확인 (URL 또는 특정 요소 확인)
     const currentUrl = page.url();
