@@ -40,19 +40,52 @@ try {
 
 // 로그인 수행 함수
 async function performLogin(page, email, password) {
+  // 페이지 완전 로딩 대기 (더 긴 시간)
+  console.log('⏳ Waiting for login page to fully load...');
+  await new Promise(resolve => setTimeout(resolve, 5000));
+  
+  // 페이지 상태 디버깅
+  const pageTitle = await page.title();
+  const currentUrl = page.url();
+  console.log(`📄 Page title: ${pageTitle}`);
+  console.log(`📍 Current URL: ${currentUrl}`);
+  
+  // 모든 input 요소 찾아서 확인
+  const allInputs = await page.evaluate(() => {
+    const inputs = Array.from(document.querySelectorAll('input'));
+    return inputs.map((input, index) => ({
+      index,
+      type: input.type,
+      name: input.name,
+      placeholder: input.placeholder,
+      id: input.id,
+      className: input.className,
+      value: input.value
+    }));
+  });
+  console.log('🔍 All inputs found:', JSON.stringify(allInputs, null, 2));
+  
+  // 폼 요소도 확인
+  const formCount = await page.evaluate(() => document.querySelectorAll('form').length);
+  console.log(`📝 Number of forms: ${formCount}`);
+  
   console.log('📧 Looking for email input...');
   
-  // 여러 셀렉터 시도
+  // 더 광범위한 셀렉터 시도
   const emailSelectors = [
     'input[name="email"]',
     'input[type="email"]', 
-    'input[placeholder*="이메일"]'
+    'input[placeholder*="이메일"]',
+    'input[placeholder*="email"]',
+    'input[id*="email"]',
+    'form input:first-of-type',
+    'input:first-of-type'
   ];
   
   let emailInput = null;
   for (const selector of emailSelectors) {
     try {
-      await page.waitForSelector(selector, { timeout: 5000 });
+      await page.waitForSelector(selector, { timeout: 3000 });
       emailInput = selector;
       console.log(`✅ Found email input with selector: ${selector}`);
       break;
@@ -62,6 +95,13 @@ async function performLogin(page, email, password) {
   }
   
   if (!emailInput) {
+    // 디버깅용 스크린샷
+    try {
+      await page.screenshot({ path: './login-debug.png', fullPage: true });
+      console.log('📸 Debug screenshot saved: login-debug.png');
+    } catch (screenshotError) {
+      console.log('📸 Screenshot failed:', screenshotError.message);
+    }
     throw new Error('Could not find email input field');
   }
   

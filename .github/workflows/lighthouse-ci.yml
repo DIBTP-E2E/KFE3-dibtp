@@ -240,6 +240,7 @@ jobs:
           path: |
             .lighthouseci/**/*
             lighthouse-*.png
+            login-debug.png
           retention-days: 7
           if-no-files-found: warn
 
