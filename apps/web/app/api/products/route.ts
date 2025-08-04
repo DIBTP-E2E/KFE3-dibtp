@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { prisma } from '@/lib/prisma';
-import { productSchema } from '@/lib/validations';
+import { prisma } from '@web/lib/prisma';
+import { productSchema } from '@web/lib/validations';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
+import { getUserIdCookie } from '@web/utils/auth/server';
 
 export async function POST(request: NextRequest) {
   try {
     // 사용자 인증 확인
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
-      return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
+    const userId = await getUserIdCookie();
+    if (!userId) {
+      return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
           decrease_unit: parseFloat(validatedData.decrease_unit),
           region: validatedData.region,
           detail_address: validatedData.detail_address,
-          seller_user_id: authResult.userId!,
+          seller_user_id: userId!,
           created_at: new Date(),
           updated_at: new Date(),
         },
@@ -64,7 +64,10 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('상품 등록 오류:', error);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error('상품 등록 오류:', error);
+    }
 
     // Zod 유효성 검사 오류
     if (error && typeof error === 'object' && 'name' in error && error.name === 'ZodError') {

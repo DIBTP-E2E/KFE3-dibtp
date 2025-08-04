@@ -1,12 +1,12 @@
 'use server';
 
-import { updateUserLocation } from '@/services/location/server';
+import { updateUserLocation } from '@web/services/location/server';
 
-import type { Location } from '@/types';
+import type { Location } from '@web/types';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
-import { handleError } from '@/utils/error';
-import { validateLocationData } from '@/utils/location';
+import { getUserIdCookie } from '@web/utils/auth/server';
+import { handleError } from '@web/utils/error';
+import { validateLocationData } from '@web/utils/location';
 
 interface SaveLocationResult {
   success: boolean;
@@ -23,14 +23,19 @@ export const saveLocationAction = async (location: Location): Promise<SaveLocati
     }
 
     // 사용자 인증 확인
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success) {
-      return handleError(authResult.error, '인증 확인');
+    const userId = await getUserIdCookie();
+    if (!userId) {
+      return handleError(
+        {
+          message: '로그인이 필요합니다.',
+        },
+        '인증 확인'
+      );
     }
 
     // 위치 정보 업데이트
     return await updateUserLocation({
-      userId: authResult.userId!,
+      userId: userId!,
       region: location.region,
       detail_address: location.detail_address,
     });

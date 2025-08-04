@@ -5,7 +5,7 @@ import { prisma } from '@web/lib/prisma';
 import { productSchema } from '@web/lib/validations';
 
 import { deleteFromStorage } from '@web/services/images/server';
-import { getAuthenticatedUser } from '@web/utils/auth/server';
+import { getUserIdCookie } from '@web/utils/auth/server';
 import { extractStoragePaths } from '@web/utils/image';
 
 interface RouteParams {
@@ -19,8 +19,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const { productId } = await params;
 
     // 사용자 인증 확인
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
+    const userId = await getUserIdCookie();
+    if (!userId) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
@@ -46,7 +46,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: '상품을 찾을 수 없습니다' }, { status: 404 });
     }
 
-    if (existingProduct.seller_user_id !== authResult.userId) {
+    if (existingProduct.seller_user_id !== userId) {
       return NextResponse.json({ error: '상품을 수정할 권한이 없습니다' }, { status: 403 });
     }
 
@@ -71,11 +71,14 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     if (imagesToDelete.length > 0) {
       const pathsToDelete = extractStoragePaths(imagesToDelete);
       if (pathsToDelete.length > 0) {
-        const deleteResult = await deleteFromStorage(pathsToDelete, authResult.userId, 'product');
+        const deleteResult = await deleteFromStorage(pathsToDelete, userId, 'product');
 
         if (!deleteResult.success || deleteResult.errors.length > 0) {
-          console.warn('일부 이미지 삭제 실패:', deleteResult.errors);
-          // 스토리지 삭제 실패해도 DB 업데이트는 진행 (일관성 보다 가용성 우선)
+          if (process.env.NODE_ENV === 'development') {
+            // eslint-disable-next-line no-console
+            console.warn('일부 이미지 삭제 실패:', deleteResult.errors);
+            // 스토리지 삭제 실패해도 DB 업데이트는 진행 (일관성 보다 가용성 우선)
+          }
         }
       }
     }
@@ -152,7 +155,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       product_id: result.product_id.toString(),
     });
   } catch (error) {
-    console.error('상품 수정 오류:', error);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error('상품 수정 오류:', error);
+    }
 
     // Zod 유효성 검사 오류
     if (error && typeof error === 'object' && 'name' in error && error.name === 'ZodError') {
@@ -175,8 +181,8 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     const { productId } = await params;
 
     // 사용자 인증 확인
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
+    const userId = await getUserIdCookie();
+    if (!userId) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
@@ -196,7 +202,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: '상품을 찾을 수 없습니다' }, { status: 404 });
     }
 
-    if (product.seller_user_id !== authResult.userId) {
+    if (product.seller_user_id !== userId) {
       return NextResponse.json({ error: '상품을 삭제할 권한이 없습니다' }, { status: 403 });
     }
 
@@ -227,7 +233,10 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       message: '상품이 성공적으로 삭제되었습니다',
     });
   } catch (error) {
-    console.error('상품 삭제 오류:', error);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error('상품 삭제 오류:', error);
+    }
 
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

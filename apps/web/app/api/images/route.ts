@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { uploadToStorage, deleteFromStorage } from '@web/services/images/server';
 import type { ImageConfigType } from '@web/types';
 
-import { getAuthenticatedUser } from '@web/utils/auth/server';
+import { getUserIdCookie } from '@web/utils/auth/server';
 
 export async function POST(request: NextRequest) {
   try {
     // 사용자 인증 확인
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
+    const userId = await getUserIdCookie();
+    if (!userId) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
@@ -23,9 +23,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 타입별 통합 서비스를 통해 이미지 업로드
-    const result = await uploadToStorage(files, authResult.userId, configType);
+    const result = await uploadToStorage(files, userId, configType);
 
-    // 결과 반환
     if (!result.success && result.errors.length > 0) {
       return NextResponse.json(
         { error: '이미지 업로드에 실패했습니다', details: result.errors },
@@ -40,7 +39,11 @@ export async function POST(request: NextRequest) {
       errors: result.errors.length > 0 ? result.errors : undefined,
     });
   } catch (error) {
-    console.error('이미지 업로드 오류:', error);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error('이미지 업로드 오류:', error);
+    }
+
     return NextResponse.json({ error: '이미지 업로드 중 오류가 발생했습니다' }, { status: 500 });
   }
 }
@@ -48,8 +51,8 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     // 사용자 인증 확인
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
+    const userId = await getUserIdCookie();
+    if (!userId) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
@@ -61,7 +64,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // 타입별 통합 서비스를 통해 이미지 삭제
-    const result = await deleteFromStorage(paths, authResult.userId, configType);
+    const result = await deleteFromStorage(paths, userId, configType);
 
     return NextResponse.json({
       success: true,
@@ -70,7 +73,11 @@ export async function DELETE(request: NextRequest) {
       errors: result.errors.length > 0 ? result.errors : undefined,
     });
   } catch (error) {
-    console.error('이미지 삭제 오류:', error);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error('이미지 삭제 오류:', error);
+    }
+
     return NextResponse.json({ error: '이미지 삭제 중 오류가 발생했습니다' }, { status: 500 });
   }
 }

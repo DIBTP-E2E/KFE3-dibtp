@@ -1,7 +1,7 @@
 import { prisma } from '@web/lib/prisma';
 
 import type { ProductsAPIResponse, ProductStatus } from '@web/types';
-import { getAuthenticatedUser } from '@web/utils/auth/server';
+import { getUserIdCookie } from '@web/utils/auth/server';
 import { convertToProductCardResponse } from '@web/utils/products';
 
 export interface UserProductsQueryFilters {
@@ -13,15 +13,15 @@ export const getMyProducts = async (
 ): Promise<ProductsAPIResponse> => {
   try {
     // 로그인한 사용자 정보 가져오기
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
+    const userId = await getUserIdCookie();
+    if (!userId) {
       throw new Error('User not authenticated');
     }
 
     const { status } = filters;
 
     const whereConditions = {
-      seller_user_id: authResult.userId,
+      seller_user_id: userId,
       ...(status && { status }),
     };
 

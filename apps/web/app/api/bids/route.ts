@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@web/lib/prisma';
 
-import { createBid } from '@/services/bids/server';
-import { updateProductStatus } from '@/services/products/server';
+import { createBid } from '@web/services/bids/server';
+import { updateProductStatus } from '@web/services/products/server';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
-import { calculateCurrentPrice } from '@/utils/products';
+import { getUserIdCookie } from '@web/utils/auth/server';
+import { calculateCurrentPrice } from '@web/utils/products';
 
 export async function POST(request: NextRequest) {
   try {
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
+    const userId = await getUserIdCookie();
+    if (!userId) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '경매가 진행 중인 상품이 아닙니다' }, { status: 400 });
     }
 
-    if (product.seller_user_id === authResult.userId) {
+    if (product.seller_user_id === userId) {
       return NextResponse.json({ error: '자신의 상품에는 입찰할 수 없습니다' }, { status: 400 });
     }
 
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await prisma.$transaction(async (tx) => {
-      const newBid = await createBid(productId, authResult.userId!, bidPrice, tx);
+      const newBid = await createBid(productId, userId!, bidPrice, tx);
       const updatedProduct = await updateProductStatus(productId, 'SOLD', tx);
 
       return { newBid, updatedProduct };

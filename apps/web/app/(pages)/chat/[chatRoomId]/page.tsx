@@ -6,7 +6,7 @@ import { ChatRoom } from '@web/components/chat/ChatRoom';
 import { TopNavigation } from '@web/components/layout';
 import { PAGE_ROUTES } from '@web/constants';
 import { getChatRoomDetail } from '@web/services/chat/server';
-import { getAuthenticatedUser } from '@web/utils/auth/server';
+import { getUserIdCookie } from '@web/utils/auth/server';
 
 export const metadata: Metadata = {
   title: '채팅방 - 경매 플랫폼',
@@ -23,16 +23,16 @@ const ChatRoomPage = async ({ params }: ChatRoomPageParams) => {
   const { chatRoomId } = await params;
 
   // 사용자 인증 확인
-  const authResult = await getAuthenticatedUser();
+  const userId = await getUserIdCookie();
 
   // 채팅방 상세 정보 조회
-  if (!authResult.userId) {
+  if (!userId) {
     throw new Error('User ID is missing');
   }
 
   const { data, error } = await getChatRoomDetail({
     chat_room_id: chatRoomId,
-    user_id: authResult.userId,
+    user_id: userId,
   });
 
   // 채팅방이 존재하지 않거나 접근 권한이 없는 경우
@@ -41,7 +41,7 @@ const ChatRoomPage = async ({ params }: ChatRoomPageParams) => {
   }
 
   const { chatRoom } = data;
-  const isSellerView = chatRoom.seller_user_id === authResult.userId;
+  const isSellerView = chatRoom.seller_user_id === userId;
   const otherUser = isSellerView ? chatRoom.buyer_profile : chatRoom.seller_profile;
 
   return (
@@ -55,7 +55,7 @@ const ChatRoomPage = async ({ params }: ChatRoomPageParams) => {
         showRegion={false}
       />
       <main className="flex-1 overflow-hidden">
-        <ChatRoom chatRoom={chatRoom} currentUserId={authResult.userId} />
+        <ChatRoom chatRoom={chatRoom} currentUserId={userId} />
       </main>
     </div>
   );

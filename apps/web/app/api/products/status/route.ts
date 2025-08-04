@@ -6,7 +6,7 @@ import { updateProductStatus } from '@web/services/products/server';
 
 import type { ProductStatus } from '@web/types';
 
-import { getAuthenticatedUser } from '@web/utils/auth/server';
+import { getUserIdCookie } from '@web/utils/auth/server';
 
 interface UpdateStatusRequest {
   productId: string;
@@ -16,8 +16,8 @@ interface UpdateStatusRequest {
 export async function PATCH(request: NextRequest) {
   try {
     // 사용자 인증 확인
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
+    const userId = await getUserIdCookie();
+    if (!userId) {
       return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 });
     }
 
@@ -38,7 +38,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: '상품을 찾을 수 없습니다' }, { status: 404 });
     }
 
-    if (product.seller_user_id !== authResult.userId) {
+    if (product.seller_user_id !== userId) {
       return NextResponse.json({ error: '상품 상태를 변경할 권한이 없습니다' }, { status: 403 });
     }
 
@@ -54,7 +54,10 @@ export async function PATCH(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('상품 상태 업데이트 오류:', error);
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.error('상품 상태 업데이트 오류:', error);
+    }
 
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

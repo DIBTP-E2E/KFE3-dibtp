@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { prisma } from '@/lib/prisma';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
+import { getUserIdCookie } from '@/utils/auth/server';
 import {
   ActivityStats,
   SettingsMenu,
@@ -11,20 +11,19 @@ import {
   ProfileBanner,
 } from '@web/components/mypage';
 
-
 export const dynamic = 'force-dynamic';
 
 const MyPage = async () => {
-  const authResult = await getAuthenticatedUser();
+  const userId = await getUserIdCookie();
 
   // 인증 실패 시 404 페이지로 이동
-  if (!authResult.success || !authResult.userId) {
+  if (!userId) {
     notFound();
   }
 
   // 사용자 정보 조회
   const user = await prisma.users.findUnique({
-    where: { user_id: authResult.userId },
+    where: { user_id: userId },
     select: {
       nickname: true,
       profile_image: true,

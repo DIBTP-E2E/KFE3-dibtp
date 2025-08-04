@@ -47,7 +47,7 @@ export const getMyInfoCookie = async (): Promise<CachedUserInfo | null> => {
 /**
  * 🔍 사용자 ID만 빠르게 조회
  */
-export const getMyUserIdCookie = async (): Promise<string | null> => {
+export const getUserIdCookie = async (): Promise<string | null> => {
   const userInfo = await getMyInfoCookie();
   return userInfo?.userId || null;
 };
