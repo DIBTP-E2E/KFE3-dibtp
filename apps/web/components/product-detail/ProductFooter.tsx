@@ -11,7 +11,7 @@ interface ProductFooterProps {
   startPrice: number;
   minPrice: number;
   decreaseUnit: number;
-  createdAt: string;
+  startedAt: string;
 }
 
 const ProductFooter = ({
@@ -19,13 +19,13 @@ const ProductFooter = ({
   startPrice,
   minPrice,
   decreaseUnit,
-  createdAt,
+  startedAt,
 }: ProductFooterProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
     minPrice,
     decreaseUnit,
-    auctionStartedAt: createdAt,
+    auctionStartedAt: startedAt,
   });
 
   return (
@@ -35,7 +35,7 @@ const ProductFooter = ({
         <div className="flex items-center gap-x-1 text-xs text-text-info mt-1">
           <span>가격 인하까지</span>
           <Timer
-            startTime={createdAt}
+            startTime={startedAt}
             currentPrice={currentPrice}
             minPrice={minPrice}
             className="text-xs text-text-primary"

@@ -12,20 +12,20 @@ interface AuctionInfoLayoutProps {
   decreaseUnit: number;
   startPrice: number;
   minPrice: number;
-  createdAt: string;
+  startedAt: string;
 }
 
 const AuctionInfoLayout = ({
   decreaseUnit,
   startPrice,
   minPrice,
-  createdAt,
+  startedAt,
 }: AuctionInfoLayoutProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
     minPrice,
     decreaseUnit,
-    auctionStartedAt: createdAt,
+    auctionStartedAt: startedAt,
   });
 
   return (
@@ -37,13 +37,13 @@ const AuctionInfoLayout = ({
             startPrice={startPrice}
             minPrice={minPrice}
             decreaseUnit={decreaseUnit}
-            auctionStartedAt={createdAt}
+            auctionStartedAt={startedAt}
           />
         </div>
         <div className="flex flex-col items-center flex-1 gap-y-0.5">
           <div className="flex items-center gap-x-1">
             <Timer
-              startTime={createdAt}
+              startTime={startedAt}
               currentPrice={currentPrice}
               minPrice={minPrice}
               className="text-xs text-text-primary font-bold"
@@ -54,7 +54,7 @@ const AuctionInfoLayout = ({
             startPrice={startPrice}
             minPrice={minPrice}
             decreaseUnit={decreaseUnit}
-            auctionStartedAt={createdAt}
+            auctionStartedAt={startedAt}
           />
         </div>
       </div>

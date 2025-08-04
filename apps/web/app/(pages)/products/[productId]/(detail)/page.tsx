@@ -101,7 +101,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
           decreaseUnit={product.decrease_unit}
           startPrice={product.start_price}
           minPrice={product.min_price}
-          createdAt={product.created_at}
+          startedAt={product.auction_started_at}
         />
         <div className="flex justify-end mt-md">
           <StatusActionButton
@@ -119,7 +119,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
         startPrice={product.start_price}
         minPrice={product.min_price}
         decreaseUnit={product.decrease_unit}
-        createdAt={product.created_at}
+        startedAt={product.auction_started_at}
       />
     </section>
   );
