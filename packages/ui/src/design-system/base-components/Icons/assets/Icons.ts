@@ -13,6 +13,8 @@ import {
   GoX,
   GoXCircle,
   GoShare,
+  GoCheckCircle,
+  GoCheckCircleFill,
 } from 'react-icons/go';
 import {
   IoSend,
@@ -34,6 +36,10 @@ import {
   IoChevronForward,
   IoChevronUp,
   IoChevronDown,
+  IoEye,
+  IoEyeOff,
+  IoInformationCircleOutline,
+  IoInformationCircleSharp,
 } from 'react-icons/io5';
 
 export const ICONS = {
@@ -47,6 +53,15 @@ export const ICONS = {
 
   HeartFill: GoHeartFill,
   Heart: GoHeart,
+
+  IoEyeFill: IoEye,
+  IoEyeOffFill: IoEyeOff,
+
+  Info: IoInformationCircleOutline,
+  InfoFill: IoInformationCircleSharp,
+
+  CheckCircle: GoCheckCircle,
+  CheckCircleFill: GoCheckCircleFill,
 
   WarningFill: IoWarning,
   Warning: IoWarningOutline,
