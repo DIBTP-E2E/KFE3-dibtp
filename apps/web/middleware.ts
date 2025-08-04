@@ -9,14 +9,28 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - sw.js (service worker)
-     * - manifest files
-     * - static assets
+     * 인증이 필요한 모든 페이지들
      */
-    '/((?!_next/static|_next/image|favicon.ico|sw.js|manifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|json|js|css|woff|woff2)$).*)',
+    '/',
+    '/login',
+    '/signup',
+    '/location',
+    '/chat/:path*',
+    '/mypage',
+    '/mypage/:path*',
+    '/products/:path*',
+    '/search',
+
+    /*
+     * 인증이 필요한 모든 API들
+     */
+    '/api/products',
+    '/api/products/:path*',
+    '/api/my-info',
+    '/api/bids/:path*',
+    '/api/favorites/:path*',
+    '/api/images/:path*',
+    '/api/chat/:path*',
+    '/api/user/:path*',
   ],
 };
