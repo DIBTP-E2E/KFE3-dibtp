@@ -43,6 +43,7 @@ const ProductCard = ({
     minPrice,
     decreaseUnit,
     auctionStartedAt,
+    status,
   });
 
   return (
