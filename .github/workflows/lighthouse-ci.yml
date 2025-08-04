@@ -14,6 +14,9 @@ jobs:
   lighthouse-ci:
     runs-on: ubuntu-latest
     
+    # 🚀 리소스 할당 최적화
+    timeout-minutes: 15  # 타임아웃 설정으로 무한 대기 방지
+    
     permissions:
       contents: read
       pull-requests: write
@@ -37,6 +40,10 @@ jobs:
 
       # GitHub 토큰 (PR 코멘트용)
       LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # 🚀 성능 최적화 환경변수
+      NODE_OPTIONS: "--max-old-space-size=4096"  # Node.js 메모리 증가
+      NEXT_TELEMETRY_DISABLED: 1
 
     steps:
       - name: 🔄 Checkout code
@@ -53,8 +60,16 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
-      - name: 📥 Install dependencies
-        run: pnpm install --frozen-lockfile
+      # 🚀 병렬 처리: 의존성 설치와 동시에 Lighthouse CI 설치
+      - name: 📥 Install dependencies & Lighthouse CI
+        run: |
+          # 병렬로 설치 실행
+          pnpm install --frozen-lockfile &
+          npm install -g @lhci/cli@0.15.x &
+          wait  # 모든 백그라운드 작업 완료 대기
+          
+          echo "✅ Dependencies and Lighthouse CI installed"
+          lhci --version
 
       - name: 💾 Cache Prisma client
         uses: actions/cache@v4
@@ -84,9 +99,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-
 
-      - name: 🏗️ Build applications (with cache)
+      # 🚀 빌드 최적화
+      - name: 🏗️ Build applications (optimized)
         run: |
-          echo "🚀 Building with enhanced caching..."
+          echo "🚀 Building with maximum optimization..."
           
           # Prisma 클라이언트 존재 확인
           if [ ! -d "apps/web/node_modules/.prisma/client" ]; then
@@ -94,112 +110,79 @@ jobs:
             cd apps/web && pnpm postinstall && cd ..
           fi
           
-          # Turborepo와 Next.js 캐시 활용
+          # 최적화된 빌드 실행
           pnpm run build
         env:
           NODE_ENV: production
-          # Next.js 빌드 최적화
           NEXT_TELEMETRY_DISABLED: 1
+          # 🚀 빌드 성능 최적화
+          NEXT_OPTIMIZE_IMAGES: false  # 이미지 최적화 스킵 (CI에서는 불필요)
+          NEXT_DISABLE_TELEMETRY: true
 
-      - name: 🚀 Start application server
+      # 🚀 서버 시작 최적화
+      - name: 🚀 Start application server (optimized)
         run: |
           cd apps/web
-          echo "🚀 Starting Next.js production server..."
+          echo "🚀 Starting server with optimized settings..."
           
-          # 서버 시작 (로그 출력)
-          pnpm start &
+          # 백그라운드에서 서버 시작
+          NODE_ENV=production pnpm start &
           SERVER_PID=$!
+          echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
           echo "📝 Server PID: $SERVER_PID"
           
-          # 포트 확인
-          echo "🔍 Checking if port 3001 is available..."
-          netstat -tulpn | grep :3001 || echo "Port 3001 not in use yet"
+          # 🚀 효율적인 헬스체크 (최대 60초, 2초 간격)
+          echo "⏳ Waiting for server..."
+          timeout 60s bash -c '
+            while ! curl -f http://localhost:3001/api/health >/dev/null 2>&1; do
+              echo "🔍 Server not ready, waiting..."
+              sleep 2
+            done
+          '
           
-          # 서버 시작 대기 (더 긴 간격, 더 긴 타임아웃)
-          echo "⏳ Waiting for server to be ready..."
-          sleep 10  # 초기 대기
-          
-          for i in {1..20}; do
-            echo "🔍 Attempt $i: Checking server health..."
-            if curl -f http://localhost:3001/api/health; then
-              echo "✅ Server is ready!"
-              break
-            fi
-            
-            if [ $i -eq 20 ]; then
-              echo "❌ Server failed to start after 20 attempts"
-              echo "📊 Process status:"
-              ps aux | grep node
-              echo "📊 Port status:"
-              netstat -tulpn | grep :3001
-              exit 1
-            fi
-            
-            sleep 5
-          done
+          echo "✅ Server is ready!"
         env:
           NODE_ENV: production
 
-      - name: 🔧 Install Lighthouse CI and Debug Puppeteer
+      # 🚀 Puppeteer 최적화 (캐시 활용)
+      - name: 🔧 Setup Puppeteer (cached)
         run: |
-          # Lighthouse CI 전역 설치
-          npm install -g @lhci/cli@0.15.x
-          lhci --version
-          
-          # Puppeteer 상황 디버깅
-          echo "🔍 Debugging Puppeteer installation..."
-          echo "Current directory: $(pwd)"
-          echo "Checking apps/web/node_modules:"
-          ls -la apps/web/node_modules/ | grep puppeteer || echo "❌ No puppeteer in apps/web/node_modules"
-          
-          echo "Checking if puppeteer package exists:"
+          # 캐시된 Puppeteer 사용 또는 새로 설치
           if [ -d "apps/web/node_modules/puppeteer" ]; then
-            echo "✅ apps/web/node_modules/puppeteer exists"
-            ls -la apps/web/node_modules/puppeteer/
-            
-            # Puppeteer Chrome 경로 확인
-            node -e "
-              const puppeteer = require('./apps/web/node_modules/puppeteer');
-              console.log('✅ Puppeteer Chrome path:', puppeteer.executablePath());
-            " || echo "❌ Failed to get Chrome path from apps/web puppeteer"
+            echo "✅ Using cached Puppeteer from apps/web"
+            CHROME_PATH=$(node -e "console.log(require('./apps/web/node_modules/puppeteer').executablePath())")
+          elif [ -d "node_modules/puppeteer" ]; then
+            echo "✅ Using cached Puppeteer from root"
+            CHROME_PATH=$(node -e "console.log(require('puppeteer').executablePath())")
           else
-            echo "❌ apps/web/node_modules/puppeteer does not exist"
-            echo "Installing puppeteer in project root..."
-            npm init -y
+            echo "📦 Installing Puppeteer..."
             npm install puppeteer@24.15.0
-            node -e "console.log('✅ Root Puppeteer Chrome path:', require('puppeteer').executablePath());"
+            CHROME_PATH=$(node -e "console.log(require('puppeteer').executablePath())")
           fi
+          
+          echo "CHROME_PATH=$CHROME_PATH" >> $GITHUB_ENV
+          echo "🔍 Chrome path: $CHROME_PATH"
+          
+          # Chrome 버전 확인
+          "$CHROME_PATH" --version
 
-      - name: 🔍 Run Lighthouse CI
+      # 🚀 Lighthouse CI 실행 (최적화된 설정)
+      - name: 🔍 Run Lighthouse CI (optimized)
         run: |
-          # Puppeteer Chrome 경로를 환경변수로 설정
-          export CHROME_PATH=$(node -e "
-            try {
-              const puppeteer = require('./apps/web/node_modules/puppeteer');
-              console.log(puppeteer.executablePath());
-            } catch (e) {
-              try {
-                const puppeteer = require('puppeteer');
-                console.log(puppeteer.executablePath());
-              } catch (e2) {
-                console.log('');
-              }
-            }
-          ")
+          echo "🚀 Running Lighthouse CI with optimized settings..."
+          echo "📊 Measuring $(node -e "console.log(require('./lighthouserc.js').ci.collect.url.length)") pages"
+          echo "🔄 $(node -e "console.log(require('./lighthouserc.js').ci.collect.numberOfRuns)") runs per page"
           
-          echo "🔍 Using Chrome at: $CHROME_PATH"
+          # 시간 측정 시작
+          start_time=$(date +%s)
           
-          # Chrome 실행 테스트
-          if [ -n "$CHROME_PATH" ] && [ -f "$CHROME_PATH" ]; then
-            echo "✅ Chrome executable found and accessible"
-            $CHROME_PATH --version
-          else
-            echo "❌ Chrome executable not found at: $CHROME_PATH"
-            exit 1
-          fi
-          
-          # Lighthouse CI 실행 (환경변수로 Chrome 경로 전달)
+          # Lighthouse CI 실행
           lhci autorun
+          
+          # 실행 시간 계산
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+          echo "⏱️ Lighthouse CI completed in ${duration} seconds"
         env:
           # Lighthouse CI가 GitHub PR에 코멘트를 달 수 있도록
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -215,7 +198,8 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
-      - name: 💬 Comment PR with results
+      # 🚀 향상된 PR 코멘트 (실행 시간 포함)
+      - name: 💬 Enhanced PR comment
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
@@ -224,43 +208,46 @@ jobs:
             const path = require('path');
 
             try {
-              // Lighthouse 결과 파일 찾기
               const resultsDir = '.lighthouseci';
-              console.log('Checking for Lighthouse results directory...');
-              
               if (!fs.existsSync(resultsDir)) {
-                console.log('No .lighthouseci directory found');
+                console.log('No Lighthouse results found');
                 return;
               }
-              
+
               const files = fs.readdirSync(resultsDir);
-              console.log('Files in .lighthouseci:', files);
-              
               const manifestFile = files.find(f => f.includes('manifest.json'));
               
               if (!manifestFile) {
-                console.log('No manifest.json file found');
+                console.log('No manifest file found');
                 return;
               }
-              
-              console.log('Found manifest file:', manifestFile);
+
               const manifest = JSON.parse(
                 fs.readFileSync(path.join(resultsDir, manifestFile), 'utf8')
               );
               
-              let comment = '## 🚀 Lighthouse CI Performance Report\n\n';
-              comment += '| Page | Performance | PWA | Accessibility | Best Practices | SEO |\n';
-              comment += '|------|-------------|-----|---------------|----------------|-----|\n';
+              let comment = '## 🚀 Lighthouse CI Performance Report (Optimized)\n\n';
+              comment += `📊 **Measured ${manifest.length} core pages** • ⚡ **Optimized for speed**\n\n`;
+              comment += '| Page | Performance | PWA | Report |\n';
+              comment += '|------|-------------|-----|--------|\n';
               
               manifest.forEach(result => {
                 const scores = result.summary;
-                const url = result.url.replace('http://localhost:3001', '');
-                const urlDisplay = url || '/';
-                comment += `| ${urlDisplay} | ${Math.round(scores.performance * 100)} | ${Math.round(scores.pwa * 100)} | ${Math.round(scores.accessibility * 100)} | ${Math.round(scores['best-practices'] * 100)} | ${Math.round(scores.seo * 100)} |\n`;
+                const url = result.url.replace('http://localhost:3001', '') || '/';
+                const perfScore = Math.round(scores.performance * 100);
+                const pwaScore = Math.round(scores.pwa * 100);
+                
+                // 성능 점수에 따른 이모지
+                const perfEmoji = perfScore >= 90 ? '🟢' : perfScore >= 70 ? '🟡' : '🔴';
+                const pwaEmoji = pwaScore >= 90 ? '🟢' : pwaScore >= 70 ? '🟡' : '🔴';
+                
+                comment += `| ${url} | ${perfEmoji} ${perfScore} | ${pwaEmoji} ${pwaScore} | [View](${result.htmlPath}) |\n`;
               });
               
-              comment += '\n📊 Reports uploaded to temporary storage and available for 7 days.';
-              
+              comment += '\n---\n';
+              comment += '⚡ **Optimization applied**: Core pages only, 2 runs per page, performance-focused categories\n';
+              comment += '📈 **Focus**: Core Web Vitals, PWA compliance, Critical User Journey';
+
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -268,7 +255,7 @@ jobs:
                 body: comment
               });
               
-              console.log('Successfully posted PR comment');
+              console.log('Successfully posted enhanced PR comment');
               
             } catch (error) {
               console.error('Error creating PR comment:', error);
@@ -277,6 +264,9 @@ jobs:
       - name: 🧹 Cleanup
         if: always()
         run: |
-          # 서버 프로세스 종료
-          pkill -f "next start" || true
-          pkill -f "node" || true
+          # 서버 정리
+          if [ -n "$SERVER_PID" ]; then
+            kill $SERVER_PID || true
+          fi
+          # 포트 기반 정리
+          lsof -ti:3001 | xargs kill -9 2>/dev/null || true
