@@ -228,9 +228,9 @@ jobs:
           end_time=$(date +%s)
           duration=$((end_time - start_time))
           echo "⏱️ Lighthouse CI completed in ${duration} seconds"
-        env:
-          # Lighthouse CI가 GitHub PR에 코멘트를 달 수 있도록
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # env:
+          # Lighthouse CI가 GitHub PR에 코멘트를 달 수 있도록 - 일시적으로 비활성화
+          # LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📊 Upload Lighthouse reports
         uses: actions/upload-artifact@v4

@@ -274,6 +274,12 @@ module.exports = async (browser, context) => {
       console.log('🔐 Redirected to login page - performing login...');
       
       try {
+        // 페이지 상태 재확인 후 로그인 수행
+        if (page.isClosed()) {
+          console.log('❌ Page closed before login attempt');
+          return;
+        }
+        
         // 로그인 수행
         await performLogin(page, TEST_EMAIL, TEST_PASSWORD);
         
