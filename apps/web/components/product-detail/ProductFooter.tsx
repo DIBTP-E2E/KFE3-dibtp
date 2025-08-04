@@ -1,9 +1,10 @@
 'use client';
 
-import type { ProductStatus } from '@/types';
-
 import { Timer } from '@web/components/shared';
+import { PRODUCT_STATUS } from '@web/constants';
+
 import { useCurrentPrice } from '@web/hooks/products';
+import type { ProductStatus } from '@web/types';
 
 import BidButton from './BidButton';
 
@@ -39,14 +40,24 @@ const ProductFooter = ({
       <div className="flex flex-col">
         <span className="text-xl font-bold text-gray-900">{currentPrice.toLocaleString()}원</span>
         <div className="flex items-center gap-x-1 text-xs text-text-info mt-1">
-          <span>가격 인하까지</span>
-          <Timer
-            startTime={startedAt}
-            currentPrice={currentPrice}
-            minPrice={minPrice}
-            status={status}
-            className="text-xs text-text-primary"
-          />
+          {status === PRODUCT_STATUS.SOLD ? (
+            <span className="text-xs text-text-error font-bold">경매가 종료되었습니다.</span>
+          ) : status === PRODUCT_STATUS.CANCEL ? (
+            <span className="text-xs text-text-info font-bold">경매가 중지되었습니다.</span>
+          ) : currentPrice === minPrice ? (
+            <span className="text-xs text-text-primary font-bold">하한가에 도달했습니다.</span>
+          ) : (
+            <>
+              <span>가격 인하까지</span>
+              <Timer
+                startTime={startedAt}
+                currentPrice={currentPrice}
+                minPrice={minPrice}
+                status={status}
+                className="text-xs text-text-primary"
+              />
+            </>
+          )}
         </div>
       </div>
       <BidButton
