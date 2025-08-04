@@ -6,6 +6,7 @@ interface TimerProps {
   startTime: string;
   currentPrice: number;
   minPrice: number;
+  status: 'ACTIVE' | 'SOLD' | 'CANCEL';
   className?: string;
 }
 
@@ -29,7 +30,7 @@ const TOTAL_DURATION_SECONDS = 1800;
  *   className="text-lg font-bold"
  * />
  */
-const Timer = ({ startTime, currentPrice, minPrice, className }: TimerProps) => {
+const Timer = ({ startTime, currentPrice, minPrice, status, className }: TimerProps) => {
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
   const animationFrameRef = useRef<number | null>(null);
 
@@ -37,8 +38,8 @@ const Timer = ({ startTime, currentPrice, minPrice, className }: TimerProps) => 
     const startTimestamp = new Date(startTime).getTime();
 
     const updateTimer = () => {
-      // currentPrice와 minPrice가 같으면 타이머를 비활성화
-      if (currentPrice === minPrice) {
+      // status가 ACTIVE가 아니거나 currentPrice와 minPrice가 같으면 타이머를 비활성화
+      if (status !== 'ACTIVE' || currentPrice === minPrice) {
         setRemainingSeconds(0);
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
@@ -75,7 +76,7 @@ const Timer = ({ startTime, currentPrice, minPrice, className }: TimerProps) => 
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [startTime, currentPrice, minPrice]);
+  }, [startTime, currentPrice, minPrice, status]);
 
   const minutes = Math.floor(remainingSeconds / 60);
   const seconds = remainingSeconds % 60;
@@ -83,7 +84,7 @@ const Timer = ({ startTime, currentPrice, minPrice, className }: TimerProps) => 
   const formattedMinutes = String(minutes).padStart(2, '0');
   const formattedSeconds = String(seconds).padStart(2, '0');
 
-  const isDisabled = currentPrice === minPrice;
+  const isDisabled = currentPrice === minPrice || status !== 'ACTIVE';
 
   return (
     <div className={`${className} ${isDisabled ? 'line-through' : ''}`}>

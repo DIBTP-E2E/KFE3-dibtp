@@ -12,6 +12,7 @@ interface ProductFooterProps {
   minPrice: number;
   decreaseUnit: number;
   startedAt: string;
+  status: 'ACTIVE' | 'SOLD' | 'CANCEL';
 }
 
 const ProductFooter = ({
@@ -20,6 +21,7 @@ const ProductFooter = ({
   minPrice,
   decreaseUnit,
   startedAt,
+  status,
 }: ProductFooterProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
@@ -38,6 +40,7 @@ const ProductFooter = ({
             startTime={startedAt}
             currentPrice={currentPrice}
             minPrice={minPrice}
+            status={status}
             className="text-xs text-text-primary"
           />
         </div>

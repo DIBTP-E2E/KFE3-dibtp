@@ -13,6 +13,7 @@ interface AuctionInfoLayoutProps {
   startPrice: number;
   minPrice: number;
   startedAt: string;
+  status: 'ACTIVE' | 'SOLD' | 'CANCEL';
 }
 
 const AuctionInfoLayout = ({
@@ -20,6 +21,7 @@ const AuctionInfoLayout = ({
   startPrice,
   minPrice,
   startedAt,
+  status,
 }: AuctionInfoLayoutProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
@@ -46,6 +48,7 @@ const AuctionInfoLayout = ({
               startTime={startedAt}
               currentPrice={currentPrice}
               minPrice={minPrice}
+              status={status}
               className="text-xs text-text-primary font-bold"
             />
             <span className="text-xs text-text-info font-bold">뒤 인하</span>
