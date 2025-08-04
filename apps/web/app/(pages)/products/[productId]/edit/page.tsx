@@ -28,14 +28,17 @@ const ProductEditPage = async ({ params }: ProductEditPageProps) => {
       notFound();
     }
 
-    // 상품 소유자 확인 및 상품 상태 확인 (READY 상태가 아니면 수정 불가)
-    if (product.seller_user_id !== authResult.userId || product.status !== PRODUCT_STATUS.READY) {
+    // 상품 소유자 확인 및 상품 상태 확인 (CANCEL 상태만 수정 가능)
+    if (product.seller_user_id !== authResult.userId || product.status !== PRODUCT_STATUS.CANCEL) {
       redirect(PAGE_ROUTES.MYPAGE.SALES);
     }
 
     return <ProductEditForm productId={productId} product={product} />;
   } catch (error) {
-    console.error('상품 조회 실패:', error);
+    // NEXT_REDIRECT 에러는 정상적인 redirect이므로 다시 throw
+    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+      throw error;
+    }
     notFound();
   }
 };

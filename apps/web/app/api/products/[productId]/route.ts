@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { PRODUCT_STATUS } from '@web/constants';
 import { prisma } from '@web/lib/prisma';
 import { productSchema } from '@web/lib/validations';
 
@@ -49,10 +50,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: '상품을 수정할 권한이 없습니다' }, { status: 403 });
     }
 
-    // 경매 시작 전(READY) 상태의 상품만 수정 가능
-    if (existingProduct.status !== 'READY') {
+    // 경매 중지(CANCEL) 상태의 상품만 수정 가능
+    if (existingProduct.status !== PRODUCT_STATUS.CANCEL) {
       return NextResponse.json(
-        { error: '경매 시작 전인 상품만 수정할 수 있습니다' },
+        { error: '경매 중지 상태인 상품만 수정할 수 있습니다' },
         { status: 400 }
       );
     }

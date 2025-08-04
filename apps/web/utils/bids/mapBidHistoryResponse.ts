@@ -73,7 +73,7 @@ const convertToBidWithProduct = (bid: PrismaBidWithProduct): BidWithProduct => {
             : bid.products.decrease_unit.toNumber(),
       status: isValidProductStatus(bid.products.status)
         ? bid.products.status
-        : PRODUCT_STATUS.READY,
+        : PRODUCT_STATUS.ACTIVE,
       location_region: bid.products.region,
       created_at: bid.products.created_at.toISOString(),
       auction_started_at: bid.products.auction_started_at?.toISOString(),

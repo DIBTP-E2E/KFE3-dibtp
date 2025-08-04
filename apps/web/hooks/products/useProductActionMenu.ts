@@ -1,86 +1,90 @@
 'use client';
 
-import { PRODUCT_STATUS } from '@web/constants';
-import type { ProductStatus } from '@web/types';
+import type { ActionSheetItem } from '@repo/ui/components';
 
-interface ActionItem {
-  label: string;
-  onClick: () => void;
-  variant?: 'danger';
-}
+import { PRODUCT_STATUS, PRODUCT_STATUS_ACTION_LABELS } from '@web/constants';
+import type { ProductStatus } from '@web/types';
 
 interface UseProductActionMenuProps {
   status: ProductStatus;
-  handlers: {
-    handleEdit: () => void;
-    handleShare: () => void;
-    handleDelete: () => void;
-    handleStartAuction: () => void;
-    handleStopAuction: () => void;
+  handlers?: {
+    handleEdit?: () => void;
+    handleShare?: () => void;
+    handleDelete?: () => void;
+    handleStartAuction?: () => void;
+    handleStopAuction?: () => void;
   };
 }
 
-export const useProductActionMenu = ({ status, handlers }: UseProductActionMenuProps) => {
+export const useProductActionMenu = ({ status, handlers = {} }: UseProductActionMenuProps) => {
   const { handleEdit, handleShare, handleDelete, handleStartAuction, handleStopAuction } = handlers;
 
-  const getActionItems = (): ActionItem[] => {
-    const baseActions: ActionItem[] = [
-      {
-        label: '공유하기',
-        onClick: handleShare,
-      },
-    ];
+  const getActionItems = (): ActionSheetItem[] => {
+    const actions: ActionSheetItem[] = [];
 
     switch (status) {
-      case PRODUCT_STATUS.READY:
-        return [
-          {
-            label: '수정하기',
-            onClick: handleEdit,
-          },
-          {
-            label: '경매 시작',
-            onClick: handleStartAuction,
-          },
-          ...baseActions,
-          {
-            label: '삭제하기',
-            variant: 'danger',
-            onClick: handleDelete,
-          },
-        ];
-
       case PRODUCT_STATUS.ACTIVE:
-        return [
-          {
-            label: '경매 중단',
+        if (handleStopAuction) {
+          actions.push({
+            label: PRODUCT_STATUS_ACTION_LABELS.STOP_AUCTION,
             variant: 'danger',
             onClick: handleStopAuction,
-          },
-          ...baseActions,
-        ];
-
-      case PRODUCT_STATUS.SOLD:
-        return baseActions;
+          });
+        }
+        if (handleShare) {
+          actions.push({
+            label: PRODUCT_STATUS_ACTION_LABELS.SHARE_PRODUCT,
+            onClick: handleShare,
+          });
+        }
+        break;
 
       case PRODUCT_STATUS.CANCEL:
-        return [
-          {
-            label: '경매 진행중으로 변경',
+        if (handleEdit) {
+          actions.push({
+            label: PRODUCT_STATUS_ACTION_LABELS.EDIT_PRODUCT,
+            onClick: handleEdit,
+          });
+        }
+        if (handleStartAuction) {
+          actions.push({
+            label: PRODUCT_STATUS_ACTION_LABELS.START_AUCTION,
             onClick: handleStartAuction,
-          },
-          ...baseActions,
-          {
-            label: '삭제하기',
+          });
+        }
+        if (handleDelete) {
+          actions.push({
+            label: PRODUCT_STATUS_ACTION_LABELS.DELETE_PRODUCT,
             variant: 'danger',
             onClick: handleDelete,
-          },
-        ];
-
-      default:
-        return baseActions;
+          });
+        }
+        break;
     }
+
+    return actions;
   };
 
-  return { getActionItems };
+  // 특정 액션 타입만 필터링하는 헬퍼 함수들
+  const getStatusChangeActions = (): ActionSheetItem[] => {
+    return getActionItems().filter(
+      (item) =>
+        item.label === PRODUCT_STATUS_ACTION_LABELS.START_AUCTION ||
+        item.label === PRODUCT_STATUS_ACTION_LABELS.STOP_AUCTION
+    );
+  };
+
+  const getManagementActions = (): ActionSheetItem[] => {
+    return getActionItems().filter(
+      (item) =>
+        item.label === PRODUCT_STATUS_ACTION_LABELS.EDIT_PRODUCT ||
+        item.label === PRODUCT_STATUS_ACTION_LABELS.DELETE_PRODUCT
+    );
+  };
+
+  return {
+    getActionItems,
+    getStatusChangeActions,
+    getManagementActions,
+  };
 };
