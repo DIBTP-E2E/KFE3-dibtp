@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-import { PAGE_ROUTES } from '@web/constants';
+import { PAGE_ROUTES, COOKIES } from '@web/constants';
 
 export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -89,7 +89,7 @@ export async function updateSession(request: NextRequest) {
 
     // 🚀 사용자 정보 쿠키에 저장
     middlewareResponse.cookies.set(
-      'user-auth-info',
+      COOKIES.USER,
       JSON.stringify({
         userId: user.id,
         region: userData?.region || '',
@@ -108,7 +108,7 @@ export async function updateSession(request: NextRequest) {
 
   // 🔒 인증되지 않은 사용자 → 쿠키 삭제
   if (!user) {
-    middlewareResponse.cookies.delete('user-auth-info');
+    middlewareResponse.cookies.delete(COOKIES.USER);
   }
 
   // IMPORTANT: You *must* return the middlewareResponse object as it is.
