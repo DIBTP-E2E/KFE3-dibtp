@@ -188,6 +188,9 @@ async function performLogin(page, email, password) {
   console.log(`📍 Final URL: ${finalUrl}`);
 }
 
+// 글로벌 로그인 상태 추적
+let isLoggedIn = false;
+
 module.exports = async (browser, context) => {
   // 테스트용 계정 정보 (GitHub Secrets에서 환경변수로 전달됨)
   const TEST_EMAIL = process.env.LIGHTHOUSE_TEST_EMAIL || 'ymg@test.com';
@@ -197,12 +200,34 @@ module.exports = async (browser, context) => {
   const targetUrl = context.url;
   console.log(`🔑 Auto-login script called for URL: ${targetUrl}`);
 
-  // 모든 페이지는 인증이 필요한 페이지로 간주
+  // 이미 로그인했다면 스킵
+  if (isLoggedIn) {
+    console.log('✅ Already logged in, skipping authentication');
+    return;
+  }
 
-  console.log('🔑 Private page detected - starting auto-login...');
+  console.log('🔑 First URL detected - performing login...');
 
-  // 새 페이지 열기
-  const page = await browser.newPage();
+  let page = null;
+  
+  try {
+    // 브라우저 상태 확인
+    if (!browser || browser.disconnected) {
+      console.log('❌ Browser is disconnected');
+      return;
+    }
+
+    // 새 페이지 열기 (안전하게)
+    page = await browser.newPage();
+    
+    if (!page) {
+      console.log('❌ Failed to create new page');
+      return;
+    }
+  } catch (browserError) {
+    console.log(`❌ Browser error: ${browserError.message}`);
+    return;
+  }
 
   try {
     // 페이지 상태 확인
@@ -292,6 +317,10 @@ module.exports = async (browser, context) => {
       const cookies = await page.cookies();
       console.log(`🍪 Session cookies: ${cookies.length} found`);
     }
+
+    // 로그인 성공 시 글로벌 상태 업데이트
+    isLoggedIn = true;
+    console.log('✅ Global login state set - subsequent URLs will skip authentication');
   } catch (error) {
     console.error('❌ Auto-login failed:', error.message);
 
