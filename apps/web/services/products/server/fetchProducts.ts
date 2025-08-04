@@ -1,9 +1,9 @@
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@web/lib/prisma';
 
-import { ProductsAPIResponse } from '@/types';
+import type { ProductsAPIResponse } from '@web/types';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
-import { convertToProductCardResponse } from '@/utils/products';
+import { getLocationCookie } from '@web/utils/auth/server';
+import { convertToProductCardResponse } from '@web/utils/products';
 
 export interface ProductQueryFilters {
   keyword?: string;
@@ -42,21 +42,14 @@ export const fetchProductsWithPrisma = async (
   filters: ProductQueryFilters = {}
 ): Promise<ProductsAPIResponse> => {
   try {
-    // 로그인한 사용자 정보 가져오기
-    const authResult = await getAuthenticatedUser();
-    if (!authResult.success || !authResult.userId) {
+    // 쿠키에 저장된 사용자 정보 조회
+    const userInfo = await getLocationCookie();
+    if (!userInfo) {
       throw new Error('User not authenticated');
     }
 
-    // 사용자의 위치 정보 가져오기 (region과 detail_address)
-    const user = await prisma.users.findUnique({
-      where: { user_id: authResult.userId },
-      select: { region: true, detail_address: true },
-    });
-
-    if (!user?.region) {
-      throw new Error('User region not found');
-    }
+    // DB 조회 없이 쿠키에서 바로 위치 정보 사용
+    const { region: userRegion, detailAddress } = userInfo;
 
     const {
       keyword,
@@ -71,14 +64,14 @@ export const fetchProductsWithPrisma = async (
 
     // 기본 where 조건 - detail_address 우선, 없으면 region으로 폴백
     const whereConditions: WhereConditions = {
-      region: region || user.region,
+      region: userRegion || region || '미확인 지역',
     };
 
     // 사용자가 detail_address를 설정했다면 더 세밀한 매칭 적용
     // 같은 region 내에서 사용자의 구/군이 상품의 전체 주소에 포함되는 경우에만 노출
-    if (user.detail_address && user.detail_address !== '상세 주소 없음') {
+    if (detailAddress && detailAddress !== '상세 주소 없음') {
       whereConditions.detail_address = {
-        contains: user.detail_address, // 예: 사용자 "중구" → 상품 "서울 중구 남창동 9-1" 매칭
+        contains: detailAddress, // 예: 사용자 "중구" → 상품 "서울 중구 남창동 9-1" 매칭
       };
     }
 
