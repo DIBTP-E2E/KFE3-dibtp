@@ -8,7 +8,7 @@ export async function updateSession(request: NextRequest) {
   console.log(`🔍 Middleware triggered for: ${pathname}`);
   console.time(`⏰ middleware-${pathname}`);
 
-  let supabaseResponse = NextResponse.next({
+  let middlewareResponse = NextResponse.next({
     request,
   });
 
@@ -24,11 +24,11 @@ export async function updateSession(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value));
-          supabaseResponse = NextResponse.next({
+          middlewareResponse = NextResponse.next({
             request,
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
+            middlewareResponse.cookies.set(name, value, options)
           );
         },
       },
@@ -88,7 +88,7 @@ export async function updateSession(request: NextRequest) {
     }
 
     // 🚀 사용자 정보 쿠키에 저장
-    supabaseResponse.cookies.set(
+    middlewareResponse.cookies.set(
       'user-auth-info',
       JSON.stringify({
         userId: user.id,
@@ -108,15 +108,15 @@ export async function updateSession(request: NextRequest) {
 
   // 🔒 인증되지 않은 사용자 → 쿠키 삭제
   if (!user) {
-    supabaseResponse.cookies.delete('user-auth-info');
+    middlewareResponse.cookies.delete('user-auth-info');
   }
 
-  // IMPORTANT: You *must* return the supabaseResponse object as it is.
+  // IMPORTANT: You *must* return the middlewareResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:
   //    const myNewResponse = NextResponse.next({ request })
   // 2. Copy over the cookies, like so:
-  //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
+  //    myNewResponse.cookies.setAll(middlewareResponse.cookies.getAll())
   // 3. Change the myNewResponse object to fit your needs, but avoid changing
   //    the cookies!
   // 4. Finally:
@@ -126,5 +126,5 @@ export async function updateSession(request: NextRequest) {
 
   console.timeEnd(`⏰ middleware-${pathname}`);
 
-  return supabaseResponse;
+  return middlewareResponse;
 }
