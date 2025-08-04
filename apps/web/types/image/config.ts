@@ -9,14 +9,4 @@ export interface ImageConfig {
     bucket: string;
     pathPrefix: (userId: string) => string;
   };
-  // Supabase transform options for different use cases
-  transforms?: Record<
-    string,
-    {
-      width?: number;
-      height?: number;
-      resize?: 'cover' | 'contain' | 'fill';
-      quality?: number;
-    }
-  >;
 }

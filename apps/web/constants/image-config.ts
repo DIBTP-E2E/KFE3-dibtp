@@ -10,11 +10,6 @@ export const IMAGE_CONFIGS: Record<ImageConfigType, ImageConfig> = {
       bucket: 'product-images',
       pathPrefix: (userId: string) => `products/${userId}`,
     },
-    transforms: {
-      thumbnail: { width: 200, height: 200, resize: 'cover', quality: 85 },
-      preview: { width: 800, height: 600, resize: 'contain', quality: 90 },
-      full: { quality: 95 },
-    },
   },
   profile: {
     type: 'profile',
@@ -25,12 +20,10 @@ export const IMAGE_CONFIGS: Record<ImageConfigType, ImageConfig> = {
       bucket: 'profile-images',
       pathPrefix: (userId: string) => `profiles/${userId}`,
     },
-    transforms: {
-      sm: { width: 24, height: 24, resize: 'cover', quality: 90 },
-      md: { width: 32, height: 32, resize: 'cover', quality: 90 },
-      lg: { width: 44, height: 44, resize: 'cover', quality: 90 },
-      xl: { width: 48, height: 48, resize: 'cover', quality: 90 },
-      max: { width: 128, height: 128, resize: 'cover', quality: 90 },
-    },
   },
+} as const;
+
+// 공통 Next.js Image 설정
+export const NEXT_IMAGE_CONFIG = {
+  priority: false,
 } as const;
