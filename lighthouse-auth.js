@@ -40,9 +40,15 @@ try {
 
 // 로그인 수행 함수
 async function performLogin(page, email, password) {
+  // 페이지 상태 확인
+  if (page.isClosed()) {
+    console.log('❌ Page is closed, cannot perform login');
+    return;
+  }
+
   // 페이지 완전 로딩 대기 (더 긴 시간)
   console.log('⏳ Waiting for login page to fully load...');
-  await new Promise(resolve => setTimeout(resolve, 5000));
+  await new Promise(resolve => setTimeout(resolve, 3000));
   
   // 페이지 상태 디버깅
   const pageTitle = await page.title();
@@ -199,15 +205,37 @@ module.exports = async (browser, context) => {
   const page = await browser.newPage();
 
   try {
+    // 페이지 상태 확인
+    if (page.isClosed()) {
+      console.log('❌ Page is already closed');
+      return;
+    }
+
     // 목표 URL에 직접 접근하여 리다이렉트 확인
     console.log(`🔍 Accessing target URL: ${targetUrl}`);
-    await page.goto(targetUrl, {
-      waitUntil: 'domcontentloaded',
-      timeout: 30000,
-    });
+    
+    try {
+      await page.goto(targetUrl, {
+        waitUntil: 'domcontentloaded',
+        timeout: 30000,
+      });
+    } catch (navigationError) {
+      console.log(`❌ Navigation failed: ${navigationError.message}`);
+      // 페이지가 닫힌 경우 조용히 종료
+      if (navigationError.message.includes('closed') || navigationError.message.includes('detached')) {
+        return;
+      }
+      throw navigationError;
+    }
 
-    // 페이지 로딩 대기
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // 페이지 로딩 대기 (짧게)
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // 페이지 상태 재확인
+    if (page.isClosed()) {
+      console.log('❌ Page closed during navigation');
+      return;
+    }
     
     const currentUrl = page.url();
     console.log(`📍 Current URL after navigation: ${currentUrl}`);
@@ -216,22 +244,37 @@ module.exports = async (browser, context) => {
     if (currentUrl.includes('/login')) {
       console.log('🔐 Redirected to login page - performing login...');
       
-      // 로그인 수행
-      await performLogin(page, TEST_EMAIL, TEST_PASSWORD);
-      
-      // 로그인 후 현재 URL 확인
-      const afterLoginUrl = page.url();
-      console.log(`📍 After login URL: ${afterLoginUrl}`);
-      
-      // 목표 URL과 다른 곳에 있다면 이동, 같은 곳이면 스킵
-      if (afterLoginUrl !== targetUrl && !afterLoginUrl.includes('/location')) {
-        console.log(`🎯 Navigating to target URL: ${targetUrl}`);
-        await page.goto(targetUrl, {
-          waitUntil: 'domcontentloaded',
-          timeout: 30000,
-        });
-      } else {
-        console.log('✅ Already at correct page after login');
+      try {
+        // 로그인 수행
+        await performLogin(page, TEST_EMAIL, TEST_PASSWORD);
+        
+        // 페이지가 여전히 유효한지 확인
+        if (page.isClosed()) {
+          console.log('❌ Page closed during login');
+          return;
+        }
+        
+        // 로그인 후 현재 URL 확인
+        const afterLoginUrl = page.url();
+        console.log(`📍 After login URL: ${afterLoginUrl}`);
+        
+        // 목표 URL과 다른 곳에 있다면 이동, 같은 곳이면 스킵
+        if (afterLoginUrl !== targetUrl && !afterLoginUrl.includes('/location')) {
+          console.log(`🎯 Navigating to target URL: ${targetUrl}`);
+          await page.goto(targetUrl, {
+            waitUntil: 'domcontentloaded',
+            timeout: 15000,
+          });
+        } else {
+          console.log('✅ Already at correct page after login');
+        }
+      } catch (loginError) {
+        console.log(`❌ Login failed: ${loginError.message}`);
+        // 페이지 관련 오류면 조용히 종료
+        if (loginError.message.includes('closed') || loginError.message.includes('detached')) {
+          return;
+        }
+        throw loginError;
       }
       
     } else if (currentUrl === targetUrl) {
@@ -244,9 +287,11 @@ module.exports = async (browser, context) => {
       console.log(`⚠️ Unexpected redirect from ${targetUrl} to ${currentUrl}`);
     }
 
-    // 세션 쿠키 확인
-    const cookies = await page.cookies();
-    console.log(`🍪 Session cookies: ${cookies.length} found`);
+    // 세션 쿠키 확인 (페이지가 열려있을 때만)
+    if (!page.isClosed()) {
+      const cookies = await page.cookies();
+      console.log(`🍪 Session cookies: ${cookies.length} found`);
+    }
   } catch (error) {
     console.error('❌ Auto-login failed:', error.message);
 
@@ -263,8 +308,14 @@ module.exports = async (browser, context) => {
 
     throw error;
   } finally {
-    // 페이지 닫기
-    await page.close();
+    // 페이지 닫기 (안전하게)
+    try {
+      if (page && !page.isClosed()) {
+        await page.close();
+      }
+    } catch (closeError) {
+      console.log('📝 Page close error (ignored):', closeError.message);
+    }
   }
 
   console.log('🚀 Auto-login script completed successfully');
