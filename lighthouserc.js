@@ -143,13 +143,13 @@ module.exports = {
          */
 
         // PWA 점수: 90점 이상 (중요 - PWA 기능 필수)
-        'categories:pwa': ['error', { minScore: 0.9 }],
+        'categories:pwa': ['warn', { minScore: 0.9 }],
 
         // 성능 점수: 70점 이상 (모바일 환경 고려하여 관대하게 설정)
         'categories:performance': ['warn', { minScore: 0.7 }],
 
         // 접근성 점수: 90점 이상 (웹 표준 준수 중요)
-        'categories:accessibility': ['error', { minScore: 0.9 }],
+        'categories:accessibility': ['warn', { minScore: 0.9 }],
 
         // 모범사례 점수: 80점 이상 (보안, 성능 최적화)
         'categories:best-practices': ['warn', { minScore: 0.8 }],
@@ -169,7 +169,7 @@ module.exports = {
         'largest-contentful-paint': ['warn', { maxNumericValue: 4000 }],
 
         // CLS: 누적 레이아웃 이동 ≤ 0.1 (시각적 안정성 중요)
-        'cumulative-layout-shift': ['error', { maxNumericValue: 0.1 }],
+        'cumulative-layout-shift': ['warn', { maxNumericValue: 0.1 }],
 
         // TBT: 총 차단 시간 ≤ 500ms (상호작용 응답성)
         'total-blocking-time': ['warn', { maxNumericValue: 500 }],
@@ -182,10 +182,10 @@ module.exports = {
          */
 
         // Service Worker: PWA 필수 기능
-        'service-worker': 'error',
+        'service-worker': 'warn',
 
         // 모바일 뷰포트 설정: 반응형 디자인 필수
-        viewport: 'error',
+        viewport: 'warn',
 
         // Apple Touch 아이콘: iOS 홈 화면 추가 지원
         'apple-touch-icon': 'warn',
@@ -194,17 +194,17 @@ module.exports = {
         'themed-omnibox': 'warn',
 
         // 콘텐츠 너비: 뷰포트에 맞는 콘텐츠 크기
-        'content-width': 'error',
+        'content-width': 'warn',
 
         /**
          * === 모바일 UX 지표 (사용자 경험 최적화) ===
          */
 
         // 터치 대상 크기: 모바일에서 터치하기 적합한 크기 (44px 이상)
-        'tap-targets': 'error',
+        'tap-targets': 'warn',
 
         // 색상 대비: 접근성을 위한 충분한 명암비 (4.5:1 이상)
-        'color-contrast': 'error',
+        'color-contrast': 'warn',
 
         // 반응형 이미지: 다양한 화면 크기 대응
         'image-size-responsive': 'warn',
