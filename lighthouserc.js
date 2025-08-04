@@ -16,27 +16,26 @@
 module.exports = {
   ci: {
     collect: {
-      // 성능 측정 대상 페이지들 (측정 순서 최적화)
+      // 성능 측정 대상 페이지들 (인증 순서 최적화)
       url: [
-        // === 공개 페이지 (인증 전 먼저 측정) ===
-        'http://localhost:3001/login', // 로그인 페이지 - 인증 전 측정
+        // === 1단계: 홈페이지 (세션 생성) ===
+        'http://localhost:3001/', // 홈페이지 - 로그인 후 세션 생성
 
-        // === 핵심 플로우 페이지 (인증 후 측정) ===
-        'http://localhost:3001/', // 홈페이지 - 자동 로그인 후 측정
-        'http://localhost:3001/search?keyword=아이폰', // 검색 페이지 - 실제 키워드로 검색 결과
-        'http://localhost:3001/products/170', // 상품 상세 - 임의 상품 선택
-        'http://localhost:3001/products/170/edit', // 상품 수정 - 임의 상품 선택
+        // === 2단계: 핵심 플로우 페이지들 (세션 재사용) ===
+        'http://localhost:3001/search?keyword=아이폰', // 검색 페이지
+        'http://localhost:3001/products/170', // 상품 상세
+        'http://localhost:3001/products/170/edit', // 상품 수정
 
-        // === 마이페이지 섹션 ===
+        // === 3단계: 마이페이지 섹션 ===
         'http://localhost:3001/mypage', // 마이페이지 메인
         'http://localhost:3001/mypage/sales', // 내 판매 내역
         'http://localhost:3001/mypage/bids', // 내 입찰 내역
 
-        // === 채팅 시스템 ===
+        // === 4단계: 채팅 시스템 ===
         'http://localhost:3001/chat/rooms', // 채팅 목록
-        'http://localhost:3001/chat/1a6e72ba-9da1-4310-a2cc-517ea803cc36', // 임의 채팅방 선택
+        'http://localhost:3001/chat/1a6e72ba-9da1-4310-a2cc-517ea803cc36', // 채팅방
 
-        // === 위치 설정 (신규 사용자 플로우) ===
+        // === 5단계: 위치 설정 (특수 케이스 - 마지막에 측정) ===
         'http://localhost:3001/location', // 위치 설정 페이지
       ],
 

@@ -38,22 +38,120 @@ try {
   }
 }
 
+// 로그인 수행 함수
+async function performLogin(page, email, password) {
+  console.log('📧 Looking for email input...');
+  
+  // 여러 셀렉터 시도
+  const emailSelectors = [
+    'input[name="email"]',
+    'input[type="email"]', 
+    'input[placeholder*="이메일"]'
+  ];
+  
+  let emailInput = null;
+  for (const selector of emailSelectors) {
+    try {
+      await page.waitForSelector(selector, { timeout: 5000 });
+      emailInput = selector;
+      console.log(`✅ Found email input with selector: ${selector}`);
+      break;
+    } catch (e) {
+      console.log(`❌ Email selector failed: ${selector}`);
+    }
+  }
+  
+  if (!emailInput) {
+    throw new Error('Could not find email input field');
+  }
+  
+  await page.type(emailInput, email);
+  console.log('📧 Email entered successfully');
+
+  // 비밀번호 입력
+  console.log('🔒 Looking for password input...');
+  
+  const passwordSelectors = [
+    'input[name="password"]',
+    'input[type="password"]',
+    'input[placeholder*="비밀번호"]'
+  ];
+  
+  let passwordInput = null;
+  for (const selector of passwordSelectors) {
+    try {
+      await page.waitForSelector(selector, { timeout: 5000 });
+      passwordInput = selector;
+      console.log(`✅ Found password input with selector: ${selector}`);
+      break;
+    } catch (e) {
+      console.log(`❌ Password selector failed: ${selector}`);
+    }
+  }
+  
+  if (!passwordInput) {
+    throw new Error('Could not find password input field');
+  }
+  
+  await page.type(passwordInput, password);
+  console.log('🔒 Password entered successfully');
+
+  // 로그인 버튼 클릭
+  console.log('✅ Looking for login button...');
+  
+  const buttonSelectors = [
+    'button[type="submit"]',
+    'button:contains("로그인")',
+    'form button'
+  ];
+  
+  let loginButton = null;
+  for (const selector of buttonSelectors) {
+    try {
+      await page.waitForSelector(selector, { timeout: 5000 });
+      loginButton = selector;
+      console.log(`✅ Found login button with selector: ${selector}`);
+      break;
+    } catch (e) {
+      console.log(`❌ Button selector failed: ${selector}`);
+    }
+  }
+  
+  if (!loginButton) {
+    throw new Error('Could not find login button');
+  }
+
+  // 로그인 버튼 클릭 및 네비게이션 대기
+  await Promise.all([
+    page.waitForNavigation({
+      waitUntil: 'domcontentloaded',
+      timeout: 15000,
+    }),
+    page.click(loginButton)
+  ]);
+  
+  console.log('✅ Login button clicked successfully');
+
+  // 로그인 성공 확인
+  const finalUrl = page.url();
+  if (finalUrl.includes('/login')) {
+    throw new Error('Login failed - still on login page');
+  }
+
+  console.log('🎉 Auto-login successful!');
+  console.log(`📍 Final URL: ${finalUrl}`);
+}
+
 module.exports = async (browser, context) => {
   // 테스트용 계정 정보 (GitHub Secrets에서 환경변수로 전달됨)
   const TEST_EMAIL = process.env.LIGHTHOUSE_TEST_EMAIL || 'ymg@test.com';
   const TEST_PASSWORD = process.env.LIGHTHOUSE_TEST_PASSWORD || '123456';
-  const BASE_URL = process.env.LOCAL_BASE_URL || 'http://localhost:3001';
 
   // 현재 측정하려는 URL 확인
   const targetUrl = context.url;
   console.log(`🔑 Auto-login script called for URL: ${targetUrl}`);
 
-  // 로그인/회원가입 페이지는 인증 없이 측정
-  if (targetUrl.includes('/login') || targetUrl.includes('/signup')) {
-    console.log('📋 Public page detected - skipping authentication');
-    console.log('🚀 Auto-login script completed (no auth needed)');
-    return;
-  }
+  // 모든 페이지는 인증이 필요한 페이지로 간주
 
   console.log('🔑 Private page detected - starting auto-login...');
 
@@ -61,195 +159,46 @@ module.exports = async (browser, context) => {
   const page = await browser.newPage();
 
   try {
-    // 먼저 현재 상태 확인 (이미 로그인되어 있는지 체크)
-    console.log('🔍 Checking current authentication status...');
-    await page.goto(`${BASE_URL}/`, {
+    // 목표 URL에 직접 접근하여 리다이렉트 확인
+    console.log(`🔍 Accessing target URL: ${targetUrl}`);
+    await page.goto(targetUrl, {
       waitUntil: 'domcontentloaded',
       timeout: 30000,
     });
 
     // 페이지 로딩 대기
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const homeUrl = page.url();
-    console.log(`📍 Home page URL: ${homeUrl}`);
-
-    // 이미 로그인되어 있는지 확인 (홈페이지에 정상 접근되면 로그인됨)
-    if (homeUrl.includes(BASE_URL) && !homeUrl.includes('/login')) {
-      console.log('✅ Already logged in, skipping login process');
-      
-      // 세션 쿠키 확인
-      const cookies = await page.cookies();
-      console.log(`🍪 Existing session: ${cookies.length} cookies found`);
-      
-      console.log('🚀 Auto-login script completed (already authenticated)');
-      return;
-    }
-
-    // 로그인이 필요한 경우에만 로그인 진행
-    console.log('📱 Login required, navigating to login page...');
-    await page.goto(`${BASE_URL}/login`, {
-      waitUntil: 'domcontentloaded',
-      timeout: 30000,
-    });
-
-    // 페이지 로딩 완료 대기 (Puppeteer 호환성)
     await new Promise(resolve => setTimeout(resolve, 3000));
     
-    // 페이지 상태 확인
     const currentUrl = page.url();
-    console.log(`📍 Login page URL: ${currentUrl}`);
-    
-    // 페이지 HTML 스크린샷 및 디버깅
-    const pageTitle = await page.title();
-    console.log(`📄 Page title: ${pageTitle}`);
+    console.log(`📍 Current URL after navigation: ${currentUrl}`);
 
-    // HTML 구조 디버깅
-    const bodyText = await page.evaluate(() => document.body.innerText.substring(0, 500));
-    console.log(`📄 Page content (first 500 chars): ${bodyText}`);
-    
-    // 모든 input 태그 확인
-    const allInputs = await page.evaluate(() => {
-      const inputs = Array.from(document.querySelectorAll('input'));
-      return inputs.map(input => ({
-        type: input.type,
-        name: input.name,
-        placeholder: input.placeholder,
-        className: input.className,
-        id: input.id
-      }));
-    });
-    console.log('🔍 All input elements found:', JSON.stringify(allInputs, null, 2));
-
-    // 폼 요소 확인
-    const formCount = await page.evaluate(() => document.querySelectorAll('form').length);
-    console.log(`📝 Number of forms found: ${formCount}`);
-
-    // 디버깅용 스크린샷 캡처 (에러 발생 전)
-    try {
-      await page.screenshot({
-        path: './lighthouse-debug-before-login.png',
-        fullPage: true,
-      });
-      console.log('📸 Debug screenshot saved: lighthouse-debug-before-login.png');
-    } catch (screenshotError) {
-      console.log('📸 Debug screenshot failed:', screenshotError.message);
-    }
-
-    // 이메일 입력 (더 안정적인 방법)
-    console.log('📧 Looking for email input...');
-    
-    // 여러 셀렉터 시도
-    const emailSelectors = [
-      'input[name="email"]',
-      'input[type="email"]', 
-      'input[placeholder*="이메일"]'
-    ];
-    
-    let emailInput = null;
-    for (const selector of emailSelectors) {
-      try {
-        await page.waitForSelector(selector, { timeout: 5000 });
-        emailInput = selector;
-        console.log(`✅ Found email input with selector: ${selector}`);
-        break;
-      } catch (e) {
-        console.log(`❌ Email selector failed: ${selector}`);
-      }
-    }
-    
-    if (!emailInput) {
-      throw new Error('Could not find email input field');
-    }
-    
-    await page.type(emailInput, TEST_EMAIL);
-    console.log('📧 Email entered successfully');
-
-    // 비밀번호 입력 (더 안정적인 방법)
-    console.log('🔒 Looking for password input...');
-    
-    const passwordSelectors = [
-      'input[name="password"]',
-      'input[type="password"]',
-      'input[placeholder*="비밀번호"]'
-    ];
-    
-    let passwordInput = null;
-    for (const selector of passwordSelectors) {
-      try {
-        await page.waitForSelector(selector, { timeout: 5000 });
-        passwordInput = selector;
-        console.log(`✅ Found password input with selector: ${selector}`);
-        break;
-      } catch (e) {
-        console.log(`❌ Password selector failed: ${selector}`);
-      }
-    }
-    
-    if (!passwordInput) {
-      throw new Error('Could not find password input field');
-    }
-    
-    await page.type(passwordInput, TEST_PASSWORD);
-    console.log('🔒 Password entered successfully');
-
-    // 로그인 버튼 클릭 (더 안정적인 방법)
-    console.log('✅ Looking for login button...');
-    
-    const buttonSelectors = [
-      'button[type="submit"]',
-      'button:contains("로그인")',
-      'form button'
-    ];
-    
-    let loginButton = null;
-    for (const selector of buttonSelectors) {
-      try {
-        await page.waitForSelector(selector, { timeout: 5000 });
-        loginButton = selector;
-        console.log(`✅ Found login button with selector: ${selector}`);
-        break;
-      } catch (e) {
-        console.log(`❌ Button selector failed: ${selector}`);
-      }
-    }
-    
-    if (!loginButton) {
-      throw new Error('Could not find login button');
-    }
-
-    // 로그인 버튼 클릭 및 네비게이션 대기
-    await Promise.all([
-      page.waitForNavigation({
+    // 로그인 페이지로 리다이렉트되었는지 확인
+    if (currentUrl.includes('/login')) {
+      console.log('🔐 Redirected to login page - performing login...');
+      
+      // 로그인 수행
+      await performLogin(page, TEST_EMAIL, TEST_PASSWORD);
+      
+      // 로그인 후 원래 목표 URL로 이동
+      console.log(`🎯 Navigating back to target URL: ${targetUrl}`);
+      await page.goto(targetUrl, {
         waitUntil: 'domcontentloaded',
-        timeout: 15000,
-      }),
-      page.click(loginButton)
-    ]);
-    
-    console.log('✅ Login button clicked successfully');
-
-    // 로그인 성공 확인 (URL 또는 특정 요소 확인)
-    const finalUrl = page.url();
-    if (finalUrl.includes('/login')) {
-      throw new Error('Login failed - still on login page');
+        timeout: 30000,
+      });
+      
+    } else if (currentUrl === targetUrl) {
+      console.log('✅ Successfully accessed target URL - already authenticated');
+      
+    } else if (currentUrl.includes('/location')) {
+      console.log('📍 Redirected to location setup - user authenticated but needs location');
+      
+    } else {
+      console.log(`⚠️ Unexpected redirect from ${targetUrl} to ${currentUrl}`);
     }
 
-    console.log('🎉 Auto-login successful!');
-    console.log(`📍 Final URL: ${finalUrl}`);
-
-    // 세션 쿠키 추출
+    // 세션 쿠키 확인
     const cookies = await page.cookies();
-    console.log(`🍪 Extracted ${cookies.length} cookies for session persistence`);
-
-    // 위치 설정이 필요한 경우 처리
-    if (finalUrl.includes('/location')) {
-      console.log('📍 Location setup required, handling...');
-
-      // 위치 설정 로직 (필요시 구현)
-      // 여기서는 간단히 넘어가기
-      await new Promise(resolve => setTimeout(resolve, 2000));
-    }
+    console.log(`🍪 Session cookies: ${cookies.length} found`);
   } catch (error) {
     console.error('❌ Auto-login failed:', error.message);
 
