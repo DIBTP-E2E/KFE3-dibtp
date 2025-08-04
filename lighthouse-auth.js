@@ -179,12 +179,20 @@ module.exports = async (browser, context) => {
       // 로그인 수행
       await performLogin(page, TEST_EMAIL, TEST_PASSWORD);
       
-      // 로그인 후 원래 목표 URL로 이동
-      console.log(`🎯 Navigating back to target URL: ${targetUrl}`);
-      await page.goto(targetUrl, {
-        waitUntil: 'domcontentloaded',
-        timeout: 30000,
-      });
+      // 로그인 후 현재 URL 확인
+      const afterLoginUrl = page.url();
+      console.log(`📍 After login URL: ${afterLoginUrl}`);
+      
+      // 목표 URL과 다른 곳에 있다면 이동, 같은 곳이면 스킵
+      if (afterLoginUrl !== targetUrl && !afterLoginUrl.includes('/location')) {
+        console.log(`🎯 Navigating to target URL: ${targetUrl}`);
+        await page.goto(targetUrl, {
+          waitUntil: 'domcontentloaded',
+          timeout: 30000,
+        });
+      } else {
+        console.log('✅ Already at correct page after login');
+      }
       
     } else if (currentUrl === targetUrl) {
       console.log('✅ Successfully accessed target URL - already authenticated');
