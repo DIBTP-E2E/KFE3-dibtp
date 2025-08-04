@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
+import { PRODUCT_STATUS } from '@/constants';
+import type { ProductStatus } from '@/types';
+
 import { calculateCurrentPrice } from '@/utils/products';
 
 interface AuctionPriceInfo {
@@ -9,6 +12,7 @@ interface AuctionPriceInfo {
   minPrice: number;
   decreaseUnit: number;
   auctionStartedAt: string;
+  status: ProductStatus;
 }
 
 export const useCurrentPrice = ({
@@ -16,12 +20,21 @@ export const useCurrentPrice = ({
   minPrice,
   decreaseUnit,
   auctionStartedAt,
+  status,
 }: AuctionPriceInfo): number => {
-  const [currentPrice, setCurrentPrice] = useState<number>(() =>
-    calculateCurrentPrice(startPrice, minPrice, decreaseUnit, auctionStartedAt)
-  );
+  const [currentPrice, setCurrentPrice] = useState<number>(() => {
+    if (status !== PRODUCT_STATUS.ACTIVE) {
+      return startPrice;
+    }
+    return calculateCurrentPrice(startPrice, minPrice, decreaseUnit, auctionStartedAt);
+  });
 
   useEffect(() => {
+    if (status !== PRODUCT_STATUS.ACTIVE) {
+      setCurrentPrice(startPrice);
+      return;
+    }
+
     const timer = setInterval(() => {
       const newPrice = calculateCurrentPrice(startPrice, minPrice, decreaseUnit, auctionStartedAt);
 
@@ -30,7 +43,7 @@ export const useCurrentPrice = ({
     }, 1000); // 1초마다 가격 확인
 
     return () => clearInterval(timer);
-  }, [startPrice, minPrice, decreaseUnit, auctionStartedAt]);
+  }, [startPrice, minPrice, decreaseUnit, auctionStartedAt, status]);
 
   return currentPrice;
 };

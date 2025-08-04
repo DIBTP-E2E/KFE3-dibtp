@@ -1,12 +1,15 @@
 'use client';
 
+import { PRODUCT_STATUS } from '@/constants';
 import { useCurrentPrice } from '@/hooks/products';
+import type { ProductStatus } from '@/types';
 
 interface CurrentPriceProps {
   startPrice: number;
   minPrice: number;
   decreaseUnit: number;
   auctionStartedAt: string;
+  status: ProductStatus;
 }
 
 const CurrentPrice = ({
@@ -14,12 +17,14 @@ const CurrentPrice = ({
   minPrice,
   decreaseUnit,
   auctionStartedAt,
+  status,
 }: CurrentPriceProps) => {
   const price = useCurrentPrice({
     startPrice,
     minPrice,
     decreaseUnit,
     auctionStartedAt,
+    status,
   });
 
   return (

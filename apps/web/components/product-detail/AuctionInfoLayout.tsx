@@ -28,6 +28,7 @@ const AuctionInfoLayout = ({
     minPrice,
     decreaseUnit,
     auctionStartedAt: startedAt,
+    status,
   });
 
   return (
@@ -40,6 +41,7 @@ const AuctionInfoLayout = ({
             minPrice={minPrice}
             decreaseUnit={decreaseUnit}
             auctionStartedAt={startedAt}
+            status={status}
           />
         </div>
         <div className="flex flex-col items-center flex-1 gap-y-0.5">
@@ -58,6 +60,7 @@ const AuctionInfoLayout = ({
             minPrice={minPrice}
             decreaseUnit={decreaseUnit}
             auctionStartedAt={startedAt}
+            status={status}
           />
         </div>
       </div>

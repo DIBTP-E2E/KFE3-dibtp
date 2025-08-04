@@ -1,6 +1,8 @@
 'use client';
 
+import { PRODUCT_STATUS } from '@/constants';
 import { useCurrentPrice } from '@/hooks/products';
+import type { ProductStatus } from '@/types';
 
 import { Timer } from '../shared';
 
@@ -12,7 +14,7 @@ interface ProductFooterProps {
   minPrice: number;
   decreaseUnit: number;
   startedAt: string;
-  status: 'ACTIVE' | 'SOLD' | 'CANCEL';
+  status: ProductStatus;
   isSeller: boolean;
 }
 
@@ -30,6 +32,7 @@ const ProductFooter = ({
     minPrice,
     decreaseUnit,
     auctionStartedAt: startedAt,
+    status,
   });
 
   return (
