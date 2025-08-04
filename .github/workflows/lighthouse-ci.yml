@@ -59,7 +59,7 @@ jobs:
       - name: 💾 Cache Prisma client
         uses: actions/cache@v4
         with:
-          path: apps/web/lib/prisma/generated
+          path: apps/web/node_modules/.prisma
           key: ${{ runner.os }}-prisma-${{ hashFiles('apps/web/lib/prisma/schema.prisma') }}
           restore-keys: |
             ${{ runner.os }}-prisma-
@@ -67,8 +67,10 @@ jobs:
       - name: 🗄️ Generate Prisma client (with cache)
         run: |
           cd apps/web
-          echo "🚀 Generating Prisma client (cached if possible)..."
+          echo "🚀 Generating Prisma client..."
           pnpm postinstall
+          echo "🔍 Checking Prisma client generation..."
+          ls -la node_modules/.prisma/client/ || echo "Prisma client not found"
 
       - name: 💾 Cache build artifacts
         uses: actions/cache@v4
@@ -85,6 +87,13 @@ jobs:
       - name: 🏗️ Build applications (with cache)
         run: |
           echo "🚀 Building with enhanced caching..."
+          
+          # Prisma 클라이언트 존재 확인
+          if [ ! -d "apps/web/node_modules/.prisma/client" ]; then
+            echo "⚠️ Prisma client not found, regenerating..."
+            cd apps/web && pnpm postinstall && cd ..
+          fi
+          
           # Turborepo와 Next.js 캐시 활용
           pnpm run build
         env:
