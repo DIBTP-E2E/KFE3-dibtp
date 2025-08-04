@@ -49,16 +49,46 @@ jobs:
       - name: 📥 Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: 🏗️ Build applications
+      - name: 💾 Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: |
+            apps/web/.next/cache
+            apps/web/.next/static
+            apps/web/.next/standalone
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('apps/web/package.json', 'pnpm-lock.yaml') }}-${{ hashFiles('apps/web/**/*.js', 'apps/web/**/*.jsx', 'apps/web/**/*.ts', 'apps/web/**/*.tsx', '!apps/web/.next/**') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('apps/web/package.json', 'pnpm-lock.yaml') }}-
+            ${{ runner.os }}-nextjs-
+
+      - name: 💾 Cache Turborepo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - name: 🏗️ Build applications (with cache)
         run: |
+          echo "🚀 Building with Turborepo and Next.js cache..."
           pnpm run build
         env:
           NODE_ENV: production
 
-      - name: 🗄️ Generate Prisma client
+      - name: 💾 Cache Prisma client
+        uses: actions/cache@v4
+        with:
+          path: apps/web/node_modules/.prisma
+          key: ${{ runner.os }}-prisma-${{ hashFiles('apps/web/prisma/schema.prisma') }}
+          restore-keys: |
+            ${{ runner.os }}-prisma-
+
+      - name: 🗄️ Generate Prisma client (with cache)
         run: |
           # 프로덕션 DB 연결을 위한 Prisma 클라이언트 생성
           cd apps/web
+          echo "🚀 Generating Prisma client (cached if possible)..."
           pnpm postinstall
 
       - name: 🚀 Start application server
