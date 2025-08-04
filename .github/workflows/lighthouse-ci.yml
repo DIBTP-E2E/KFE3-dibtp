@@ -144,27 +144,72 @@ jobs:
         env:
           NODE_ENV: production
 
-      # 🚀 Puppeteer 최적화 (캐시 활용)
+      # 🚀 Puppeteer 최적화 (안전한 Chrome 설정)
       - name: 🔧 Setup Puppeteer (cached)
         run: |
-          # 캐시된 Puppeteer 사용 또는 새로 설치
+          # Chrome 경로 찾기 및 검증
+          CHROME_PATH=""
+          
+          # 1. apps/web의 Puppeteer 시도
           if [ -d "apps/web/node_modules/puppeteer" ]; then
-            echo "✅ Using cached Puppeteer from apps/web"
-            CHROME_PATH=$(node -e "console.log(require('./apps/web/node_modules/puppeteer').executablePath())")
-          elif [ -d "node_modules/puppeteer" ]; then
-            echo "✅ Using cached Puppeteer from root"
-            CHROME_PATH=$(node -e "console.log(require('puppeteer').executablePath())")
-          else
+            echo "✅ Found Puppeteer in apps/web"
+            CHROME_PATH=$(node -e "
+              try {
+                const puppeteer = require('./apps/web/node_modules/puppeteer');
+                console.log(puppeteer.executablePath());
+              } catch (e) {
+                console.log('');
+              }
+            ")
+          fi
+          
+          # 2. 루트 Puppeteer 시도
+          if [ -z "$CHROME_PATH" ] && [ -d "node_modules/puppeteer" ]; then
+            echo "✅ Found Puppeteer in root"
+            CHROME_PATH=$(node -e "
+              try {
+                const puppeteer = require('puppeteer');
+                console.log(puppeteer.executablePath());
+              } catch (e) {
+                console.log('');
+              }
+            ")
+          fi
+          
+          # 3. Puppeteer 새로 설치
+          if [ -z "$CHROME_PATH" ]; then
             echo "📦 Installing Puppeteer..."
             npm install puppeteer@24.15.0
             CHROME_PATH=$(node -e "console.log(require('puppeteer').executablePath())")
           fi
           
-          echo "CHROME_PATH=$CHROME_PATH" >> $GITHUB_ENV
           echo "🔍 Chrome path: $CHROME_PATH"
           
-          # Chrome 버전 확인
-          "$CHROME_PATH" --version
+          # Chrome 파일 존재 확인
+          if [ -f "$CHROME_PATH" ]; then
+            echo "✅ Chrome executable found"
+            echo "CHROME_PATH=$CHROME_PATH" >> $GITHUB_ENV
+            "$CHROME_PATH" --version
+          else
+            echo "❌ Chrome executable not found at: $CHROME_PATH"
+            
+            # 대체 Chrome 찾기
+            echo "🔍 Searching for alternative Chrome..."
+            
+            # 시스템 Chrome 시도
+            if command -v google-chrome >/dev/null 2>&1; then
+              CHROME_PATH=$(which google-chrome)
+              echo "✅ Using system Chrome: $CHROME_PATH"
+              echo "CHROME_PATH=$CHROME_PATH" >> $GITHUB_ENV
+            elif command -v chromium-browser >/dev/null 2>&1; then
+              CHROME_PATH=$(which chromium-browser)
+              echo "✅ Using Chromium: $CHROME_PATH"
+              echo "CHROME_PATH=$CHROME_PATH" >> $GITHUB_ENV
+            else
+              echo "❌ No Chrome found anywhere"
+              exit 1
+            fi
+          fi
 
       # 🚀 Lighthouse CI 실행 (최적화된 설정)
       - name: 🔍 Run Lighthouse CI (optimized)
