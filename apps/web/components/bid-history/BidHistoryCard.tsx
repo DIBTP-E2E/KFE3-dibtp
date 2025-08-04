@@ -28,7 +28,8 @@ const BidHistoryCard = ({ bid }: BidHistoryCardProps) => {
         auctionStartedAt={product.auction_started_at || product.created_at}
         status={product.status}
         createdAt={product.created_at}
-        region={product.location_region}
+        region={product.region}
+        detailAddress={product.detail_address}
         isShowProductBadge={false}
       />
 

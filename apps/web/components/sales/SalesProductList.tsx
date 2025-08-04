@@ -44,6 +44,7 @@ const SalesProductList = ({ targetStatus }: SalesProductListProps) => {
             auctionStartedAt={product.created_at}
             status={product.status}
             region={product.region}
+            detailAddress={product.detail_address}
             createdAt={product.created_at}
           />
         </li>
