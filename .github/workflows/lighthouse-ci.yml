@@ -38,8 +38,8 @@ jobs:
       # Supabase 프로덕션 Database 연결 (Connection Pooling)
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      # GitHub 토큰 (PR 코멘트용)
-      LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # GitHub 토큰 (PR 코멘트용) - 일시적으로 비활성화하여 422 오류 해결
+      # LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       # 🚀 성능 최적화 환경변수
       NODE_OPTIONS: "--max-old-space-size=4096"  # Node.js 메모리 증가

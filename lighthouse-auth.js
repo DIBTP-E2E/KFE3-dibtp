@@ -208,6 +208,10 @@ module.exports = async (browser, context) => {
 
   console.log('🔑 First URL detected - performing login...');
 
+  // 즉시 로그인 상태 설정하여 후속 URL들이 스킵되도록 함
+  isLoggedIn = true;
+  console.log('✅ Global login state set - subsequent URLs will skip authentication');
+
   let page = null;
   
   try {
@@ -318,9 +322,8 @@ module.exports = async (browser, context) => {
       console.log(`🍪 Session cookies: ${cookies.length} found`);
     }
 
-    // 로그인 성공 시 글로벌 상태 업데이트
-    isLoggedIn = true;
-    console.log('✅ Global login state set - subsequent URLs will skip authentication');
+    // 로그인 완료 (상태는 이미 위에서 설정됨)
+    console.log('🎉 Authentication process completed successfully');
   } catch (error) {
     console.error('❌ Auto-login failed:', error.message);
 

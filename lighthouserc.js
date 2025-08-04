@@ -233,8 +233,10 @@ module.exports = {
        * GitHub PR 코멘트 자동 생성을 위한 토큰
        * GitHub Actions에서 자동으로 제공되는 GITHUB_TOKEN 사용
        * PR에 성능 점수 표가 자동으로 댓글로 추가됨
+       * 
+       * 일시적으로 비활성화: repository 이동으로 인한 422 오류 해결
        */
-      githubAppToken: process.env.LHCI_GITHUB_APP_TOKEN,
+      // githubAppToken: process.env.LHCI_GITHUB_APP_TOKEN,
     },
   },
 };
