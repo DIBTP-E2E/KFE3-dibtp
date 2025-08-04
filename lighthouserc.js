@@ -20,18 +20,15 @@ module.exports = {
       url: [
         // === 공개 페이지 (인증 전 먼저 측정) ===
         'http://localhost:3001/login', // 로그인 페이지 - 인증 전 측정
-        'http://localhost:3001/signup', // 회원가입 페이지 - 인증 전 측정
 
         // === 핵심 플로우 페이지 (인증 후 측정) ===
         'http://localhost:3001/', // 홈페이지 - 자동 로그인 후 측정
         'http://localhost:3001/search?keyword=아이폰', // 검색 페이지 - 실제 키워드로 검색 결과
-        'http://localhost:3001/products/register', // 상품 등록 - 폼 렌더링 성능 (초기 로딩)
         'http://localhost:3001/products/170', // 상품 상세 - 임의 상품 선택
         'http://localhost:3001/products/170/edit', // 상품 수정 - 임의 상품 선택
 
         // === 마이페이지 섹션 ===
         'http://localhost:3001/mypage', // 마이페이지 메인
-        'http://localhost:3001/mypage/profile', // 프로필 관리
         'http://localhost:3001/mypage/sales', // 내 판매 내역
         'http://localhost:3001/mypage/bids', // 내 입찰 내역
 
@@ -42,14 +39,6 @@ module.exports = {
         // === 위치 설정 (신규 사용자 플로우) ===
         'http://localhost:3001/location', // 위치 설정 페이지
       ],
-      /**
-       * GitHub Actions에서 빌드된 정적 파일 경로 지정
-       * Next.js 빌드 결과물(.next 폴더)을 직접 분석하여 더 정확한 성능 측정
-       *
-       * 주의: staticDistDir과 startServerCommand는 함께 사용할 수 없음
-       * 현재는 이미 실행 중인 서버(포트 3001)를 사용하므로 staticDistDir 비활성화
-       */
-      // staticDistDir: './apps/web/.next',
 
       /**
        * 인증이 필요한 페이지 측정을 위한 자동 로그인 스크립트
@@ -99,21 +88,6 @@ module.exports = {
         preset: 'perf',
 
         /**
-         * Chrome 브라우저 실행 옵션 (CI 환경 최적화)
-         * 주의: puppeteerScript 사용 시 chromeFlags는 무시됨
-         * 실제 설정은 puppeteerLaunchOptions.args에서 처리됨
-         */
-        // chromeFlags: [  // puppeteerScript와 함께 사용할 때 무시됨
-        //   '--no-sandbox',
-        //   '--disable-dev-shm-usage',
-        //   '--disable-gpu',
-        //   '--headless',
-        //   '--no-first-run',
-        //   '--no-zygote',
-        //   '--single-process',
-        // ],
-
-        /**
          * 디바이스 시뮬레이션 설정 (모바일 PWA 측정)
          * mobile: 모바일 디바이스, desktop: 데스크톱
          */
@@ -158,14 +132,6 @@ module.exports = {
        * 모바일 성능은 변동성이 크므로 3회 측정 후 평균 사용
        */
       numberOfRuns: 3,
-
-      /**
-       * 서버 시작 설정 비활성화
-       * 이미 실행 중인 Next.js 서버(포트 3001)를 사용하므로
-       * Lighthouse CI가 별도 서버를 시작하지 않도록 설정
-       */
-      // startServerReadyPattern: 'ready',      // 자체 서버 시작 비활성화
-      // startServerReadyTimeout: 30000,        // 자체 서버 시작 비활성화
     },
     /**
      * 성능 임계값 설정 (PWA 및 모바일 최적화 중심)
