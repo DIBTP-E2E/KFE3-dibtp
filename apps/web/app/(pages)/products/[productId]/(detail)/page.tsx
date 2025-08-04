@@ -83,6 +83,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
     return notFound();
   }
 
+  const isSeller = product.seller_user_id === userId;
   const images = product.product_images.map((image) => image.image_url);
 
   return (
@@ -122,6 +123,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
         decreaseUnit={product.decrease_unit}
         startedAt={product.auction_started_at}
         status={product.status}
+        isSeller={isSeller}
       />
     </section>
   );

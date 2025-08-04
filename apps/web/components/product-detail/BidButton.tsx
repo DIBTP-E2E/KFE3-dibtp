@@ -8,9 +8,11 @@ import { API_ROUTES } from '@web/constants/routes';
 interface BidButtonProps {
   productId: number;
   currentPrice: number;
+  status: 'ACTIVE' | 'SOLD' | 'CANCEL';
+  isSeller: boolean;
 }
 
-const BidButton = ({ productId, currentPrice }: BidButtonProps) => {
+const BidButton = ({ productId, currentPrice, status, isSeller }: BidButtonProps) => {
   const handleBid = async () => {
     const isConfirmed = confirm(`${currentPrice.toLocaleString()}원에 입찰하시겠습니까?`);
 
@@ -50,7 +52,12 @@ const BidButton = ({ productId, currentPrice }: BidButtonProps) => {
   };
 
   return (
-    <Button onClick={handleBid} isFullWidth={false} size="lg">
+    <Button
+      onClick={handleBid}
+      isFullWidth={false}
+      size="lg"
+      isDisabled={status !== 'ACTIVE' || isSeller}
+    >
       입찰하기
     </Button>
   );

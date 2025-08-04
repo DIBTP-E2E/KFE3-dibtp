@@ -13,6 +13,7 @@ interface ProductFooterProps {
   decreaseUnit: number;
   startedAt: string;
   status: 'ACTIVE' | 'SOLD' | 'CANCEL';
+  isSeller: boolean;
 }
 
 const ProductFooter = ({
@@ -22,6 +23,7 @@ const ProductFooter = ({
   decreaseUnit,
   startedAt,
   status,
+  isSeller,
 }: ProductFooterProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
@@ -45,7 +47,12 @@ const ProductFooter = ({
           />
         </div>
       </div>
-      <BidButton productId={productId} currentPrice={currentPrice} />
+      <BidButton
+        productId={productId}
+        currentPrice={currentPrice}
+        status={status}
+        isSeller={isSeller}
+      />
     </div>
   );
 };
