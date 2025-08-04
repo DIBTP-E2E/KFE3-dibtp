@@ -54,7 +54,7 @@ const RecentKeywords = ({ onKeywordClick, selectedIndex = -1 }: RecentKeywordsPr
                   selectedIndex === index && 'text-text-primary'
                 )}
               >
-                <Icon name="ClockThin" size="xs" color="info" />
+                <Icon name="Clock" size="xs" color="info" />
 
                 <span className="flex-1">{search}</span>
               </button>
@@ -74,7 +74,7 @@ const RecentKeywords = ({ onKeywordClick, selectedIndex = -1 }: RecentKeywordsPr
         </ul>
       ) : (
         <div className="text-center text-text-info py-8">
-          <Icon name="ClockThin" size="lg" color="info" className="mx-auto mb-2" />
+          <Icon name="Clock" size="lg" color="info" className="mx-auto mb-2" />
           <p>최근 검색어가 없습니다.</p>
         </div>
       )}

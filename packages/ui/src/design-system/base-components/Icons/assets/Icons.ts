@@ -1,34 +1,46 @@
-import { FaAngleDown, FaAngleLeft, FaAngleRight, FaAngleUp } from 'react-icons/fa6';
-import { GoBellFill, GoBell, GoHeartFill, GoHeart, GoHome, GoHomeFill } from 'react-icons/go';
-import { BsClockFill, BsClock, BsChat, BsChatFill } from 'react-icons/bs';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { HiOutlineShoppingBag, HiShoppingBag, HiSearch } from 'react-icons/hi';
-import { HiXMark } from 'react-icons/hi2';
-import { CiClock1 } from 'react-icons/ci';
 import {
-  PiMagnifyingGlassBold,
-  PiExport,
-  PiExportFill,
-  PiUser,
-  PiUserFill,
-  PiWarningFill,
-  PiWarningLight,
-} from 'react-icons/pi';
+  GoBellFill,
+  GoBell,
+  GoHeartFill,
+  GoHeart,
+  GoHome,
+  GoHomeFill,
+  GoPackageDependents,
+  GoClock,
+  GoSearch,
+  GoPerson,
+  GoPersonFill,
+  GoX,
+  GoXCircle,
+  GoShare,
+} from 'react-icons/go';
 import {
-  MdRefresh,
-  MdOutlinePhotoCamera,
-  MdOutlineLocationOn,
-  MdMoreVert,
-  MdMyLocation,
-} from 'react-icons/md';
-import { IoSend, IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
-import { VscError } from 'react-icons/vsc';
+  IoSend,
+  IoSettingsOutline,
+  IoSettingsSharp,
+  IoWarning,
+  IoWarningOutline,
+  IoChatbubbleOutline,
+  IoChatbubbleSharp,
+  IoBagHandleOutline,
+  IoBagHandle,
+  IoCameraOutline,
+  IoMenuOutline,
+  IoRefresh,
+  IoLocationOutline,
+  IoEllipsisVertical,
+  IoLocate,
+  IoChevronBack,
+  IoChevronForward,
+  IoChevronUp,
+  IoChevronDown,
+} from 'react-icons/io5';
 
 export const ICONS = {
-  ArrowDown: FaAngleDown,
-  ArrowLeft: FaAngleLeft,
-  ArrowRight: FaAngleRight,
-  ArrowUp: FaAngleUp,
+  ArrowDown: IoChevronDown,
+  ArrowLeft: IoChevronBack,
+  ArrowRight: IoChevronForward,
+  ArrowUp: IoChevronUp,
 
   BellFill: GoBellFill,
   Bell: GoBell,
@@ -36,45 +48,41 @@ export const ICONS = {
   HeartFill: GoHeartFill,
   Heart: GoHeart,
 
-  WarningFill: PiWarningFill,
-  Warning: PiWarningLight,
+  WarningFill: IoWarning,
+  Warning: IoWarningOutline,
 
-  Error: VscError,
+  Error: GoXCircle,
 
-  ClockFill: BsClockFill,
-  Clock: BsClock,
-  ClockThin: CiClock1,
+  Clock: GoClock,
 
-  Hamburger: RxHamburgerMenu,
+  Hamburger: IoMenuOutline,
 
-  Refresh: MdRefresh,
-  Photo: MdOutlinePhotoCamera,
-
-  MagnifyingGlass: PiMagnifyingGlassBold,
+  Refresh: IoRefresh,
+  Photo: IoCameraOutline,
 
   Home: GoHome,
   HomeFill: GoHomeFill,
-  Chat: BsChat,
-  ChatFill: BsChatFill,
+  Chat: IoChatbubbleOutline,
+  ChatFill: IoChatbubbleSharp,
   SendFill: IoSend,
 
-  ShoppingBag: HiOutlineShoppingBag,
-  ShoppingBagFill: HiShoppingBag,
+  ShoppingBag: IoBagHandleOutline,
+  ShoppingBagFill: IoBagHandle,
 
-  Export: PiExport,
-  ExportFill: PiExportFill,
+  Export: GoPackageDependents,
+  ExportFill: GoShare,
 
-  User: PiUser,
-  UserFill: PiUserFill,
+  User: GoPerson,
+  UserFill: GoPersonFill,
 
-  Location: MdOutlineLocationOn,
-  CurrentLocation: MdMyLocation,
+  Location: IoLocationOutline,
+  CurrentLocation: IoLocate,
 
-  Search: HiSearch,
+  Search: GoSearch,
 
-  Cancel: HiXMark,
+  Cancel: GoX,
 
-  MoreVert: MdMoreVert,
+  MoreVert: IoEllipsisVertical,
 
   Setting: IoSettingsOutline,
   SettingFill: IoSettingsSharp,
