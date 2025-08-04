@@ -24,6 +24,7 @@ export const fetchProductDetailWithPrisma = async (
         view_count: true,
         created_at: true,
         updated_at: true,
+        auction_started_at: true,
         seller_user_id: true,
         product_images: {
           select: {

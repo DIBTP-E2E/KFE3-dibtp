@@ -25,6 +25,7 @@ export interface Product {
   view_count: number;
   created_at: string;
   updated_at: string | null;
+  auction_started_at: string;
   seller_user_id: string;
   product_images: ProductImage[];
 }

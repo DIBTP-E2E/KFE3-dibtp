@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
           seller_user_id: authResult.userId!,
           created_at: new Date(),
           updated_at: new Date(),
+          auction_started_at: new Date(),
         },
       });
 
