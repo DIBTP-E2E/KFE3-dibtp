@@ -86,6 +86,29 @@ export async function updateSession(request: NextRequest) {
       url.pathname = PAGE_ROUTES.LOCATION;
       return NextResponse.redirect(url);
     }
+
+    // 🚀 사용자 정보 쿠키에 저장
+    supabaseResponse.cookies.set(
+      'user-auth-info',
+      JSON.stringify({
+        userId: user.id,
+        region: userData?.region || '',
+        detailAddress: userData?.detail_address || '',
+        lastUpdated: Date.now(),
+      }),
+      {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 60 * 30, // 30분
+        path: '/',
+      }
+    );
+  }
+
+  // 🔒 인증되지 않은 사용자 → 쿠키 삭제
+  if (!user) {
+    supabaseResponse.cookies.delete('user-auth-info');
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
