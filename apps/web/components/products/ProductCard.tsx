@@ -49,7 +49,7 @@ const ProductCard = ({
     auctionStartedAt,
   });
 
-  const shortAddress = useMemo(() => detailAddress.split(' ')[0] ?? '', [detailAddress]);
+  const shortAddress = detailAddress.split(' ')[0] ?? '';
 
   return (
     <Link href={PAGE_ROUTES.PRODUCTS.DETAIL(productId.toString())}>
