@@ -37,7 +37,7 @@ module.exports = {
 
         // === 채팅 시스템 ===
         'http://localhost:3001/chat/rooms', // 채팅 목록
-        'http://localhost:3001//chat/1a6e72ba-9da1-4310-a2cc-517ea803cc36', // 임의 채팅방 선택
+        'http://localhost:3001/chat/1a6e72ba-9da1-4310-a2cc-517ea803cc36', // 임의 채팅방 선택
 
         // === 위치 설정 (신규 사용자 플로우) ===
         'http://localhost:3001/location', // 위치 설정 페이지
@@ -45,7 +45,7 @@ module.exports = {
       /**
        * GitHub Actions에서 빌드된 정적 파일 경로 지정
        * Next.js 빌드 결과물(.next 폴더)을 직접 분석하여 더 정확한 성능 측정
-       * 
+       *
        * 주의: staticDistDir과 startServerCommand는 함께 사용할 수 없음
        * 현재는 이미 실행 중인 서버(포트 3001)를 사용하므로 staticDistDir 비활성화
        */
@@ -63,15 +63,15 @@ module.exports = {
        */
       puppeteerLaunchOptions: {
         args: [
-          '--no-sandbox',                    // 샌드박스 비활성화 (CI 환경 필수)
-          '--disable-dev-shm-usage',         // /dev/shm 사용 안함 (메모리 부족 방지)
-          '--disable-gpu',                   // GPU 가속 비활성화 (headless 환경)
-          '--headless',                      // 헤드리스 모드 (UI 없이 실행)
-          '--no-first-run',                  // 첫 실행 설정 건너뛰기
-          '--no-zygote',                     // zygote 프로세스 비활성화 (안정성)
-          '--single-process',                // 단일 프로세스 모드 (CI 안정성)
-          '--disable-setuid-sandbox',        // SUID 샌드박스 비활성화 (권한 문제 해결)
-          '--disable-web-security',          // 웹 보안 비활성화 (테스트 환경)
+          '--no-sandbox', // 샌드박스 비활성화 (CI 환경 필수)
+          '--disable-dev-shm-usage', // /dev/shm 사용 안함 (메모리 부족 방지)
+          '--disable-gpu', // GPU 가속 비활성화 (headless 환경)
+          '--headless', // 헤드리스 모드 (UI 없이 실행)
+          '--no-first-run', // 첫 실행 설정 건너뛰기
+          '--no-zygote', // zygote 프로세스 비활성화 (안정성)
+          '--single-process', // 단일 프로세스 모드 (CI 안정성)
+          '--disable-setuid-sandbox', // SUID 샌드박스 비활성화 (권한 문제 해결)
+          '--disable-web-security', // 웹 보안 비활성화 (테스트 환경)
           '--disable-features=VizDisplayCompositor', // Viz 디스플레이 컴포지터 비활성화
         ],
       },
@@ -118,7 +118,7 @@ module.exports = {
          * mobile: 모바일 디바이스, desktop: 데스크톱
          */
         emulatedFormFactor: 'mobile',
-        
+
         /**
          * 모바일 환경 시뮬레이션을 위한 추가 설정
          */
@@ -147,9 +147,9 @@ module.exports = {
          * 네트워크 및 CPU 스로틀링 설정 (3G 네트워크 시뮬레이션)
          */
         throttling: {
-          rttMs: 150,                        // Round Trip Time: 150ms (3G 수준)
-          throughputKbps: 1638.4,            // 다운로드 속도: 1.6Mbps (3G 수준)  
-          cpuSlowdownMultiplier: 4,          // CPU 속도: 4배 느리게 (모바일 수준)
+          rttMs: 150, // Round Trip Time: 150ms (3G 수준)
+          throughputKbps: 1638.4, // 다운로드 속도: 1.6Mbps (3G 수준)
+          cpuSlowdownMultiplier: 4, // CPU 속도: 4배 느리게 (모바일 수준)
         },
       },
 
