@@ -8,7 +8,7 @@ export async function fetchMyInfo(): Promise<MyInfoAPIResponse> {
     const response = await fetch(API_ROUTES.MY_INFO);
 
     if (!response.ok) {
-      throw new Error('Failed to fetch user region');
+      throw new Error('Failed to fetch user info');
     }
 
     const data = await response.json();
@@ -17,7 +17,7 @@ export async function fetchMyInfo(): Promise<MyInfoAPIResponse> {
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
-      console.error('Error fetching user region:', error);
+      console.error('Error fetching user info:', error);
     }
 
     throw new Error('알 수 없는 오류가 발생했습니다');

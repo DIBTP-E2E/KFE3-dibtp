@@ -1,32 +1,32 @@
-// TODO: 코드 중복 시 하나의 함수로 getUser 함수로 추상화
-
 import { prisma } from '@web/lib/prisma';
 
 import type { MyInfoAPIResponse } from '@web/types';
-import { getAuthenticatedUser } from '@web/utils/auth/server';
+import { getMyInfoCookie } from '@web/utils/auth/server';
 
 export const getMyInfo = async (): Promise<MyInfoAPIResponse> => {
   try {
-    const authResult = await getAuthenticatedUser();
+    // 쿠키에서 기본 정보 빠르게 조회
+    const userInfo = await getMyInfoCookie();
+    if (!userInfo) {
+      throw new Error('User not authenticated');
+    }
 
+    // nickname과 profile_image만 DB에서 조회 (최소한의 DB 접근)
     const user = await prisma.users.findUnique({
-      where: { user_id: authResult.userId },
+      where: { user_id: userInfo.userId },
       select: {
-        user_id: true,
-        region: true,
-        detail_address: true,
         nickname: true,
         profile_image: true,
       },
     });
 
     return {
-      userId: user?.user_id ?? '',
-      region: user?.region ?? '',
-      detailAddress: user?.detail_address ?? '',
+      userId: userInfo.userId,
+      region: userInfo.region,
+      detailAddress: userInfo.detailAddress,
       nickname: user?.nickname ?? '',
       profileImage: user?.profile_image ?? '',
-    }; // TODO: null 일 경우 어떻게 처리하는 것이 가장 좋을까?
+    };
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line no-console
