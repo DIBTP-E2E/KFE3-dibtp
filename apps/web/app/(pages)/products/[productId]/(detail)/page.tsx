@@ -15,6 +15,8 @@ import {
   StatusActionButton,
 } from '@/components/product-detail';
 
+import { getAuthenticatedUser } from '@/utils/auth/server';
+import { getBidByProduct } from '@web/services/bids/server';
 import { getFavoriteStatus } from '@web/services/favorites/server';
 import { fetchProductDetailWithPrisma } from '@web/services/products/server';
 
@@ -59,7 +61,6 @@ export async function generateMetadata({ params }: ProductDetailPageParams): Pro
   };
 }
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
 
 const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   const { productId: productIdParam } = await params;
@@ -83,6 +84,11 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
     return notFound();
   }
 
+  const finalBidPrice =
+    product.status === 'SOLD'
+      ? (await getBidByProduct(productId))?.bid_price?.toString()
+      : undefined;
+
   const isSeller = product.seller_user_id === userId;
   const images = product.product_images.map((image) => image.image_url);
 
@@ -104,6 +110,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
           minPrice={product.min_price}
           startedAt={product.auction_started_at}
           status={product.status}
+          finalBidPrice={finalBidPrice}
         />
         <div className="flex justify-end mt-md">
           <StatusActionButton
@@ -124,6 +131,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
         startedAt={product.auction_started_at}
         status={product.status}
         isSeller={isSeller}
+        finalBidPrice={finalBidPrice}
       />
     </section>
   );

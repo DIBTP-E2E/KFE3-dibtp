@@ -16,6 +16,7 @@ interface AuctionInfoLayoutProps {
   minPrice: number;
   startedAt: string;
   status: ProductStatus;
+  finalBidPrice?: string;
 }
 
 const AuctionInfoLayout = ({
@@ -24,6 +25,7 @@ const AuctionInfoLayout = ({
   minPrice,
   startedAt,
   status,
+  finalBidPrice,
 }: AuctionInfoLayoutProps) => {
   const currentPrice = useCurrentPrice({
     startPrice,
@@ -44,6 +46,7 @@ const AuctionInfoLayout = ({
             decreaseUnit={decreaseUnit}
             auctionStartedAt={startedAt}
             status={status}
+            finalBidPrice={finalBidPrice}
           />
         </div>
         <div className="flex flex-col items-center flex-1 gap-y-0.5">
