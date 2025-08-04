@@ -223,11 +223,11 @@ module.exports = {
     upload: {
       /**
        * 결과 저장 방식 선택
-       * - temporary-public-storage: 임시 공용 저장소 (7일 보관, 무료)
+       * - temporary-public-storage: 임시 공용 저장소 (7일 보관, 무료) - GitHub 토큰 필요
        * - lhci: 전용 LHCI 서버 (영구 보관, 대시보드 제공)
-       * - filesystem: 로컬 파일 시스템 (GitHub Actions Artifacts)
+       * - filesystem: 로컬 파일 시스템 (GitHub Actions Artifacts) - 토큰 불필요
        */
-      target: 'temporary-public-storage',
+      target: 'filesystem',
 
       /**
        * GitHub PR 코멘트 자동 생성을 위한 토큰
