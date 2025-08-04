@@ -1,9 +1,9 @@
-import { fetchProductsWithPrisma, type ProductQueryFilters } from '@/services/products/server';
+import { getProductsWithPrisma, type ProductQueryFilters } from '@web/services/products/server';
 
 import ProductCard from './ProductCard';
 
 const ProductList = async ({ keyword }: ProductQueryFilters) => {
-  const products = await fetchProductsWithPrisma({ keyword });
+  const products = await getProductsWithPrisma({ keyword });
 
   if (!products || products.length === 0) {
     return (

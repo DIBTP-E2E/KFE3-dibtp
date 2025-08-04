@@ -38,7 +38,7 @@ interface OrderByConditions {
   view_count?: 'asc' | 'desc';
 }
 
-export const fetchProductsWithPrisma = async (
+export const getProductsWithPrisma = async (
   filters: ProductQueryFilters = {}
 ): Promise<ProductsAPIResponse> => {
   try {
