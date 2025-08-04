@@ -23,13 +23,11 @@
  * }
  */
 
-import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
-  // Prisma 클라이언트 초기화
-  const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
+export async function GET() {
   try {
     // 기본 서버 상태 정보 수집
     const healthStatus: any = {
