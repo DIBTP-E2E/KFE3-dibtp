@@ -1,7 +1,10 @@
 'use client';
 
-import { Avatar, Badge } from '@repo/ui/components';
+import { Badge } from '@repo/ui/components';
+
 import { cn } from '@repo/ui/utils/cn';
+
+import { NextAvatar } from '@web/components/shared';
 
 import type { ChatMessage, ChatMessageWithSender, MessageStatus } from '@web/types/chat';
 
@@ -52,10 +55,11 @@ const MessageBubble = ({
     <div className={cn('flex gap-2 w-full', isOwn ? 'flex-row-reverse' : 'flex-row')}>
       {/* 아바타 */}
       {showAvatar && !isOwn && (
-        <Avatar
+        <NextAvatar
           src={message.sender?.profile_image || undefined}
           alt={message.sender?.nickname || '익명'}
           size="md"
+          quality={70}
           className="mt-1"
         />
       )}

@@ -1,11 +1,11 @@
-import { Avatar } from '@repo/ui/components';
+import { NextAvatar } from '@web/components/shared';
 
 interface SellerAvatarProps {
   profileImage: string;
 }
 
 const SellerAvatar = ({ profileImage }: SellerAvatarProps) => {
-  return <Avatar src={profileImage} alt="Seller Avatar" size="lg" />;
+  return <NextAvatar src={profileImage} alt="Seller Avatar" size="lg" quality={75} />;
 };
 
 export default SellerAvatar;

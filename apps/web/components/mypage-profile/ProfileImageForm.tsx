@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
-import { Avatar, Icon } from '@repo/ui/components';
+import { Icon } from '@repo/ui/components';
+
+import { NextAvatar } from '@web/components/shared';
 
 interface ProfileImageFormProps {
   initialImageUrl: string | null;
@@ -49,7 +51,7 @@ const ProfileImageForm = ({
         className="relative cursor-pointer"
         aria-label="프로필 사진 업데이트하기"
       >
-        <Avatar src={previewUrl} alt="프로필 이미지" size="max" />
+        <NextAvatar src={previewUrl} alt="프로필 이미지" size="max" quality={85} />
         <div className="absolute bottom-[var(--space-sm)] right-[var(--space-sm)] flex items-center justify-center w-10 h-10 bg-bg-dark text-text-inverse rounded-full pointer-events-none">
           <Icon name="Photo" size="md" color="inverse" />
         </div>
