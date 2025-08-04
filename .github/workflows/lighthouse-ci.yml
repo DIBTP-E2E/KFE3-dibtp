@@ -18,6 +18,8 @@ jobs:
       contents: read
       pull-requests: write
       checks: write
+      statuses: write
+      actions: read
 
     env:
       # Lighthouse CI 테스트용 환경변수
@@ -199,9 +201,10 @@ jobs:
         with:
           name: lighthouse-reports
           path: |
-            .lighthouseci/
-            lighthouse-login-error.png
+            .lighthouseci/**/*
+            lighthouse-*.png
           retention-days: 7
+          if-no-files-found: warn
 
       - name: 💬 Comment PR with results
         if: github.event_name == 'pull_request'
@@ -211,36 +214,55 @@ jobs:
             const fs = require('fs');
             const path = require('path');
 
-            // Lighthouse 결과 파일 찾기
-            const resultsDir = '.lighthouseci';
-            if (fs.existsSync(resultsDir)) {
+            try {
+              // Lighthouse 결과 파일 찾기
+              const resultsDir = '.lighthouseci';
+              console.log('Checking for Lighthouse results directory...');
+              
+              if (!fs.existsSync(resultsDir)) {
+                console.log('No .lighthouseci directory found');
+                return;
+              }
+              
               const files = fs.readdirSync(resultsDir);
+              console.log('Files in .lighthouseci:', files);
+              
               const manifestFile = files.find(f => f.includes('manifest.json'));
               
-              if (manifestFile) {
-                const manifest = JSON.parse(
-                  fs.readFileSync(path.join(resultsDir, manifestFile), 'utf8')
-                );
-                
-                let comment = '## 🚀 Lighthouse CI Performance Report\n\n';
-                comment += '| Page | Performance | PWA | Accessibility | Best Practices | SEO |\n';
-                comment += '|------|-------------|-----|---------------|----------------|-----|\n';
-                
-                manifest.forEach(result => {
-                  const scores = result.summary;
-                  const url = new URL(result.url).pathname;
-                  comment += `| ${url} | ${Math.round(scores.performance * 100)} | ${Math.round(scores.pwa * 100)} | ${Math.round(scores.accessibility * 100)} | ${Math.round(scores['best-practices'] * 100)} | ${Math.round(scores.seo * 100)} |\n`;
-                });
-                
-                comment += '\n📊 [View detailed report](' + manifest[0].htmlPath + ')';
-                
-                github.rest.issues.createComment({
-                  issue_number: context.issue.number,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  body: comment
-                });
+              if (!manifestFile) {
+                console.log('No manifest.json file found');
+                return;
               }
+              
+              console.log('Found manifest file:', manifestFile);
+              const manifest = JSON.parse(
+                fs.readFileSync(path.join(resultsDir, manifestFile), 'utf8')
+              );
+              
+              let comment = '## 🚀 Lighthouse CI Performance Report\n\n';
+              comment += '| Page | Performance | PWA | Accessibility | Best Practices | SEO |\n';
+              comment += '|------|-------------|-----|---------------|----------------|-----|\n';
+              
+              manifest.forEach(result => {
+                const scores = result.summary;
+                const url = result.url.replace('http://localhost:3001', '');
+                const urlDisplay = url || '/';
+                comment += `| ${urlDisplay} | ${Math.round(scores.performance * 100)} | ${Math.round(scores.pwa * 100)} | ${Math.round(scores.accessibility * 100)} | ${Math.round(scores['best-practices'] * 100)} | ${Math.round(scores.seo * 100)} |\n`;
+              });
+              
+              comment += '\n📊 Reports uploaded to temporary storage and available for 7 days.';
+              
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+              
+              console.log('Successfully posted PR comment');
+              
+            } catch (error) {
+              console.error('Error creating PR comment:', error);
             }
 
       - name: 🧹 Cleanup
