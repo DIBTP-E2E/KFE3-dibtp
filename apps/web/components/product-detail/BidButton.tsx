@@ -1,14 +1,15 @@
 'use client';
 
-import { Button } from '@repo/ui/components';
-import { toast } from '@repo/ui/utils';
+import { Button, toast } from '@repo/ui/components';
 
+import { PRODUCT_STATUS } from '@web/constants';
 import { API_ROUTES } from '@web/constants/routes';
+import type { ProductStatus } from '@web/types';
 
 interface BidButtonProps {
   productId: number;
   currentPrice: number;
-  status: 'ACTIVE' | 'SOLD' | 'CANCEL';
+  status: ProductStatus;
   isSeller: boolean;
 }
 
@@ -56,7 +57,7 @@ const BidButton = ({ productId, currentPrice, status, isSeller }: BidButtonProps
       onClick={handleBid}
       isFullWidth={false}
       size="lg"
-      isDisabled={status !== 'ACTIVE' || isSeller}
+      isDisabled={status !== PRODUCT_STATUS.ACTIVE || isSeller}
     >
       입찰하기
     </Button>

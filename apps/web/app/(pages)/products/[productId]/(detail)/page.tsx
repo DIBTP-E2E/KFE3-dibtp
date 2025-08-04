@@ -4,9 +4,6 @@ import { Metadata } from 'next';
 
 import { notFound } from 'next/navigation';
 
-import { getFavoriteStatus } from '@/services/favorites/server';
-import { fetchProductDetailWithPrisma } from '@/services/products/server';
-
 import {
   ProductDetailHeader,
   ProductImageCarousel,
@@ -17,6 +14,9 @@ import {
   UserInfoLayout,
   StatusActionButton,
 } from '@/components/product-detail';
+
+import { getFavoriteStatus } from '@web/services/favorites/server';
+import { fetchProductDetailWithPrisma } from '@web/services/products/server';
 
 interface ProductDetailPageParams {
   params: Promise<{ productId: string }>;

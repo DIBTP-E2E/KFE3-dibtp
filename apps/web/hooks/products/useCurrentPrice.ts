@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
-import { PRODUCT_STATUS } from '@/constants';
-import type { ProductStatus } from '@/types';
-
 import { calculateCurrentPrice } from '@/utils/products';
+import { PRODUCT_STATUS } from '@web/constants';
+import type { ProductStatus } from '@web/types';
 
 interface AuctionPriceInfo {
   startPrice: number;

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import HeaderContainer from '@/components/layout/header/HeaderContainer';
-import { BackButton } from '@/components/layout/header-icon';
+import HeaderContainer from '@web/components/layout/header/HeaderContainer';
+import { BackButton } from '@web/components/layout/header-icon';
 
 import LikeButton from './LikeButton';
 

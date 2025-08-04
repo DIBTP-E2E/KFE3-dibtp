@@ -1,10 +1,9 @@
 'use client';
 
-import { PRODUCT_STATUS } from '@/constants';
-import { useCurrentPrice } from '@/hooks/products';
 import type { ProductStatus } from '@/types';
 
-import { Timer } from '../shared';
+import { Timer } from '@web/components/shared';
+import { useCurrentPrice } from '@web/hooks/products';
 
 import BidButton from './BidButton';
 

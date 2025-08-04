@@ -1,8 +1,8 @@
 'use client';
 
-import { PRODUCT_STATUS } from '@/constants';
-import { useCurrentPrice } from '@/hooks/products';
-import type { ProductStatus } from '@/types';
+import { PRODUCT_STATUS } from '@web/constants';
+import { useCurrentPrice } from '@web/hooks/products';
+import type { ProductStatus } from '@web/types';
 
 interface NextPriceProps {
   startPrice: number;

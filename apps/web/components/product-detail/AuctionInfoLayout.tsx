@@ -1,8 +1,7 @@
 'use client';
 
-import { useCurrentPrice } from '@/hooks/products';
-
-import { Timer } from '../shared';
+import { Timer } from '@web/components/shared';
+import { useCurrentPrice } from '@web/hooks/products';
 
 import AuctionSummary from './AuctionSummary';
 import CurrentPrice from './CurrentPrice';

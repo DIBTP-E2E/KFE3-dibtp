@@ -1,4 +1,4 @@
-import { getUserInfo } from '@/services/users/server';
+import { getUserInfo } from '@web/services/users/server';
 
 import ChatButton from './ChatButton';
 import SellerAvatar from './SellerAvatar';

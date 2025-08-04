@@ -2,11 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
+import { PRODUCT_STATUS } from '@web/constants';
+import { ProductStatus } from '@web/types';
+
 interface TimerProps {
   startTime: string;
   currentPrice: number;
   minPrice: number;
-  status: 'ACTIVE' | 'SOLD' | 'CANCEL';
+  status: ProductStatus;
   className?: string;
 }
 
@@ -39,7 +42,7 @@ const Timer = ({ startTime, currentPrice, minPrice, status, className }: TimerPr
 
     const updateTimer = () => {
       // status가 ACTIVE가 아니거나 currentPrice와 minPrice가 같으면 타이머를 비활성화
-      if (status !== 'ACTIVE' || currentPrice === minPrice) {
+      if (status !== PRODUCT_STATUS.ACTIVE || currentPrice === minPrice) {
         setRemainingSeconds(0);
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
@@ -84,7 +87,7 @@ const Timer = ({ startTime, currentPrice, minPrice, status, className }: TimerPr
   const formattedMinutes = String(minutes).padStart(2, '0');
   const formattedSeconds = String(seconds).padStart(2, '0');
 
-  const isDisabled = currentPrice === minPrice || status !== 'ACTIVE';
+  const isDisabled = currentPrice === minPrice || status !== PRODUCT_STATUS.ACTIVE;
 
   return (
     <div className={`${className} ${isDisabled ? 'line-through' : ''}`}>
