@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Thumbnail } from '@repo/ui/components/Thumbnail';
+import { NextThumbnail } from '@web/components/shared';
 
 import ImageCounter from './ImageCounter';
 import NextButton from './NextButton';
@@ -63,9 +63,13 @@ const ProductImageCarousel = ({ images }: ProductImageCarouselProps) => {
       >
         {images.map((image, index) => (
           <div key={index} className="w-full flex-shrink-0">
-            <Thumbnail
+            <NextThumbnail
               imgUrl={image}
               alt={`Product Image ${index + 1}`}
+              aspectRatio="auto"
+              quality={90}
+              priority={index === currentIndex}
+              loading={Math.abs(index - currentIndex) <= 1 ? 'eager' : 'lazy'}
               className="w-full h-full object-cover"
               rounded="none"
             />
