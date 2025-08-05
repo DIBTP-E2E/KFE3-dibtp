@@ -4,9 +4,9 @@ interface ProductDescriptionProps {
 
 const ProductDescription = ({ description }: ProductDescriptionProps) => {
   return (
-    <div className="mt-4">
-      <h2 className="text-lg font-bold text-gray-900 mb-2">상세 설명</h2>
-      <p className="text-base text-gray-700 whitespace-pre-wrap">{description}</p>
+    <div className="mt-md">
+      <h2 className="text-lg font-bold mb-sm">상세 설명</h2>
+      <p className="text-base whitespace-pre-wrap">{description}</p>
     </div>
   );
 };
