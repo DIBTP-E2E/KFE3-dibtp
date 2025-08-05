@@ -25,7 +25,9 @@ export const useFavoriteStatus = ({ productId }: UseFavoriteStatusProps) => {
         const { isFavorite } = await fetchFavoriteStatus(productId);
         setIsLiked(isFavorite);
       } catch (err) {
-        console.error('Failed to fetch favorite status:', err);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Failed to fetch favorite status:', err);
+        }
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
         setIsLiked(false);
       } finally {
@@ -50,7 +52,9 @@ export const useFavoriteStatus = ({ productId }: UseFavoriteStatusProps) => {
         setIsLiked(true);
       }
     } catch (err) {
-      console.error('찜하기 토글 실패:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('찜하기 토글 실패:', err);
+      }
       setError(err instanceof Error ? err : new Error('An unknown error occurred during toggle'));
     } finally {
       setIsLoading(false);
