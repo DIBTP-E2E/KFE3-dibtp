@@ -12,6 +12,7 @@ export interface ProductCardAPIResponse
     | 'status'
     | 'view_count'
     | 'created_at'
+    | 'auction_started_at'
     | 'region'
     | 'detail_address'
     | 'start_price'

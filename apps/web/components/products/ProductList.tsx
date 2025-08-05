@@ -24,7 +24,7 @@ const ProductList = async ({ keyword }: ProductQueryFilters) => {
             startPrice={product.start_price}
             minPrice={product.min_price}
             decreaseUnit={product.decrease_unit}
-            auctionStartedAt={product.created_at}
+            auctionStartedAt={product.auction_started_at}
             status={product.status}
             viewCount={product.view_count}
             region={product.region}

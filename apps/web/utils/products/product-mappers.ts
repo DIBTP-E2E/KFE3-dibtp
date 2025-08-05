@@ -13,6 +13,7 @@ interface PrismaProductCard {
   status: string;
   view_count: number;
   created_at: Date;
+  auction_started_at: Date;
   region: string;
   detail_address: string;
   start_price: { toNumber(): number };
@@ -67,6 +68,7 @@ export const convertToProductCardResponse = (
     status: isValidProductStatus(product.status) ? product.status : PRODUCT_STATUS.ACTIVE,
     view_count: product.view_count,
     created_at: product.created_at.toISOString(),
+    auction_started_at: product.auction_started_at.toISOString(),
     region: product.region,
     detail_address: product.detail_address,
     bidder_user_id: product.bids?.bidder_user_id ?? '',
