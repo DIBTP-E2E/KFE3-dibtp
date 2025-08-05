@@ -1,6 +1,6 @@
-import { supabaseServerClient } from '@/lib/supabase/server';
+import { supabaseServerClient } from '@web/lib/supabase/server';
 
-import { handleError } from '@/utils/error';
+import { handleError } from '@web/utils/error';
 
 interface AuthResult {
   success: boolean;
