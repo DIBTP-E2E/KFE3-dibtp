@@ -53,19 +53,28 @@ jobs:
       - name: Check if release is needed
         id: check-release
         run: |
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          LAST_TAG=$(git tag --sort=-version:refname | head -1 || echo "")
           if [ -z "$LAST_TAG" ]; then
             echo "need_release=true" >> $GITHUB_OUTPUT
             echo "No previous tags found, creating first release"
           else
-            COMMITS_SINCE_TAG=$(git rev-list $LAST_TAG..HEAD --count)
-            echo "Commits since last tag: $COMMITS_SINCE_TAG"
-            if [ "$COMMITS_SINCE_TAG" -gt 0 ]; then
-              echo "need_release=true" >> $GITHUB_OUTPUT
-              echo "Found $COMMITS_SINCE_TAG new commits, release needed"
-            else
+            # 최신 태그가 현재 HEAD와 동일한지 확인
+            LAST_TAG_COMMIT=$(git rev-list -n 1 $LAST_TAG 2>/dev/null || echo "")
+            HEAD_COMMIT=$(git rev-parse HEAD)
+            
+            if [ "$LAST_TAG_COMMIT" = "$HEAD_COMMIT" ]; then
               echo "need_release=false" >> $GITHUB_OUTPUT
-              echo "No new commits since last tag, skipping release"
+              echo "HEAD is already tagged with $LAST_TAG, skipping release"
+            else
+              COMMITS_SINCE_TAG=$(git rev-list $LAST_TAG..HEAD --count)
+              echo "Commits since last tag ($LAST_TAG): $COMMITS_SINCE_TAG"
+              if [ "$COMMITS_SINCE_TAG" -gt 0 ]; then
+                echo "need_release=true" >> $GITHUB_OUTPUT
+                echo "Found $COMMITS_SINCE_TAG new commits, release needed"
+              else
+                echo "need_release=false" >> $GITHUB_OUTPUT
+                echo "No new commits since last tag, skipping release"
+              fi
             fi
           fi
 

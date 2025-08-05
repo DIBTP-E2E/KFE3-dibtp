@@ -138,7 +138,19 @@ class ReleaseNotesGenerator {
       patch++;
     }
 
-    return `v${major}.${minor}.${patch}`;
+    const newVersion = `v${major}.${minor}.${patch}`;
+
+    // 이미 해당 버전의 태그가 존재하는지 확인
+    const existingTags = this.execGit('git tag --list')
+      .split('\n')
+      .filter((tag) => tag.trim());
+    if (existingTags.includes(newVersion)) {
+      console.log(`⚠️  Tag ${newVersion} already exists, incrementing patch version`);
+      patch++;
+      return `v${major}.${minor}.${patch}`;
+    }
+
+    return newVersion;
   }
 
   /**
