@@ -1,9 +1,9 @@
 import { prisma } from '@web/lib/prisma';
 
-import type { MyInfoAPIResponse } from '@web/types';
+import type { MyInfoAPIServerResponse } from '@web/types';
 import { getMyInfoCookie } from '@web/utils/auth/server';
 
-export const getMyInfo = async (): Promise<MyInfoAPIResponse> => {
+export const getMyInfo = async (): Promise<MyInfoAPIServerResponse> => {
   try {
     // 쿠키에서 기본 정보 빠르게 조회
     const userInfo = await getMyInfoCookie();
@@ -26,7 +26,6 @@ export const getMyInfo = async (): Promise<MyInfoAPIResponse> => {
       detailAddress: userInfo.detailAddress,
       nickname: user?.nickname ?? '',
       profileImage: user?.profile_image ?? '',
-      isLoading: false,
     };
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
