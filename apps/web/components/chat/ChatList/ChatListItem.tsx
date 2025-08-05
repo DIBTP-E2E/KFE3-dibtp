@@ -47,7 +47,7 @@ const ChatListItem = ({ chatRoom, currentUserId, className }: ChatRoomItemProps)
           {/* 사용자 아바타 */}
           <div className="relative">
             <NextAvatar
-              src={otherUser?.profile_image || undefined}
+              src={otherUser?.profile_image || null}
               alt={otherUserNickname}
               size="lg"
               quality={70}
