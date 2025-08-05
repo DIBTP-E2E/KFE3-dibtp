@@ -1,6 +1,6 @@
 import { API_ROUTES } from '@web/constants';
 
-export const getFavoriteStatus = async (productId: number): Promise<{ isFavorite: boolean }> => {
+export const fetchFavoriteStatus = async (productId: number): Promise<{ isFavorite: boolean }> => {
   const response = await fetch(`${API_ROUTES.FAVORITES}?productId=${productId}`);
 
   if (!response.ok) {
