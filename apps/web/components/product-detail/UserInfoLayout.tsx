@@ -13,7 +13,7 @@ const UserInfoLayout = async ({ sellerUserId, productId }: UserInfoLayoutProps) 
   const userInfo = await getUserInfo(sellerUserId);
 
   return (
-    <div className="flex justify-between items-center mt-4 pb-4 border-b border-border-base">
+    <div className="flex justify-between items-center pb-container border-b border-border-base">
       <div className="flex items-center gap-2">
         <SellerAvatar profileImage={userInfo.profileImage} />
         <SellerNickname nickname={userInfo.nickname} />

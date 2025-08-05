@@ -36,9 +36,11 @@ const AuctionInfoLayout = ({
   });
 
   return (
-    <>
-      <div className="mt-4 flex justify-between items-center gap-4">
-        <div className="flex flex-col items-center flex-1 gap-y-0.5">
+    <section className="flex flex-col gap-container">
+      <h2 className="sr-only">가격 정보</h2>
+
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col items-center flex-1 gap-y-xs">
           <span className="text-xs text-text-info font-bold">현재 가격</span>
           <CurrentPrice
             startPrice={startPrice}
@@ -49,7 +51,7 @@ const AuctionInfoLayout = ({
             finalBidPrice={finalBidPrice}
           />
         </div>
-        <div className="flex flex-col items-center flex-1 gap-y-0.5">
+        <div className="flex flex-col items-center flex-1 gap-y-xs">
           <div className="flex items-center gap-x-1">
             {status === PRODUCT_STATUS.SOLD ? (
               <span className="text-xs text-text-error font-bold">경매 종료</span>
@@ -70,6 +72,7 @@ const AuctionInfoLayout = ({
               </>
             )}
           </div>
+
           <NextPrice
             startPrice={startPrice}
             minPrice={minPrice}
@@ -79,10 +82,9 @@ const AuctionInfoLayout = ({
           />
         </div>
       </div>
-      <div className="mt-4">
-        <AuctionSummary startPrice={startPrice} decreaseUnit={decreaseUnit} minPrice={minPrice} />
-      </div>
-    </>
+
+      <AuctionSummary startPrice={startPrice} decreaseUnit={decreaseUnit} minPrice={minPrice} />
+    </section>
   );
 };
 

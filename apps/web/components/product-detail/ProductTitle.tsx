@@ -1,9 +1,12 @@
+import { cn } from '@repo/ui/utils';
+
 interface ProductTitleProps {
   title: string;
+  className?: string;
 }
 
-const ProductTitle = ({ title }: ProductTitleProps) => {
-  return <h1 className="text-2xl font-bold text-gray-900 line-clamp-3">{title}</h1>;
+const ProductTitle = ({ title, className }: ProductTitleProps) => {
+  return <h2 className={cn('text-2xl font-bold line-clamp-3', className)}>{title}</h2>;
 };
 
 export default ProductTitle;

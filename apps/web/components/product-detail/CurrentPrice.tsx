@@ -32,7 +32,7 @@ const CurrentPrice = ({
         });
 
   return (
-    <div className="flex flex-col items-center justify-center py-2 px-4 rounded-lg min-w-[140px] bg-[var(--color-orange-50)]">
+    <div className="flex flex-col items-center justify-center py-2 px-4 rounded-lg w-full bg-[var(--color-primary-50)]">
       <span className="text-lg font-bold text-text-primary">{displayPrice.toLocaleString()}원</span>
     </div>
   );

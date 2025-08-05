@@ -4,7 +4,6 @@ import { Metadata } from 'next';
 
 import { notFound, redirect } from 'next/navigation';
 
-import { PAGE_ROUTES } from '@web/constants';
 import {
   ProductDetailHeader,
   ProductImageCarousel,
@@ -16,6 +15,7 @@ import {
   StatusActionButton,
   ProductAddress,
 } from '@web/components/product-detail';
+import { PAGE_ROUTES } from '@web/constants';
 
 import { getBidByProduct } from '@web/services/bids/server';
 import { getFavoriteStatus } from '@web/services/favorites/server';
@@ -91,26 +91,30 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   const images = product.product_images.map((image) => image.image_url);
 
   return (
-    <section className="mx-auto w-full md:max-w-container pb-20">
-      {/* 푸터 높이만큼 하단 패딩 추가 */}
-      <ProductDetailHeader initialIsLiked={isLiked} />
-      <ProductImageCarousel images={images} />
-      {/* 여기에 상품 상세 정보 컴포넌트들이 추가될 예정 */}
-      <div className="p-4">
-        <ProductTitle title={product.title} />
-        {await UserInfoLayout({
-          sellerUserId: product.seller_user_id,
-          productId: product.product_id,
-        })}
-        <AuctionInfoLayout
-          decreaseUnit={product.decrease_unit}
-          startPrice={product.start_price}
-          minPrice={product.min_price}
-          startedAt={product.auction_started_at}
-          status={product.status}
-          finalBidPrice={finalBidPrice}
-        />
-        <div className="flex justify-end mt-md">
+    <div className="h-screen flex flex-col">
+      <ProductDetailHeader title={product.title} initialIsLiked={isLiked} />
+
+      <section className="w-full flex-1 overflow-y-auto">
+        {/** 상품 이미지 */}
+        <ProductImageCarousel images={images} />
+
+        <div className="px-container py-lg flex flex-col gap-lg">
+          <ProductTitle title={product.title} />
+
+          {await UserInfoLayout({
+            sellerUserId: product.seller_user_id,
+            productId: product.product_id,
+          })}
+
+          <AuctionInfoLayout
+            decreaseUnit={product.decrease_unit}
+            startPrice={product.start_price}
+            minPrice={product.min_price}
+            startedAt={product.auction_started_at}
+            status={product.status}
+            finalBidPrice={finalBidPrice}
+          />
+
           <StatusActionButton
             productId={product.product_id}
             productTitle={product.title}
@@ -118,10 +122,13 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
             sellerUserId={product.seller_user_id}
             currentUserId={userId}
           />
+
+          <ProductAddress region={product.region} detail_address={product.detail_address} />
+
+          <ProductDescription description={product.description} />
         </div>
-        <ProductAddress region={product.region} detail_address={product.detail_address} />
-        <ProductDescription description={product.description} />
-      </div>
+      </section>
+
       <ProductFooter
         productId={product.product_id}
         startPrice={product.start_price}
@@ -132,7 +139,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
         isSeller={isSeller}
         finalBidPrice={finalBidPrice}
       />
-    </section>
+    </div>
   );
 };
 

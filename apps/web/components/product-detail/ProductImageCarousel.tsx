@@ -45,14 +45,14 @@ const ProductImageCarousel = ({ images }: ProductImageCarouselProps) => {
 
   if (images.length === 0) {
     return (
-      <div className="flex w-full items-center justify-center bg-gray-200 aspect-square">
+      <section className="flex w-full items-center justify-center bg-bg-base aspect-square">
         <span className="text-text-info">No Image</span>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div
+    <section
       className="relative w-full overflow-hidden aspect-[4/3]"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -84,7 +84,7 @@ const ProductImageCarousel = ({ images }: ProductImageCarouselProps) => {
           <ImageCounter currentIndex={currentIndex} totalImages={images.length} />
         </>
       )}
-    </div>
+    </section>
   );
 };
 

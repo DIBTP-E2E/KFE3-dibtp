@@ -33,7 +33,7 @@ const NextPrice = ({
   const priceText = status === PRODUCT_STATUS.ACTIVE ? `${displayPrice.toLocaleString()}원` : '-';
 
   return (
-    <div className="flex flex-col items-center justify-center py-2 px-4 rounded-lg bg-[var(--color-neutral-20)] min-w-[140px]">
+    <div className="flex flex-col items-center justify-center py-2 px-4 rounded-lg bg-[var(--color-neutral-20)] w-full">
       <span className="text-lg font-bold text-[var(--color-neutral-80)]">{priceText}</span>
     </div>
   );
