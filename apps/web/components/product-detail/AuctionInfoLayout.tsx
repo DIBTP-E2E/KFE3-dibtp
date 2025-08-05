@@ -16,7 +16,7 @@ interface AuctionInfoLayoutProps {
   minPrice: number;
   startedAt: string;
   status: ProductStatus;
-  finalBidPrice?: string;
+  finalBidPrice?: string | null;
 }
 
 const AuctionInfoLayout = ({
