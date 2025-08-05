@@ -2,8 +2,7 @@
 
 import { Button, toast } from '@repo/ui/components';
 
-import { PRODUCT_STATUS } from '@web/constants';
-import { API_ROUTES } from '@web/constants/routes';
+import { PRODUCT_STATUS, API_ROUTES } from '@web/constants';
 import type { ProductStatus } from '@web/types';
 
 interface BidButtonProps {

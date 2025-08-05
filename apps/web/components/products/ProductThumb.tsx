@@ -1,8 +1,8 @@
 import { Thumbnail } from '@repo/ui/components';
 
-import type { ProductStatus } from '@/types';
+import noImage from '@web/assets/images/no-image.png';
+import type { ProductStatus } from '@web/types';
 
-import noImage from '@/assets/images/no-image.png';
 
 import { ProductBadge } from '../shared';
 

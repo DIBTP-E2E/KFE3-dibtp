@@ -1,16 +1,12 @@
 'use client';
 
-import { useMemo } from 'react';
-
 import Link from 'next/link';
 
-import { PRODUCT_STATUS } from '@/constants/products/product-status';
+import { PRODUCT_STATUS, PAGE_ROUTES } from '@web/constants';
 
-import { PAGE_ROUTES } from '@/constants';
-import { useCurrentPrice } from '@/hooks/products';
-import type { ProductStatus } from '@/types';
-
-import { formatRelativeTime } from '@/utils/date';
+import { useCurrentPrice } from '@web/hooks';
+import type { ProductStatus } from '@web/types';
+import { formatRelativeTime } from '@web/utils/date';
 
 import ProductThumb from './ProductThumb';
 
