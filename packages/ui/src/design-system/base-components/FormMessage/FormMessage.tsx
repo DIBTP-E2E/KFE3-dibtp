@@ -1,4 +1,4 @@
-import { MdCheckCircle, MdInfo } from 'react-icons/md';
+import { Icon } from '@ui/components';
 
 export interface FormMessageProps {
   id?: string;
@@ -18,7 +18,7 @@ export const FormMessage = ({ id, type, children }: FormMessageProps) => {
   if (type === 'success') {
     return (
       <div className="mt-xs flex items-center gap-xs">
-        <MdCheckCircle className="w-4 h-4 text-text-success" />
+        <Icon name="CheckCircleFill" className="w-4 h-4 text-text-success" />
         <span className="font-style-small text-text-success">{children}</span>
       </div>
     );
@@ -27,7 +27,7 @@ export const FormMessage = ({ id, type, children }: FormMessageProps) => {
   if (type === 'helper') {
     return (
       <p id={id} className="mt-xs font-style-small text-text-info flex items-center gap-xs">
-        <MdInfo className="w-4 h-4" />
+        <Icon name="InfoFill" className="w-4 h-4" />
         {children}
       </p>
     );
