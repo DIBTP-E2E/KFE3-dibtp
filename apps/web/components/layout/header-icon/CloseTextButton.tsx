@@ -2,17 +2,24 @@
 
 import { Button } from '@repo/ui/components';
 
-import { useAppNavigation } from '@/hooks';
+import { useAppNavigation } from '@web/hooks';
 
 interface CloseTextButtonProps {
   onClick?: () => void;
+  className?: string;
 }
 
-const CloseTextButton = ({ onClick }: CloseTextButtonProps) => {
+const CloseTextButton = ({ onClick, className }: CloseTextButtonProps) => {
   const { goBack } = useAppNavigation();
 
   return (
-    <Button onClick={onClick ? onClick : goBack} size="sm" isTransparent isFullWidth={false}>
+    <Button
+      onClick={onClick ? onClick : goBack}
+      size="sm"
+      isTransparent
+      isFullWidth={false}
+      className={className}
+    >
       닫기
     </Button>
   );

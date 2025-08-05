@@ -33,7 +33,7 @@ const SearchHeader = ({
         hasSearchDropDown={hasSearchDropDown}
       />
 
-      <CloseTextButton onClick={onClose} />
+      <CloseTextButton onClick={onClose} className="-mr-container" />
     </HeaderContainer>
   );
 };
