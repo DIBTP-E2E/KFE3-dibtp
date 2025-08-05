@@ -5,14 +5,10 @@ import { PAGE_ROUTES, COOKIES } from '@web/constants';
 
 export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  console.log(`🔍 Middleware triggered for: ${pathname}`);
-  console.time(`⏰ middleware-${pathname}`);
 
   let middlewareResponse = NextResponse.next({
     request,
   });
-
-  console.time('⏰ middleware - createServerClient');
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -35,20 +31,15 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  console.timeEnd('⏰ middleware - createServerClient');
-
   // Do not run code between createServerClient and
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
 
   // IMPORTANT: DO NOT REMOVE auth.getUser()
-  console.time('⏰ middleware: supabase.auth.getUser');
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  console.timeEnd('⏰ middleware: supabase.auth.getUser');
 
   const isAuthPage = pathname === PAGE_ROUTES.AUTH.LOGIN || pathname === PAGE_ROUTES.AUTH.SIGNUP;
 
@@ -101,7 +92,7 @@ export async function updateSession(request: NextRequest) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         maxAge: 60 * 30, // 30분
-        path: '/',
+        path: PAGE_ROUTES.HOME,
       }
     );
   }
@@ -123,8 +114,6 @@ export async function updateSession(request: NextRequest) {
   //    return myNewResponse
   // If this is not done, you may be causing the browser and server to go out
   // of sync and terminate the user's session prematurely!
-
-  console.timeEnd(`⏰ middleware-${pathname}`);
 
   return middlewareResponse;
 }
