@@ -15,6 +15,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.28.0] - 2025-08-05
+
+### Added
+- cookie를 사용하여 중복되는 인증 과정 제거 및 성능 개선 (#249) (#263)
+- 경매 상태에 따른 타이머 중지 및 재설정 기능 및 기타 UI 변경  #259 (#264)
+- 성능 측정 자동화 도구 도입 (#255) (#256)
+- 경매 상태 관리 개선 및 즉시 시작 기능 구현 #251 (#253)
+
+### Changed
+- bump version to v1.28.0
+- 이미지 최적화 컴포넌트 리팩토링 및 Next.js Image 전환 (#261) (#262)
+- refactor : ProductCard에 detail_address prop 추가 및 관련 컴포넌트 수정 #252 (#260)
+- 리액트 아이콘 번들 최소화 #257 (#258)
+
+### Fixed
+- 릴리즈 노트 자동화 시스템 개선 및 CHANGELOG.md 업데이트 기능 수정 (#267) (#268)
+- middleware config 설정을 정적 파일을 제외하는 형태에서 updateSession이 필요한 네트워크 요청의 경우를 직접 명시하는 방식으로 수정 (#250) (#254)
+
 ## [1.1.0] - 2025-07-13
 
 ### Added
