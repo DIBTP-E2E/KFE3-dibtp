@@ -52,23 +52,23 @@ const meta = {
         defaultValue: { summary: 'square' },
       },
     },
-    width: {
+    clsWidth: {
       control: 'number',
-      description: '이미지 너비',
+      description: 'CLS 방지용 이미지 너비',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '400' },
       },
     },
-    height: {
+    clsHeight: {
       control: 'number',
-      description: '이미지 높이',
+      description: 'CLS 방지용 이미지 높이',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '400' },
       },
     },
-    containerWidth: {
+    displaySize: {
       control: 'text',
       description: '컨테이너 너비 (Tailwind 클래스)',
       table: {
@@ -119,8 +119,8 @@ export const RoundedComparison: Story = {
       <div className="text-center">
         <Thumbnail
           imgUrl="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center"
-          containerWidth="w-32"
-          width={128}
+          displaySize="w-32"
+          clsWidth={128}
           rounded="none"
         />
         <p className="mt-2 text-sm text-gray-600">none</p>
@@ -128,8 +128,8 @@ export const RoundedComparison: Story = {
       <div className="text-center">
         <Thumbnail
           imgUrl="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center"
-          containerWidth="w-32"
-          width={128}
+          displaySize="w-32"
+          clsWidth={128}
           rounded="sm"
         />
         <p className="mt-2 text-sm text-gray-600">sm</p>
@@ -137,8 +137,8 @@ export const RoundedComparison: Story = {
       <div className="text-center">
         <Thumbnail
           imgUrl="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center"
-          containerWidth="w-32"
-          width={128}
+          displaySize="w-32"
+          clsWidth={128}
           rounded="xl"
         />
         <p className="mt-2 text-sm text-gray-600">xl</p>
@@ -146,8 +146,8 @@ export const RoundedComparison: Story = {
       <div className="text-center">
         <Thumbnail
           imgUrl="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center"
-          containerWidth="w-32"
-          width={128}
+          displaySize="w-32"
+          clsWidth={128}
           rounded="full"
         />
         <p className="mt-2 text-sm text-gray-600">full</p>
@@ -168,13 +168,13 @@ export const WithTailwindWidth: Story = {
   args: {
     imgUrl:
       'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop&crop=center',
-    containerWidth: 'w-64',
-    width: 256,
+    displaySize: 'w-64',
+    clsWidth: 256,
   },
   parameters: {
     docs: {
       description: {
-        story: '숫자값(256px)을 사용한 너비 지정',
+        story: 'Tailwind width 클래스(w-64)을 사용한 너비 지정',
       },
     },
   },
@@ -186,8 +186,8 @@ export const AutoAspectRatio: Story = {
     imgUrl:
       'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop&crop=center',
     aspectRatio: 'auto',
-    containerWidth: 'w-[300px]',
-    width: 300,
+    displaySize: 'w-[300px]',
+    clsWidth: 300,
   },
   parameters: {
     docs: {
@@ -204,14 +204,14 @@ export const AutoWithHeight: Story = {
     imgUrl:
       'https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=600&h=400&fit=crop&crop=center',
     aspectRatio: 'auto',
-    containerWidth: 'w-[300px]',
-    width: 300,
-    height: 200,
+    displaySize: 'w-[300px]',
+    clsWidth: 300,
+    clsHeight: 200,
   },
   parameters: {
     docs: {
       description: {
-        story: 'aspectRatio="auto"일 때 width와 height를 모두 지정',
+        story: 'aspectRatio="auto"일 때 clsWidth와 clsHeight를 모두 지정',
       },
     },
   },
@@ -222,8 +222,8 @@ export const WithCustomStyling: Story = {
   args: {
     imgUrl:
       'https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=600&h=400&fit=crop&crop=center',
-    containerWidth: 'w-[250px]',
-    width: 250,
+    displaySize: 'w-[250px]',
+    clsWidth: 250,
     className: 'rounded-md shadow-sm border-2 border-gray-200',
   },
   parameters: {
@@ -250,8 +250,8 @@ export const WidthBehaviorComparison: Story = {
             <Thumbnail
               imgUrl="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop&crop=center"
               aspectRatio="square"
-              containerWidth="w-24"
-              width={96}
+              displaySize="w-24"
+              clsWidth={96}
             />
             <p className="mt-2 text-sm text-gray-600">96px</p>
           </div>
@@ -259,8 +259,8 @@ export const WidthBehaviorComparison: Story = {
             <Thumbnail
               imgUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop&crop=center"
               aspectRatio="square"
-              containerWidth="w-32"
-              width={128}
+              displaySize="w-32"
+              clsWidth={128}
             />
             <p className="mt-2 text-sm text-gray-600">128px</p>
           </div>
@@ -268,8 +268,8 @@ export const WidthBehaviorComparison: Story = {
             <Thumbnail
               imgUrl="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center"
               aspectRatio="square"
-              containerWidth="w-48"
-              width={192}
+              displaySize="w-48"
+              clsWidth={192}
             />
             <p className="mt-2 text-sm text-gray-600">192px</p>
           </div>
@@ -283,8 +283,8 @@ export const WidthBehaviorComparison: Story = {
             <Thumbnail
               imgUrl="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop&crop=center"
               aspectRatio="auto"
-              containerWidth="w-32"
-              width={128}
+              displaySize="w-32"
+              clsWidth={128}
             />
             <p className="mt-2 text-sm text-gray-600">정사각형 원본</p>
           </div>
@@ -292,8 +292,8 @@ export const WidthBehaviorComparison: Story = {
             <Thumbnail
               imgUrl="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop&crop=center"
               aspectRatio="auto"
-              containerWidth="w-48"
-              width={192}
+              displaySize="w-48"
+              clsWidth={192}
             />
             <p className="mt-2 text-sm text-gray-600">가로형 원본</p>
           </div>
@@ -301,8 +301,8 @@ export const WidthBehaviorComparison: Story = {
             <Thumbnail
               imgUrl="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=450&h=800&fit=crop&crop=center"
               aspectRatio="auto"
-              containerWidth="w-24"
-              width={96}
+              displaySize="w-24"
+              clsWidth={96}
             />
             <p className="mt-2 text-sm text-gray-600">세로형 원본</p>
           </div>
@@ -330,32 +330,32 @@ export const SizeComparison: Story = {
       <div className="text-center">
         <Thumbnail
           imgUrl="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop&crop=center"
-          containerWidth="w-16"
-          width={64}
+          displaySize="w-16"
+          clsWidth={64}
         />
         <p className="mt-2 text-sm text-gray-600">64px</p>
       </div>
       <div className="text-center">
         <Thumbnail
           imgUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop&crop=center"
-          containerWidth="w-24"
-          width={96}
+          displaySize="w-24"
+          clsWidth={96}
         />
         <p className="mt-2 text-sm text-gray-600">96px</p>
       </div>
       <div className="text-center">
         <Thumbnail
           imgUrl="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop&crop=center"
-          containerWidth="w-32"
-          width={128}
+          displaySize="w-32"
+          clsWidth={128}
         />
         <p className="mt-2 text-sm text-gray-600">128px</p>
       </div>
       <div className="text-center">
         <Thumbnail
           imgUrl="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop&crop=center"
-          containerWidth="w-48"
-          width={192}
+          displaySize="w-48"
+          clsWidth={192}
         />
         <p className="mt-2 text-sm text-gray-600">192px</p>
       </div>
@@ -404,15 +404,15 @@ export const ErrorStates: Story = {
   render: () => (
     <div className="grid max-w-2xl grid-cols-3 gap-4">
       <div className="text-center">
-        <Thumbnail imgUrl="https://this-url-does-not-exist.jpg" containerWidth="w-32" width={128} />
+        <Thumbnail imgUrl="https://this-url-does-not-exist.jpg" displaySize="w-32" clsWidth={128} />
         <p className="mt-2 text-sm text-gray-600">존재하지 않는 URL</p>
       </div>
       <div className="text-center">
-        <Thumbnail imgUrl="invalid-url" containerWidth="w-32" width={128} />
+        <Thumbnail imgUrl="invalid-url" displaySize="w-32" clsWidth={128} />
         <p className="mt-2 text-sm text-gray-600">잘못된 URL 형식</p>
       </div>
       <div className="text-center">
-        <Thumbnail imgUrl="" containerWidth="w-32" width={128} />
+        <Thumbnail imgUrl="" displaySize="w-32" clsWidth={128} />
         <p className="mt-2 text-sm text-gray-600">빈 URL</p>
       </div>
     </div>

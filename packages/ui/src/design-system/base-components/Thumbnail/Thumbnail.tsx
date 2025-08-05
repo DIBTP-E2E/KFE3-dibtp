@@ -16,10 +16,11 @@ export interface ThumbnailProps {
   alt?: string;
   aspectRatio?: 'square' | 'auto';
   rounded?: 'none' | 'sm' | 'xl' | 'full';
-  width?: number;
-  height?: number;
-  /** 컨테이너 너비 (Tailwind 클래스) */
-  containerWidth?: string;
+  // cls 방지용 속성
+  clsWidth?: number;
+  clsHeight?: number;
+  /** 이미지 너비 (Tailwind 클래스) */
+  displaySize?: string;
   className?: string;
   loading?: 'lazy' | 'eager';
   /** 확장성: 외부 이미지 컴포넌트 주입 (선택사항) */
@@ -33,9 +34,9 @@ const Thumbnail = ({
   rounded = 'xl',
   className,
   loading = 'lazy',
-  width,
-  height,
-  containerWidth,
+  clsWidth,
+  clsHeight,
+  displaySize,
   ImageComponent = 'img',
 }: ThumbnailProps) => {
   const isSquare = aspectRatio === 'square';
@@ -47,7 +48,7 @@ const Thumbnail = ({
         `rounded-${rounded}`,
         isSquare && 'h-0 pb-[100%]',
         !isSquare && 'h-auto',
-        containerWidth || 'w-full',
+        displaySize || 'w-full',
         className
       )}
     >
@@ -56,8 +57,8 @@ const Thumbnail = ({
         alt={alt}
         className={cn('object-cover size-full', isSquare && 'absolute inset-0')}
         loading={loading}
-        width={width}
-        height={height}
+        width={clsWidth}
+        height={clsHeight}
       />
     </figure>
   );
