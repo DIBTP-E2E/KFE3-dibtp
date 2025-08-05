@@ -4,12 +4,14 @@ import { useState } from 'react';
 
 import { Button, ActionSheet, Icon, toast } from '@repo/ui/components';
 
+import { SkeletonBox } from '@web/components/shared/';
 import {
   PRODUCT_STATUS_ACTION_LABELS,
   PRODUCT_STATUS_LABELS,
   PRODUCT_STATUS_MESSAGES,
 } from '@web/constants';
 import { useProductActions, useProductActionMenu } from '@web/hooks';
+import { useMyInfo } from '@web/hooks/my-info/useMyInfo';
 import type { ProductStatus } from '@web/types';
 
 interface StatusActionButtonProps {
@@ -17,7 +19,6 @@ interface StatusActionButtonProps {
   productTitle: string;
   currentStatus: ProductStatus;
   sellerUserId: string;
-  currentUserId: string;
 }
 
 const StatusActionButton = ({
@@ -25,10 +26,11 @@ const StatusActionButton = ({
   productTitle,
   currentStatus,
   sellerUserId,
-  currentUserId,
 }: StatusActionButtonProps) => {
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
   const [isStatusChanging, setIsStatusChanging] = useState(false);
+
+  const { userId, isLoading: isMyInfoLoading } = useMyInfo();
 
   const { handleStartAuction, handleStopAuction } = useProductActions({
     productId,
@@ -43,8 +45,12 @@ const StatusActionButton = ({
     },
   });
 
+  if (isMyInfoLoading) {
+    return <SkeletonBox className="w-[120px] h-[36px] rounded-md" />;
+  }
+
   // 판매자가 아니면 렌더링하지 않음
-  if (currentUserId !== sellerUserId) {
+  if (userId && userId !== sellerUserId) {
     return null;
   }
 

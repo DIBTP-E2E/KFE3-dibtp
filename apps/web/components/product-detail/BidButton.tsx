@@ -2,6 +2,7 @@
 
 import { Button, toast } from '@repo/ui/components';
 
+import { SkeletonBox } from '@web/components/shared';
 import { PRODUCT_STATUS, API_ROUTES } from '@web/constants';
 import type { ProductStatus } from '@web/types';
 
@@ -10,9 +11,16 @@ interface BidButtonProps {
   currentPrice: number;
   status: ProductStatus;
   isSeller: boolean;
+  isMyInfoLoading: boolean;
 }
 
-const BidButton = ({ productId, currentPrice, status, isSeller }: BidButtonProps) => {
+const BidButton = ({
+  productId,
+  currentPrice,
+  status,
+  isSeller,
+  isMyInfoLoading,
+}: BidButtonProps) => {
   const handleBid = async () => {
     const isConfirmed = confirm(`${currentPrice.toLocaleString()}원에 입찰하시겠습니까?`);
 
@@ -50,6 +58,10 @@ const BidButton = ({ productId, currentPrice, status, isSeller }: BidButtonProps
       toast.error(errorMessage);
     }
   };
+
+  if (isMyInfoLoading) {
+    return <SkeletonBox className="w-[120px] h-[48px] rounded-md" />;
+  }
 
   return (
     <Button

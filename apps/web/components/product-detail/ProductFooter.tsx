@@ -3,6 +3,7 @@
 import { Timer } from '@web/components/shared';
 import { PRODUCT_STATUS } from '@web/constants';
 
+import { useMyInfo } from '@web/hooks/my-info/useMyInfo';
 import { useCurrentPrice } from '@web/hooks/products';
 import type { ProductStatus } from '@web/types';
 
@@ -15,8 +16,8 @@ interface ProductFooterProps {
   decreaseUnit: number;
   startedAt: string;
   status: ProductStatus;
-  isSeller: boolean;
-  finalBidPrice?: string;
+  sellerUserId: string;
+  finalBidPrice?: string | null;
 }
 
 const ProductFooter = ({
@@ -26,19 +27,22 @@ const ProductFooter = ({
   decreaseUnit,
   startedAt,
   status,
-  isSeller,
+  sellerUserId,
   finalBidPrice,
 }: ProductFooterProps) => {
-  const displayPrice =
-    finalBidPrice !== undefined
-      ? parseInt(finalBidPrice)
-      : useCurrentPrice({
-          startPrice,
-          minPrice,
-          decreaseUnit,
-          auctionStartedAt: startedAt,
-          status,
-        });
+  const { userId, isLoading: isMyInfoLoading } = useMyInfo();
+  const currentUserId = userId || null;
+
+  const isSeller = currentUserId === sellerUserId;
+  const displayPrice = finalBidPrice
+    ? parseInt(finalBidPrice)
+    : useCurrentPrice({
+        startPrice,
+        minPrice,
+        decreaseUnit,
+        auctionStartedAt: startedAt,
+        status,
+      });
 
   return (
     <section className="h-bottom-nav w-full md:max-w-container px-container bg-bg-light border-t border-border-base flex justify-between items-center">
@@ -71,6 +75,7 @@ const ProductFooter = ({
         currentPrice={displayPrice}
         status={status}
         isSeller={isSeller}
+        isMyInfoLoading={isMyInfoLoading}
       />
     </section>
   );
