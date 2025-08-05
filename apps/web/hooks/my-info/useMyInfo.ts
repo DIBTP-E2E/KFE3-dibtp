@@ -8,7 +8,7 @@ import { fetchMyInfo } from '@web/services/my-info/client';
 import type { MyInfoAPIResponse } from '@web/types';
 
 export const useMyInfo = (): MyInfoAPIResponse => {
-  const { data } = useQuery<MyInfoAPIResponse>({
+  const { data, isLoading } = useQuery<MyInfoAPIResponse>({
     queryKey: MY_INFO_QUERY_KEY,
     queryFn: fetchMyInfo,
   });
@@ -19,5 +19,6 @@ export const useMyInfo = (): MyInfoAPIResponse => {
     userId: data?.userId ?? '',
     nickname: data?.nickname ?? '',
     profileImage: data?.profileImage ?? '',
+    isLoading: isLoading,
   };
 };

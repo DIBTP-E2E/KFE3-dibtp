@@ -4,4 +4,5 @@ export interface MyInfoAPIResponse {
   userId: string;
   nickname: string;
   profileImage: string;
+  isLoading: boolean;
 }
