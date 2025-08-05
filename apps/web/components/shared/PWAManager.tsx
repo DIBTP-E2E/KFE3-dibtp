@@ -50,7 +50,9 @@ export const PWAManager = () => {
           });
         }
       });
-    } catch {}
+    } catch (error) {
+      console.warn('[PWA] Service Worker registration failed:', error);
+    }
   }
 
   if (!isSupported) {
@@ -61,15 +63,18 @@ export const PWAManager = () => {
     <>
       {/* Install prompt for iOS users */}
       {isIOS && !isStandalone && (
-        <div className="fixed bottom-4 left-4 right-4 bg-bg-primary border border-border-primary rounded-lg p-4 shadow-lg z-50">
-          <div className="flex items-start space-x-3">
-            <div className="flex-1">
-              <h3 className="text-sm font-medium text-text-primary">앱을 홈 화면에 추가하세요</h3>
-              <p className="text-xs text-text-secondary mt-1">
-                공유 버튼 <span className="inline-block">⎋</span>을 누른 후 &quot;홈 화면에
-                추가&quot; <span className="inline-block">➕</span>를 선택하세요.
+        <aside
+          data-install-banner
+          className="fixed bottom-[var(--space-container)] left-[var(--space-container)] right-[var(--space-container)] bg-bg-primary p-container rounded-lg shadow-lg z-50"
+        >
+          <div className="flex items-start gap-md">
+            <div className="flex-1 text-text-inverse">
+              <h3 className="font-style-large">앱을 홈 화면에 추가해 보세요!</h3>
+              <p className="font-style-small mt-1">
+                공유 버튼을 누른 후 &quot;홈 화면에 추가&quot; 를 선택하세요.
               </p>
             </div>
+
             <button
               onClick={() => {
                 // Hide the banner (this would be stored in localStorage in a real app)
@@ -78,13 +83,13 @@ export const PWAManager = () => {
                   (banner as HTMLElement).style.display = 'none';
                 }
               }}
-              className="text-text-secondary hover:text-text-primary"
-              data-install-banner
+              aria-label="닫기"
+              className="font-style-large text-text-inverse inline-flex w-[16px] h-[16px]"
             >
               ✕
             </button>
           </div>
-        </div>
+        </aside>
       )}
     </>
   );
