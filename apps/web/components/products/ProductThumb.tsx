@@ -8,9 +8,9 @@ interface ProductThumbProps {
   status: ProductStatus;
   imgUrl: string;
   title: string;
-  width?: number;
-  height?: number;
-  containerWidth?: string;
+  clsWidth?: number;
+  clsHeight?: number;
+  displaySize?: string;
   className?: string;
   isShowBadge?: boolean;
 }
@@ -19,9 +19,9 @@ const ProductThumb = ({
   status,
   imgUrl,
   title,
-  width,
-  height,
-  containerWidth,
+  clsWidth,
+  clsHeight,
+  displaySize,
   className,
   isShowBadge = true,
 }: ProductThumbProps) => {
@@ -30,9 +30,9 @@ const ProductThumb = ({
       <NextThumbnail
         imgUrl={imgUrl ? imgUrl : noImage.src}
         alt={title}
-        width={width}
-        height={height}
-        containerWidth={containerWidth}
+        clsWidth={clsWidth}
+        clsHeight={clsHeight}
+        displaySize={displaySize}
         quality={80}
         className={className}
       />

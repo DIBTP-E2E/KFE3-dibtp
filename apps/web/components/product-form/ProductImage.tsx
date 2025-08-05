@@ -29,7 +29,6 @@ const ProductImage = ({
   onExistingImagesChange,
   onOrderedImagesChange,
   maxImages = PRODUCT_MAX_IMAGES,
-  images,
   existingImages = [],
   errors = {},
 }: ProductImageProps) => {
@@ -98,9 +97,9 @@ const ProductImage = ({
               <NextThumbnail
                 imgUrl={image.url}
                 alt={`이미지 ${index + 1}`}
-                containerWidth="w-16"
-                width={64}
-                height={64}
+                displaySize="w-16"
+                clsWidth={64}
+                clsHeight={64}
                 aspectRatio="square"
                 rounded="sm"
                 className="border border-border-base pointer-events-none"

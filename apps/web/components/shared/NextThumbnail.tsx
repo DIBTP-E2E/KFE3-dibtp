@@ -1,6 +1,7 @@
 'use client';
 
-import { Thumbnail, ThumbnailProps, ThumbnailImageProps } from '@repo/ui/components';
+import { Thumbnail, ThumbnailImageProps } from '@repo/ui/components';
+import type { ThumbnailProps } from '@repo/ui/components';
 
 import Image from 'next/image';
 
@@ -31,17 +32,17 @@ export type NextThumbnailProps = Omit<ThumbnailProps, 'ImageComponent'> & {
 };
 
 const NextThumbnail = (props: NextThumbnailProps) => {
-  const { width, height, quality, priority } = props;
+  const { clsWidth, clsHeight, quality, priority, ...thumbnailProps } = props;
 
   // 크기가 지정되지 않으면 fill 모드, 크기가 같으면 square
-  const useFillMode = !width && !height;
-  const isSquareAspect = useFillMode || width === height;
+  const useFillMode = !clsWidth && !clsHeight;
+  const isSquareAspect = useFillMode || clsWidth === clsHeight;
 
   const OptimizedImageComponent = (imageProps: ThumbnailImageProps) => (
     <NextThumbnailImage
       {...imageProps}
-      width={width}
-      height={height}
+      width={clsWidth}
+      height={clsHeight}
       fill={useFillMode}
       quality={quality}
       priority={priority}
@@ -50,7 +51,7 @@ const NextThumbnail = (props: NextThumbnailProps) => {
 
   return (
     <Thumbnail
-      {...props}
+      {...thumbnailProps}
       aspectRatio={isSquareAspect ? 'square' : props.aspectRatio}
       ImageComponent={OptimizedImageComponent}
     />
