@@ -35,5 +35,6 @@
   --max-width-container: 375px;
 
   /* height */
-  --height-header: 56px;
+  --height-top-nav: 56px;
+  --height-bottom-nav: 64px;
 }

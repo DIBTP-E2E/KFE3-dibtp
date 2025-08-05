@@ -41,9 +41,9 @@ const ProductFooter = ({
         });
 
   return (
-    <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full md:max-w-container bg-white p-4 border-t border-gray-200 flex justify-between items-center">
+    <section className="h-bottom-nav w-full md:max-w-container px-container bg-bg-light border-t border-border-base flex justify-between items-center">
       <div className="flex flex-col">
-        <span className="text-xl font-bold text-gray-900">{displayPrice.toLocaleString()}원</span>
+        <span className="text-xl font-bold">{displayPrice.toLocaleString()}원</span>
         <div className="flex items-center gap-x-1 text-xs text-text-info mt-1">
           {status === PRODUCT_STATUS.SOLD ? (
             <span className="text-xs text-text-error font-bold">경매가 종료되었습니다.</span>
@@ -65,13 +65,14 @@ const ProductFooter = ({
           )}
         </div>
       </div>
+
       <BidButton
         productId={productId}
         currentPrice={displayPrice}
         status={status}
         isSeller={isSeller}
       />
-    </div>
+    </section>
   );
 };
 

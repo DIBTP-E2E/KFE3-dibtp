@@ -4,13 +4,13 @@ import { Icon } from '@repo/ui/components';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { BOTTOM_NAVIGATION_ITEMS } from '@/constants';
+import { BOTTOM_NAVIGATION_ITEMS } from '@web/constants';
 
 const BottomNavigation = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-bg-light border-t border-border-base">
+    <nav className="bg-bg-light border-t border-border-base h-bottom-nav">
       <div className="flex">
         {BOTTOM_NAVIGATION_ITEMS.map((item) => {
           const isActive = pathname === item.href;
