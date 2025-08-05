@@ -62,9 +62,9 @@ const ProductCard = ({
           title={title}
           status={status}
           isShowBadge={isShowProductBadge}
-          containerWidth="w-20"
-          width={80}
-          height={80}
+          displaySize="w-20"
+          clsWidth={80}
+          clsHeight={80}
         />
 
         <section className="flex flex-col gap-sm">
