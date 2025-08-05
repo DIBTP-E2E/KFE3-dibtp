@@ -9,8 +9,6 @@ export const getBidByProduct = async (productId: number) => {
     });
     return bid;
   } catch (error) {
-    console.error('Error fetching bid by product ID:', error);
-    console.error('Detailed error:', error); // 상세 에러 객체 로깅
     throw error;
   }
 };
