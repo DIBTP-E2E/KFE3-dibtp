@@ -39,7 +39,7 @@ export const useCurrentPrice = ({
 
       // 가격이 실제로 변했을 때만 상태 업데이트
       setCurrentPrice((prevPrice) => (prevPrice !== newPrice ? newPrice : prevPrice));
-    }, 1000); // 1초마다 가격 확인
+    }, 1000 * 5); // 5초마다 가격 확인
 
     return () => clearInterval(timer);
   }, [startPrice, minPrice, decreaseUnit, auctionStartedAt, status]);
