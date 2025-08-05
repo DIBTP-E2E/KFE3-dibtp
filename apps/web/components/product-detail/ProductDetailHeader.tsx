@@ -8,11 +8,10 @@ import { BackButton } from '@web/components/layout/header-icon';
 import LikeButton from './LikeButton';
 
 interface ProductDetailHeaderProps {
-  initialIsLiked: boolean;
   title: string;
 }
 
-const ProductDetailHeader = ({ initialIsLiked, title }: ProductDetailHeaderProps) => {
+const ProductDetailHeader = ({ title }: ProductDetailHeaderProps) => {
   const [isBgVisible, setIsBgVisible] = useState(false);
 
   useEffect(() => {
@@ -40,7 +39,7 @@ const ProductDetailHeader = ({ initialIsLiked, title }: ProductDetailHeaderProps
       <div className="w-full flex items-center justify-between">
         <h1 className="sr-only">{title} 상품 상세 정보 페이지</h1>
         <BackButton className="opacity-80" />
-        <LikeButton initialIsLiked={initialIsLiked} className="opacity-80" />
+        <LikeButton className="opacity-80" />
       </div>
     </HeaderContainer>
   );

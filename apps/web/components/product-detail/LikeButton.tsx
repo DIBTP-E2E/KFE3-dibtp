@@ -1,54 +1,34 @@
 'use client';
 
-import { useState } from 'react';
-
 import { IconButton } from '@repo/ui/components';
 import { toast, cn } from '@repo/ui/utils';
+
 import { useParams } from 'next/navigation';
 
-import { createFavorite, deleteFavorite } from '@web/services/favorites/client';
+import { SkeletonBox } from '@web/components/shared';
+
+import { useFavoriteStatus } from '@web/hooks/favorites/useFavoriteStatus';
 
 interface LikeButtonProps {
-  initialIsLiked: boolean;
   className?: string;
 }
 
-const LikeButton = ({ initialIsLiked, className }: LikeButtonProps) => {
+const LikeButton = ({ className }: LikeButtonProps) => {
   const { productId: productIdParam } = useParams();
   const productId = parseInt(productIdParam as string, 10);
 
-  const [isLiked, setIsLiked] = useState(initialIsLiked);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLiked, isLoading, error, toggleFavorite } = useFavoriteStatus({ productId });
 
   const handleClick = async () => {
-    if (isLoading || !productId) return;
-
-    setIsLoading(true);
-    const previousIsLiked = isLiked;
-
-    setIsLiked(!previousIsLiked);
-
-    try {
-      if (previousIsLiked) {
-        await deleteFavorite(productId);
-      } else {
-        await createFavorite(productId);
-      }
-    } catch (error) {
-      setIsLiked(previousIsLiked);
-
-      const errorMassage =
-        error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.';
-      toast.error(errorMassage);
-
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.error('찜하기 실패:', error);
-      }
-    } finally {
-      setIsLoading(false);
+    await toggleFavorite();
+    if (error) {
+      toast.error(error.message || '찜하기 처리에 실패했습니다.');
     }
   };
+
+  if (isLoading) {
+    return <SkeletonBox className={cn('w-[40px] h-[40px] rounded-full', className)} />;
+  }
 
   return (
     <IconButton
