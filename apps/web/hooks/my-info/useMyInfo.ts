@@ -19,6 +19,6 @@ export const useMyInfo = (): MyInfoAPIResponse => {
     userId: data?.userId ?? '',
     nickname: data?.nickname ?? '',
     profileImage: data?.profileImage ?? '',
-    isLoading: isLoading,
+    isLoading,
   };
 };

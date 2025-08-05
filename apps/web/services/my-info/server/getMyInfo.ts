@@ -26,6 +26,7 @@ export const getMyInfo = async (): Promise<MyInfoAPIResponse> => {
       detailAddress: userInfo.detailAddress,
       nickname: user?.nickname ?? '',
       profileImage: user?.profile_image ?? '',
+      isLoading: false,
     };
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
