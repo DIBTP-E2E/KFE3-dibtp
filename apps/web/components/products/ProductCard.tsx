@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 
+import { PRODUCT_STATUS } from '@/constants/products/product-status';
+
 import { PAGE_ROUTES } from '@/constants';
 import { useCurrentPrice } from '@/hooks/products';
 import type { ProductStatus } from '@/types';
@@ -62,7 +64,11 @@ const ProductCard = ({
 
         <section className="flex flex-col gap-sm">
           <h3 className="font-normal text-base line-clamp-2">{title}</h3>
-          <p className="font-style-large">현재가 {currentPrice.toLocaleString()}원</p>
+          {status === PRODUCT_STATUS.SOLD ? (
+            <p className="font-style-medium font-bold text-text-info">경매가 종료되었습니다</p>
+          ) : (
+            <p className="font-style-large">현재가 {currentPrice.toLocaleString()}원</p>
+          )}
           <p className="text-xs flex items-center gap-xs  text-text-info">
             {region}
             <i>•</i>
