@@ -1,3 +1,7 @@
+'use client';
+
+import { toast } from '@repo/ui/utils';
+
 import { PAGE_ROUTES } from '@/constants/routes';
 
 import MypageMenuItem, { type MypageMenuItemProps } from './MypageMenuItem';
@@ -18,7 +22,7 @@ const TradingMenu = () => {
     {
       icon: 'Heart',
       title: '관심목록',
-      href: PAGE_ROUTES.MYPAGE.FAVORITES,
+      onClick: () => toast.warning('준비중입니다!'),
     },
   ];
 

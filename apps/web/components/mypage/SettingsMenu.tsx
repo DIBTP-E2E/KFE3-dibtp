@@ -1,3 +1,7 @@
+'use client';
+
+import { toast } from '@repo/ui/utils';
+
 import { PAGE_ROUTES } from '@/constants/routes';
 
 import MypageMenuItem, { type MypageMenuItemProps } from './MypageMenuItem';
@@ -13,12 +17,12 @@ const SettingsMenu = () => {
     {
       icon: 'Bell',
       title: '알림 설정',
-      href: PAGE_ROUTES.MYPAGE.NOTIFICATIONS,
+      onClick: () => toast.warning('준비중입니다!'),
     },
     {
       icon: 'User',
       title: '계정 설정',
-      href: PAGE_ROUTES.MYPAGE.ACCOUNT,
+      onClick: () => toast.warning('준비중입니다!'),
     },
   ];
 
