@@ -1,5 +1,7 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import Link from 'next/link';
 
 import { PRODUCT_STATUS } from '@/constants/products/product-status';
@@ -24,6 +26,7 @@ interface ProductCardProps {
   viewCount?: number;
   createdAt: string;
   region: string;
+  detailAddress: string;
   isShowProductBadge?: boolean;
 }
 
@@ -38,6 +41,7 @@ const ProductCard = ({
   status,
   createdAt,
   region,
+  detailAddress,
   isShowProductBadge,
 }: ProductCardProps) => {
   const currentPrice = useCurrentPrice({
@@ -48,11 +52,13 @@ const ProductCard = ({
     status,
   });
 
+  const shortAddress = detailAddress.split(' ')[0] ?? '';
+
   return (
     <Link href={PAGE_ROUTES.PRODUCTS.DETAIL(productId.toString())}>
       <article
         className="bg-white flex items-center gap-md p-sm rounded-[20px]"
-        aria-label={`${title}, 경매 중, 현재가 ${currentPrice}, 지역 ${region}`}
+        aria-label={`${title}, ${status}, 현재가 ${currentPrice}, 지역 ${region}`}
       >
         <ProductThumb
           imgUrl={imgUrl}
@@ -70,7 +76,7 @@ const ProductCard = ({
             <p className="font-style-large">현재가 {currentPrice.toLocaleString()}원</p>
           )}
           <p className="text-xs flex items-center gap-xs  text-text-info">
-            {region}
+            {region} {shortAddress}
             <i>•</i>
             {formatRelativeTime(createdAt)}
           </p>
