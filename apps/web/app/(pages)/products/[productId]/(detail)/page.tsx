@@ -13,12 +13,13 @@ import {
   ProductFooter,
   UserInfoLayout,
   StatusActionButton,
-} from '@/components/product-detail';
+  ProductAddress,
+} from '@web/components/product-detail';
 
-import { getAuthenticatedUser } from '@/utils/auth/server';
 import { getBidByProduct } from '@web/services/bids/server';
 import { getFavoriteStatus } from '@web/services/favorites/server';
 import { fetchProductDetailWithPrisma } from '@web/services/products/server';
+import { getAuthenticatedUser } from '@web/utils/auth/server';
 
 interface ProductDetailPageParams {
   params: Promise<{ productId: string }>;
@@ -60,7 +61,6 @@ export async function generateMetadata({ params }: ProductDetailPageParams): Pro
     },
   };
 }
-
 
 const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
   const { productId: productIdParam } = await params;
@@ -121,6 +121,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
             currentUserId={userId}
           />
         </div>
+        <ProductAddress region={product.region} detail_address={product.detail_address} />
         <ProductDescription description={product.description} />
       </div>
       <ProductFooter
