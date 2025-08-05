@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 
 import { getUserIdCookie } from '@/utils/auth/server';
 import {
-  ActivityStats,
+  // ActivityStats,
   SettingsMenu,
   TradingMenu,
   LogoutButton,
@@ -39,7 +39,8 @@ const MyPage = async () => {
     <div className="flex flex-col gap-md">
       <ProfileBanner userNickname={user.nickname} userProfileImage={user.profile_image ?? ''} />
 
-      <ActivityStats />
+      {/* 기능 구현 후 주석 해제 예정 */}
+      {/* <ActivityStats /> */}
 
       <TradingMenu />
 
