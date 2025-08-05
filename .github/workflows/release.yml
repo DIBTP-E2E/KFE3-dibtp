@@ -80,11 +80,27 @@ jobs:
         if: steps.check-release.outputs.need_release == 'true'
         run: |
           VERSION_NUMBER=$(echo ${{ steps.release-notes.outputs.NEW_VERSION }} | sed 's/^v//')
-          pnpm version $VERSION_NUMBER --no-git-tag-version
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add package.json
-          git commit -m "chore: bump version to ${{ steps.release-notes.outputs.NEW_VERSION }}"
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          
+          if [ "$VERSION_NUMBER" != "$CURRENT_VERSION" ]; then
+            echo "Updating version from $CURRENT_VERSION to $VERSION_NUMBER"
+            pnpm version $VERSION_NUMBER --no-git-tag-version
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add package.json CHANGELOG.md
+            git commit -m "chore: bump version to ${{ steps.release-notes.outputs.NEW_VERSION }}"
+          else
+            echo "Version $VERSION_NUMBER is already set in package.json, skipping version update"
+            # CHANGELOG.md만 업데이트된 경우를 위해 커밋
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            if git diff --quiet CHANGELOG.md; then
+              echo "No changes to commit"
+            else
+              git add CHANGELOG.md
+              git commit -m "chore: update CHANGELOG.md for ${{ steps.release-notes.outputs.NEW_VERSION }}"
+            fi
+          fi
 
       - name: Create and push tag
         if: steps.check-release.outputs.need_release == 'true'
