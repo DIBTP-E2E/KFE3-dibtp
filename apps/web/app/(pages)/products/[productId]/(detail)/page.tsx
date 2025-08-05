@@ -85,10 +85,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
         <div className="px-container py-lg flex flex-col gap-lg">
           <ProductTitle title={product.title} />
 
-          {await UserInfoLayout({
-            sellerUserId: product.seller_user_id,
-            productId: product.product_id,
-          })}
+          <UserInfoLayout sellerUserId={product.seller_user_id} productId={product.product_id} />
 
           <AuctionInfoLayout
             decreaseUnit={product.decrease_unit}
