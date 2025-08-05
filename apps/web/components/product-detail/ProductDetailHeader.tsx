@@ -9,9 +9,10 @@ import LikeButton from './LikeButton';
 
 interface ProductDetailHeaderProps {
   initialIsLiked: boolean;
+  title: string;
 }
 
-const ProductDetailHeader = ({ initialIsLiked }: ProductDetailHeaderProps) => {
+const ProductDetailHeader = ({ initialIsLiked, title }: ProductDetailHeaderProps) => {
   const [isBgVisible, setIsBgVisible] = useState(false);
 
   useEffect(() => {
@@ -33,12 +34,13 @@ const ProductDetailHeader = ({ initialIsLiked }: ProductDetailHeaderProps) => {
   return (
     <HeaderContainer
       className={`fixed top-0 md:max-w-container w-full transition-colors duration-300 border-none ${
-        isBgVisible ? 'bg-white shadow-md' : 'bg-transparent'
+        isBgVisible ? 'bg-bg-light shadow-md' : 'bg-transparent'
       }`}
     >
       <div className="w-full flex items-center justify-between">
-        <BackButton />
-        <LikeButton initialIsLiked={initialIsLiked} />
+        <h1 className="sr-only">{title} 상품 상세 정보 페이지</h1>
+        <BackButton className="opacity-80" />
+        <LikeButton initialIsLiked={initialIsLiked} className="opacity-80" />
       </div>
     </HeaderContainer>
   );

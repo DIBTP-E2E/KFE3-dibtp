@@ -6,9 +6,10 @@ import HeaderIconButton from './HeaderIconButton';
 
 interface BackButtonProps {
   onClick?: () => void;
+  className?: string;
 }
 
-const BackButton = ({ onClick }: BackButtonProps) => {
+const BackButton = ({ onClick, className }: BackButtonProps) => {
   const { goBack } = useAppNavigation();
 
   return (
@@ -16,6 +17,7 @@ const BackButton = ({ onClick }: BackButtonProps) => {
       onClick={onClick ? onClick : goBack}
       iconName="ArrowLeft"
       ariaLabel="뒤로 가기"
+      className={className}
     />
   );
 };

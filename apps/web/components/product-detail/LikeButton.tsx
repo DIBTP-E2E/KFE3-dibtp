@@ -3,16 +3,17 @@
 import { useState } from 'react';
 
 import { IconButton } from '@repo/ui/components';
-import { toast } from '@repo/ui/utils';
+import { toast, cn } from '@repo/ui/utils';
 import { useParams } from 'next/navigation';
 
 import { createFavorite, deleteFavorite } from '@web/services/favorites/client';
 
 interface LikeButtonProps {
   initialIsLiked: boolean;
+  className?: string;
 }
 
-const LikeButton = ({ initialIsLiked }: LikeButtonProps) => {
+const LikeButton = ({ initialIsLiked, className }: LikeButtonProps) => {
   const { productId: productIdParam } = useParams();
   const productId = parseInt(productIdParam as string, 10);
 
@@ -59,7 +60,7 @@ const LikeButton = ({ initialIsLiked }: LikeButtonProps) => {
       buttonSize="sm"
       variant="fulled"
       color="lightMode"
-      className={isLiked ? 'text-text-primary' : ''}
+      className={cn(isLiked ? 'text-text-primary' : '', className)}
     />
   );
 };
