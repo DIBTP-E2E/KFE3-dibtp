@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import { ProductQueryFilters } from '@/services/products/server';
+import { ProductQueryFilters } from '@web/services/products/server';
 
 import ProductList from './ProductList';
 import ProductListSkeleton from './ProductListSkeleton';

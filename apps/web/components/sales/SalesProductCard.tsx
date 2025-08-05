@@ -20,6 +20,7 @@ interface SalesProductCardProps {
   auctionStartedAt: string;
   status: ProductStatus;
   region: string;
+  detailAddress: string;
   createdAt: string;
 }
 
@@ -33,6 +34,7 @@ const SalesProductCard = ({
   auctionStartedAt,
   status,
   region,
+  detailAddress,
   createdAt,
 }: SalesProductCardProps) => {
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
@@ -84,6 +86,7 @@ const SalesProductCard = ({
           auctionStartedAt={auctionStartedAt}
           status={status}
           region={region}
+          detailAddress={detailAddress}
           createdAt={createdAt}
           isShowProductBadge={false}
         />

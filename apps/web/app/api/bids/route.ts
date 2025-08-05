@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       product.start_price.toNumber(),
       product.min_price.toNumber(),
       product.decrease_unit.toNumber(),
-      product.created_at.toISOString()
+      product.auction_started_at.toISOString()
     );
 
     if (calculatedCurrentPrice.toFixed(2) !== bidPrice.toFixed(2)) {

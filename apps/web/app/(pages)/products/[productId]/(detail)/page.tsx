@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 
 import { notFound, redirect } from 'next/navigation';
 
+import { PAGE_ROUTES } from '@web/constants';
 import {
   ProductDetailHeader,
   ProductImageCarousel,
@@ -13,11 +14,12 @@ import {
   ProductFooter,
   UserInfoLayout,
   StatusActionButton,
+  ProductAddress,
 } from '@web/components/product-detail';
-import { PAGE_ROUTES } from '@web/constants';
+
+import { getBidByProduct } from '@web/services/bids/server';
 import { getFavoriteStatus } from '@web/services/favorites/server';
 import { fetchProductDetailWithPrisma } from '@web/services/products/server';
-
 import { getUserIdCookie } from '@web/utils/auth/server';
 
 interface ProductDetailPageParams {
@@ -80,6 +82,12 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
     return notFound();
   }
 
+  const finalBidPrice =
+    product.status === 'SOLD'
+      ? (await getBidByProduct(productId))?.bid_price?.toString()
+      : undefined;
+
+  const isSeller = product.seller_user_id === userId;
   const images = product.product_images.map((image) => image.image_url);
 
   return (
@@ -98,7 +106,9 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
           decreaseUnit={product.decrease_unit}
           startPrice={product.start_price}
           minPrice={product.min_price}
-          createdAt={product.created_at}
+          startedAt={product.auction_started_at}
+          status={product.status}
+          finalBidPrice={finalBidPrice}
         />
         <div className="flex justify-end mt-md">
           <StatusActionButton
@@ -109,6 +119,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
             currentUserId={userId}
           />
         </div>
+        <ProductAddress region={product.region} detail_address={product.detail_address} />
         <ProductDescription description={product.description} />
       </div>
       <ProductFooter
@@ -116,7 +127,10 @@ const ProductDetailPage = async ({ params }: ProductDetailPageParams) => {
         startPrice={product.start_price}
         minPrice={product.min_price}
         decreaseUnit={product.decrease_unit}
-        createdAt={product.created_at}
+        startedAt={product.auction_started_at}
+        status={product.status}
+        isSeller={isSeller}
+        finalBidPrice={finalBidPrice}
       />
     </section>
   );

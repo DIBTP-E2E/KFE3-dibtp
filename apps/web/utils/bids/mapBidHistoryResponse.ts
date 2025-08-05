@@ -74,7 +74,8 @@ const convertToBidWithProduct = (bid: PrismaBidWithProduct): BidWithProduct => {
       status: isValidProductStatus(bid.products.status)
         ? bid.products.status
         : PRODUCT_STATUS.ACTIVE,
-      location_region: bid.products.region,
+      region: bid.products.region,
+      detail_address: bid.products.detail_address,
       created_at: bid.products.created_at.toISOString(),
       auction_started_at: bid.products.auction_started_at?.toISOString(),
       images: bid.products.product_images.map((image) => ({

@@ -28,6 +28,7 @@ const ProductList = async ({ keyword }: ProductQueryFilters) => {
             status={product.status}
             viewCount={product.view_count}
             region={product.region}
+            detailAddress={product.detail_address}
             createdAt={product.created_at}
           />
         </li>

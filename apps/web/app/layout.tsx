@@ -4,7 +4,7 @@ import { ToastProvider } from '@repo/ui/components';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import localFont from 'next/font/local';
 
-import { PWAManager } from '@web/components/shared';
+import { PWAManager, WebVitalsReporter } from '@web/components/shared';
 import { createServerQueryClient, prefetchMyInfo } from '@web/lib/query/server';
 import QueryProvider from '@web/providers/QueryProvider';
 
@@ -63,6 +63,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 
                 {/* 프로덕션 환경에서만 PWA 기능 활성화 */}
                 {process.env.NODE_ENV === 'production' && <PWAManager />}
+
+                {/* Web Vitals 성능 모니터링 */}
+                <WebVitalsReporter />
               </div>
             </div>
 

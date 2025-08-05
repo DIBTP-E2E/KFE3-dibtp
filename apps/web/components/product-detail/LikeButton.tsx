@@ -6,7 +6,7 @@ import { IconButton } from '@repo/ui/components';
 import { toast } from '@repo/ui/utils';
 import { useParams } from 'next/navigation';
 
-import { createFavorite, deleteFavorite } from '@/services/favorites/client';
+import { createFavorite, deleteFavorite } from '@web/services/favorites/client';
 
 interface LikeButtonProps {
   initialIsLiked: boolean;

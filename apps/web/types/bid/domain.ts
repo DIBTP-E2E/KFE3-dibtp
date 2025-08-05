@@ -22,7 +22,8 @@ export interface BidWithProduct extends Bid {
     current_price: number;
     decrease_unit: number;
     status: ProductStatus;
-    location_region: string;
+    region: string;
+    detail_address: string;
     created_at: string;
     auction_started_at?: string;
     images: Array<{

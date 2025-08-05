@@ -1,4 +1,4 @@
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { Icon } from '@ui/components';
 
 import { cn } from '@ui/utils/cn';
 
@@ -37,9 +37,9 @@ export const PasswordToggle = ({
       aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
     >
       {showPassword ? (
-        <MdVisibilityOff className="w-5 h-5" />
+        <Icon name="IoEyeOffFill" className="w-5 h-5" />
       ) : (
-        <MdVisibility className="w-5 h-5" />
+        <Icon name="IoEyeFill" className="w-5 h-5" />
       )}
     </button>
   );

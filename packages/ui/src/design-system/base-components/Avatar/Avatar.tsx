@@ -1,14 +1,27 @@
 'use client';
 
-import { forwardRef, useState } from 'react';
+import { forwardRef, useState, ComponentType } from 'react';
 
 import { cn } from '@ui/utils/cn';
+
+// 외부 이미지 컴포넌트용 인터페이스 (확장성)
+export interface AvatarImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+  width?: number;
+  height?: number;
+  onError?: () => void;
+  sizes?: string;
+}
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   src?: string | null; // 프로필 이미지 URL
   alt: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'max'; // 아바타 크기
   onImageError?: () => void; // 이미지 로드 실패 시 콜백
+  /** 외부에서 커스텀 Image 컴포넌트 주입 (next/image 같은 것) */
+  ImageComponent?: ComponentType<AvatarImageProps> | 'img';
 }
 
 // 크기별 스타일 상수
@@ -62,7 +75,7 @@ const defaultProfileImg = (
 );
 
 const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
-  ({ src, alt, size = 'md', onImageError, className, ...props }, ref) => {
+  ({ src, alt, size = 'md', onImageError, ImageComponent = 'img', className, ...props }, ref) => {
     const [hasImageError, setHasImageError] = useState(false);
     const sizeConfig = AVATAR_SIZES[size];
 
@@ -102,7 +115,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         {...props}
       >
         {src && !hasImageError ? (
-          <img
+          <ImageComponent
             src={src}
             alt={alt}
             width={sizeConfig.pixels}

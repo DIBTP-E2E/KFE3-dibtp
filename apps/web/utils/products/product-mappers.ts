@@ -40,6 +40,7 @@ interface PrismaProductDetail {
   view_count: number;
   created_at: Date;
   updated_at: Date | null;
+  auction_started_at: Date;
   seller_user_id: string;
   product_images: Array<{
     image_id: bigint;
@@ -91,6 +92,7 @@ export const convertToProductDetailResponse = (
     view_count: product.view_count,
     created_at: product.created_at.toISOString(),
     updated_at: product.updated_at?.toISOString() ?? product.created_at.toISOString(),
+    auction_started_at: product.auction_started_at.toISOString(),
     seller_user_id: product.seller_user_id,
     product_images: product.product_images.map(
       (img): ProductImage => ({

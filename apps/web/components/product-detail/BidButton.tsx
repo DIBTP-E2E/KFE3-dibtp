@@ -1,16 +1,18 @@
 'use client';
 
-import { Button } from '@repo/ui/components';
-import { toast } from '@repo/ui/utils';
+import { Button, toast } from '@repo/ui/components';
 
-import { API_ROUTES } from '@web/constants/routes';
+import { PRODUCT_STATUS, API_ROUTES } from '@web/constants';
+import type { ProductStatus } from '@web/types';
 
 interface BidButtonProps {
   productId: number;
   currentPrice: number;
+  status: ProductStatus;
+  isSeller: boolean;
 }
 
-const BidButton = ({ productId, currentPrice }: BidButtonProps) => {
+const BidButton = ({ productId, currentPrice, status, isSeller }: BidButtonProps) => {
   const handleBid = async () => {
     const isConfirmed = confirm(`${currentPrice.toLocaleString()}원에 입찰하시겠습니까?`);
 
@@ -50,7 +52,12 @@ const BidButton = ({ productId, currentPrice }: BidButtonProps) => {
   };
 
   return (
-    <Button onClick={handleBid} isFullWidth={false} size="lg">
+    <Button
+      onClick={handleBid}
+      isFullWidth={false}
+      size="lg"
+      isDisabled={status !== PRODUCT_STATUS.ACTIVE || isSeller}
+    >
       입찰하기
     </Button>
   );

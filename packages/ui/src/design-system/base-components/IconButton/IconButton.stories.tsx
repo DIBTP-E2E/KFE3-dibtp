@@ -1487,9 +1487,7 @@ export const ALLIconStyles: Story = {
       <IconsTable iconName="ArrowRight" ariaLabel="더보기" />
       <IconsTable iconName="ArrowUp" ariaLabel="토글 닫기" />
       <IconsTable iconName="ArrowDown" ariaLabel="토글 열기" />
-      <IconsTable iconName="ClockFill" ariaLabel="시간" />
       <IconsTable iconName="Clock" ariaLabel="시간" />
-      <IconsTable iconName="ClockThin" ariaLabel="시간" />
       <IconsTable iconName="Home" ariaLabel="홈" />
       <IconsTable iconName="HomeFill" ariaLabel="홈" />
       <IconsTable iconName="Refresh" ariaLabel="" />
