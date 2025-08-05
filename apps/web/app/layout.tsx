@@ -1,12 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 
 import { ToastProvider } from '@repo/ui/components';
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import localFont from 'next/font/local';
 
 import { PWAManager, WebVitalsReporter } from '@web/components/shared';
-import { createServerQueryClient, prefetchMyInfo } from '@web/lib/query/server';
-import QueryProvider from '@web/providers/QueryProvider';
 
 import '../styles/globals.css';
 
@@ -46,33 +43,25 @@ const notoSansKR = localFont({
 });
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
-  const queryClient = createServerQueryClient();
-  await prefetchMyInfo(queryClient);
-
   return (
     <html lang="ko" className={notoSansKR.variable}>
       <body className="font-sans antialiased">
-        <QueryProvider>
-          <HydrationBoundary state={dehydrate(queryClient)}>
-            <div className="flex min-h-screen justify-center">
-              <div className="w-full md:max-w-container transform translate-x-0 overflow-hidden bg-bg-light relative">
-                {children}
+        {/* Web Vitals 성능 모니터링 */}
+        <WebVitalsReporter />
 
-                {/* 바텀시트 포털 컨테이너 */}
-                <div id="bottom-sheet-root" className="relative z-50" />
+        <div className="flex min-h-screen justify-center">
+          <div className="w-full md:max-w-container transform translate-x-0 overflow-hidden bg-bg-light relative">
+            {children}
 
-                {/* 프로덕션 환경에서만 PWA 기능 활성화 */}
-                {process.env.NODE_ENV === 'production' && <PWAManager />}
+            {/* 바텀시트 포털 컨테이너 */}
+            <div id="bottom-sheet-root" className="relative z-50" />
 
-                {/* Web Vitals 성능 모니터링 */}
-                <WebVitalsReporter />
-              </div>
-            </div>
-
-            {/* Toast 메시지 */}
-            <ToastProvider position="bottom-center" theme="light" />
-          </HydrationBoundary>
-        </QueryProvider>
+            {/* 프로덕션 환경에서만 PWA 기능 활성화 */}
+            {process.env.NODE_ENV === 'production' && <PWAManager />}
+          </div>
+        </div>
+        {/* Toast 메시지 */}
+        <ToastProvider position="bottom-center" theme="light" />
       </body>
     </html>
   );
