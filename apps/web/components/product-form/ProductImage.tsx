@@ -2,8 +2,9 @@
 
 import { useCallback } from 'react';
 
-import { Icon, Thumbnail, FormMessage } from '@repo/ui/components';
+import { Icon, FormMessage } from '@repo/ui/components';
 
+import { NextThumbnail } from '@web/components/shared';
 import { PRODUCT_MAX_IMAGES } from '@web/constants';
 import { useImageManager } from '@web/hooks';
 
@@ -28,7 +29,6 @@ const ProductImage = ({
   onExistingImagesChange,
   onOrderedImagesChange,
   maxImages = PRODUCT_MAX_IMAGES,
-  images,
   existingImages = [],
   errors = {},
 }: ProductImageProps) => {
@@ -94,11 +94,12 @@ const ProductImage = ({
               onDrop={(e) => handleDrop(e, index)}
               onDragEnd={handleDragEnd}
             >
-              <Thumbnail
+              <NextThumbnail
                 imgUrl={image.url}
                 alt={`이미지 ${index + 1}`}
-                width="w-16"
-                height="h-16"
+                displaySize="w-16"
+                clsWidth={64}
+                clsHeight={64}
                 aspectRatio="square"
                 rounded="sm"
                 className="border border-border-base pointer-events-none"

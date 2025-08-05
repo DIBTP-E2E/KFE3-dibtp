@@ -1,9 +1,12 @@
 'use client';
 
-import { Avatar, Badge } from '@repo/ui/components';
+import { Badge } from '@repo/ui/components';
+
 import { cn } from '@repo/ui/utils/cn';
 
 import Link from 'next/link';
+
+import { NextAvatar } from '@web/components/shared';
 
 import { PAGE_ROUTES } from '@web/constants';
 import type { ChatRoomWithDetails } from '@web/types/chat';
@@ -43,7 +46,12 @@ const ChatListItem = ({ chatRoom, currentUserId, className }: ChatRoomItemProps)
         <div className="flex-1 flex items-center gap-md min-w-0">
           {/* 사용자 아바타 */}
           <div className="relative">
-            <Avatar src={otherUser?.profile_image || undefined} alt={otherUserNickname} size="lg" />
+            <NextAvatar
+              src={otherUser?.profile_image || null}
+              alt={otherUserNickname}
+              size="lg"
+              quality={70}
+            />
 
             {hasUnreadMessages && (
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-bg-primary rounded-full" />
