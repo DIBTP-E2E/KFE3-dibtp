@@ -36,6 +36,7 @@ export const getMyProducts = async (
         status: true,
         view_count: true,
         created_at: true,
+        auction_started_at: true,
         region: true,
         detail_address: true,
         product_images: {
