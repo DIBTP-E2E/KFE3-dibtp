@@ -152,8 +152,9 @@ async function cacheFirst(request, cacheName) {
   }
 
   const response = await fetch(request);
-  // 응답이 정상(200-299)일 때만 캐싱
-  if (response.ok) {
+  const url = new URL(request.url);
+  // HTTP/HTTPS 스킴이고 응답이 정상(200-299)일 때만 캐싱
+  if (response.ok && (url.protocol === 'http:' || url.protocol === 'https:')) {
     cache.put(request, response.clone());
   }
   return response;
@@ -181,7 +182,9 @@ async function staleWhileRevalidate(request, cacheName) {
   // 백그라운드 네트워크 요청 (await 없음 → 기다리지 않음)
   // 성공 시 캐시를 최신 데이터로 갱신
   const fetchPromise = fetch(request).then(async (response) => {
-    if (response.ok) {
+    const url = new URL(request.url);
+    // HTTP/HTTPS 스킴이고 응답이 정상일 때만 캐싱
+    if (response.ok && (url.protocol === 'http:' || url.protocol === 'https:')) {
       await cache.put(request, response.clone());
       await limitCacheSize(cacheName, IMAGE_CACHE_MAX_SIZE);
     }
@@ -239,7 +242,9 @@ async function networkFirstWithTimeout(request, cacheName) {
       ),
     ]);
 
-    if (response.ok) {
+    const url = new URL(request.url);
+    // HTTP/HTTPS 스킴이고 응답이 정상일 때만 캐싱
+    if (response.ok && (url.protocol === 'http:' || url.protocol === 'https:')) {
       cache.put(request, response.clone());
     }
     return response;
