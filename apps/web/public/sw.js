@@ -12,7 +12,6 @@
 const CACHE_VERSION = 'v1';
 const STATIC_CACHE = `ddip-static-${CACHE_VERSION}`; // 정적 에셋 캐시
 const IMAGE_CACHE = `ddip-images-${CACHE_VERSION}`; // 이미지 캐시
-const API_CACHE = `ddip-api-${CACHE_VERSION}`; // API 응답 캐시
 
 // ===== 초기 캐싱 리소스 =====
 // Service Worker 설치 시 즉시 캐싱할 필수 리소스
@@ -27,7 +26,6 @@ const STATIC_ASSETS = [
 ];
 
 // ===== 설정 =====
-const NETWORK_TIMEOUT = 3000; // API 요청 타임아웃 (3초)
 const IMAGE_CACHE_MAX_SIZE = 50; // 이미지 캐시 최대 개수
 
 // ===== Install Event =====
@@ -35,15 +33,23 @@ const IMAGE_CACHE_MAX_SIZE = 50; // 이미지 캐시 최대 개수
 // 목적: 초기 리소스를 캐시에 저장하여 오프라인 대비
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => {
-      // 초기 리소스들을 한 번에 캐싱
-      return cache.addAll(STATIC_ASSETS);
+    caches.open(STATIC_CACHE).then(async (cache) => {
+      // 초기 리소스들을 개별 캐싱 (일부 실패해도 설치 진행)
+      const results = await Promise.allSettled(
+        STATIC_ASSETS.map((url) => cache.add(url))
+      );
+
+      // 실패한 리소스 로깅
+      results.forEach((result, index) => {
+        if (result.status === 'rejected') {
+          console.warn(`[SW] Failed to cache: ${STATIC_ASSETS[index]}`, result.reason);
+        }
+      });
     })
   );
 
-  // skipWaiting(): 대기 중인 Service Worker를 즉시 활성화
-  // 기존 Service Worker를 기다리지 않고 바로 제어권 획득
-  self.skipWaiting();
+  // skipWaiting 제거: 사용자가 사용 중인 페이지와 Service Worker 버전 불일치 방지
+  // 대신 클라이언트에게 업데이트 알림 전송
 });
 
 // ===== Activate Event =====
@@ -59,7 +65,6 @@ self.addEventListener('activate', (event) => {
           if (
             cacheName !== STATIC_CACHE &&
             cacheName !== IMAGE_CACHE &&
-            cacheName !== API_CACHE &&
             cacheName.startsWith('ddip-')
           ) {
             return caches.delete(cacheName);
@@ -81,14 +86,29 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // ===== Cross-Origin 처리 =====
+  // Same-origin이 아닌 외부 도메인 요청 처리
+  if (url.origin !== self.location.origin) {
+    // Supabase Storage는 이미지 캐싱을 위해 예외 허용
+    if (url.hostname.includes('supabase.co')) {
+      event.respondWith(staleWhileRevalidate(request, IMAGE_CACHE));
+      return;
+    }
+    // 나머지 외부 리소스(카카오맵, 구글 애널리틱스 등)는 Service Worker를 거치지 않음
+    // 브라우저가 직접 처리하여 CSP, CORS 이슈 방지
+    return;
+  }
+
   // ===== 전략 1: Cache-First (정적 에셋) =====
   // 사용 목적: CSS, JS, 폰트 등 변경이 적고 빠른 로딩이 중요한 리소스
   // 동작 방식: 캐시 먼저 확인 → 없으면 네트워크 → 캐시 저장
+  // Next.js 번들 파일은 제외 (빌드마다 해시 변경되므로 브라우저 캐시에만 의존)
   if (
-    request.destination === 'script' || // JS 파일
-    request.destination === 'style' || // CSS 파일
-    request.destination === 'font' || // 폰트 파일
-    url.pathname.match(/\.(js|css|woff2)$/) // 확장자 기반 매칭
+    (request.destination === 'script' || // JS 파일
+      request.destination === 'style' || // CSS 파일
+      request.destination === 'font' || // 폰트 파일
+      url.pathname.match(/\.(js|css|woff2)$/)) && // 확장자 기반 매칭
+    !url.pathname.startsWith('/_next/static/chunks/') // Next.js 번들 제외
   ) {
     event.respondWith(cacheFirst(request, STATIC_CACHE));
     return;
@@ -101,21 +121,17 @@ self.addEventListener('fetch', (event) => {
   if (
     request.destination === 'image' || // 이미지 요청
     url.pathname.startsWith('/images/') || // /images/ 경로
-    url.hostname.includes('supabase.co') || // Supabase Storage 이미지
     url.pathname.match(/\.(png|jpg|jpeg|svg|gif|webp)$/) // 이미지 확장자
   ) {
     event.respondWith(staleWhileRevalidate(request, IMAGE_CACHE));
     return;
   }
 
-  // ===== 전략 3: Network-First with Timeout (API) =====
-  // 사용 목적: 상품 정보, 입찰 정보 등 최신 데이터가 중요한 줏API
-  // 동작 방식: 네트워크 우선 (3초 타임아웃) → 실패 시 캐시 폴백
-  // 장점: 실시간 데이터 보장 + 네트워크 느릴 때 캐시로 대응
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(networkFirstWithTimeout(request, API_CACHE));
-    return;
-  }
+  // ===== 전략 3: API 요청 처리 =====
+  // 실시간 경매 플랫폼 특성상 API 캐싱은 제거
+  // 이유: 30분마다 가격이 변하는 실시간 데이터를 캐싱하면 안 됨
+  // 모든 API 요청은 항상 네트워크를 통해 최신 데이터 가져옴
+  // (향후 정적 데이터 API가 생기면 선택적 캐싱 추가 가능)
 
   // ===== 전략 4: Network-First (기타 요청) =====
   // 기본 전략: 네트워크 우선, 실패 시 캐시
@@ -181,15 +197,22 @@ async function staleWhileRevalidate(request, cacheName) {
 
   // 백그라운드 네트워크 요청 (await 없음 → 기다리지 않음)
   // 성공 시 캐시를 최신 데이터로 갱신
-  const fetchPromise = fetch(request).then(async (response) => {
-    const url = new URL(request.url);
-    // HTTP/HTTPS 스킴이고 응답이 정상일 때만 캐싱
-    if (response.ok && (url.protocol === 'http:' || url.protocol === 'https:')) {
-      await cache.put(request, response.clone());
-      await limitCacheSize(cacheName, IMAGE_CACHE_MAX_SIZE);
-    }
-    return response;
-  });
+  const fetchPromise = fetch(request)
+    .then(async (response) => {
+      const url = new URL(request.url);
+      // HTTP/HTTPS 스킴이고 응답이 정상일 때만 캐싱
+      if (response.ok && (url.protocol === 'http:' || url.protocol === 'https:')) {
+        await cache.put(request, response.clone());
+        await limitCacheSize(cacheName, IMAGE_CACHE_MAX_SIZE);
+      }
+      return response;
+    })
+    .catch((error) => {
+      // 백그라운드 갱신 실패는 치명적이지 않으므로 경고만 출력
+      console.warn('[SW] Background image fetch failed:', request.url, error);
+      // 캐시된 이미지를 계속 사용
+      return cached;
+    });
 
   // 캐시가 있으면 즉시 반환 (stale 데이터)
   // 캐시가 없으면 네트워크 응답 기다림
@@ -209,28 +232,29 @@ async function limitCacheSize(cacheName, maxItems) {
   const cache = await caches.open(cacheName);
   const keys = await cache.keys();
 
-  if (keys.length > maxItems) {
-    // 가장 오래된 캐시 삭제
-    await cache.delete(keys[0]);
+  // 초과분 모두 삭제
+  while (keys.length > maxItems) {
+    await cache.delete(keys.shift());
   }
 }
 
 /**
  * Network-First with Timeout 전략
+ * (현재 미사용 - 실시간 경매 플랫폼 특성상 API 캐싱 제거)
+ *
+ * 향후 정적 데이터 API (지역 목록, 카테고리 등)가 추가되면 사용 가능
  *
  * @param {Request} request - 네트워크 요청 객체
  * @param {string} cacheName - 사용할 캐시 이름
+ * @param {number} timeout - 타임아웃 (밀리초, 기본 3초)
  *
  * 동작 순서:
  * 1. 네트워크 요청 시작
  * 2. 3초 이내 응답 → 캐시에 저장 후 반환
  * 3. 3초 초과 또는 네트워크 실패 → 캐시 폴백
  * 4. 캐시도 없으면 에러
- *
- * 장점: 최신 데이터 우선 + 느린 네트워크 대응
- * 적용 예: API 요청 (실시간 가격은 최신 데이터 필요, 느릴 땐 캐시라도 표시)
  */
-async function networkFirstWithTimeout(request, cacheName) {
+async function networkFirstWithTimeout(request, cacheName, timeout = 3000) {
   const cache = await caches.open(cacheName);
 
   try {
@@ -238,7 +262,7 @@ async function networkFirstWithTimeout(request, cacheName) {
     const response = await Promise.race([
       fetch(request),
       new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Network timeout')), NETWORK_TIMEOUT)
+        setTimeout(() => reject(new Error('Network timeout')), timeout)
       ),
     ]);
 
