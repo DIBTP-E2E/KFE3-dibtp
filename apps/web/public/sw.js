@@ -33,7 +33,9 @@ const IMAGE_CACHE_MAX_SIZE = 50; // 이미지 캐시 최대 개수
 // 목적: 초기 리소스를 캐시에 저장하여 오프라인 대비
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then(async (cache) => {
+    (async () => {
+      const cache = await caches.open(STATIC_CACHE);
+
       // 초기 리소스들을 개별 캐싱 (일부 실패해도 설치 진행)
       const results = await Promise.allSettled(
         STATIC_ASSETS.map((url) => cache.add(url))
@@ -45,7 +47,7 @@ self.addEventListener('install', (event) => {
           console.warn(`[SW] Failed to cache: ${STATIC_ASSETS[index]}`, result.reason);
         }
       });
-    })
+    })()
   );
 
   // skipWaiting 제거: 사용자가 사용 중인 페이지와 Service Worker 버전 불일치 방지
@@ -57,11 +59,13 @@ self.addEventListener('install', (event) => {
 // 목적: 이전 버전의 오래된 캐시를 정리하여 저장 공간 확보
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
+    (async () => {
+      const cacheNames = await caches.keys();
+
+      // 현재 버전이 아닌 'ddip-'로 시작하는 모든 캐시 삭제
+      // 예: ddip-static-v0, ddip-images-v0 등
+      await Promise.all(
         cacheNames.map((cacheName) => {
-          // 현재 버전(v1)이 아닌 'ddip-'로 시작하는 모든 캐시 삭제
-          // 예: ddip-static-v0, ddip-images-v0 등
           if (
             cacheName !== STATIC_CACHE &&
             cacheName !== IMAGE_CACHE &&
@@ -71,7 +75,7 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    })()
   );
 
   // clients.claim(): 활성화 즉시 모든 클라이언트(탭)를 제어
@@ -136,9 +140,13 @@ self.addEventListener('fetch', (event) => {
   // ===== 전략 4: Network-First (기타 요청) =====
   // 기본 전략: 네트워크 우선, 실패 시 캐시
   event.respondWith(
-    fetch(request).catch(() => {
-      return caches.match(request);
-    })
+    (async () => {
+      try {
+        return await fetch(request);
+      } catch {
+        return await caches.match(request);
+      }
+    })()
   );
 });
 
@@ -197,22 +205,24 @@ async function staleWhileRevalidate(request, cacheName) {
 
   // 백그라운드 네트워크 요청 (await 없음 → 기다리지 않음)
   // 성공 시 캐시를 최신 데이터로 갱신
-  const fetchPromise = fetch(request)
-    .then(async (response) => {
+  const fetchPromise = (async () => {
+    try {
+      const response = await fetch(request);
       const url = new URL(request.url);
+
       // HTTP/HTTPS 스킴이고 응답이 정상일 때만 캐싱
       if (response.ok && (url.protocol === 'http:' || url.protocol === 'https:')) {
         await cache.put(request, response.clone());
         await limitCacheSize(cacheName, IMAGE_CACHE_MAX_SIZE);
       }
       return response;
-    })
-    .catch((error) => {
+    } catch (error) {
       // 백그라운드 갱신 실패는 치명적이지 않으므로 경고만 출력
       console.warn('[SW] Background image fetch failed:', request.url, error);
       // 캐시된 이미지를 계속 사용
       return cached;
-    });
+    }
+  })();
 
   // 캐시가 있으면 즉시 반환 (stale 데이터)
   // 캐시가 없으면 네트워크 응답 기다림
