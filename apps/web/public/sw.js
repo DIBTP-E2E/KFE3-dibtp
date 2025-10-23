@@ -8,8 +8,11 @@
  */
 
 // ===== 캐시 버전 및 이름 관리 =====
-// 버전 변경 시 모든 캐시가 새로 생성되고 이전 버전은 자동 삭제됨
-const CACHE_VERSION = 'v1';
+// 버전은 고정 사용 (파일 해시가 실질적인 버전 관리를 함)
+// 긴급 상황(SW 버그, 캐시 전략 변경)에만 수동 변경
+// 일반 배포 시에는 변경 불필요 (Next.js contenthash가 자동 처리)
+// v1.1: Next.js 통합 개선 (/_next/image 제외) + 코드 품질 향상 (2025-10-24)
+const CACHE_VERSION = 'v1.1';
 const STATIC_CACHE = `ddip-static-${CACHE_VERSION}`; // 정적 에셋 캐시
 const IMAGE_CACHE = `ddip-images-${CACHE_VERSION}`; // 이미지 캐시
 
@@ -37,9 +40,7 @@ self.addEventListener('install', (event) => {
       const cache = await caches.open(STATIC_CACHE);
 
       // 초기 리소스들을 개별 캐싱 (일부 실패해도 설치 진행)
-      const results = await Promise.allSettled(
-        STATIC_ASSETS.map((url) => cache.add(url))
-      );
+      const results = await Promise.allSettled(STATIC_ASSETS.map((url) => cache.add(url)));
 
       // 실패한 리소스 로깅
       results.forEach((result, index) => {
@@ -122,10 +123,12 @@ self.addEventListener('fetch', (event) => {
   // 사용 목적: 상품 이미지, 프로필 사진 등 빠른 표시가 중요한 리소스
   // 동작 방식: 캐시된 이미지 즉시 반환 + 백그라운드에서 최신 이미지 갱신
   // 장점: 빠른 초기 로딩 + 항상 최신 이미지로 업데이트됨
+  // Next.js Image Optimization (/_next/image)은 제외 - Next.js 자체 캐시 정책 사용
   if (
-    request.destination === 'image' || // 이미지 요청
-    url.pathname.startsWith('/images/') || // /images/ 경로
-    url.pathname.match(/\.(png|jpg|jpeg|svg|gif|webp)$/) // 이미지 확장자
+    !url.pathname.startsWith('/_next/image') && // Next.js 이미지 최적화 제외
+    (request.destination === 'image' || // 이미지 요청
+      url.pathname.startsWith('/images/') || // /images/ 경로
+      url.pathname.match(/\.(png|jpg|jpeg|svg|gif|webp)$/)) // 이미지 확장자
   ) {
     event.respondWith(staleWhileRevalidate(request, IMAGE_CACHE));
     return;
@@ -242,9 +245,10 @@ async function limitCacheSize(cacheName, maxItems) {
   const cache = await caches.open(cacheName);
   const keys = await cache.keys();
 
-  // 초과분 모두 삭제
-  while (keys.length > maxItems) {
-    await cache.delete(keys.shift());
+  // 초과분이 있으면 오래된 항목부터 병렬 삭제
+  if (keys.length > maxItems) {
+    const keysToDelete = keys.slice(0, keys.length - maxItems);
+    await Promise.all(keysToDelete.map((key) => cache.delete(key)));
   }
 }
 
@@ -271,9 +275,7 @@ async function networkFirstWithTimeout(request, cacheName, timeout = 3000) {
     // Promise.race: 네트워크 응답 vs 타임아웃 중 먼저 완료되는 것 반환
     const response = await Promise.race([
       fetch(request),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Network timeout')), timeout)
-      ),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Network timeout')), timeout)),
     ]);
 
     const url = new URL(request.url);
