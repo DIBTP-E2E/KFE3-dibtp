@@ -62,14 +62,14 @@ self.addEventListener('activate', (event) => {
 
       await self.clients.claim();
 
-      // 클라이언트들에게 업데이트 알림
-      const clients = await self.clients.matchAll();
-      clients.forEach((client) => {
-        client.postMessage({
-          type: 'SW_UPDATED',
-          version: CACHE_VERSION,
-        });
-      });
+      // TODO: 클라이언트 업데이트 알림 (별도 이슈에서 구현 예정)
+      // const clients = await self.clients.matchAll();
+      // clients.forEach((client) => {
+      //   client.postMessage({
+      //     type: 'SW_UPDATED',
+      //     version: CACHE_VERSION,
+      //   });
+      // });
     })()
   );
 });
