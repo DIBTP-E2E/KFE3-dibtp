@@ -40,8 +40,6 @@ self.addEventListener('install', (event) => {
           console.warn(`[SW] Failed to cache: ${STATIC_ASSETS[index]}`, result.reason);
         }
       });
-
-      console.log('[SW] Installation complete');
     })()
   );
 });
@@ -54,18 +52,13 @@ self.addEventListener('activate', (event) => {
       const currentCaches = [STATIC_CACHE, CHUNKS_CACHE, IMAGE_CACHE];
 
       // 현재 버전이 아닌 모든 캐시 삭제
-      const deletedCaches = await Promise.all(
+      await Promise.all(
         cacheNames
           .filter(
             (cacheName) => !currentCaches.includes(cacheName) && cacheName.startsWith('ddip-')
           )
-          .map((cacheName) => {
-            console.log('[SW] Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          })
+          .map((cacheName) => caches.delete(cacheName))
       );
-
-      console.log(`[SW] Cleaned up ${deletedCaches.length} old caches`);
 
       await self.clients.claim();
 
