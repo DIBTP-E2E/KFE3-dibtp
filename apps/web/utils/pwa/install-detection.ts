@@ -45,6 +45,7 @@ export const supportsBeforeInstallPrompt = (): boolean => {
   }
 
   // Android/Desktop에서 Chrome 계열 브라우저만 지원
+  // 참고: Brave, Vivaldi, Arc는 User Agent로 감지 불가하지만 'chrome'으로 감지되어 정상 작동
   const chromiumBrowsers: BrowserType[] = ['chrome', 'edge', 'samsung', 'opera'];
   return chromiumBrowsers.includes(browser);
 };
