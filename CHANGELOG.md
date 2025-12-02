@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.30.0] - 2025-12-02
+
+### Added
+- PWA 설치 프롬프트 개선 (#293) (#298)
 ## [1.29.0] - 2025-11-14
 
 ### Added
