@@ -1,21 +1,33 @@
 import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
+  const deployUrl = process.env.NEXT_PUBLIC_DEPLOY_URL;
+
   return {
+    // 앱 기본 정보
     name: 'DDIP(띱)',
     short_name: 'DDIP',
-    id: '/',
-    scope: '/',
     description:
       '띱! 먼저 가져가는 사람이 임자! 하향식 경매 시스템을 통해 중고 물품을 거래할 수 있는 플랫폼입니다.',
-    start_url: '/',
-    display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#ee8e1f',
-    orientation: 'portrait',
     lang: 'ko',
+
+    // 설치 식별
+    id: deployUrl ? deployUrl + '/' : '/',
+    start_url: '/?source=pwa', // pwa로 진입했는지 감지 여부
+    scope: '/',
+
+    // 실행 모드
+    display: 'standalone',
+    orientation: 'portrait',
+
+    // 테마
+    background_color: '#ffffff',
+    theme_color: '#f7cb98',
+
+    // 서비스 분류 (SEO + 일부 브라우저 UX)
     categories: ['shopping', 'lifestyle'],
-    display_override: ['window-controls-overlay', 'standalone'],
+
+    // 아이콘
     icons: [
       {
         src: '/images/android-chrome-192x192.png',
@@ -42,29 +54,8 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: 'any',
       },
     ],
-    screenshots: [
-      {
-        src: '/images/screenshots/home-products.png',
-        sizes: '1080x1920',
-        type: 'image/png',
-        form_factor: 'narrow', // 모바일
-        label: '홈 화면 - 경매 상품 목록',
-      },
-      {
-        src: '/images/screenshots/product-detail.png',
-        sizes: '1080x1920',
-        type: 'image/png',
-        form_factor: 'narrow',
-        label: '경매 상품 상세',
-      },
-      {
-        src: '/images/screenshots/chat.png',
-        sizes: '1080x1920',
-        type: 'image/png',
-        form_factor: 'narrow',
-        label: '실시간 채팅',
-      },
-    ],
+
+    // 바로가기 (주요 페이지)
     shortcuts: [
       {
         name: '상품 등록하기',
