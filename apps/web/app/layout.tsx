@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#ee8e1f',
+  themeColor: '#f7cb98',
 };
 
 const notoSansKR = localFont({
