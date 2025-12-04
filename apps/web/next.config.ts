@@ -91,37 +91,44 @@ const withBundleAnalyzer = bundleAnalyzer({
 // 성능 모니터링 도구들을 조합하여 Next.js 설정 완성
 // 1. Bundle Analyzer: 번들 크기 분석
 // 2. Sentry: 런타임 성능 및 에러 모니터링
-export default withBundleAnalyzer(
-  withSentryConfig(nextConfig, {
-    // For all available options, see:
-    // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+// Note: Storybook 빌드 시에는 플러그인을 비활성화하여 호환성 문제 방지
+const isStorybook = process.env.npm_lifecycle_script?.includes('storybook');
 
-    org: 'mgyang',
-    project: 'ddip',
-    sentryUrl: 'https://mgyang.sentry.io/',
+const finalConfig: NextConfig = isStorybook
+  ? nextConfig
+  : withBundleAnalyzer(
+      withSentryConfig(nextConfig, {
+        // For all available options, see:
+        // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
-    // Only print logs for uploading source maps in CI
-    silent: !process.env.CI,
+        org: 'mgyang',
+        project: 'ddip',
+        sentryUrl: 'https://mgyang.sentry.io/',
 
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+        // Only print logs for uploading source maps in CI
+        silent: !process.env.CI,
 
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
-    widenClientFileUpload: true,
+        // For all available options, see:
+        // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
-    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-    // This can increase your server load as well as your hosting bill.
-    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-    // side errors will fail.
-    tunnelRoute: '/monitoring',
+        // Upload a larger set of source maps for prettier stack traces (increases build time)
+        widenClientFileUpload: true,
 
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true,
+        // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+        // This can increase your server load as well as your hosting bill.
+        // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+        // side errors will fail.
+        tunnelRoute: '/monitoring',
 
-    // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-    // See the following for more information:
-    // https://docs.sentry.io/product/crons/
-    // https://vercel.com/docs/cron-jobs
-    automaticVercelMonitors: true,
-  })
-);
+        // Automatically tree-shake Sentry logger statements to reduce bundle size
+        disableLogger: true,
+
+        // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
+        // See the following for more information:
+        // https://docs.sentry.io/product/crons/
+        // https://vercel.com/docs/cron-jobs
+        automaticVercelMonitors: true,
+      })
+    );
+
+export default finalConfig;
