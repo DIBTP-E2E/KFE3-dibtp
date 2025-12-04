@@ -91,7 +91,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 // 성능 모니터링 도구들을 조합하여 Next.js 설정 완성
 // 1. Bundle Analyzer: 번들 크기 분석
 // 2. Sentry: 런타임 성능 및 에러 모니터링
-export default withBundleAnalyzer(
+const finalConfig: NextConfig = withBundleAnalyzer(
   withSentryConfig(nextConfig, {
     // For all available options, see:
     // https://www.npmjs.com/package/@sentry/webpack-plugin#options
@@ -125,3 +125,5 @@ export default withBundleAnalyzer(
     automaticVercelMonitors: true,
   })
 );
+
+export default finalConfig;
