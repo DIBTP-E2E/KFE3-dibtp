@@ -59,7 +59,7 @@ export const nextJsConfig = [
         ecmaFeatures: { jsx: true },
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: './tsconfig.json',
+        projectService: true,
       },
     },
     plugins: {
