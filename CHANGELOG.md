@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.32.0] - 2025-12-18
+
+### Added
+- PWA Service Worker 업데이트 알림 구현 (#300) (#306)
 ## [1.31.0] - 2025-12-18
 
 ### Added
