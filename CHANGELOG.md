@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.33.0] - 2026-01-14
+
+### Added
+- 푸시 알림 기능 구현 (#296) (#309)
 ## [1.32.0] - 2025-12-18
 
 ### Added
